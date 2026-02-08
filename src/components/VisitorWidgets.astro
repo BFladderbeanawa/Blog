@@ -1,0 +1,132 @@
+---
+---
+<div class="widgets-wrapper">
+    <!-- 访客计数器 (基于不蒜子) -->
+    <div class="widget-card counter-card">
+        <h3>访客统计</h3>
+        <div class="counter-content">
+            <div class="count-item">
+                <span class="label">本站总访问量</span>
+                <span id="busuanzi_value_site_pv" class="count-num"><i class="loading">...</i></span>
+            </div>
+            <div class="count-item">
+                <span class="label">你是第</span>
+                <span id="busuanzi_value_site_uv" class="count-num"><i class="loading">...</i></span>
+                <span class="label">位小伙伴</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3D 地球仪 (基于 RevolverMaps) -->
+    <div class="widget-card globe-card">
+        <h3>实时访客分布</h3>
+        <div class="globe-container">
+            <!-- 
+                 注意：要显示真实的 3D 地球仪，你需要去 revolvermaps.com 获取你自己的代码。
+                 1. 访问 https://www.revolvermaps.com/?target=enlarge&color=ff0000&m=0
+                 2. 选择 "Java Script"
+                 3. 复制生成的 script 标签，替换下面的注释部分
+            -->
+            
+            <!-- ⬇️ 在这里放入你的 RevolverMaps 代码 ⬇️ -->
+            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5yd78426143&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
+            <!-- ⬆️ 在这里放入你的 RevolverMaps 代码 ⬆️ -->
+            
+            <div class="globe-placeholder" style="display:none;">
+                <p>请配置 RevolverMaps 代码以显示地球仪</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 引入不蒜子脚本 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<style>
+    .widgets-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        margin-top: 3rem;
+        justify-content: center;
+    }
+
+    .widget-card {
+        background: var(--card-bg); /* Use var */
+        border: 1px solid var(--border-color); /* Use global var */
+        border-radius: var(--radius); /* Use global var */
+        padding: 1.5rem;
+        box-shadow: var(--box-shadow);
+        flex: 1;
+        min-width: 300px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    /* Override global theme styles for modern (remove top border) */
+    :global(html[data-theme='modern']) .widget-card {
+        border: 1px solid var(--border-color) !important;
+        background-color: #fff !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+    }
+
+    /* Dark mode override */
+    :global(html[data-theme='nord']) .widget-card {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: var(--box-shadow) !important;
+        color: var(--text-color) !important;
+        border-radius: 8px !important;
+    }
+
+    .widget-card h3 {
+        margin-top: 0;
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+        color: rgb(var(--black));
+        border-bottom: 2px solid rgb(var(--accent));
+        display: inline-block;
+        padding-bottom: 0.5rem;
+    }
+
+    .counter-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem 0;
+    }
+
+    .count-item {
+        font-size: 1rem;
+        color: rgb(var(--gray));
+    }
+
+    .count-num {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: rgb(var(--accent));
+        margin: 0 0.5rem;
+    }
+
+    .loading {
+        font-size: 0.8rem;
+        opacity: 0.5;
+        font-style: normal;
+    }
+
+    .globe-container {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    
+    /* 强制限制地球仪画布大小，防止溢出 */
+    .globe-container :global(canvas) {
+        max-width: 100% !important;
+        border-radius: 50%;
+    }
+</style>

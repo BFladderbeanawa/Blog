@@ -1,0 +1,426 @@
+---
+const today = new Date();
+---
+
+<footer>
+    <div class="footer-left">
+        <div class="social-links">
+            <a href="https://github.com/BFladderbeanawa" target="_blank" aria-label="GitHub">
+                <span class="sr-only">Go to GitHub repo</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+            <a href="https://space.bilibili.com/499560971" target="_blank" aria-label="Bilibili">
+                <span class="sr-only">Go to Bilibili space</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tv">
+                    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                    <polyline points="17 2 12 7 7 2"></polyline>
+                </svg>
+            </a>
+        </div>
+        <div class="copyright">
+            &copy; {today.getFullYear()} BFladderbean. <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.
+        </div>
+    </div>
+
+    <div class="footer-center" style="display: none;"></div>
+    
+    <!-- Status Trigger -->
+    <button id="status-trigger" class="status-trigger" aria-label="Show Status">
+        <span class="pulse-dot"></span>
+        <span class="trigger-label">BF's Status</span>
+    </button>
+    
+    <!-- Status Sidebar Overlay -->
+    <div id="status-overlay" class="status-overlay"></div>
+
+    <!-- Status Sidebar Drawer -->
+    <aside id="status-drawer" class="status-drawer" aria-hidden="true">
+        <div class="drawer-header">
+            <h3>实时状态</h3>
+            <button id="close-drawer" class="close-btn" aria-label="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        
+        <div class="status-card-inner">
+             <div class="status-header">
+                <h3 id="status-app" class="status-app">Loading...</h3>
+                <span class="status-dot"></span>
+            </div>
+            <div class="status-subtitle">我正在使用</div>
+            
+            <div class="status-items">
+                <div class="status-item">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    <span id="status-battery">--%</span>
+                </div>
+                <div class="status-item">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                        <line x1="12" y1="20" x2="12.01" y2="20"></line>
+                    </svg>
+                    <span id="status-wifi">--</span>
+                </div>
+                <div class="status-item">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span id="status-city">--</span>
+                </div>
+                <div class="status-item">
+                    <svg class="status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                    <span id="status-model">--</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+</footer>
+<style>
+	footer {
+		margin-top: 0;
+		padding: 2em 4em 2em 4em;
+		background: linear-gradient(var(--gray-gradient)) no-repeat;
+		color: rgb(var(--gray));
+		display: flex;
+        flex-direction: row; 
+		justify-content: space-between; 
+		align-items: center; 
+        width: 100%;
+        box-sizing: border-box;
+        position: relative;
+	}
+
+    .footer-left {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        text-align: left;
+        flex-shrink: 0; /* Prevent shrinking */
+    }
+
+    /* Trigger Button */
+    .status-trigger {
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        padding: 0.6em 1.2em;
+        border-radius: 20px;
+        cursor: pointer;
+        color: var(--gray);
+        font-family: inherit;
+        font-size: 0.9em;
+        transition: all 0.2s ease;
+    }
+    
+    .status-trigger:hover {
+        border-color: rgb(var(--accent));
+        color: rgb(var(--accent));
+        background: rgba(var(--accent), 0.05);
+    }
+    
+    .pulse-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #10b981;
+        border-radius: 50%;
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        animation: pulse-green 2s infinite;
+    }
+    
+    @keyframes pulse-green {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    /* Drawer & Overlay */
+    .status-overlay {
+        position: fixed;
+        top: 0; 
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 998;
+        backdrop-filter: blur(2px);
+    }
+    
+    .status-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .status-drawer {
+        position: fixed;
+        top: 0;
+        right: -320px; /* Start off-screen */
+        width: 300px;
+        height: 100vh;
+        background: var(--card-bg); /* Use solid card bg */
+        box-shadow: -5px 0 25px rgba(0,0,0,0.1);
+        z-index: 999;
+        transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        box-sizing: border-box;
+        border-left: 1px solid var(--border-color);
+    }
+    
+    .status-drawer.active {
+        right: 0;
+    }
+    
+    .drawer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .drawer-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: var(--heading-color);
+    }
+    
+    .close-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--gray);
+        padding: 0.5rem;
+        border-radius: 50%;
+        transition: background 0.2s;
+        display: flex;
+    }
+    
+    .close-btn:hover {
+        background: rgba(0,0,0,0.05);
+        color: var(--black);
+    }
+
+    /* Reuse inner card styles but remove background/border as drawer has them */
+    .status-card-inner {
+        /* No border/bg needed inside drawer */
+    }
+    
+    .status-header {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        margin-bottom: 0.2em;
+    }
+    
+    .status-app {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: var(--heading-color);
+        margin: 0;
+    }
+    
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #10b981; /* Green */
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 5px rgba(16, 185, 129, 0.5);
+    }
+    
+    .status-subtitle {
+        font-size: 0.8em;
+        color: var(--gray);
+        margin-bottom: 1em;
+    }
+    
+    .status-items {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8em;
+    }
+    
+    .status-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8em;
+        font-size: 0.9em;
+        color: var(--heading-color);
+    }
+    
+    .status-icon {
+        width: 1.2em;
+        height: 1.2em;
+        color: rgb(var(--accent));
+        flex-shrink: 0;
+    }
+
+    /* Theme adjustments for widget */
+    :global(html[data-theme='nord']) .status-drawer {
+        background: var(--card-bg);
+        border-left-color: var(--border-color);
+    }
+    :global(html[data-theme='nord']) .close-btn:hover {
+        background: rgba(255,255,255,0.1);
+        color: var(--text-color);
+    }
+
+	.newsletter h3 {
+		color: rgb(var(--black));
+		margin-bottom: 0.5em;
+	}
+	.newsletter form {
+		display: flex;
+		gap: 0.5em;
+		justify-content: center;
+		margin-top: 1em;
+	}
+	.newsletter input {
+		padding: 0.5em;
+		background: #fff;
+		border: 1px solid rgb(var(--gray-light));
+		color: rgb(var(--gray-dark));
+	}
+	.newsletter button {
+		padding: 0.5em 1em;
+		background: rgb(var(--accent));
+		border: none;
+		color: white;
+		cursor: pointer;
+	}
+	.social-links {
+		display: flex;
+		justify-content: flex-start; /* Left align */
+		gap: 1em;
+	}
+    
+    @media (max-width: 768px) {
+        footer {
+            flex-direction: column;
+            align-items: center;
+            padding: 2em 1em 2em 1em; 
+        }
+        .footer-left {
+            align-items: center;
+            text-align: center;
+            order: 2; 
+        }
+        /* Mobile adjustments for drawer */
+        .status-drawer {
+            width: 100%; /* Full width on mobile */
+            right: -100%;
+        }
+        .social-links {
+            justify-content: center;
+        }
+    }
+	.social-links a {
+		text-decoration: none;
+		color: rgb(var(--gray));
+        transition: color 0.2s ease;
+	}
+	.social-links a:hover {
+		color: rgb(var(--accent)); /* Use theme accent color */
+	}
+	.legal {
+		display: flex;
+		gap: 1em;
+	}
+	.legal a {
+		color: rgb(var(--gray));
+		text-decoration: none;
+	}
+	.legal a:hover {
+		color: rgb(var(--gray-dark));
+	}
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
+	}
+
+    :global(html[data-theme='nord']) .social-links a {
+        color: var(--text-color);
+    }
+    
+    /* Global View Transition for Footer */
+    :global(::view-transition-group(site-footer)) {
+        animation-duration: 0.4s;
+        animation-timing-function: cubic-bezier(0.2, 0, 0, 1); /* Custom smooth ease */
+    }
+</style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        // --- Drawer Logic ---
+        const trigger = document.getElementById('status-trigger');
+        const drawer = document.getElementById('status-drawer');
+        const overlay = document.getElementById('status-overlay');
+        const closeBtn = document.getElementById('close-drawer');
+        
+        function openDrawer() {
+            if (drawer) drawer.classList.add('active');
+            if (overlay) overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+        
+        function closeDrawerAction() {
+            if (drawer) drawer.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        if (trigger) trigger.addEventListener('click', openDrawer);
+        if (closeBtn) closeBtn.addEventListener('click', closeDrawerAction);
+        if (overlay) overlay.addEventListener('click', closeDrawerAction);
+
+        // --- Fetch Data ---
+        fetch('https://status-api.fannbryan.workers.dev/')
+            .then(response => response.json())
+            .then(data => {
+                const appEl = document.getElementById('status-app');
+                // Check if element exists (in case of page transitions or errors)
+                if (!appEl) return;
+
+                appEl.textContent = data.app;
+                
+                // Note: The key in the JSON might have a trailing space based on the request: "battery "
+                // We handle "battery " or "battery"
+                const battery = data['battery '] || data['battery'] || '--';
+                document.getElementById('status-battery').textContent = '电量: ' + battery.trim() + '%';
+                
+                // Wifi display logic: Only Connected/Not Connected
+                const isConnected = data.wifi && data.wifi !== 'Not Connected' && data.wifi !== '';
+                document.getElementById('status-wifi').textContent = isConnected ? 'Wi-Fi 已连接' : 'Wi-Fi 未连接';
+                
+                document.getElementById('status-city').textContent = data.city;
+                document.getElementById('status-model').textContent = data.model;
+            })
+            .catch(err => {
+                console.error('Error fetching status:', err);
+                const appEl = document.getElementById('status-app');
+                if (appEl) appEl.textContent = 'Offline';
+            });
+    });
+</script>

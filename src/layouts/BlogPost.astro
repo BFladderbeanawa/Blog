@@ -1,0 +1,477 @@
+﻿---
+import Layout from './Layout.astro';
+import Author from '../components/Author.astro';
+import BlogNav from '../components/BlogNav.astro';
+import { getCollection } from 'astro:content';
+
+const { title, description, pubDate, updatedDate, heroImage, tags, category } = Astro.props;
+
+// Get all posts for client-side navigation context
+const allPosts = (await getCollection('blog')).sort(
+(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const simplePosts = allPosts.map(p => ({
+    slug: p.slug,
+    title: p.data.title,
+    category: p.data.category,
+    tags: p.data.tags || []
+}));
+---
+
+<Layout title={title} description={description}>
+<main>
+        <BlogNav tags={tags} />
+<article>
+<div class="hero-image">
+{heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+</div>
+<div class="prose">
+<div class="title">
+<div class="date">
+{pubDate && <time datetime={pubDate.toISOString()}>
+{pubDate.toLocaleDateString('zh-CN', {
+year: 'numeric',
+month: 'short',
+day: 'numeric',
+})}
+</time>}
+{updatedDate && <div class="last-updated-on">
+Last updated on <time datetime={updatedDate.toISOString()}>
+{updatedDate.toLocaleDateString('zh-CN', {
+year: 'numeric',
+month: 'short',
+day: 'numeric',
+})}
+</time>
+</div>}
+</div>
+<h1>{title}</h1>
+                    <!-- Back Button: Only show if we have context -->
+                    <div id="back-nav" style="display: none; margin-bottom: 1rem;">
+                        <a href="#" class="back-link">&larr; 返回列表</a>
+                    </div>
+                    
+                    {category && <div class="category">分类: <a href={`/category/${category}/`}>{category}</a></div>}
+                    {tags && <div class="tags">
+                       <span class="label">当前标签: </span> 
+                       {tags.map(tag => (
+                           /* Update link to use query param for Tag Cloud page */
+                           <a href={`/tags?tags=${tag}`} class="tag">#{tag}</a>
+                       ))}
+                    </div>}
+<hr />
+</div>
+<slot />
+                
+                <Author />
+                
+                <!-- Smart Navigation -->
+                <nav class="post-navigation" id="post-nav" style="display: none;">
+                    <a href="#" id="prev-post" class="nav-item prev">
+                        <div class="arrow-icon">
+                            <svg viewBox="0 0 32 24" class="chevron">
+                                <path d="M11,0 L1,12 L11,24 L18,24 L8,12 L18,0 Z" fill="currentColor" />
+                                <path d="M22,0 L12,12 L22,24 L29,24 L19,12 L29,0 Z" fill="currentColor" opacity="0.5"/>
+                            </svg>
+                        </div>
+                        <div class="nav-text">
+                            <span class="label">上一篇</span>
+                            <span class="nav-title"></span>
+                        </div>
+                    </a>
+                    
+                    <a href="#" id="next-post" class="nav-item next">
+                         <div class="nav-text">
+                            <span class="label">下一篇</span>
+                            <span class="nav-title"></span>
+                        </div>
+                        <div class="arrow-icon">
+                            <svg viewBox="0 0 32 24" class="chevron">
+                                <path d="M4,0 L14,12 L4,24 L11,24 L21,12 L11,0 Z" fill="currentColor" opacity="0.5"/>
+                                <path d="M15,0 L25,12 L15,24 L22,24 L32,12 L22,0 Z" fill="currentColor" />
+                            </svg>
+                        </div>
+                    </a>
+                </nav>
+                
+
+</div>
+</article>
+</main>
+</Layout>
+
+<script define:vars={{ simplePosts, currentSlug: Astro.params.slug }}>
+    document.addEventListener('astro:page-load', () => {
+        // --- 1. Back Navigation Logic ---
+        const backNav = document.getElementById('back-nav');
+        const backLink = backNav ? backNav.querySelector('a') : null;
+        
+        let navContext = { type: 'all', data: '' };
+        try {
+            const saved = sessionStorage.getItem('blog_nav_context');
+            if (saved) navContext = JSON.parse(saved);
+        } catch (e) { console.error(e); }
+
+        if (backNav && backLink) {
+             let backUrl = '/blog';
+             let backText = '返回全部文章';
+             
+             if (navContext.type === 'category' && navContext.data) {
+                 backUrl = `/category/${navContext.data}`;
+                 backText = `返回分类: ${navContext.data}`;
+             } else if (navContext.type === 'tags' && navContext.data) {
+                 // Return to tag cloud with query params
+                 backUrl = `/tags?tags=${navContext.data}`;
+                 backText = `返回标签: ${navContext.data}`;
+             }
+             
+             backLink.href = backUrl;
+             backLink.innerHTML = `&larr; ${backText}`;
+             backNav.style.display = 'block';
+        }
+
+        // --- 2. Smart Next/Prev Logic ---
+        let relevantPosts = simplePosts;
+        let contextLabel = '全部文章';
+
+        // Filter based on context
+        if (navContext.type === 'category' && navContext.data) {
+            relevantPosts = simplePosts.filter(p => p.category === navContext.data);
+            contextLabel = `分类: ${navContext.data}`;
+        } else if (navContext.type === 'tags' && navContext.data) {
+            // "data" is comma separated tags "tag1,tag2"
+            // Logic: Include posts that have ANY of these tags?
+            // The tag cloud usually filters via OR unless specified otherwise.
+            // Let's assume URL param "tags" means the current filter set.
+            const filterTags = navContext.data.split(',');
+            if (filterTags.length > 0) {
+                 relevantPosts = simplePosts.filter(p => 
+                    p.tags.some(t => filterTags.includes(t))
+                );
+                contextLabel = `标签筛选`;
+            }
+        }
+
+        // Find current index
+        // Astro.params.slug might be undefined in client script, passing via define:vars
+        // Wait, Astro.params.slug is for the route. We can get it from window.location or props.
+        // Actually passed simplePosts via define:vars, passing currentSlug too.
+        
+        let currentIndex = -1;
+        // The slug might differ regarding leading/trailing slashes, be careful.
+        // simplePosts slugs are like 'hello-world'
+        
+        // Let's try to match by finding the one that is part of the URL
+        const path = window.location.pathname;
+        currentIndex = relevantPosts.findIndex(p => path.includes(`/blog/${p.slug}`));
+        
+        if (currentIndex === -1) {
+            // Fallback to all posts if not found in filtered list
+            relevantPosts = simplePosts;
+            currentIndex = relevantPosts.findIndex(p => path.includes(`/blog/${p.slug}`));
+        }
+
+        if (currentIndex !== -1) {
+            const nav = document.getElementById('post-nav');
+            const prevLink = document.getElementById('prev-post');
+            const nextLink = document.getElementById('next-post');
+            
+            // logic: list is sorted by date DESC (newest first).
+            // Index 0 is newest.
+            // Next post (newer) -> index - 1
+            // Prev post (older) -> index + 1
+            
+            const newerPost = relevantPosts[currentIndex - 1];
+            const olderPost = relevantPosts[currentIndex + 1];
+
+            if (newerPost) {
+                prevLink.href = `/blog/${newerPost.slug}/`; // "Previous" in position often means "Newer" or "Left"?
+                // Actually usually "Next" -> Newer, "Prev" -> Older in blog terms?
+                // Or "Next" -> Next in the list (Older)?
+                // Let's stick to standard: Next (Newer/Up), Prev (Older/Down)?
+                // Convention: "Next Article" usually means the one after this in reading order (Older).
+                // "Previous Article" usually means the one before (Newer).
+                // Let's use "Newer" / "Older" to be clear, or just position.
+                // Let's assume standard pagination: Index 0, 1, 2. Reading 1. Next is 2 (Older). Prev is 0 (Newer).
+                
+                prevLink.querySelector('.nav-title').textContent = newerPost.title;
+                prevLink.querySelector('.label').textContent = '上一篇 (较新)';
+                prevLink.style.display = 'flex';
+            } else {
+                prevLink.style.display = 'none';
+            }
+
+            if (olderPost) {
+                nextLink.href = `/blog/${olderPost.slug}/`;
+                nextLink.querySelector('.nav-title').textContent = olderPost.title;
+                nextLink.querySelector('.label').textContent = '下一篇 (较旧)';
+                nextLink.style.display = 'flex';
+            } else {
+                nextLink.style.display = 'none';
+            }
+
+            if (newerPost || olderPost) {
+                nav.style.display = 'flex';
+                // Maybe add a context label?
+                // nav.setAttribute('data-context', contextLabel);
+            }
+        }
+    });
+</script>
+
+<style>
+    .back-link {
+        display: inline-block;
+        font-size: 0.9rem;
+        color: rgb(var(--gray));
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+    .back-link:hover {
+        color: rgb(var(--accent));
+        text-decoration: underline;
+    }
+
+main {
+width: 100%;
+max-width: 100%;
+margin: 0;
+}
+    .tags {
+        margin-top: 0.5em;
+        display: flex;
+        gap: 0.5em;
+        justify-content: center;
+    }
+    .tag {
+        color: rgb(var(--accent));
+        font-size: 0.9em;
+    }
+    .category {
+        margin-top: 0.5em;
+        font-size: 0.8em;
+        color: rgb(var(--gray));
+        text-align: center;
+    }
+    .category a {
+        color: rgb(var(--gray));
+        text-decoration: none;
+    }
+    .category a:hover {
+        color: rgb(var(--accent));
+    }
+    .cta {
+        margin-top: 2em;
+        padding: 1em;
+        border-top: 1px solid rgb(var(--gray-light));
+        text-align: center;
+    }
+    
+    /* Navigation Styles */
+    .post-navigation {
+        margin-top: 4rem;
+        border-top: 1px solid var(--border-color); /* Keep top divider only */
+        display: flex;
+        justify-content: space-between;
+        /* background: var(--card-bg); */ /* Removed boxy background */
+        overflow: hidden; 
+        padding-top: 2rem; /* Add spacing below line */
+    }
+    
+    .nav-item {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        padding: 0.5rem 0; /* Less padding, purely vertical spacing */
+        gap: 1rem;
+        transition: opacity 0.3s ease;
+        position: relative;
+    }
+
+    .nav-item:hover {
+        /* background: rgba(var(--accent), 0.03); */ /* Removed hover bg */
+        opacity: 0.8;
+    }
+    
+    .nav-item.prev {
+        /* border-right: 1px solid var(--border-color); */ /* Removed vertical divider */
+        text-align: left;
+    }
+    .nav-item.next {
+        text-align: right;
+        justify-content: flex-end;
+    }
+
+    /* Arrows */
+    .arrow-icon {
+        flex-shrink: 0;
+        width: 2.2em; /* Adjusted width for Aspect Ratio */
+        height: 1.5em; /* Match font size roughly */
+        color: rgb(var(--accent));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s ease;
+    }
+    .chevron {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    /* Hover Animations */
+    .nav-item.prev:hover .arrow-icon {
+        transform: translateX(-5px);
+    }
+    .nav-item.next:hover .arrow-icon {
+        transform: translateX(5px);
+    }
+
+    .nav-text {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .nav-item .label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgb(var(--gray));
+        margin-bottom: 0.2rem;
+    }
+
+    .nav-item .nav-title {
+        font-weight: bold;
+        color: var(--heading-color);
+        font-size: 1rem;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    /* Responsive */
+    @media (max-width: 600px) {
+        .nav-item .nav-title {
+            font-size: 0.9rem;
+        }
+        .arrow-icon {
+            width: 30px;
+            height: 45px;
+        }
+    }
+
+.hero-image {
+width: 100%;
+}
+.hero-image img {
+display: block;
+margin: 0 auto;
+border-radius: 12px;
+box-shadow: var(--box-shadow);
+}
+.prose {
+width: 720px;
+max-width: calc(100% - 2em);
+margin: auto;
+padding: 1em;
+color: var(--text-color);
+}
+.title {
+margin-bottom: 1em;
+padding: 1em 0;
+text-align: center;
+line-height: 1;
+}
+.title h1 {
+margin: 0 0 0.5em 0;
+}
+.date {
+margin-bottom: 0.5em;
+color: rgb(var(--gray));
+}
+.last-updated-on {
+font-style: italic;
+}
+
+/* Markdown Content Styling - Using :global to target slot content */
+.prose :global(table) {
+    width: auto;             
+    min-width: 60%;          
+    max-width: 100%;
+    margin: 2rem auto;       
+    border-collapse: collapse; 
+    border-spacing: 0;
+    /* No outer border or shadow - Minimalist */
+}
+
+.prose :global(th),
+.prose :global(td) {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1); /* Only horizontal lines */
+    text-align: left;
+}
+
+.prose :global(th) {
+    background-color: transparent; 
+    font-weight: 600;
+    color: var(--heading-color);
+    border-bottom: 2px solid rgba(0,0,0,0.15); /* Slightly stronger header divider */
+}
+
+.prose :global(tr:last-child) td {
+    border-bottom: none; /* No bottom line for the last row */
+}
+
+/* Optional: minimal hover effect instead of zebra striping for modern feel */
+.prose :global(tr:hover) td {
+    background-color: rgba(0,0,0,0.02);
+}
+
+/* Dark Mode Overrides - Clean Modern Dark */
+:global(html[data-theme='nord']) .prose :global(table) {
+    /* No overrides needed for container */
+}
+:global(html[data-theme='nord']) .prose :global(th) {
+    color: var(--heading-color);
+    border-bottom-color: rgba(255,255,255,0.2);
+}
+:global(html[data-theme='nord']) .prose :global(td) {
+    border-bottom-color: rgba(255,255,255,0.1);
+}
+:global(html[data-theme='nord']) .prose :global(tr:hover) td {
+    background-color: rgba(255,255,255,0.02); 
+}
+
+/* Code Block Styling - VS Code Style Reference */
+.prose :global(pre) {
+    padding: 1rem;
+    border-radius: 6px; /* VS Code rounded corners */
+    border: 1px solid rgba(0,0,0,0.1); 
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    tab-size: 4;
+}
+
+/* Day Mode (Default) - handled by Astro Shiki light theme */
+/* Night Mode (Nord) - Force switch to Shiki dark variables */
+:global(html[data-theme='nord']) .prose :global(.astro-code),
+:global(html[data-theme='nord']) .prose :global(.astro-code span) {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    /* Map other properties if needed for italics/bold consistency */
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Adjust Code Border in Dark Mode */
+:global(html[data-theme='nord']) .prose :global(pre) {
+    border: 1px solid rgba(255,255,255,0.1);
+}
+</style>

@@ -1,0 +1,406 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import BlogNav from '../../components/BlogNav.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const tags = [...new Set(allPosts.map((post) => post.data.tags).flat().filter(Boolean))].sort();
+
+// Pre-calculate tag counts for display
+const tagCounts = tags.reduce((acc, tag) => {
+    if (!tag) return acc;
+    acc[tag] = allPosts.filter(p => p.data.tags?.includes(tag)).length;
+    return acc;
+}, {} as Record<string, number>);
+
+const title = "标签云 Explorer";
+---
+
+<Layout title={title}>
+    <main>
+        <BlogNav />
+        
+        <div class="explorer-container">
+            <h1 class="page-title">标签筛选</h1>
+            
+            <!-- Controls Section -->
+            <div class="tag-controls">
+                <div class="tag-filter-header">
+                    <span>选择标签 (多选)</span>
+                    <button id="clear-tags" class="clear-btn" style="display: none;">清除筛选</button>
+                </div>
+                
+                <div class="tag-cloud-selector">
+                    {tags.map(tag => (
+                        <button 
+                            class="tag-toggle-btn" 
+                            data-tag={tag}
+                            aria-pressed="false"
+                        >
+                            <span class="tag-name">#{tag}</span>
+                            <span class="tag-count">{tagCounts[tag]}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-header">
+                <h2 id="results-count">全部文章</h2>
+            </div>
+
+            <div class="post-grid" id="posts-grid">
+                {allPosts.map(post => (
+                    <div 
+                        class="post-item-wrapper" 
+                        data-tags={JSON.stringify(post.data.tags || [])}
+                        style="display: block;"
+                    >
+                        <PostCard post={post} highlightTags={[]} />
+                    </div>
+                ))}
+            </div>
+            
+            <div id="no-results" style="display: none; text-align: center; padding: 2rem;">
+                <p>没有找到同时包含这些标签的文章。</p>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    // Client-side filtering logic
+    document.addEventListener('astro:page-load', () => {
+        const tagButtons = document.querySelectorAll('.tag-toggle-btn');
+        const postItems = document.querySelectorAll('.post-item-wrapper');
+        const clearBtn = document.getElementById('clear-tags');
+        const resultsCountHeader = document.getElementById('results-count');
+        const noResultsMsg = document.getElementById('no-results');
+        
+        let activeTags = new Set();
+        let isInitialLoad = true;
+
+        // Init from URL if present
+        const params = new URLSearchParams(window.location.search);
+        // Compatibility: Check 'tags' (plural) first, then 'tag' (singular) for legacy links
+        const urlTags = params.get('tags');
+        const legacyTag = params.get('tag'); // For single tag links e.g. /tags/xxx
+        
+        /* 
+           Crucial Logic Adjustment:
+           We need to handle the case where user navigates via /tags/[tag].
+           Astro usually routes this to [tag].astro, BUT we want to consolidate UI.
+           If the user is ON this page (index.astro), and we push a state, it works.
+           If the user clicks <a href="/tags/xxx"> from an article, they expect to land HERE with xxx selected.
+           
+           Astro Dynamic Routes:
+           If `src/pages/tags/[tag].astro` exists, it takes precedence for `/tags/xxx`.
+           The user asked to "waste" the original interface and switch to this cloud interface.
+           So we should probably DELETE `src/pages/tags/[tag].astro` so that specific tag URLs
+           are handled by this index page (via query params) OR we redirect?
+           
+           Wait, Astro static builds create folders /tags/xxx/index.html.
+           If we delete [tag].astro, then /tags/xxx won't exist naturally unless we generate dynamic routes here?
+           
+           easier approach:
+           1. Modifying the links in BlogPost to point to `/tags?tags=xxx` instead of `/tags/xxx`.
+           2. Modify THIS file to read that param.
+           
+           The code below already reads `tags` param. Good.
+        */
+
+        if (urlTags) {
+            activeTags.clear(); // Clear default state
+            urlTags.split(',').forEach(t => activeTags.add(t));
+        } else if (legacyTag) {
+            activeTags.add(legacyTag);
+            // Auto-update URL to modern format
+            const url = new URL(window.location.href);
+            url.searchParams.delete('tag');
+            url.searchParams.set('tags', legacyTag);
+            window.history.replaceState({}, '', url);
+        }
+        
+        // Render initial state
+        updateUI();
+
+        // Register Click Handlers
+        tagButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tag = btn.getAttribute('data-tag');
+                if (activeTags.has(tag)) {
+                    activeTags.delete(tag);
+                } else {
+                    activeTags.add(tag);
+                }
+                updateUI();
+                updateURL();
+            });
+        });
+        
+        clearBtn?.addEventListener('click', () => {
+            activeTags.clear();
+            updateUI();
+            updateURL();
+        });
+
+        function updateURL() {
+            const url = new URL(window.location.href);
+            if (activeTags.size > 0) {
+                url.searchParams.set('tags', Array.from(activeTags).join(','));
+            } else {
+                url.searchParams.delete('tags');
+            }
+            window.history.replaceState({}, '', url);
+        }
+
+        function updateUI() {
+            // Update Buttons
+
+            tagButtons.forEach(btn => {
+                const tag = btn.getAttribute('data-tag');
+                if (tag && activeTags.has(tag)) {
+                    btn.classList.add('active');
+                    btn.setAttribute('aria-pressed', 'true');
+                } else {
+                    btn.classList.remove('active');
+                    btn.setAttribute('aria-pressed', 'false');
+                }
+            });
+
+            // Update Clear Button
+            if (clearBtn) {
+                clearBtn.style.display = activeTags.size > 0 ? 'inline-block' : 'none';
+            }
+
+            // Filter Posts
+            let visibleCount = 0;
+            let visibleIndex = 0;
+            
+            postItems.forEach(item => {
+                const itemTags = JSON.parse(item.getAttribute('data-tags') || '[]');
+                
+                // AND Logic: Show ONLY if post contains ALL active tags
+                let matches = true; // Default match if no tags selected
+                
+                if (activeTags.size > 0) {
+                     // Check if every active tag is present in itemTags
+                     matches = Array.from(activeTags).every(t => itemTags.includes(t));
+                }
+
+                // Logic change: Previously OR: itemTags.some(t => activeTags.has(t))
+
+                const el = item;
+                if (matches) {
+                    el.style.display = 'block';
+                    visibleCount++;
+                    
+                    // Reset animation state
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(20px)';
+                    el.style.transition = 'none';
+
+                    // Trigger reflow
+                    void el.offsetWidth;
+
+                    // Apply animation
+                    setTimeout(() => {
+                        el.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                        
+                        // Cleanup after animation finishes to prevent "snapping" or layout issues
+                        setTimeout(() => {
+                            el.style.transition = '';
+                            el.style.opacity = '';
+                            el.style.transform = '';
+                        }, 400); // Wait for transition duration (0.4s)
+                        
+                    }, visibleIndex * 50); // 50ms interval
+
+                    visibleIndex++;
+                    
+                    // Highlight Logic within the scope of this card
+                    const miniTags = el.querySelectorAll('.mini-tag');
+                    miniTags.forEach(mt => {
+                        const tText = mt.textContent.replace('#','');
+                        if (activeTags.has(tText)) {
+                            mt.classList.add('highlight');
+                        } else {
+                            mt.classList.remove('highlight');
+                        }
+                    });
+                    
+                } else {
+                    el.style.display = 'none';
+                }
+            });
+
+            // Update Header
+            if (resultsCountHeader) {
+                if (activeTags.size === 0) {
+                    resultsCountHeader.textContent = `全部文章 (${visibleCount})`;
+                } else {
+                    resultsCountHeader.textContent = `筛选结果 (${visibleCount})`;
+                }
+            }
+            
+            if (noResultsMsg) {
+                noResultsMsg.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+
+            // Update URL without reload
+            const newUrl = new URL(window.location.href);
+            if (activeTags.size > 0) {
+                newUrl.searchParams.set('tags', Array.from(activeTags).join(','));
+            } else {
+                newUrl.searchParams.delete('tags');
+            }
+            window.history.replaceState({}, '', newUrl);
+            isInitialLoad = false;
+        }
+
+        // Intercept clicks on post links to set context
+        const postGrid = document.querySelector('.post-grid');
+        if (postGrid) {
+            postGrid.addEventListener('click', (e) => {
+                const link = (e.target as Element).closest('a');
+                if (link) {
+                    // Get current tags from URL or state
+                    const currentTags = Array.from(activeTags).join(',');
+                    sessionStorage.setItem('blog_nav_context', JSON.stringify({ 
+                        type: 'tags', 
+                        data: currentTags 
+                    }));
+                }
+            });
+        }
+
+        // Event Listeners - Already registered above
+        
+        // Initial run
+        updateUI();
+    });
+</script>
+
+
+<style>
+    main {
+width: 1200px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+}
+    .page-title {
+        color: var(--heading-color);
+        margin-bottom: 1rem;
+    }
+    
+    /* Controls */
+    .tag-controls {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        padding: 1.5rem;
+        border-radius: var(--radius);
+        margin-bottom: 2rem;
+        box-shadow: var(--box-shadow);
+    }
+    
+    .tag-filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        color: var(--heading-color);
+        font-weight: bold;
+    }
+    
+    .clear-btn {
+        background: none;
+        border: none;
+        color: rgb(var(--accent));
+        cursor: pointer;
+        font-size: 0.9rem;
+        text-decoration: underline;
+    }
+    
+    .tag-cloud-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+    
+    .tag-toggle-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: var(--gray-light);
+        border: 1px solid transparent; 
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: rgb(var(--black));
+        font-size: 0.9rem;
+        font-family: inherit;
+    }
+    
+    .tag-toggle-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(var(--accent), 0.5);
+    }
+    
+    .tag-toggle-btn.active {
+        background-color: rgb(var(--accent));
+        color: white;
+        border-color: rgb(var(--accent));
+        box-shadow: 0 4px 10px rgba(var(--accent), 0.3);
+    }
+    
+    .tag-count {
+        background: rgba(0,0,0,0.1);
+        padding: 1px 6px;
+        border-radius: 10px;
+        font-size: 0.75rem;
+    }
+    .tag-toggle-btn.active .tag-count {
+        background: rgba(255,255,255,0.25);
+        color: white;
+    }
+
+    /* Results */
+    .results-header h2 {
+        font-size: 1.2rem;
+        color: rgb(var(--gray));
+        margin-bottom: 1.5rem;
+    }
+    
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .post-item-wrapper {
+        height: 100%;
+        display: block; /* Ensure it behaves as a block element */
+    }
+    
+    /* Dark Mode overrides */
+    :global(html[data-theme='nord']) .tag-toggle-btn {
+        background-color: var(--border-color);
+        color: var(--text-color);
+    }
+    :global(html[data-theme='nord']) .tag-toggle-btn:hover {
+        border-color: rgb(var(--accent));
+    }
+    :global(html[data-theme='nord']) .tag-toggle-btn.active {
+        background-color: rgb(var(--accent));
+        color: white;
+    }
+</style>
+
+
+
+

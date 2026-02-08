@@ -1,0 +1,97 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import BlogNav from '../../components/BlogNav.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog')).sort(
+(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const title = "全部文章";
+---
+
+<Layout title={title}>
+<main>
+        <BlogNav />
+<section>
+            <h1 class="page-title">{title}</h1>
+<div class="post-grid">
+{
+posts.map((post) => (
+<PostCard post={post} />
+))
+}
+</div>
+{/* Inline script to prevent FOUC (Flash of Unstyled Content) on layout mode */}
+<script is:inline>
+    // Immediately check storage and apply class before valid paint
+    try {
+        const mode = localStorage.getItem('blog_view_mode');
+        if (mode === 'compact') {
+            document.querySelector('.post-grid')?.classList.add('compact-view');
+        }
+    } catch (e) {}
+</script>
+</section>
+</main>
+</Layout>
+
+<script>
+    // Set navigation context for "Back" button on blog posts
+    document.addEventListener('astro:page-load', () => {
+        sessionStorage.setItem('blog_nav_context', JSON.stringify({ type: 'all', data: '' }));
+    });
+</script>
+
+<style>
+main {
+width: 1200px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+}
+    .page-title {
+        color: var(--heading-color);
+        margin-bottom: 2rem;
+    }
+.post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        /* Transition for layout switching */
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Keyframes for entrance animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Only animate when the grid has the 'animate-in' class (added by JS) */
+    :global(.animate-in) .post-grid > :global(*) {
+        animation: fadeInUp 0.6s cubic-bezier(0.2, 0, 0, 1) forwards;
+        opacity: 0; /* Start hidden */
+    }
+
+    /* Delays */
+    :global(.animate-in) .post-grid > :global(*:nth-child(1)) { animation-delay: 50ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(2)) { animation-delay: 100ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(3)) { animation-delay: 150ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(4)) { animation-delay: 200ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(5)) { animation-delay: 250ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(6)) { animation-delay: 300ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(7)) { animation-delay: 350ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(8)) { animation-delay: 400ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(9)) { animation-delay: 450ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(10)) { animation-delay: 500ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(11)) { animation-delay: 550ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(12)) { animation-delay: 600ms; }
+</style>

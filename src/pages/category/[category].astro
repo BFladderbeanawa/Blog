@@ -1,0 +1,217 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import BlogNav from '../../components/BlogNav.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection('blog');
+  const uniqueCategories = [...new Set(allPosts.map((post) => post.data.category).flat().filter(Boolean))];
+
+  return uniqueCategories.map((category) => {
+    const filteredPosts = allPosts.filter((post) => post.data.category === category);
+    return {
+      params: { category },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { category } = Astro.params;
+const { posts } = Astro.props;
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title={`分类: ${category}`}>
+<main>
+        <BlogNav currentCategory={category} />
+<section>
+            <div class="category-header-block">
+                <a href="/category" class="back-link-wrapper">
+                    <span class="arrow-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="feather">
+                            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span> 
+                    <span>返回分类索引</span>
+                </a>
+                
+                <div class="title-container">
+                    <h1 class="category-title">{category}</h1>
+                    <span class="count-badge">
+                        {posts.length} 篇
+                    </span>
+                </div>
+            </div>
+            
+<div class="post-grid">
+{
+sortedPosts.map((post) => (
+<PostCard post={post} />
+))
+}
+</div>
+            {/* Inline script for immediate layout mode application */}
+            <script is:inline>
+                try {
+                    const mode = localStorage.getItem('blog_view_mode');
+                    if (mode === 'compact') {
+                        document.querySelector('.post-grid')?.classList.add('compact-view');
+                    }
+                } catch (e) {}
+            </script>
+            {sortedPosts.length === 0 && <p>该分类下暂无文章。</p>}
+</section>
+</main>
+</Layout>
+
+<script define:vars={{ category }}>
+    // Set navigation context for "Back" button on blog posts
+    document.addEventListener('astro:page-load', () => {
+        sessionStorage.setItem('blog_nav_context', JSON.stringify({ type: 'category', data: category }));
+    });
+</script>
+
+<style>
+main {
+    width: 960px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+    
+    .category-header-block {
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Back Link / Breadcrumb */
+    .back-link-wrapper {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--gray);
+        font-size: 0.9rem;
+        font-weight: 500;
+        text-decoration: none;
+        margin-bottom: 1rem;
+        transition: color 0.2s ease, transform 0.2s ease;
+        opacity: 0.8;
+    }
+    
+    .back-link-wrapper:hover {
+        color: rgb(var(--accent));
+        text-decoration: none;
+        transform: translateX(-3px);
+        opacity: 1;
+    }
+    
+    .arrow-icon svg {
+        width: 1.1em;
+        height: 1.1em;
+        vertical-align: middle;
+        position: relative;
+        top: -1px;
+    }
+
+    /* Title Area */
+    .title-container {
+        display: flex;
+        align-items: baseline; /* Align text baselines */
+        gap: 1rem;
+    }
+    
+    .category-title {
+        margin: 0;
+        font-size: 3rem;
+        line-height: 1.1;
+        font-weight: 800;
+        color: var(--heading-color);
+        letter-spacing: -0.02em;
+    }
+    
+    .count-badge {
+        font-family: var(--font-body);
+        display: inline-block;
+        background: rgba(var(--accent), 0.08); /* More subtle background */
+        color: rgb(var(--accent));
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        vertical-align: middle;
+        transform: translateY(-4px); /* Slight lift */
+        border: 1px solid rgba(var(--accent), 0.15);
+    }
+
+    /* Dark Mode Adjustment */
+    :global(html[data-theme='nord']) .count-badge {
+         background: rgba(var(--accent), 0.15);
+         border-color: rgba(var(--accent), 0.3);
+    }
+
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    /* Staggered Entrance Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    :global(.animate-in) .post-grid > :global(*) {
+        animation: fadeInUp 0.6s cubic-bezier(0.2, 0, 0, 1) forwards;
+        opacity: 0;
+    }
+
+    /* Delays */
+    :global(.animate-in) .post-grid > :global(*:nth-child(1)) { animation-delay: 50ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(2)) { animation-delay: 100ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(3)) { animation-delay: 150ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(4)) { animation-delay: 200ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(5)) { animation-delay: 250ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(6)) { animation-delay: 300ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(7)) { animation-delay: 350ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(8)) { animation-delay: 400ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(9)) { animation-delay: 450ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(10)) { animation-delay: 500ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(11)) { animation-delay: 550ms; }
+    :global(.animate-in) .post-grid > :global(*:nth-child(12)) { animation-delay: 600ms; }
+    
+    @media (max-width: 768px) {
+        .category-title {
+            font-size: 2.2rem;
+        }
+        .title-container {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .count-badge {
+            transform: none;
+            align-self: flex-start;
+        }
+    .count-badge {
+        background: rgba(var(--accent), 0.1);
+        color: rgb(var(--accent));
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+</style>

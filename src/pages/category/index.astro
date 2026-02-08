@@ -1,0 +1,127 @@
+﻿---
+import Layout from '../../layouts/Layout.astro';
+import BlogNav from '../../components/BlogNav.astro';
+import PostCard from '../../components/PostCard.astro'; // Use new component
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog');
+const categories = [...new Set(allPosts.map((post) => post.data.category).filter(Boolean))];
+
+// Count
+const categoryCounts = categories.reduce((acc, category) => {
+  if (!category) return acc;
+  acc[category] = allPosts.filter(p => p.data.category === category).length;
+  return acc;
+}, {} as Record<string, number>);
+
+const title = "文章分类";
+---
+
+<Layout title={title}>
+<main>
+        <BlogNav />
+<section class="category-index-container">
+            <h1 class="page-title">{title}</h1>
+<div class="category-grid">
+{
+categories.map((category) => (
+                        <a href={`/category/${category}/`} class="category-card">
+                            <div class="card-icon">📁</div>
+                            <h3 class="category-name">{category}</h3>
+                            <div class="category-footer">
+                                <span class="count-badge">{categoryCounts[category as string]} 篇</span>
+                                <span class="arrow">&rarr;</span>
+                            </div>
+                        </a>
+))
+}
+                {categories.length === 0 && <p>暂无分类。</p>}
+</div>
+</section>
+</main>
+</Layout>
+
+<style>
+main {
+width: 1200px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+}
+    .page-title {
+        margin-bottom: 2rem;
+        color: var(--heading-color);
+        font-size: 2rem;
+    }
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .category-card {
+        display: flex;
+        flex-direction: column;
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: var(--box-shadow);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .category-card:hover {
+        transform: translateY(-5px);
+        border-color: rgb(var(--accent));
+        box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    }
+    
+    .card-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }
+    
+    .category-name {
+        margin: 0 0 1rem 0;
+        font-size: 1.4rem;
+        color: var(--heading-color);
+        font-weight: 700;
+    }
+    
+    .category-footer {
+        margin-top: auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: rgb(var(--gray));
+    }
+    
+    .count-badge {
+        font-size: 0.9rem;
+        background: rgba(0,0,0,0.03);
+        padding: 4px 10px;
+        border-radius: 20px;
+    }
+    
+    .arrow {
+        font-size: 1.2rem;
+        opacity: 0;
+        transform: translateX(-10px);
+        transition: all 0.3s ease;
+        color: rgb(var(--accent));
+    }
+    
+    .category-card:hover .arrow {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Dark Mode */
+    :global(html[data-theme='nord']) .count-badge {
+        background: rgba(255,255,255,0.1);
+    }
+</style>

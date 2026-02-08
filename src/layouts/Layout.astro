@@ -1,22 +1,229 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PageTransition from '../components/PageTransition.astro';
+import ThemeSwitcher from '../components/ThemeSwitcher.astro';
+import BackgroundParticles from '../components/BackgroundParticles.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = 'My Astro Blog', description = 'Welcome to my blog!' } = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+        <ClientRouter />
+        
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={Astro.url} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={Astro.url} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        
+        <!-- Sitemap -->
+        <link rel="sitemap" href="/sitemap-index.xml" />
+        
+        <!-- Analytics Placeholder -->
+        <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script> -->
+        
+		<title>{title}</title>
 	</head>
 	<body>
-		<slot />
+        <BackgroundParticles />
+        <PageTransition />
+		<Header />
+        
+        <!-- Scrollable Main Content Area -->
+        <div id="scroll-container" class="scroll-container">
+		    <slot />
+        </div>
+
+        <ThemeSwitcher />
+		<Footer />
 	</body>
 </html>
 
-<style>
-	html,
+<style is:global>
+    /* =========================================
+       BASE VARIABLES & RESET
+       ========================================= */
+	:root {
+        /* Default to Modern (Day) */
+        --accent: 220, 50, 47; 
+		--accent-light: 250, 200, 200;
+		--accent-dark: 150, 20, 20;
+		--black: 20, 20, 20;
+		--gray: 120, 120, 120;
+		--gray-light: 245, 245, 245;
+		--gray-dark: 40, 40, 40;
+        
+        /* Dynamic Defaults for transitions */
+        --bg-color: #ffffff;
+        --text-color: #111;
+        --heading-color: #111;
+        --card-bg: #fff;
+        --border-color: #eee;
+        --box-shadow: none;
+        --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --radius: 0px;
+	}
+
+    /* =========================================
+       THEME 1: MODERNIST (Day) - Based on Swiss/Clean
+       ========================================= */
+    html[data-theme='modern'] {
+        --accent: 220, 50, 47; /* Swiss Red */
+        --bg-color: #ffffff;
+        --text-color: #111;
+        --heading-color: #000;
+        --card-bg: #fff;
+        --border-color: #eee;
+        --box-shadow: none;
+        --radius: 0;
+        --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    html[data-theme='modern'] header,
+    html[data-theme='modern'] footer,
+    html[data-theme='modern'] article,
+    html[data-theme='modern'] .widget-card {
+        border: 1px solid var(--border-color) !important;
+         box-shadow: none !important;
+         background-color: #fff !important;
+    }
+    html[data-theme='modern'] h1, 
+    html[data-theme='modern'] h2,
+    html[data-theme='modern'] h3 {
+        font-weight: 900;
+        letter-spacing: -0.5px;
+    }
+
+    /* =========================================
+       THEME 2: NORDIC FROST (Night)
+       ========================================= */
+    html[data-theme='nord'] {
+        --accent: 136, 192, 208; /* Nord8 Cyan */
+        --bg-color: #2e3440; /* Nord0 Dark */
+        --text-color: #d8dee9; /* Nord4 Whiteish */
+        --heading-color: #eceff4; /* Nord6 White */
+        --card-bg: #3b4252; /* Nord1 Lighter Dark */
+        --border-color: rgba(255, 255, 255, 0.1);
+        --box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        --radius: 8px;
+        --font-heading: system-ui, -apple-system, sans-serif;
+        --font-body: system-ui, -apple-system, sans-serif;
+    }
+    html[data-theme='nord'] body {
+        background-color: var(--bg-color);
+    }
+    html[data-theme='nord'] a {
+        color: #88c0d0;
+    }
+    html[data-theme='nord'] header,
+    html[data-theme='nord'] article,
+    html[data-theme='nord'] .widget-card,
+    html[data-theme='nord'] footer {
+        background-color: var(--card-bg) !important;
+        border: 1px solid var(--border-color) !important;
+        box-shadow: var(--box-shadow) !important;
+        color: var(--text-color) !important;
+    }
+    
+    /* Better contrast for Nordic Text */
+    html[data-theme='nord'] p, 
+    html[data-theme='nord'] li, 
+    html[data-theme='nord'] span {
+        color: #d8dee9;
+    }
+    html[data-theme='nord'] h1, 
+    html[data-theme='nord'] h2, 
+    html[data-theme='nord'] h3,
+    html[data-theme='nord'] strong {
+         color: #eceff4 !important;
+    }
+
+
+    /* =========================================
+       GLOBAL RESETS & TRANSITIONS
+       ========================================= */
+	html {
+		background-color: var(--bg-color);
+		font-family: var(--font-body);
+        /* Smooth transitions for theme switching */
+        transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                    color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color 0.5s ease;
+	}
 	body {
 		margin: 0;
-		width: 100%;
-		height: 100%;
+		padding: 0;
+		text-align: left;
+		color: var(--text-color);
+		line-height: 1.7;
+        height: 100vh; /* Fixed full height */
+        display: flex; /* Flexbox App Layout */
+        flex-direction: column;
+        overflow: hidden; /* Prevent body scroll, use inner scroll */
 	}
+
+    /* Primary Header and Footer stay fixed via Flexbox */
+    header, footer {
+        flex-shrink: 0;
+        z-index: 50;
+        position: relative; /* Ensure z-index works */
+        box-shadow: 0 0 10px rgba(0,0,0,0.05); /* Separator shadows */
+    }
+
+    /* Main Scroll Area */
+    .scroll-container {
+        flex-grow: 1;
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: hidden;
+        position: relative;
+        scroll-behavior: smooth;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--heading-color);
+        font-family: var(--font-heading);
+    }
+    a {
+        color: rgb(var(--accent));
+        text-decoration: none;
+    }
+    a:hover {
+        color: rgb(var(--accent-dark));
+    }
+    
+    /* Apply variables to common containers */
+    article, .widget-card {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        box-shadow: var(--box-shadow);
+        transition: all 0.3s ease;
+    }
+
+    /* =========================================
+       ADVANCED PAGE TRANSITIONS
+       ========================================= */
+    /* Transition logic moved to components/PageTransition.astro */
+
 </style>
