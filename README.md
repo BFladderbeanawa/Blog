@@ -37,7 +37,7 @@ adius: 8px\)，降低对比度刺激。
 
 ### 目录结构
 
-\\\	ext
+``` ext
 /
 ├── public/              # 静态资源
 ├── src/
@@ -53,7 +53,7 @@ adius: 8px\)，降低对比度刺激。
 │   └── featured-posts.json # [配置] 首页/指引页的精选文章列表
 ├── astro.config.mjs     # Astro 配置文件
 └── package.json
-\\\
+```
 
 ### 关键技术点
 
@@ -67,21 +67,21 @@ adius: 8px\)，降低对比度刺激。
 
 ### 安装依赖
 
-\\\bash
+```bash
 npm install
-\\\
+```
 
 ### 本地开发
 
-\\\bash
+```bash
 npm run dev
-\\\
+```
 
 ### 新建文章
 
 在 \src/content/blog/\ 目录下创建 \.md\ 或 \.mdx\ 文件。Frontmatter 格式如下：
 
-\\\yaml
+```yaml
 ---
 title: '文章标题'
 description: '文章简介...'
@@ -90,18 +90,18 @@ heroImage: '/img/cover.jpg'
 category: 'Tech'
 tags: ['Astro', 'Web']
 ---
-\\\
+```
 
 ### 配置精选文章
 
 编辑 \src/featured-posts.json\ 文件，填入文章的文件名（Slug）：
 
-\\\json
+```json
 [
   "hello-world",
   "my-best-article"
 ]
-\\\
+```
 
 ## License
 
