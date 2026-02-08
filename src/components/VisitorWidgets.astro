@@ -16,6 +16,27 @@
             </div>
         </div>
     </div>
+
+    <!-- 访客地图 (MapMyVisitors / ClustrMaps / RevolverMaps) -->
+    <div class="widget-card map-card">
+        <h3>访客分布</h3>
+        <div class="map-container">
+            <!-- 
+                 ℹ️ 配置指南:
+                 1. 前往 https://mapmyvisitors.com/ 或 https://clustrmaps.com/ 注册你的网站
+                 2. 获取 "Javascript" 或 "Image Embed" 代码
+                 3. 直接粘贴在下方替换掉示例代码
+            -->
+            
+            <!-- ⬇️ 在这里放入你的地图代码 (示例为 ClustrMaps 的占位图) ⬇️ -->
+            <script type="text/javascript" id="mmvst_globe" src="//mapmyvisitors.com/globe.js?d=cDFTnQRgcp-55ObDDRMH3frykhjGmKN7q2WYvTOT24Y"></script>
+             
+            <!-- 如果脚本加载失败显示的备用内容 -->
+            <div class="map-placeholder" style="display:none;">
+                <p>地图加载中...</p>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- 引入不蒜子脚本 -->
@@ -24,22 +45,20 @@
 <style>
     .widgets-wrapper {
         display: flex;
-        justify-content: center; /* Center the single card */
+        flex-wrap: wrap;
+        gap: 2rem;
         margin-top: 3rem;
-        width: 100%;
+        justify-content: center;
     }
 
     .widget-card {
         background: var(--card-bg); /* Use var */
         border: 1px solid var(--border-color); /* Use global var */
         border-radius: var(--radius); /* Use global var */
-        padding: 2rem; /* Increased padding */
+        padding: 1.5rem;
         box-shadow: var(--box-shadow);
-        
-        /* Adjusted width for single card display */
-        width: 100%;
-        max-width: 400px; 
-        
+        flex: 1;
+        min-width: 300px;
         text-align: center;
         transition: all 0.3s ease;
     }
@@ -107,7 +126,7 @@
         font-style: normal;
     }
 
-    .globe-container {
+    .map-container {
         min-height: 200px;
         display: flex;
         align-items: center;
@@ -116,34 +135,8 @@
         position: relative;
     }
 
-    .globe-placeholder {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        color: rgb(var(--gray));
-        text-align: center;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-    }
-
-    .fallback-icon {
-        font-size: 3rem;
-        margin-bottom: 0.5rem;
-        opacity: 0.3;
-    }
-
-    .sub-text {
-        font-size: 0.8em;
-        opacity: 0.7;
-    }
-    
-    /* 强制限制地球仪画布大小，防止溢出 */
-    .globe-container :global(canvas) {
-        max-width: 100% !important;
-        border-radius: 50%;
+    /* ClustrMaps 具体样式修正 */
+    .map-container :global(#clustrmaps-widget-v2) {
+         margin: 0 auto;
     }
 </style>
