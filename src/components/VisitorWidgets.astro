@@ -16,27 +16,6 @@
             </div>
         </div>
     </div>
-
-    <!-- 3D 地球仪 (基于 RevolverMaps) -->
-    <div class="widget-card globe-card">
-        <h3>实时访客分布</h3>
-        <div class="globe-container">
-            <!-- 
-                 注意：要显示真实的 3D 地球仪，你需要去 revolvermaps.com 获取你自己的代码。
-                 1. 访问 https://www.revolvermaps.com/?target=enlarge&color=ff0000&m=0
-                 2. 选择 "Java Script"
-                 3. 复制生成的 script 标签，替换下面的注释部分
-            -->
-            
-            <!-- ⬇️ 在这里放入你的 RevolverMaps 代码 ⬇️ -->
-            <script type="text/javascript" src="//rf.revolvermaps.com/0/0/6.js?i=5yd78426143&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async"></script>
-            <!-- ⬆️ 在这里放入你的 RevolverMaps 代码 ⬆️ -->
-            
-            <div class="globe-placeholder" style="display:none;">
-                <p>请配置 RevolverMaps 代码以显示地球仪</p>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- 引入不蒜子脚本 -->
@@ -45,13 +24,25 @@
 <style>
     .widgets-wrapper {
         display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
+        justify-content: center; /* Center the single card */
         margin-top: 3rem;
-        justify-content: center;
+        width: 100%;
     }
 
     .widget-card {
+        background: var(--card-bg); /* Use var */
+        border: 1px solid var(--border-color); /* Use global var */
+        border-radius: var(--radius); /* Use global var */
+        padding: 2rem; /* Increased padding */
+        box-shadow: var(--box-shadow);
+        
+        /* Adjusted width for single card display */
+        width: 100%;
+        max-width: 400px; 
+        
+        text-align: center;
+        transition: all 0.3s ease;
+    }
         background: var(--card-bg); /* Use var */
         border: 1px solid var(--border-color); /* Use global var */
         border-radius: var(--radius); /* Use global var */
@@ -122,6 +113,32 @@
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        position: relative;
+    }
+
+    .globe-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: rgb(var(--gray));
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .fallback-icon {
+        font-size: 3rem;
+        margin-bottom: 0.5rem;
+        opacity: 0.3;
+    }
+
+    .sub-text {
+        font-size: 0.8em;
+        opacity: 0.7;
     }
     
     /* 强制限制地球仪画布大小，防止溢出 */
