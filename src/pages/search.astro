@@ -1,0 +1,103 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Search" description="Search the blog">
+	<main>
+		<h1>Search</h1>
+		<div class="search-container">
+			<input type="text" id="search-input" placeholder="Type to search..." autofocus />
+			<ul id="search-results"></ul>
+		</div>
+	</main>
+</Layout>
+
+<script>
+    // Client-side search logic
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+
+    let posts = [];
+
+    // Fetch posts index
+    fetch('/search.json')
+        .then(res => res.json())
+        .then(data => {
+            posts = data;
+        });
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        if (query.length < 2) {
+            searchResults.innerHTML = '';
+            return;
+        }
+
+        const filtered = posts.filter(post => 
+            post.title.toLowerCase().includes(query) || 
+            post.description.toLowerCase().includes(query) ||
+            (post.tags && post.tags.some(tag => tag.toLowerCase().includes(query)))
+        );
+
+        searchResults.innerHTML = filtered.map(post => `
+            <li>
+                <a href="/blog/${post.slug}">
+                    <h3>${post.title}</h3>
+                    <p>${post.description}</p>
+                </a>
+            </li>
+        `).join('');
+    });
+</script>
+
+<style>
+	main {
+		width: 720px;
+		max-width: calc(100% - 2em);
+		margin: auto;
+		padding: 1em;
+	}
+    h1 {
+        margin-bottom: 1em;
+    }
+    input {
+        width: 100%;
+        padding: 1em;
+        font-size: 1.2em;
+        background: #fff;
+        border: 1px solid rgb(var(--gray-light));
+        color: rgb(var(--gray-dark));
+        margin-bottom: 2em;
+        outline: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    input:focus {
+        border-color: rgb(var(--accent));
+    }
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 1em;
+        border-bottom: 1px solid rgb(var(--gray-light));
+        padding-bottom: 1em;
+    }
+    a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+    a:hover h3 {
+        color: rgb(var(--accent));
+    }
+    h3 {
+        margin: 0 0 0.5em 0;
+        color: rgb(var(--black));
+    }
+    p {
+        margin: 0;
+        color: rgb(var(--gray));
+    }
+</style>

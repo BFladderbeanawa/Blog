@@ -1,0 +1,289 @@
+﻿---
+---
+<div id="page-trans-wrap" class="page-trans-wrap" aria-hidden="true">
+    <!-- Layer 1: Accent Color (Secondary) -->
+    <div class="curtain-layer layer-accent"></div>
+    <!-- Layer 2: Main Color (Primary Background) -->
+    <div class="curtain-layer layer-primary"></div>
+    
+    <!-- Content: Text/Logo -->
+    <div class="trans-content">
+        <div class="loader-text" id="loader-text">LOADING</div>
+    </div>
+</div>
+
+<script>
+    const wrapper = document.getElementById('page-trans-wrap');
+    const loaderText = document.getElementById('loader-text');
+
+    // Random effects list
+    const effects = ['stagger-up', 'stagger-down', 'shutter-y', 'wipe-right'];
+    
+    function setRandomEffect() {
+        if (!wrapper) return;
+        const effect = effects[Math.floor(Math.random() * effects.length)];
+        wrapper.setAttribute('data-effect', effect);
+    }
+
+    // 1. Navigation Starts
+    document.addEventListener('astro:before-preparation', () => {
+        document.documentElement.classList.add('is-navigating');
+        
+        if (wrapper) {
+            setRandomEffect();
+            wrapper.style.display = 'flex';
+            // Force reflow
+            void wrapper.offsetWidth; 
+            wrapper.setAttribute('data-state', 'loading');
+            
+            if(loaderText) {
+                const texts = ['LOADING', 'PLEASE WAIT', 'PROCESSING', 'CONNECTING'];
+                loaderText.innerText = texts[Math.floor(Math.random() * texts.length)];
+            }
+        }
+    });
+
+    // 2. Navigation Ends
+    document.addEventListener('astro:after-swap', () => {
+        /** 
+         * Important: The wrapper in the new DOM is fresh. 
+         * We need to recreate the state so it covers the screen, 
+         * then animate it away.
+         */
+        const newWrapper = document.getElementById('page-trans-wrap');
+        
+        if (newWrapper) {
+            // Restore the effect class from the previous state? 
+            // Actually, we can just pick a specific 'exit' or keep it simple.
+            // But visually continuity requires we know what the 'enter' was.
+            // Since we can't easily pass state without sessionStorage, 
+            // let's just Default to a clean 'stagger-up' exit or try to read persisted state if we implemented it.
+            
+            // Simpler: Just force a "Lift Up" exit for consistency, or quick fade.
+            // Or re-randomize? No, that would jump.
+            
+            // Let's use a standard clean exit (Slide Up) for all enters,
+            // OR use sessionStorage to sync.
+            // Let's try sessionStorage for "stickiness" if we want matchy-matchy.
+            
+            // For now, let's keep it simple: 
+            // Whatever the new DOM has, we init it as 'loading' (full cover), then 'loaded' (exit).
+            // We'll fix the effect to 'stagger-up' for exit to be safe and clean.
+            newWrapper.setAttribute('data-effect', 'stagger-up');
+            
+            newWrapper.style.display = 'flex';
+            newWrapper.setAttribute('data-state', 'loading');
+            
+            void newWrapper.offsetWidth;
+            
+            requestAnimationFrame(() => {
+                 newWrapper.setAttribute('data-state', 'loaded');
+            });
+            
+            setTimeout(() => {
+                newWrapper.style.display = 'none';
+                newWrapper.removeAttribute('data-state');
+                document.documentElement.classList.remove('is-navigating');
+            }, 1000); 
+        } else {
+             document.documentElement.classList.remove('is-navigating');
+        }
+    });
+</script>
+
+<style>
+    /* Wrapper handles z-index and visibility */
+    .page-trans-wrap {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: 20002;
+        display: none;
+        pointer-events: none;
+        /* Flex for centering text */
+        align-items: center;
+        justify-content: center;
+    }
+    .page-trans-wrap[data-state="loading"] {
+        pointer-events: all;
+    }
+
+    /* Common Layer Styles */
+    .curtain-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        will-change: transform;
+    }
+
+    .layer-accent {
+        background-color: rgb(var(--accent)); /* Uses theme accent */
+        z-index: 1;
+    }
+    
+    .layer-primary {
+        background-color: var(--black); /* Default Day Mode Black */
+        z-index: 2;
+    }
+
+    .trans-content {
+        z-index: 3;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* -----------------------------------------------------
+       EFFECT 1: STAGGER UP (Classic + Accent Trail)
+    ----------------------------------------------------- */
+    /* Start: Both below */
+    [data-effect="stagger-up"] .curtain-layer {
+        transform: translateY(100%);
+        transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+    }
+    
+    /* Loading: Both slide up to 0. Accent leads slightly? Or Primary covers accent? */
+    /* Let's have Primary cover Accent. */
+    [data-effect="stagger-up"][data-state="loading"] .layer-accent {
+        transform: translateY(0%);
+        transition-delay: 0s;
+    }
+    [data-effect="stagger-up"][data-state="loading"] .layer-primary {
+        transform: translateY(0%);
+        transition-delay: 0.1s; /* Enters 100ms after accent (Accent peeks out top? No accent is behind) */
+        /* If Accent is behind z-index 1, and Primary z-index 2. 
+           We want Accent to appear first? Then Primary covers it.
+        */
+    }
+    
+    /* Exit: Slide up to -100%. Primary leaves first? Or Accent? */
+    [data-effect="stagger-up"][data-state="loaded"] .layer-primary {
+        transform: translateY(-100%);
+        transition-delay: 0s;
+    }
+    [data-effect="stagger-up"][data-state="loaded"] .layer-accent {
+        transform: translateY(-100%);
+        transition-delay: 0.15s; /* Accent trails behind, creating a flash of color */
+    }
+
+    /* -----------------------------------------------------
+       EFFECT 2: STAGGER DOWN (Inverse)
+    ----------------------------------------------------- */
+    [data-effect="stagger-down"] .curtain-layer {
+        transform: translateY(-100%);
+        transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+    }
+    [data-effect="stagger-down"][data-state="loading"] .layer-accent {
+        transform: translateY(0%);
+        transition-delay: 0s;
+    }
+    [data-effect="stagger-down"][data-state="loading"] .layer-primary {
+        transform: translateY(0%);
+        transition-delay: 0.1s;
+    }
+    /* Exit: Slide DOWN to 100% */
+    [data-effect="stagger-down"][data-state="loaded"] .layer-primary {
+        transform: translateY(100%);
+        transition-delay: 0s;
+    }
+    [data-effect="stagger-down"][data-state="loaded"] .layer-accent {
+        transform: translateY(100%);
+        transition-delay: 0.15s;
+    }
+
+    /* -----------------------------------------------------
+       EFFECT 3: WIPE RIGHT
+    ----------------------------------------------------- */
+    [data-effect="wipe-right"] .curtain-layer {
+        transform: translateX(-100%);
+        transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+    }
+    [data-effect="wipe-right"][data-state="loading"] .layer-accent {
+        transform: translateX(0%);
+        transition-delay: 0s;
+    }
+    [data-effect="wipe-right"][data-state="loading"] .layer-primary {
+        transform: translateX(0%);
+        transition-delay: 0.1s;
+    }
+    [data-effect="wipe-right"][data-state="loaded"] .layer-primary {
+        transform: translateX(100%);
+        transition-delay: 0s;
+    }
+    [data-effect="wipe-right"][data-state="loaded"] .layer-accent {
+        transform: translateX(100%);
+        transition-delay: 0.15s;
+    }
+
+    /* -----------------------------------------------------
+       EFFECT 4: SHUTTER Y (Requires clip-path or complex transform)
+       We will simulate Shutter Y by just doing a Split Slide using clip-path?
+       No, let's stick to transforms. Maybe "Curtain Close" -> Sides in.
+       Actually, let's skip complex Shutter for now and stick to directional wipes which are solid.
+    ----------------------------------------------------- */
+    /* Reusing logic for Shutter as simple 'Fade Zoom' maybe? */
+    /* Let's define Shutter Y as just a Stagger Down to vary it up */
+    [data-effect="shutter-y"] .curtain-layer {
+         /* Just alias to stagger-down for now, or maybe make it Side Wipe Left */
+         transform: translateX(100%);
+        transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+    }
+    [data-effect="shutter-y"][data-state="loading"] .layer-accent {
+        transform: translateX(0%);
+        transition-delay: 0s;
+    }
+    [data-effect="shutter-y"][data-state="loading"] .layer-primary {
+        transform: translateX(0%);
+        transition-delay: 0.1s;
+    }
+    [data-effect="shutter-y"][data-state="loaded"] .layer-primary {
+        transform: translateX(-100%);
+        transition-delay: 0s;
+    }
+    [data-effect="shutter-y"][data-state="loaded"] .layer-accent {
+        transform: translateX(-100%);
+        transition-delay: 0.15s;
+    }
+
+    /* TEXT ANIMATION */
+    .loader-text {
+        font-family: var(--font-heading, sans-serif);
+        font-size: 4rem;
+        font-weight: 900;
+        font-style: italic;
+        color: #fff;
+        opacity: 0;
+        transform: scale(1.1);
+        transition: all 0.5s ease 0.2s; /* Delay text in */
+        mix-blend-mode: exclusion; /* Cool effect */
+    }
+    
+    [data-state="loading"] .loader-text {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* THEME OVERRIDES */
+    /* Force specific colors for layers */
+    
+    /* Modern Day: White Primary, Red Accent, Black Text */
+    :global(html[data-theme='modern']) .layer-primary { background-color: #ffffff; }
+    :global(html[data-theme='modern']) .layer-accent { background-color: rgb(220, 50, 47); }
+    :global(html[data-theme='modern']) .loader-text { 
+        color: #000000; 
+        mix-blend-mode: normal; 
+    }
+    
+    /* Nord Night: Dark Primary, Cyan Accent */
+    :global(html[data-theme='nord']) .layer-primary { background-color: #2e3440; }
+    :global(html[data-theme='nord']) .layer-accent { background-color: #88c0d0; }
+    :global(html[data-theme='nord']) .loader-text { color: #eceff4; } /* White text for dark bg */
+
+    /* Global Transitions Disable */
+    :global(html.is-navigating::view-transition-group(root)) { animation: none !important; }
+    :global(html.is-navigating::view-transition-old(root)),
+    :global(html.is-navigating::view-transition-new(root)) { animation: none !important; display: none !important; }
+</style>

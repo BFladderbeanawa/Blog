@@ -1,11 +1,270 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import VisitorWidgets from '../components/VisitorWidgets.astro';
+import { getCollection } from 'astro:content';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const posts = (await getCollection('blog')).sort(
+	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const latestPosts = posts.slice(0, 3);
 ---
 
 <Layout>
-	<Welcome />
+	<main>
+        
+        <!-- 1. Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>你好，我是 <span class="text-gradient">BFladderbean</span></h1>
+                <p class="slogan">记录技术成长，也记录生活中的碎碎念。</p>
+            </div>
+        </section>
+
+        <!-- 2. Recent Articles -->
+        <section class="featured-posts">
+            <div class="section-header">
+                <h2>最新文章</h2>
+                <a href="/blog" class="view-all-link">
+                    <span class="link-text">查看全部文章</span>
+                    <span class="link-arrow">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="square"/>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+            
+            <div class="posts-list">
+                {latestPosts.map((post) => (
+                    <PostCard post={post} />
+                ))}
+            </div>
+        </section>
+
+        <!-- 3. Start Here CTA -->
+        <section class="start-here-cta">
+            <div class="cta-card">
+                <div class="cta-text">
+                    <h2>第一次来？</h2>
+                    <p>不知道从哪里看起？这里有一份阅读指南，带你快速了解这里的一切。</p>
+                </div>
+                <div class="cta-action">
+                    <a href="/start-here" class="btn-primary">阅读指南</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Visitor Stats -->
+        <section class="stats-section">
+            <VisitorWidgets />
+        </section>
+
+	</main>
 </Layout>
+
+<style>
+	main {
+		margin: 0 auto;
+		width: 100%;
+        max-width: 960px;
+        padding: 0 1rem;
+	}
+
+    /* Hero Section */
+    .hero {
+        padding: 4rem 0 3rem 0;
+        text-align: left;
+    }
+    .hero h1 {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 0.5rem;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        color: var(--heading-color);
+    }
+    .text-gradient {
+        color: rgb(var(--accent));
+    }
+    .slogan {
+        font-size: 1.4rem;
+        color: var(--text-color);
+        opacity: 0.8;
+        font-weight: 400;
+        max-width: 600px;
+    }
+
+    /* Section Headers */
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 2rem;
+        border-bottom: 2px solid rgba(0,0,0,0.05);
+        padding-bottom: 0.5rem;
+    }
+    .section-header h2 {
+        font-size: 1.8rem;
+        margin: 0;
+        color: var(--heading-color);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+    
+    /* Modern View All Link */
+    .view-all-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--gray);
+        text-decoration: none;
+        position: relative;
+        padding-bottom: 2px;
+        transition: color 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .view-all-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px; /* Place below the text */
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .view-all-link:hover {
+        color: rgb(var(--heading-color)); /* Darken on hover instead of accent for high-end feel, or use accent */
+    }
+    
+    .view-all-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+    
+    .link-arrow {
+        display: inline-flex;
+        align-items: center;
+        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    
+    .view-all-link:hover .link-arrow {
+        transform: translateX(4px);
+    }
+
+    /* Posts List */
+    .posts-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 4rem;
+    }
+
+    /* CTA Section */
+    .start-here-cta {
+        margin-bottom: 4rem;
+    }
+    .cta-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        padding: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+    .cta-text h2 {
+        margin-top: 0;
+        font-size: 1.6rem;
+        color: var(--heading-color);
+    }
+    .cta-text p {
+        margin: 0;
+        font-size: 1.1rem;
+        color: var(--gray);
+    }
+    .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgb(var(--accent));
+        color: #fff;
+        padding: 0.8rem 2rem;
+        border-radius: 0;
+        font-weight: 600;
+        text-decoration: none;
+        letter-spacing: 0.05em;
+        position: relative;
+        overflow: hidden;
+        transition: padding 0.3s ease; /* subtle movement */
+        z-index: 1;
+        /* Initial state compatible with non-hover */
+        box-shadow: 0 0 0 transparent;
+    }
+
+    .btn-primary::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+        transform: translateX(-100%);
+        transition: 0.6s;
+        z-index: -1;
+    }
+
+    .btn-primary:hover {
+        /* Premium colored shadow, no black */
+        box-shadow: 0 10px 25px -10px rgba(var(--accent), 0.6);
+        transform: translateY(-2px);
+        color: #fff;
+    }
+
+    .btn-primary:hover::before {
+        transform: translateX(100%);
+    }
+
+    /* Add a subtle scale/smoother transition logic on the element itself */
+    .btn-primary {
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                    box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    /* Stats Section */
+    .stats-section {
+        margin-bottom: 4rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        .slogan {
+            font-size: 1.1rem;
+        }
+        .cta-card {
+            flex-direction: column;
+            text-align: center;
+            align-items: stretch;
+        }
+        .cta-action {
+            margin-top: 1rem;
+        }
+    }
+    
+    /* Dark Mode Adjustments */
+    :global(html[data-theme='nord']) .section-header {
+        border-bottom-color: rgba(255,255,255,0.1);
+    }
+</style>

@@ -1,0 +1,74 @@
+---
+const { pathname } = Astro.url;
+const isActive = (path: string) => {
+    if (path === '/') return pathname === '/';
+    return pathname.startsWith(path);
+};
+---
+<header>
+	<nav>
+		<h2><a href="/">My Blog <sup>v2</sup></a></h2>
+		<div class="internal-links">
+			<a href="/" class={isActive('/') ? 'active' : ''}>首页</a>
+			<a href="/start-here" class={isActive('/start-here') ? 'active' : ''}>从这里开始</a>
+			<a href="/blog" class={isActive('/blog') ? 'active' : ''}>博客</a>
+			<a href="/about" class={isActive('/about') ? 'active' : ''}>关于</a>
+		</div>
+		<div class="search-bar">
+			<a href="/search" aria-label="Search">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+			</a>
+		</div>
+	</nav>
+</header>
+<style>
+	header {
+		margin: 0;
+		padding: 0 1em;
+		background: var(--card-bg);
+		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+	}
+	h2 {
+		margin: 0;
+		font-size: 1em;
+	}
+
+	h2 a,
+	h2 a.active {
+		text-decoration: none;
+	}
+	nav {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	nav a {
+		padding: 1em 0.5em;
+		color: var(--black);
+		border-bottom: 4px solid transparent;
+		text-decoration: none;
+        transition: all 0.2s ease;
+	}
+	nav a.active {
+		text-decoration: none;
+		border-bottom-color: rgb(var(--accent));
+		color: rgb(var(--accent));
+        font-weight: 700;
+	}
+	nav a:hover {
+		color: rgb(var(--accent));
+	}
+	.internal-links {
+		display: flex;
+	}
+	.search-bar a {
+		display: flex;
+		align-items: center;
+		padding: 0.5rem;
+	}
+	@media (max-width: 720px) {
+		.internal-links {
+			display: none; /* Mobile menu needed ideally, for now hidden on small screens or wrap */
+		}
+	}
+</style>

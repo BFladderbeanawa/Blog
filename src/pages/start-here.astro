@@ -1,0 +1,334 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+import featuredSlugs from '../featured-posts.json';
+
+// Get all posts
+const allPosts = await getCollection('blog');
+
+// Select featured posts based on the JSON configuration
+// This allows manual control over which posts appear and their order
+let featuredPosts = allPosts.filter(post => featuredSlugs.includes(post.slug));
+
+// Sort according to the order defined in featured-posts.json
+featuredPosts.sort((a, b) => {
+    return featuredSlugs.indexOf(a.slug) - featuredSlugs.indexOf(b.slug);
+});
+
+// Fallback: If no valid posts found (or config is empty), show latest 3
+if (featuredPosts.length === 0) {
+    featuredPosts = allPosts
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+        .slice(0, 3);
+}
+
+// Get unique categories
+const categories = [...new Set(allPosts.map((post) => post.data.category).filter(Boolean))];
+
+const title = "从这里开始";
+---
+
+<Layout title={title} description="新访客阅读指引">
+	<main>
+        <!-- Hero Section -->
+        <section class="intro-hero animate-in">
+		    <div class="hero-content">
+                <h1>欢迎来到我的数字花园</h1>
+                <p class="lead">
+                    很高兴见到你！这里汇集了我对技术、设计和生活的思考。
+                    如果你是初次访问，这里有一份精心准备的阅读指南，帮助你快速找到感兴趣的内容。
+                </p>
+            </div>
+        </section>
+
+        <!-- Topic Clouds -->
+        <section class="section-block animate-in" style="animation-delay: 100ms;">
+             <div class="section-header">
+                <h2 class="section-title">
+                    按主题探索
+                </h2>
+            </div>
+            <div class="category-cloud">
+                {categories.map(cat => (
+                    <a href={`/category/${cat}`} class="cat-pill">
+                        {cat}
+                    </a>
+                ))}
+                <a href="/category" class="cat-pill more">全部分类 &rarr;</a>
+            </div>
+        </section>
+
+        <!-- Timeline / Roadmap -->
+        <section class="section-block animate-in" style="animation-delay: 200ms;">
+            <div class="section-header">
+               <h2 class="section-title">
+                   建议路径
+               </h2>
+           </div>
+           
+           <div class="roadmap-grid">
+               <div class="roadmap-card">
+                   <div class="step-number">01</div>
+                   <h3>认识博主</h3>
+                   <p>阅读 <a href="/about">关于页面</a>，了解我的背景、技能栈以及这个博客建立的初衷。</p>
+               </div>
+               <div class="roadmap-card">
+                   <div class="step-number">02</div>
+                   <h3>核心技术</h3>
+                   <p>深入探讨前端工程化、Astro 框架实战以及现代 Web 开发体验。</p>
+               </div>
+               <div class="roadmap-card">
+                   <div class="step-number">03</div>
+                   <h3>随笔思考</h3>
+                   <p>除了代码，我也记录关于生产力工具、阅读和生活的碎片化思考。</p>
+               </div>
+           </div>
+       </section>
+
+        <!-- Featured Posts -->
+		<section class="section-block animate-in" style="animation-delay: 300ms;">
+            <div class="section-header">
+                <h2 class="section-title">
+                    最新精选
+                </h2>
+                <p class="section-desc">不知道读什么？先来看看最近的更新。</p>
+            </div>
+            <div class="featured-grid">
+			    {featuredPosts.map((post) => (
+				    <div class="post-wrapper">
+                        <PostCard post={post} />
+                    </div>
+			    ))}
+            </div>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	main {
+		width: 1000px;
+		max-width: 100%;
+		margin: 0 auto;
+		padding: 3rem 1.5rem;
+	}
+
+    /* Common Animation */
+    .animate-in {
+        opacity: 0;
+        animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Section */
+    .intro-hero {
+        text-align: center;
+        margin-bottom: 4rem;
+        padding: 2rem 0;
+        border-bottom: 1px dashed var(--border-color);
+    }
+    
+    /* Eyebrow removed */
+
+    .hero-content h1 {
+        font-size: 3rem;
+        margin: 0 0 1.5rem 0;
+        color: var(--heading-color);
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+    }
+    
+    .lead {
+        font-size: 1.2rem;
+        line-height: 1.7;
+        color: var(--text-color);
+        max-width: 600px;
+        margin: 0 auto;
+        opacity: 0.9;
+    }
+
+    /* Section Blocks */
+    .section-block {
+        margin-bottom: 5rem;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+        margin: 0 0 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--heading-color);
+    }
+
+    .section-desc {
+        font-size: 1.05rem;
+        color: var(--gray);
+        margin: 0;
+        max-width: 600px;
+    }
+
+    /* Category Clouds */
+    .category-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .cat-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 16px;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius); /* Adapts to theme (0px for Day, 8px for Night) */
+        color: var(--heading-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+
+    .cat-pill:hover {
+        transform: translateY(-2px);
+        border-color: rgb(var(--accent));
+        color: rgb(var(--accent));
+        box-shadow: 0 4px 12px rgba(var(--accent), 0.15);
+    }
+    
+    .cat-pill.more {
+        background: transparent;
+        border-color: transparent;
+        color: var(--gray);
+        box-shadow: none;
+    }
+    .cat-pill.more:hover {
+        color: rgb(var(--accent));
+    }
+
+    /* Roadmap Grid */
+    .roadmap-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .roadmap-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius);
+        padding: 2rem 1.8rem;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                    box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                    border-color 0.4s ease;
+    }
+    
+    .roadmap-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgb(var(--accent));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 2;
+    }
+
+    .roadmap-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        border-color: transparent;
+    }
+
+    .roadmap-card:hover::before {
+        transform: scaleX(1);
+    }
+    
+    .roadmap-card:hover .step-number {
+        /* On hover, fill slightly but keep it subtle */
+        -webkit-text-stroke-color: rgba(var(--accent), 0.5); /* Stronger accent stroke */
+        opacity: 0.4; /* Stronger opacity */
+        transform: scale(1.1) translateX(10px);
+    }
+
+    .step-number {
+        position: absolute;
+        top: -10px;
+        right: 15px;
+        font-size: 8rem;
+        line-height: 1;
+        font-weight: 900;
+        font-family: var(--font-mono);
+        
+        /* Hollow Text Strategy for Premium Look */
+        color: transparent;
+        -webkit-text-stroke: 2px var(--border-color); 
+        opacity: 0.5; /* Increased from 0.1 for better visibility */
+        
+        z-index: 0;
+        pointer-events: none;
+        transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .roadmap-card h3 {
+        position: relative;
+        z-index: 1;
+        margin: 0 0 1rem 0;
+        font-size: 1.4rem;
+        color: var(--heading-color);
+    }
+
+    .roadmap-card p {
+        position: relative;
+        z-index: 1;
+        margin: 0;
+        line-height: 1.6;
+        color: var(--text-color);
+    }
+    
+    .roadmap-card a {
+        color: rgb(var(--accent));
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        text-underline-offset: 2px;
+    }
+
+    /* Featured Posts */
+    .featured-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+    
+    .post-wrapper {
+        height: 100%;
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 2.2rem;
+        }
+        .section-desc, .category-cloud, .featured-grid, .roadmap-grid {
+            margin-left: 0;
+        }
+        main {
+            padding: 2rem 1rem;
+        }
+        .roadmap-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
