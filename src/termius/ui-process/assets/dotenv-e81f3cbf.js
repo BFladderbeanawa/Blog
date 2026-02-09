@@ -1,0 +1,2 @@
+const e="Loads environment variables from .env",t="dotenv",n=[{isCommand:!0}],s=[{description:"List of env files to parse",name:"-f",args:[{template:["filepaths"]}]},{description:"Display help",name:["-h","--help"]},{description:"Show version",name:["-v","--version"]},{description:"Create a template env file",name:["-t","--template"],args:[{template:["filepaths"]}]}],o={description:e,name:t,args:n,options:s};export{n as args,o as default,e as description,t as name,s as options};
+//# sourceMappingURL=dotenv-e81f3cbf.js.map

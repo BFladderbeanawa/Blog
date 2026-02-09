@@ -1,0 +1,4133 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>AP Physics C</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="apricot.main.css" rel="stylesheet" />
+    <script src="prevent-right-click.js"></script>
+    <script id="MathJax-script" src="/mathjax/tex-mml-chtml.js"></script>
+    <script src="apricot.main.js"></script>
+    <script src="keyboard-close.js"></script>
+    <link rel="stylesheet" type="text/css" href="/fonts/NotoSerif.css" />
+    <link rel="stylesheet" type="text/css" href="/fonts/CourierPrime.css" />
+    <link rel="stylesheet" type="text/css" href="tts.css" />
+
+    <style>
+      /**
+        * This approach with html and body is to accommodate older versions of
+        * iOS 15.4-15.8.1 not being able to use scrollTo on the <html> tag in the iFrame.
+      */
+      html {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        /* Safari fix, noted above */
+        height: 100%;
+        overflow: auto;
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <main id="reference-sheet" role="main">
+      <div id="reference-sheet-accordion" class="cb-accordion" data-cb-apricot="accordion">
+        <!-- Controllers -->
+        <div class="cb-accordion-controls cb-white-bg">
+          <div class="cb-accordion-buttons">
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-expand">Expand All</button>
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-collapse">Collapse All</button>
+          </div>
+        </div>
+
+        <!-- list items container -->
+        <div class="cb-accordion-panels">
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Constants and Conversion Factors </span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel cb-gray1-gradient-top transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6 col-md-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Proton mass</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="m, sub p, equals 1.67 times 10 raised to the power negative 27 kilograms">
+                          <msub>
+                            <mi>m</mi>
+                            <mi>p</mi>
+                          </msub>
+                          <mo>=</mo>
+                          <mn>1.67</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>27</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>kg</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Neutron mass</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="m, sub n, equals 1.67 times 10 raised to the power negative 27 kilograms">
+                          <msub>
+                            <mi>m</mi>
+                            <mi>n</mi>
+                          </msub>
+                          <mo>=</mo>
+                          <mn>1.67</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>27</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>kg</mi>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Electron mass</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="m, sub e, equals 9.11 times 10 raised to the power negative 31 kilograms">
+                          <msub>
+                            <mi>m</mi>
+                            <mi>e</mi>
+                          </msub>
+                          <mo>=</mo>
+                          <mn>9.11</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>31</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>kg</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Avogadro’s number</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase N, sub 0, equals 6.02 times 10 raised to the power 23 moles raised to the negative 1">
+                          <msub>
+                            <mi>N</mi>
+                            <mn>0</mn>
+                          </msub>
+                          <mo>=</mo>
+                          <mn>6.02</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mn>23</mn>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <msup>
+                            <mi>mol</mi>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>1</mn>
+                            </mrow>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-4">
+                    <div>
+                      <div class="cb-margin-16">
+                        <h3 class="cb-font-weight-bold cb-padding-bottom-8">Universal gas constant</h3>
+                        <div class="cb-padding-bottom-8">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                            alttext="Uppercase R equals 8.31 Joules per moles kelvin">
+                            <mi>R</mi>
+                            <mo>=</mo>
+                            <mn>8.31</mn>
+                            <mo>&#xA0;</mo>
+                            <mi>J/(mol&#xB7;K)</mi>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="cb-margin-16">
+                        <h3 class="cb-font-weight-bold cb-padding-bottom-8">Boltzmann's constant</h3>
+                        <div class="cb-padding-bottom-8">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                            alttext="k, sub uppercase B, equals 1.38 times 10 raised to the power negative 23 Joules per Kelvin">
+                            <msub>
+                              <mi>k</mi>
+                              <mi>B</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mn>1.38</mn>
+                            <mo>&#xD7;</mo>
+                            <msup>
+                              <mn>10</mn>
+                              <mrow>
+                                <mo>-</mo>
+                                <mn>23</mn>
+                              </mrow>
+                            </msup>
+                            <mo>&#xA0;</mo>
+                            <mi>J/K</mi>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom">
+                <div class="row">
+                  <div class="col-xs-12 col-md-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Electron charge magnitude</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="e equals 1.60 times 10 raised to the power negative 19 coulombs">
+                          <mi>e</mi>
+                          <mo>=</mo>
+                          <mn>1.60</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>19</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi mathvariant="normal">C</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">1 electron volt</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="1 e V equals 1.60 times 10 raised to the power negative 19 Joules">
+                          <mn>1</mn>
+                          <mo>&#xA0;</mo>
+                          <mi>eV</mi>
+                          <mo>=</mo>
+                          <mn>1.60</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>19</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi mathvariant="normal">J</mi>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Speed of Light</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="c equals 3.00 times 10 raised to the power 8 meters per second">
+                          <mi>c</mi>
+                          <mo>=</mo>
+                          <mn>3.00</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mn>8</mn>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>m/s</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Universal gravitational constant</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase G equals 6.67 times 10 raised to the power negative 11 meters cubed per kilogram second squared">
+                          <mi>G</mi>
+                          <mo>=</mo>
+                          <mn>6.67</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>11</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mfenced>
+                            <mrow>
+                            <msup>
+                              <mi>N&#xB7;m</mi>
+                              <mn>2</mn>
+                            </msup>
+                            </mrow>
+                          </mfenced>
+                          <mo>/</mo>
+                          <msup>
+                            <mrow>
+                              <mi>kg</mi>
+                            </mrow>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-md-4">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Magnitude of the acceleration due to gravity at Earth's surface
+                      </h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="g equals 9.8 meters per second squared">
+                          <mi>g</mi>
+                          <mo>=</mo>
+                          <mn>9.8</mn>
+                          <mo>&#xA0;</mo>
+                          <mi>m/</mi>
+                          <msup>
+                            <mi mathvariant="normal">s</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="row">
+                  <div class="col-xs-12 col-md-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">1 unified atomic mass unit</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="1 u equals, 1.66 times 10 raised to the power of negative 27 kilograms, which equals 931 mega electron volts, over the speed of light squared">
+                          <mn>1</mn>
+                          <mo>&#xA0;</mo>
+                          <mi mathvariant="normal">u</mi>
+                          <mo>=</mo>
+                          <mn>1.66</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>27</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>kg</mi>
+                          <mo>=</mo>
+                          <mn>931</mn>
+                          <mo>&#xA0;</mo>
+                          <mi>MeV</mi>
+                          <mo>/</mo>
+                          <msup>
+                            <mi>c</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Planck’s constant</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="h equals 6.63 times 10 raised to the power negative 34 Joule seconds which equals 4.14 times 10 raised to the power negative 15 electronvolt seconds">
+                          <mi>h</mi>
+                          <mo>=</mo>
+                          <mn>6.63</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>34</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>J&#xB7;s</mi>
+                          <mo>=</mo>
+                          <mn>4.14</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>15</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>eV&#xB7;s</mi>
+                        </math>
+                      </div>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="h c equals 1.99 times 10 raised to the power negative 25 Joule meters which equals 1.24 times 10 raised to the power 3 electronvolt nanometers">
+                          <mi>h</mi>
+                          <mi>c</mi>
+                          <mo>=</mo>
+                          <mn>1.99</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>25</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>J&#xB7;m</mi>
+                          <mo>=</mo>
+                          <mn>1.24</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mn>3</mn>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>eV&#xB7;nm</mi>
+                        </math>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Vacuum permittivity</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="epsilon, sub 0, equals 8.85 times 10 raised to the power negative 12 coulombs squared per newton meter squared">
+                          <msub>
+                            <mi>&#x3B5;</mi>
+                            <mn>0</mn>
+                          </msub>
+                          <mo>=</mo>
+                          <mn>8.85</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>12</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <msup>
+                            <mi mathvariant="normal">C</mi>
+                            <mn>2</mn>
+                          </msup>
+                          <mo>/</mo>
+                          <mfenced>
+                            <mrow>
+                            <msup>
+                              <mi>N&#xB7;m</mi>
+                              <mn>2</mn>
+                            </msup>
+                            </mrow>
+                          </mfenced>
+                        </math>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-xs-12 col-md-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Coulomb’s law constant</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="k equals 1 over 4 pi epsilon, sub 0, which equals 9.0 times 10 raised to the power 9 newton meters squared per coulombs squared">
+                          <mi>k</mi>
+                          <mo>=</mo>
+                          <mn>1</mn>
+                          <mo>/</mo>
+                          <mfenced>
+                            <mrow>
+                              <mn>4</mn>
+                              <mi>&#x3C0;</mi>
+                              <msub>
+                                <mi>&#x3B5;</mi>
+                                <mn>0</mn>
+                              </msub>
+                            </mrow>
+                          </mfenced>
+                          <mo>=</mo>
+                          <mn>9.0</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mn>9</mn>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mfenced>
+                            <mrow>
+                            <msup>
+                              <mi>N&#xB7;m</mi>
+                              <mn>2</mn>
+                            </msup>
+                            </mrow>
+                          </mfenced>
+                          <msup>
+                            <mi>/C</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Vacuum permeability</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="mu, sub 0, equals 4 pi times 10 raised to the power negative 7 tesla meters per amperes">
+                          <msub>
+                            <mi>&#x3BC;</mi>
+                            <mn>0</mn>
+                          </msub>
+                          <mo>=</mo>
+                          <mn>4</mn>
+                          <mi>&#x3C0;</mi>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>7</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mfenced>
+                            <mi>T&#xB7;m</mi>
+                          </mfenced>
+                          <mi>/A</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Magnetic constant</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="k prime equals mu, sub 0, over 4 pi which equals 1 times 10 raised to the power negative 7 tesla meters per amperes">
+                          <msup>
+                            <mi>k</mi>
+                            <mo>'</mo>
+                          </msup>
+                          <mo>=</mo>
+                          <msub>
+                            <mi>&#x3BC;</mi>
+                            <mn>0</mn>
+                          </msub>
+                          <mo>/</mo>
+                          <mfenced>
+                            <mrow>
+                              <mn>4</mn>
+                              <mi>&#x3C0;</mi>
+                            </mrow>
+                          </mfenced>
+                          <mo>=</mo>
+                          <mn>1</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mrow>
+                              <mo>-</mo>
+                              <mn>7</mn>
+                            </mrow>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mfenced>
+                            <mi>T&#xB7;m</mi>
+                          </mfenced>
+                          <mi>/A</mi>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-md-4">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">1 atmosphere pressure</h3>
+                      <div class="cb-padding-bottom-8">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="1 a t m equals 1.0 times 10 raised to the power 5 Newton per meters squared which equals 1.0 times 10 raised to the power 5 pascals">
+                          <mn>1</mn>
+                          <mo>&#xA0;</mo>
+                          <mi>atm</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mn>1.0</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mn>5</mn>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <msup>
+                            <mi>N/m</mi>
+                            <mn>2</mn>
+                          </msup>
+                          <mo>=</mo>
+                          <mn>1.0</mn>
+                          <mo>&#xD7;</mo>
+                          <msup>
+                            <mn>10</mn>
+                            <mn>5</mn>
+                          </msup>
+                          <mo>&#xA0;</mo>
+                          <mi>Pa</mi>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Unit Symbols </span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel cb-gray1-gradient-top transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <span class="text-stix">m</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;
+
+                      meter
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">kg</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;
+
+                      kilogram
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">s</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;
+
+                      second
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">A</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      ampere
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">K</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      kelvin
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">mol</span>
+
+                      &nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      mole
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">Hz</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      hertz
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <span class="text-stix">N</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      newton
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">Pa</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      pascal
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">J</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      joule
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">W</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      watt
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">C</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      coulomb
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">V</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      volt
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">&#8486;</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      ohm
+                    </div>
+
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <div class="cb-margin-16">
+                      <span class="text-stix">H</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      henry
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">F</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      farad
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">T</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      tesla
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">&deg;C</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      degree Celsius
+                    </div>
+                    <div class="cb-margin-16">
+                      <span class="text-stix">eV</span>
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;&nbsp;&nbsp;&nbsp;
+
+                      electron volt
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Prefixes </span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-margin-8 cb-margin-top-16 cb-margin-bottom-16 ap-custom-scroll">
+                  <table class="cb-table cb-white-bg table-width">
+                    <thead>
+                      <tr>
+                        <th scope="col">Factor</th>
+                        <th scope="col">Prefix</th>
+                        <th scope="col">Symbol</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power 9">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>9</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          giga
+                        </td>
+                        <td>
+                          <span class="text-stix">G</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power 6">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>6</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          mega
+                        </td>
+                        <td>
+                          <span class="text-stix">M</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power 3">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>3</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          kilo
+                        </td>
+                        <td>
+                          <span class="text-stix">k</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power negative 2">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>-2</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          centi
+                        </td>
+                        <td>
+                          <span class="text-stix">c</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power negative 3">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>-3</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          milli
+                        </td>
+                        <td>
+                          <span class="text-stix">m</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power negative 6">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>-6</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          micro
+                        </td>
+                        <td>
+                          <span class="text-stix">&mu;</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power negative 9">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>-9</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          nano
+                        </td>
+                        <td>
+                          <span class="text-stix">n</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="10 raised to the power negative 12">
+                            <msup>
+                              <mn>10</mn>
+                              <mn>-12</mn>
+                            </msup>
+                          </math></th>
+                        <td>
+                          pico
+                        </td>
+                        <td>
+                          <span class="text-stix">p</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Values of Trigonometric Functions for Common Angles</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-margin-8 cb-margin-top-16 cb-margin-bottom-16 ap-custom-scroll">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="Theta">
+                            <mi>&#x3B8;</mi>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="0 degrees">
+                            <mn>0</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="30 degrees">
+                            <mn>30</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="37 degrees">
+                            <mn>37</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="45 degrees">
+                            <mn>45</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="53 degrees">
+                            <mn>53</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="60 degrees">
+                            <mn>60</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                        <th scope="col">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="90 degrees">
+                            <mn>90</mn>
+                            <mo>&#xB0;</mo>
+                          </math>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="sin theta">
+                            <mo>sin</mo>
+                            <mi>&#x3B8;</mi>
+                          </math>
+                        </th>
+                        <td>
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="0">
+                            <mo>0</mo>
+                          </math>
+                        </td>
+                        <td>
+                          <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="one half">
+                            <mfrac bevelled="true">
+                              <mn>1</mn>
+                              <mn>2</mn>
+                            </mfrac>
+                          </math>
+                        </td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="3 over 5">
+                            <mfrac bevelled="true">
+                              <mn>3</mn>
+                              <mn>5</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="square root 2 over 2">
+                            <mfrac bevelled="true">
+                              <msqrt>
+                                <mn>2</mn>
+                              </msqrt>
+                              <mn>2</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="4 over 5">
+                            <mfrac bevelled="true">
+                              <mn>4</mn>
+                              <mn>5</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="square root 3 over 2">
+                            <mfrac bevelled="true">
+                              <msqrt>
+                                <mn>3</mn>
+                              </msqrt>
+                              <mn>2</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="1">
+                            <mo>1</mo>
+                          </math></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"> <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="cosine theta">
+                            <mo>cos</mo>
+                            <mi>&#x3B8;</mi>
+                          </math></th>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="1">
+                            <mo>1</mo>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="square root 3 over 2">
+                            <mfrac bevelled="true">
+                              <msqrt>
+                                <mn>3</mn>
+                              </msqrt>
+                              <mn>2</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="4 over 5">
+                            <mfrac bevelled="true">
+                              <mn>4</mn>
+                              <mn>5</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="square root 2 over 2">
+                            <mfrac bevelled="true">
+                              <msqrt>
+                                <mn>2</mn>
+                              </msqrt>
+                              <mn>2</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="3 over 5">
+                            <mfrac bevelled="true">
+                              <mn>3</mn>
+                              <mn>5</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="one half">
+                            <mfrac bevelled="true">
+                              <mn>1</mn>
+                              <mn>2</mn>
+                            </mfrac>
+                          </math></td>
+                        <td> <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="0">
+                            <mo>0</mo>
+                          </math></td>
+                      </tr>
+                      <tr>
+                        <th scope="row"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="tangent theta">
+                            <mo>tan</mo>
+                            <mi>&#x3B8;</mi>
+                          </math></th>
+                        <td> <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="0">
+                            <mo>0</mo>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="square root 3 over 3">
+                            <mfrac bevelled="true">
+                              <msqrt>
+                                <mn>3</mn>
+                              </msqrt>
+                              <mn>3</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="3 over 4">
+                            <mfrac bevelled="true">
+                              <mn>3</mn>
+                              <mn>4</mn>
+                            </mfrac>
+                          </math></td>
+                        <td> <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="1">
+                            <mo>1</mo>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="4 over 3">
+                            <mfrac bevelled="true">
+                              <mn>4</mn>
+                              <mn>3</mn>
+                            </mfrac>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="square root 3">
+                            <msqrt>
+                              <mn>3</mn>
+                            </msqrt>
+                          </math></td>
+                        <td><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="infinity">
+                            <mo>&#x221E;</mo>
+                          </math></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Exam Conventions</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+
+            <!-- open content -->
+            <div class="cb-accordion-panel cb-gray1-gradient-top transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <!-- content -->
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-margin-16">
+                  <h3 class="cb-font-weight-bold cb-padding-bottom-8">The following conventions are used in this exam.</h3>
+                  <ol class="cb-text-list-no-indent" type="I">
+                    <li>The frame of reference of any problem is inertial unless otherwise stated.</li>
+                    <li>The direction of current is the direction in which positive charges would drift.</li>
+                    <li>The electric potential is zero at an infinite distance from an isolated point charge.</li>
+                    <li>All batteries and meters are ideal unless otherwise stated.</li>
+                    <li>Edge effects for the electric field of a parallel plate capacitor are negligible unless otherwise
+                      stated.</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Mechanics </span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel cb-gray1-gradient-top transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <!-- content -->
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom">
+                <div class="row">
+                  <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="v, sub x, equals v, sub x 0, plus a, sub x, t">
+                        <msub>
+                          <mi>v</mi>
+                          <mi>x</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>v</mi>
+                          <mrow>
+                            <mi>x</mi>
+                            <mn>0</mn>
+                          </mrow>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                          <mi>a</mi>
+                          <mi>x</mi>
+                        </msub>
+                        <mi>t</mi>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="x equals x, sub 0, plus v, sub x 0, t plus one half a, sub x, t squared">
+                        <mi>x</mi>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>x</mi>
+                          <mn>0</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                          <mi>v</mi>
+                          <mrow>
+                            <mi>x</mi>
+                            <mn>0</mn>
+                          </mrow>
+                        </msub>
+                        <mi>t</mi>
+                        <mo>+</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <msub>
+                          <mi>a</mi>
+                          <mi>x</mi>
+                        </msub>
+                        <msup>
+                          <mi>t</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="v, sub x, squared equals v, sub x 0, squared plus 2 a, sub x, left parenthesis x minus x, sub 0, right parenthesis">
+                        <msubsup>
+                          <mi>v</mi>
+                          <mi>x</mi>
+                          <mn>2</mn>
+                        </msubsup>
+                        <mo>=</mo>
+                        <msubsup>
+                          <mi>v</mi>
+                          <mrow>
+                            <mi>x</mi>
+                            <mn>0</mn>
+                          </mrow>
+                          <mn>2</mn>
+                        </msubsup>
+                        <mo>+</mo>
+                        <mn>2</mn>
+                        <msub>
+                          <mi>a</mi>
+                          <mi>x</mi>
+                        </msub>
+                        <mfenced>
+                          <mrow>
+                            <mi>x</mi>
+                            <mo>-</mo>
+                            <msub>
+                              <mi>x</mi>
+                              <mn>0</mn>
+                            </msub>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector a equals the summation of vector uppercase F over m which equals the net vector of uppercase F over m">
+                        <mover>
+                          <mi>a</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mstyle displaystyle="true">
+                                <mo>&#x2211;</mo>
+                            </mstyle>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                          </mrow>
+                          <mi>m</mi>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                          <msub>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mrow>
+                              <mi>n</mi>
+                              <mi>e</mi>
+                              <mi>t</mi>
+                            </mrow>
+                          </msub>
+                          <mi>m</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="Vector F equals the derivative of vector p with respect to t">
+                        <mover>
+                          <mi>F</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mover>
+                              <mi>p</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>t</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector J equals the integral of vector F d t equals delta vector p">
+                        <mover accent="true">
+                          <mi>J</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mo>&#x222B;</mo>
+                        <mover>
+                          <mi>F</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mi>d</mi>
+                        <mi>t</mi>
+                        <mo>=</mo>
+                        <mi>&#x2206;</mi>
+                        <mover>
+                          <mi>p</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="vector p equals m vector v">
+                        <mover>
+                          <mi>p</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mi>m</mi>
+                        <mover>
+                          <mi>v</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="absolute value vector uppercase F, sub f, is less than or equal to mu absolute value vector uppercase F, sub uppercase N">
+                        <mfenced open="|" close="|">
+                          <msub>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mi>f</mi>
+                          </msub>
+                        </mfenced>
+                        <mo>&#x2264;</mo>
+                        <mi>&#x3BC;</mi>
+                        <mfenced open="|" close="|">
+                          <msub>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mi>N</mi>
+                          </msub>
+                        </mfenced>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="delta E equals W which equals the integral of vector F dot vector d r">
+                        <mi>&#x2206;</mi>
+                        <mi>E</mi>
+                        <mo>=</mo>
+                        <mi>W</mi>
+                        <mo>=</mo>
+                        <mo>&#x222B;</mo>
+                        <mover>
+                          <mi>F</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>r</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase K equals one half m v squared">
+                        <mi>K</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>m</mi>
+                        <msup>
+                          <mi>v</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase P equals the derivative of E with respect to t">
+                        <mi>P</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>E</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>t</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase P equals vector F dot vector v">
+                        <mi>P</mi>
+                        <mo>=</mo>
+                        <mover>
+                          <mi>F</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mover>
+                          <mi>v</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="delta U sub g equals m times g, times delta h">
+                        <mi>&#x2206;</mi>
+                        <msub>
+                          <mi>U</mi>
+                          <mi>g</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mi>m</mi>
+                        <mi>g</mi>
+                        <mi>&#x2206;</mi>
+                        <mi>h</mi>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="a sub c equals, the fraction, v squared over r, which equals, omega squared times r">
+                        <msub>
+                          <mi>a</mi>
+                          <mi>c</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mfrac>
+                          <msup>
+                            <mi>v</mi>
+                            <mn>2</mn>
+                          </msup>
+                          <mi>r</mi>
+                        </mfrac>
+                        <mo>=</mo>
+                        <msup>
+                          <mi>&#x3C9;</mi>
+                          <mn>2</mn>
+                        </msup>
+                        <mi>r</mi>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector tau equals vector r, cross, vector F">
+                        <mover>
+                          <mi mathsize="20px">&#x3C4;</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mover>
+                          <mi>r</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xD7;</mo>
+                        <mover>
+                          <mi>F</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector alpha equals the fraction the summation of vector tau over I, which equals the fraction vector tau sub net over I">
+                        <mover>
+                          <mi>&#x3B1;</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mstyle displaystyle="true">
+                                <mo>&#x2211;</mo>
+                            </mstyle>
+                            <mover>
+                              <mi mathsize="20px">&#x3C4;</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                          </mrow>
+                          <mi>I</mi>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                          <msub>
+                            <mover>
+                              <mi mathsize="20px">&#x3C4;</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mrow>
+                              <mi>n</mi>
+                              <mi>e</mi>
+                              <mi>t</mi>
+                            </mrow>
+                          </msub>
+                          <mi>I</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="I equals, the integral of r squared, times, d m, which equals, the summation of m, times r squared">
+                        <mi>I</mi>
+                        <mo>=</mo>
+                        <mo>&#x222B;</mo>
+                        <msup>
+                          <mi>r</mi>
+                          <mn>2</mn>
+                        </msup>
+                        <mi>d</mi>
+                        <mi>m</mi>
+                        <mo>=</mo>
+                          <mo>&#x2211;</mo>
+                        <mi>m</mi>
+                        <msup>
+                          <mi>r</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="x sub c m equals the fraction with numerator the summation of m sub i times x sub i, and denominator the summation of m sub i">
+                        <msub>
+                          <mi>x</mi>
+                          <mrow>
+                            <mi>c</mi>
+                            <mi>m</mi>
+                          </mrow>
+                        </msub>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mstyle displaystyle="true">
+                                <mo>&#x2211;</mo>
+                            </mstyle>
+                            <msub>
+                              <mi>m</mi>
+                              <mi>i</mi>
+                            </msub>
+                            <msub>
+                              <mi>x</mi>
+                              <mi>i</mi>
+                            </msub>
+                          </mrow>
+                          <mrow>
+                            <mstyle displaystyle="true">
+                                <mo>&#x2211;</mo>
+                            </mstyle>
+                            <msub>
+                              <mi>m</mi>
+                              <mi>i</mi>
+                            </msub>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="v equals, r times omega">
+                        <mi>v</mi>
+                        <mo>=</mo>
+                        <mi>r</mi>
+                        <mi>&#x3C9;</mi>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector L equals vector r cross vector p, which equals, I times vector omega">
+                        <mover>
+                          <mi>L</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mover>
+                          <mi>r</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xD7;</mo>
+                        <mover>
+                          <mi>p</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mi>I</mi>
+                        <mover>
+                          <mi>&#x3C9;</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase K equals one half I times omega squared">
+                        <mi>K</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>I</mi>
+                        <msup>
+                          <mi>&#x3C9;</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="omega equals omega, sub 0, plus alpha t">
+                        <mi>&#x3C9;</mi>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>&#x3C9;</mi>
+                          <mn>0</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <mi>&#x3B1;</mi>
+                        <mi>t</mi>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="theta equals theta, sub 0, plus omega, sub 0, t plus one half alpha t squared">
+                        <mi>&#x3B8;</mi>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>&#x3B8;</mi>
+                          <mn>0</mn>
+                        </msub>
+                        <mo>+</mo>
+                        <msub>
+                          <mi>&#x3C9;</mi>
+                          <mn>0</mn>
+                        </msub>
+                        <mi>t</mi>
+                        <mo>+</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>&#x3B1;</mi>
+                        <msup>
+                          <mi>t</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector F sub S equals negative k vector delta x">
+                        <msub>
+                          <mover accent="true">
+                            <mi>F</mi>
+                            <mo>&#x21C0;</mo>
+                          </mover>
+                          <mi>S</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mi>k</mi>
+                        <mi>&#x2206;</mi>
+                        <mover>
+                          <mi>x</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="U sub S equals one half k, open parenthesis delta x close parenthesis, squared">
+                        <msub>
+                          <mi>U</mi>
+                          <mi>S</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>k</mi>
+                        <msup>
+                          <mfenced>
+                            <mrow>
+                              <mi>&#x2206;</mi>
+                              <mi>x</mi>
+                            </mrow>
+                          </mfenced>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="x equals x sub max, times cosine, open parenthesis, omega t plus, phi, close parenthesis">
+                        <mi>x</mi>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>x</mi>
+                          <mi>max</mi>
+                        </msub>
+                        <mi>cos</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>&#x3C9;</mi>
+                            <mi>t</mi>
+                            <mo>+</mo>
+                            <mi>&#x3D5;</mi>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase T equals start fraction 2 pi over omega end fraction which equals 1 over f">
+                        <mi>T</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mn>2</mn>
+                            <mi>&#x3C0;</mi>
+                          </mrow>
+                          <mi>&#x3C9;</mi>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mi>f</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase T, sub s, equals 2 pi square root start fraction m over k">
+                        <msub>
+                          <mi>T</mi>
+                          <mi>s</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mn>2</mn>
+                        <mi>&#x3C0;</mi>
+                        <msqrt>
+                          <mfrac>
+                            <mi>m</mi>
+                            <mi>k</mi>
+                          </mfrac>
+                        </msqrt>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase T, sub p, equals 2 pi square root start fraction l over g">
+                        <msub>
+                          <mi>T</mi>
+                          <mi>p</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mn>2</mn>
+                        <mi>&#x3C0;</mi>
+                        <msqrt>
+                          <mfrac>
+                            <mi>ℓ</mi>
+                            <mi>g</mi>
+                          </mfrac>
+                        </msqrt>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the absolute value of vector F sub G equals uppercase G, times the fraction with numerator m sub 1, times m sub 2, and denominator r squared">
+                        <mfenced open="|" close="|">
+                          <msub>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mi>G</mi>
+                          </msub>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>G</mi>
+                            <msub>
+                              <mi>m</mi>
+                              <mn>1</mn>
+                            </msub>
+                            <msub>
+                              <mi>m</mi>
+                              <mn>2</mn>
+                            </msub>
+                          </mrow>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </mfrac>
+                        <mspace linebreak="newline" />
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="U sub G equals the negative of the fraction with numerator uppercase G times m sub 1, times m sub 2, and denominator, r">
+                        <msub>
+                          <mi>U</mi>
+                          <mi>G</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>G</mi>
+                            <msub>
+                              <mi>m</mi>
+                              <mn>1</mn>
+                            </msub>
+                            <msub>
+                              <mi>m</mi>
+                              <mn>2</mn>
+                            </msub>
+                          </mrow>
+                          <mi>r</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom">
+                <h3 class="cb-margin-left-16 cb-margin-top-16 cb-font-weight-bold">Symbols</h3>
+                <!-- accordion panel -->
+                <div class="row">
+                  <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="lowercase a equals acceleration">
+                        <mi>a</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>acceleration</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase E equals energy">
+                        <mi>E</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>energy</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase F equals force">
+                        <mi>F</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>force</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="script f equals frequency">
+                        <mi>f</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>frequency</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="lowercase h equals height">
+                        <mi>h</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>height</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase I equals rotational inertia">
+                        <mi>I</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>rotational inertia</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase J equals impulse">
+                        <mi>J</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>impulse</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase K equals kinetic energy">
+                        <mi>K</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>kinetic energy</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                      alttext="lowercase k equals spring constant">
+                      <mi>k</mi>
+                      <mo>&#xA0;</mo>
+                      <mo>=</mo>
+                      <mo>&#xA0;</mo>
+                      <mtext>spring constant</mtext>
+                    </math>
+                  </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="script l equals length">
+                        <mi>ℓ</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>length</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase L equals angular momentum;">
+                        <mi>L</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>angular momentum</mtext>
+                      </math></div>
+
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="lowercase m equals mass">
+                        <mi>m</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>mass</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="Uppercase P equals power">
+                        <mi>P</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>power</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="lowercase p equals momentum;">
+                        <mi>p</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>momentum</mtext>
+                      </math></div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase r equals radius or distance">
+                        <mi>r</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>radius or distance</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase T equals period">
+                        <mi>T</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>period</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="lowercase t equals time">
+                        <mi>t</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>time</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase U equals potential energy">
+                        <mi>U</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>potential energy</mtext>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                      alttext="lowercase v equals velocity or speed">
+                      <mi>v</mi>
+                      <mo>&#xA0;</mo>
+                      <mo>=</mo>
+                      <mo>&#xA0;</mo>
+                      <mtext>velocity or speed</mtext>
+                    </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase W equals work done on a system">
+                        <mi>W</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>work done on a system</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="lowercase x equals position">
+                        <mi>x</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>position</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="mu equals coefficient of friction">
+                        <mi>&#x3BC;</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>coefficient of friction</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="theta equals angle">
+                        <mi>&#x3B8;</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>angle</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="tau equals torque">
+                        <mi mathsize="20px">&#x3C4;</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>torque</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="omega equals angular speed">
+                        <mi>&#x3C9;</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>angular speed</mtext>
+                      </math></div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="alpha equals angular acceleration">
+                        <mi>&#x3B1;</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>angular acceleration</mtext>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="phi equals phase angle">
+                        <mi>&#x3D5;</mi>
+                        <mo>&#xA0;</mo>
+                        <mo>=</mo>
+                        <mo>&#xA0;</mo>
+                        <mtext>phase angle</mtext>
+                      </math>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Electricity and Magnetism</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <!-- content -->
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom">
+                <!-- content -->
+                <div class="row">
+                  <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the absolute value of vector F sub E equals the fraction 1 over 4 pi epsilon sub 0 times the absolute value of the fraction with numerator q sub 1 times q sub 2, and denominator r squared">
+                        <mfenced open="|" close="|">
+                          <msub>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mi>E</mi>
+                          </msub>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mrow>
+                            <mn>4</mn>
+                            <msub>
+                              <mi>&#x3C0;&#x3B5;</mi>
+                              <mn>0</mn>
+                            </msub>
+                          </mrow>
+                        </mfrac>
+                        <mfenced open="|" close="|">
+                          <mfrac>
+                            <mrow>
+                              <msub>
+                                <mi>q</mi>
+                                <mn>1</mn>
+                              </msub>
+                              <msub>
+                                <mi>q</mi>
+                                <mn>2</mn>
+                              </msub>
+                            </mrow>
+                            <msup>
+                              <mi>r</mi>
+                              <mn>2</mn>
+                            </msup>
+                          </mfrac>
+                        </mfenced>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector E equals, the fraction vector F sub E over q">
+                        <mover>
+                          <mi>E</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mfrac>
+                          <msub>
+                            <mover>
+                              <mi>F</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mi>E</mi>
+                          </msub>
+                          <mi>q</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="closed line integral of vector E dot vector d A, equals the fraction uppercase Q over epsilon sub 0">
+                        <mo>&#x222E;</mo>
+                        <mover>
+                          <mi>E</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>A</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mi>Q</mi>
+                          <msub>
+                            <mi>&#x3B5;</mi>
+                            <mn>0</mn>
+                          </msub>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="E sub x equals the negative derivative of uppercase V with respect to x">
+                        <msub>
+                          <mi>E</mi>
+                          <mi>x</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>V</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="delta V equals the negative integral of vector E dot vector d r">
+                        <mi>&#x2206;</mi>
+                        <mi>V</mi>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mo>&#x222B;</mo>
+                        <mover accent="true">
+                          <mi>E</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>r</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="V equals the fraction, 1 over 4 pi epsilon sub 0, times the summation with respect to i of the fraction, q sub i over r sub i">
+                        <mi>V</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mrow>
+                            <mn>4</mn>
+                            <msub>
+                              <mi>&#x3C0;&#x3B5;</mi>
+                              <mn>0</mn>
+                            </msub>
+                          </mrow>
+                        </mfrac>
+                        <mstyle displaystyle="true">
+                          <munder>
+                            <mo>&#x2211;</mo>
+                              <mi>i</mi>
+                          </munder>
+                        </mstyle>
+                        <mfrac>
+                          <msub>
+                            <mi>q</mi>
+                            <mi>i</mi>
+                          </msub>
+                          <msub>
+                            <mi>r</mi>
+                            <mi>i</mi>
+                          </msub>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="U sub E equals, q times uppercase V, which equals, the fraction, 1 over 4 pi epsilon sub 0, times the fraction with numerator q sub 1 times q sub 2, and denominator r">
+                        <msub>
+                          <mi>U</mi>
+                          <mi>E</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mi>q</mi>
+                        <mi>V</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mrow>
+                            <mn>4</mn>
+                            <msub>
+                              <mi>&#x3C0;&#x3B5;</mi>
+                              <mn>0</mn>
+                            </msub>
+                          </mrow>
+                        </mfrac>
+                        <mfrac>
+                          <mrow>
+                            <msub>
+                              <mi>q</mi>
+                              <mn>1</mn>
+                            </msub>
+                            <msub>
+                              <mi>q</mi>
+                              <mn>2</mn>
+                            </msub>
+                          </mrow>
+                          <mi>r</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="delta V equals the fraction uppercase Q over C">
+                        <mi>&#x2206;</mi>
+                        <mi>V</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mi>Q</mi>
+                          <mi>C</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="C equals the fraction with numerator kappa times epsilon sub 0, times A, and denominator d">
+                        <mi>C</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>&#x3BA;</mi>
+                            <msub>
+                              <mi>&#x3B5;</mi>
+                              <mn>0</mn>
+                            </msub>
+                            <mi>A</mi>
+                          </mrow>
+                          <mi>d</mi>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="C sub p equals the summation with respect to i of C sub i">
+                        <msub>
+                          <mi>C</mi>
+                          <mi>p</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mstyle displaystyle="true">
+                          <munder>
+                            <mo>&#x2211;</mo>
+                            <mi>i</mi>
+                          </munder>
+                        </mstyle>
+                        <msub>
+                          <mi>C</mi>
+                          <mi>i</mi>
+                        </msub>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the fraction, 1 over C sub S equals the summation with respect to i of the fraction 1 over C sub i">
+                        <mfrac>
+                          <mn>1</mn>
+                          <msub>
+                            <mi>C</mi>
+                            <mi>s</mi>
+                          </msub>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mstyle displaystyle="true">
+                          <munder>
+                            <mo>&#x2211;</mo>
+                            <mi>i</mi>
+                          </munder>
+                        </mstyle>
+                        <mfrac>
+                          <mn>1</mn>
+                          <msub>
+                            <mi>C</mi>
+                            <mi>i</mi>
+                          </msub>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="I equals the derivative of uppercase Q with respect to t">
+                        <mi>I</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>Q</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>t</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="U sub C equals one half uppercase Q times delta V, which equals one half C times, open parenthesis delta V close parenthesis, squared">
+                        <msub>
+                          <mi>U</mi>
+                          <mi>C</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>Q</mi>
+                        <mi>&#x2206;</mi>
+                        <mi>V</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>C</mi>
+                        <msup>
+                          <mfenced>
+                            <mrow>
+                              <mi>&#x2206;</mi>
+                              <mi>V</mi>
+                            </mrow>
+                          </mfenced>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase R equals the fraction rho times lowercase l over A">
+                        <mi>R</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>&#x3C1;</mi>
+                            <mi>ℓ</mi>
+                          </mrow>
+                          <mi>A</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="vector E equals rho times vector J">
+                        <mover>
+                          <mi>E</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mi>&#x3C1;</mi>
+                        <mover>
+                          <mi>J</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="I equals uppercase N times e, times v sub d, times A">
+                        <mi>I</mi>
+                        <mo>=</mo>
+                        <mi>N</mi>
+                        <mi>e</mi>
+                        <msub>
+                          <mi>v</mi>
+                          <mi>d</mi>
+                        </msub>
+                        <mi>A</mi>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="I equals the fraction delta V over uppercase R">
+                        <mi>I</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>&#x2206;</mi>
+                            <mi>V</mi>
+                          </mrow>
+                          <mi>R</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="uppercase R sub S equals the summation with respect to i of uppercase R sub i">
+                        <msub>
+                          <mi>R</mi>
+                          <mi>s</mi>
+                        </msub>
+                        <mo>=</mo>
+                            <mstyle displaystyle="true">
+                              <munder>
+                                <mo>&#x2211;</mo>
+                                <mi>i</mi>
+                              </munder>
+                            </mstyle>
+                            <msub>
+                              <mi>R</mi>
+                              <mi>i</mi>
+                            </msub>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the fraction 1 over uppercase R sub p equals the summation with respect to i of the fraction 1 over uppercase R sub i">
+                        <mfrac>
+                          <mn>1</mn>
+                          <msub>
+                            <mi>R</mi>
+                            <mi>p</mi>
+                          </msub>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mstyle displaystyle="true">
+                          <munder>
+                            <mo>&#x2211;</mo>
+                            <mi>i</mi>
+                          </munder>
+                        </mstyle>
+                        <mfrac>
+                          <mn>1</mn>
+                          <msub>
+                            <mi>R</mi>
+                            <mi>i</mi>
+                          </msub>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="P equals I times delta V">
+                        <mi>P</mi>
+                        <mo>=</mo>
+                        <mi>I</mi>
+                        <mi>&#x2206;</mi>
+                        <mi>V</mi>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector F sub M equals q times vector v cross vector B">
+                        <msub>
+                          <mover>
+                            <mi>F</mi>
+                            <mo>&#x21C0;</mo>
+                          </mover>
+                          <mi>M</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mi>q</mi>
+                        <mover>
+                          <mi>v</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xD7;</mo>
+                        <mover>
+                          <mi>B</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-sm-12 col-md-4">
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="closed line integral of vector B, times, vector d l, equals, mu sub 0 times I">
+                        <mo>&#x222E;</mo>
+                        <mover>
+                          <mi>B</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>ℓ</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>&#x3BC;</mi>
+                          <mn>0</mn>
+                        </msub>
+                        <mi>I</mi>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="d vector B equals the fraction, mu sub 0 over 4 pi, times the fraction with numerator, I times vector d l, cross, r hat, and denominator, r squared">
+                        <mi>d</mi>
+                        <mover>
+                          <mi>B</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mfrac>
+                          <msub>
+                            <mi>&#x3BC;</mi>
+                            <mn>0</mn>
+                          </msub>
+                          <mrow>
+                            <mn>4</mn>
+                            <mi mathvariant="normal">&#x3C0;</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfrac>
+                          <mrow>
+                            <mi>I</mi>
+                            <mi>d</mi>
+                            <mover>
+                              <mi>ℓ</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mo>&#xD7;</mo>
+                            <mover>
+                              <mi>r</mi>
+                              <mo>^</mo>
+                            </mover>
+                          </mrow>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector F equals the integral of I times vector d l, cross, vector B">
+                        <mover>
+                          <mi>F</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mo>&#x222B;</mo>
+                        <mi>I</mi>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>ℓ</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xD7;</mo>
+                        <mover>
+                          <mi>B</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="B sub S equals, mu sub 0, times n, times I">
+                        <msub>
+                          <mi>B</mi>
+                          <mi>S</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <msub>
+                          <mi>&#x3BC;</mi>
+                          <mn>0</mn>
+                        </msub>
+                        <mi>n</mi>
+                        <mi>I</mi>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="phi sub B equals the integral of vector B dot vector d A">
+                        <msub>
+                          <mi mathvariant="normal">&#x3A6;</mi>
+                          <mi>B</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mo>&#x222B;</mo>
+                        <mover>
+                          <mi>B</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>A</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="epsilon equals, the closed line integral of vector E, dot vector d l, which equals the negative derivative of phi sub B with respect to t">
+                        <mstyle mathsize="28px">
+                          <mi mathvariant="bold-italic">&#x3B5;</mi>
+                        </mstyle>
+                        <mo>=</mo>
+                        <mo>&#x222E;</mo>
+                        <mover>
+                          <mi>E</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#xB7;</mo>
+                        <mi>d</mi>
+                        <mover>
+                          <mi>ℓ</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <msub>
+                              <mi>&#x3A6;</mi>
+                              <mi>B</mi>
+                            </msub>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>t</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="epsilon equals, negative L, times the derivative of I with respect to t">
+                        <mstyle mathsize="28px">
+                          <mi mathvariant="bold-italic">&#x3B5;</mi>
+                        </mstyle>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mi>L</mi>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>I</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>t</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="U sub L equals, one half, times L, times I squared">
+                        <msub>
+                          <mi>U</mi>
+                          <mi>L</mi>
+                        </msub>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mn>2</mn>
+                        </mfrac>
+                        <mi>L</mi>
+                        <msup>
+                          <mi>I</mi>
+                          <mn>2</mn>
+                        </msup>
+                      </math>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div>
+                  <h3 class="cb-margin-left-16 cb-margin-top-16 cb-font-weight-bold">Symbols</h3>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase A equals area">
+                          <mi>A</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>area</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase B equals magnetic field">
+                          <mi>B</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>magnetic field</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase C equals capacitance">
+                          <mi>C</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>capacitance</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase d equals distance">
+                          <mi>d</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>distance</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="Uppercase E equals electric field">
+                          <mi>E</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>electric field</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="epsilon equals emf">
+                          <mstyle mathsize="28px">
+                            <mi mathvariant="bold-italic">&#x3B5;</mi>
+                          </mstyle>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>emf</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase F equals force">
+                          <mi>F</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>force</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase I equals current">
+                          <mi>I</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>current</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase J equals current density">
+                          <mi>J</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>current density</mtext>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4 cb-border-sm-down-bottom">
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase L equals inductance">
+                          <mi>L</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>inductance</mtext>
+                        </math></div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="script l equals length">
+                          <mi>ℓ</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>length</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="lowercase n equals number of loops of wire per unit length">
+                          <mi>n</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                        </math>
+                        number of loops of wire per unit length
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase n equals number of charge carriers per unit volume ">
+                          <mi>N</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                        </math>
+                        number of charge carriers per unit volume
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase P equals power">
+                          <mi>P</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>power</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase q equals charge">
+                          <mi>Q</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>charge</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase q equals point charge">
+                          <mi>q</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>point charge</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase R equals resistance">
+                          <mi>R</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>resistance</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="lowercase r equals radius or distance">
+                          <mi>r</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>radius or distance</mtext>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="lowercase t equals time">
+                          <mi>t</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>time</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase U equals potential or stored energy">
+                          <mi>U</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>potential or stored energy</mtext>
+                        </math></div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="uppercase V equals electric potential">
+                          <mi>V</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>electrical potential</mtext>
+                        </math></div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="lowercase v equals velocity or speed">
+                          <mi>v</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>velocity or speed</mtext>
+                        </math></div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="rho equals resistivity">
+                          <mi>&#x3C1;</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>resistivity</mtext>
+                        </math></div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="phi equals flux">
+                          <mo>&#x3A6;</mo>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>flux</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16"><math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="kappa equals dielectric constant">
+                          <mo>&#x3BA;</mo>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>dielectric constant</mtext>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Geometry and Trigonometry</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <!-- content -->
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                    <div class="cb-margin-left-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Rectangle</h3>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="A equals b h">
+                          <mi>A</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mi>b</mi>
+                          <mi>h</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Triangle</h3>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="A equals one half b h">
+                          <mi>A</mi>
+                          <mo>=</mo>
+                          <mfrac>
+                            <mn>1</mn>
+                            <mn>2</mn>
+                          </mfrac>
+                          <mi>b</mi>
+                          <mi>h</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Circle</h3>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="A equals pi r squared">
+                          <mi>A</mi>
+                          <mo>=</mo>
+                          <mi>&#x3C0;</mi>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="C equals 2 pi r">
+                          <mi>C</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mn>2</mn>
+                          <mi>&#x3C0;</mi>
+                          <mi>r</mi>
+                        </math>
+                      </div>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="s equals r times theta">
+                          <mi>s</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mn>r</mn>
+                          <mi>&#x3B8;</mi>
+                        </math>
+                      </div>
+                      <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                          id="Layer_1" x="0px" y="0px" width="168px" height="168px" viewBox="0 0 168 168"
+                          enable-background="new 0 0 168 168" xml:space="preserve" role="img"
+                          aria-label="The figure presents a circle. Two radii, labeled r, are drawn from the center of the circle. The angle formed by the two radii is labeled theta. The part of the circle between the endpoints of each radius is labeled s.">
+                          <g>
+                            <circle fill="none" stroke="#000000" stroke-miterlimit="10" stroke-dasharray="7.0129,3.0055"
+                              cx="84" cy="84" r="81.32" />
+                          </g>
+                          <path fill="none" stroke="#000000" stroke-miterlimit="10"
+                            d="M52.02,73.2c2.62-7.76,7.99-14.26,14.94-18.34" />
+                          <polyline fill="none" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-miterlimit="10" points="6.98,57.86   84,83.99 43.46,13.5 " />
+                          <g>
+                            <g>
+                              <path
+                                d="M17.5,26.18h-0.26c-0.17-1.37-0.66-1.91-1.47-1.91c-0.58,0-0.97,0.33-0.97,0.94c0,0.45,0.25,0.92,0.89,1.68    c0.82,0.96,1.12,1.6,1.12,2.24c0,1.37-1.01,2.21-2.38,2.21c-0.28,0-0.53-0.02-0.91-0.17c-0.31-0.13-0.54-0.15-0.73-0.15    c-0.18,0-0.36,0.08-0.48,0.35h-0.26l0.33-2.62h0.26C12.88,30.33,13.44,31,14.3,31c0.77,0,1.25-0.46,1.25-1.27    c0-0.53-0.28-1.09-0.92-1.9c-0.71-0.89-1.04-1.63-1.04-2.16c0-1.09,0.78-1.78,2-1.78c0.28,0,0.51,0.05,0.92,0.17    c0.31,0.1,0.46,0.12,0.59,0.12c0.25,0,0.36-0.07,0.49-0.3h0.23L17.5,26.18z" />
+                            </g>
+                          </g>
+                          <g>
+                            <g>
+                              <path
+                                d="M66.45,37.48c0.31-0.69,0.87-1.57,1.55-2.28c0.43-0.45,0.92-0.74,1.3-0.74c0.46,0,0.78,0.35,0.78,0.84    c0,0.49-0.28,0.89-0.78,0.89c-0.3,0-0.43-0.18-0.58-0.43c-0.1-0.17-0.15-0.23-0.26-0.23c-0.3,0-0.76,0.54-1.35,1.55    c-0.71,1.22-1.01,1.88-1.83,4.65h-1.25l1.34-4.82c0.23-0.86,0.26-1.01,0.26-1.35s-0.3-0.43-0.63-0.43c-0.13,0-0.26,0.02-0.51,0.05    v-0.28l2.56-0.45l0.05,0.03l-0.91,3.56L66.45,37.48z" />
+                            </g>
+                          </g>
+                          <g>
+                            <path fill="#202020"
+                              d="M67.19,67.09c-0.6,2.24-1.51,3.83-2.74,4.78c-0.73,0.55-1.45,0.83-2.16,0.83c-0.5,0-0.94-0.15-1.33-0.45   c-0.65-0.5-0.98-1.34-0.98-2.51c0-0.74,0.13-1.59,0.4-2.58c0.54-2.03,1.43-3.51,2.66-4.45c0.77-0.6,1.49-0.9,2.16-0.9   c0.48,0,0.93,0.18,1.36,0.53c0.64,0.53,0.96,1.37,0.96,2.5C67.52,65.51,67.41,66.26,67.19,67.09z M65.51,67.54h-3.66   c-0.29,1.05-0.43,1.94-0.43,2.67c0,0.67,0.12,1.18,0.35,1.52c0.19,0.27,0.42,0.4,0.69,0.4c0.44,0,0.91-0.31,1.41-0.93   C64.52,70.38,65.07,69.16,65.51,67.54z M65.73,66.77c0.27-0.97,0.4-1.8,0.4-2.48c0-0.67-0.12-1.18-0.37-1.52   c-0.19-0.28-0.43-0.42-0.7-0.42c-0.43,0-0.9,0.31-1.42,0.93c-0.68,0.82-1.22,1.98-1.6,3.49H65.73z" />
+                          </g>
+
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Rectangular Solid</h3>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="V equals l w h">
+                          <mi>V</mi>
+                          <mo>=</mo>
+                          <mi>ℓ</mi>
+                          <mi>w</mi>
+                          <mi>h</mi>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Cylinder</h3>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="V equals pi r squared l">
+                          <mi>V</mi>
+                          <mo>=</mo>
+                          <mi>&#x3C0;</mi>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>2</mn>
+                          </msup>
+                          <mi>ℓ</mi>
+                        </math>
+                      </div>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="S equals 2 pi r l plus 2 pi r squared">
+                          <mi>S</mi>
+                          <mo>=</mo>
+                          <mn>2</mn>
+                          <mi>&#x3C0;</mi>
+                          <mi>r</mi>
+                          <mi>ℓ</mi>
+                          <mo>+</mo>
+                          <mn>2</mn>
+                          <mi>&#x3C0;</mi>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Sphere</h3>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="V equals 4 thirds pi r cubed">
+                          <mi>V</mi>
+                          <mo>=</mo>
+                          <mfrac>
+                            <mn>4</mn>
+                            <mn>3</mn>
+                          </mfrac>
+                          <mi>&#x3C0;</mi>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>3</mn>
+                          </msup>
+                        </math>
+                      </div>
+                      <div>
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="S equals 4 pi r squared">
+                          <mi>S</mi>
+                          <mo>=</mo>
+                          <mn>4</mn>
+                          <mi>&#x3C0;</mi>
+                          <msup>
+                            <mi>r</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <div class="cb-margin-16">
+                      <h3 class="cb-font-weight-bold cb-padding-bottom-8">Right Triangle</h3>
+                      <div class="cb-padding-bottom-16">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+                          id="Layer_2" x="0px" y="0px" width="160px" height="96px" viewBox="0 0 160 96"
+                          enable-background="new 0 0 160 96" xml:space="preserve" role="img" aria-label="a right triangle with the right angle across from
+                          hypotenuse c labeled 90 degrees. Side b connects angle theta and the right angle.
+                          Side a is across from angle theta.">
+                          <polygon fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10"
+                            points="4.38,77.13 144.18,77.13   144.18,2.41 " />
+                          <g>
+                            <path
+                              d="M72.3,88.28c1.12-1.86,2.03-2.49,3.18-2.49c1.1,0,1.91,0.71,1.91,1.98c0,2.61-2.72,5.48-5.28,5.48   c-0.94,0-2.14-0.38-2.14-0.87v-0.1l2.34-8.63c0.1-0.4,0.15-0.63,0.15-0.77c0-0.36-0.08-0.38-1.06-0.41v-0.28   c1.1-0.13,1.7-0.23,2.52-0.38l0.08,0.08l-0.35,1.35l-1.39,5.05H72.3z M74.84,86.59c-0.79,0-1.55,0.69-2.26,1.9   c-0.73,1.22-1.19,2.82-1.19,3.81c0,0.38,0.25,0.56,0.76,0.56c0.71,0,1.42-0.35,2.03-0.97c0.99-1.02,1.81-2.66,1.81-3.88   C76,87.01,75.57,86.59,74.84,86.59z" />
+                          </g>
+                          <g>
+                            <path
+                              d="M155.76,43.05c-1.24,1.5-1.63,1.81-2.29,1.81c-0.46,0-0.66-0.2-0.66-0.68c0-0.41,0.03-0.54,0.38-1.9   c-1.24,1.86-2.19,2.59-3.35,2.59c-0.92,0-1.65-0.66-1.65-1.91c0-2.56,2.52-5.54,4.72-5.54c0.71,0,1.19,0.35,1.32,0.96l0.18-0.79   l0.05-0.05l1.01-0.12l0.12,0.05c-0.03,0.15-0.05,0.18-0.1,0.35c-0.78,2.82-1.47,5.66-1.47,5.99c0,0.12,0.1,0.21,0.23,0.21   c0.15,0,0.36-0.13,0.86-0.68l0.45-0.48L155.76,43.05z M153,37.78c-0.74,0-1.47,0.51-2.16,1.52c-0.69,1.04-1.27,2.51-1.27,3.55   c0,0.91,0.4,1.22,0.99,1.22c0.82,0,1.6-0.91,2.09-1.62c0.78-1.12,1.27-2.54,1.27-3.71C153.93,38.16,153.58,37.78,153,37.78z" />
+                          </g>
+                          <g>
+                            <path
+                              d="M77.08,33.17c-1.01,1.27-1.88,1.78-3.12,1.78c-1.53,0-2.42-0.86-2.42-2.54c0-1.53,0.86-2.97,2.03-3.91   c0.81-0.64,1.75-1.01,2.75-1.01s1.73,0.56,1.73,1.34c0,0.45-0.36,0.79-0.79,0.79c-0.46,0-0.64-0.33-0.64-0.66   c0-0.3,0.25-0.48,0.25-0.79c0-0.2-0.23-0.33-0.61-0.33c-0.66,0-1.32,0.3-1.8,0.79c-0.92,0.97-1.5,2.38-1.5,3.84   c0,1.19,0.53,1.88,1.47,1.88c0.87,0,1.5-0.41,2.39-1.35L77.08,33.17z" />
+                          </g>
+                          <g>
+                            <path fill="#202020"
+                              d="M46.52,67.03c-0.6,2.24-1.51,3.83-2.74,4.78c-0.73,0.55-1.45,0.83-2.16,0.83c-0.5,0-0.94-0.15-1.33-0.45   c-0.65-0.5-0.98-1.34-0.98-2.51c0-0.74,0.13-1.59,0.4-2.58c0.54-2.03,1.43-3.51,2.66-4.45c0.77-0.6,1.49-0.9,2.16-0.9   c0.48,0,0.93,0.18,1.36,0.53c0.64,0.53,0.96,1.37,0.96,2.5C46.85,65.46,46.74,66.2,46.52,67.03z M44.84,67.48h-3.66   c-0.29,1.05-0.43,1.94-0.43,2.67c0,0.67,0.12,1.18,0.35,1.52c0.19,0.27,0.42,0.4,0.69,0.4c0.44,0,0.91-0.31,1.41-0.93   C43.85,70.33,44.4,69.1,44.84,67.48z M45.06,66.71c0.27-0.97,0.4-1.8,0.4-2.48c0-0.67-0.12-1.18-0.37-1.52   c-0.19-0.28-0.43-0.42-0.7-0.42c-0.43,0-0.9,0.31-1.42,0.93c-0.68,0.82-1.22,1.98-1.6,3.49H45.06z" />
+                          </g>
+                          <g>
+                            <g>
+                              <path
+                                d="M116.94,66.14c2.51-0.45,4.35-2.18,5.01-4.88c-0.71,0.69-1.5,0.94-2.47,0.94c-1.78,0-2.97-1.34-2.97-3.35    c0-2.23,1.47-3.89,3.43-3.89c1.06,0,1.95,0.46,2.59,1.25c0.66,0.82,1.06,2.01,1.06,3.4c0,1.9-0.66,3.7-1.98,4.9    c-1.4,1.27-2.47,1.67-4.62,1.96L116.94,66.14z M121.98,59.61c0-2.77-0.74-4.19-2.18-4.19c-0.5,0-0.92,0.2-1.2,0.56    c-0.33,0.45-0.58,1.42-0.58,2.31c0,1.96,0.79,3.2,2.03,3.2c0.73,0,1.93-0.36,1.93-1.24V59.61z" />
+                              <path
+                                d="M128.39,66.34c-2.82,0-3.73-3.07-3.73-5.77c0-2.92,1.14-5.61,3.79-5.61c2.16,0,3.66,2.33,3.66,5.71    C132.11,63.51,131.07,66.34,128.39,66.34z M128.35,55.39c-1.37,0-2.11,1.95-2.11,5.29s0.73,5.23,2.14,5.23    c1.4,0,2.14-1.9,2.14-5.16C130.53,57.32,129.8,55.39,128.35,55.39z" />
+                              <path
+                                d="M135.81,59.68c-1.34,0-2.36-1.04-2.36-2.38c0-1.32,1.04-2.34,2.39-2.34c1.29,0,2.33,1.06,2.33,2.36    C138.17,58.64,137.13,59.68,135.81,59.68z M135.78,55.52c-0.91,0-1.68,0.83-1.68,1.8c0,0.99,0.77,1.8,1.71,1.8    s1.72-0.82,1.72-1.81C137.53,56.33,136.73,55.52,135.78,55.52z" />
+                            </g>
+                          </g>
+                          <rect x="135.18" y="68.13" fill="none" stroke="#000000" width="9" height="9" />
+                          <path fill="none" stroke="#000000" stroke-linejoin="round" stroke-miterlimit="10"
+                            d="M29.6,63.4c3.49,3.53,5.64,8.38,5.64,13.73" />
+                        </svg>
+                      </div>
+                      <div class="cb-padding-bottom-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                          alttext="c squared equals a squared plus b squared">
+                          <msup>
+                            <mi>c</mi>
+                            <mn>2</mn>
+                          </msup>
+                          <mo>=</mo>
+                          <msup>
+                            <mi>a</mi>
+                            <mn>2</mn>
+                          </msup>
+                          <mo>+</mo>
+                          <msup>
+                            <mi>b</mi>
+                            <mn>2</mn>
+                          </msup>
+                        </math>
+                      </div>
+                      <div class="cb-padding-bottom-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="sine theta equals a over c">
+                          <mi>sin</mi>
+                          <mi>&#x3B8;</mi>
+                          <mo>=</mo>
+                          <mfrac>
+                            <mi>a</mi>
+                            <mi>c</mi>
+                          </mfrac>
+                        </math>
+                      </div>
+                      <div class="cb-padding-bottom-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="cosine theta equals b over c">
+                          <mi>cos</mi>
+                          <mi>&#x3B8;</mi>
+                          <mo>=</mo>
+                          <mfrac>
+                            <mi>b</mi>
+                            <mi>c</mi>
+                          </mfrac>
+                        </math>
+                      </div>
+                      <div class="cb-padding-bottom-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="tangent theta equals a over b">
+                          <mi>tan</mi>
+                          <mi>&#x3B8;</mi>
+                          <mo>=</mo>
+                          <mfrac>
+                            <mi>a</mi>
+                            <mi>b</mi>
+                          </mfrac>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div>
+                  <h3 class="cb-margin-left-16 cb-margin-top-16 cb-font-weight-bold">Symbols</h3>
+                  <div class="row">
+                    <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase A equals area">
+                          <mi>A</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>area</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase c equals circumference">
+                          <mi>C</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>circumference</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase v equals volume">
+                          <mi>V</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>volume</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="uppercase S equals surface area">
+                          <mi>S</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>surface area</mtext>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase b equals base">
+                          <mi>b</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>base</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase h equals height">
+                          <mi>h</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>height</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="script l equals length">
+                          <mi>ℓ</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>length</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase w equals width">
+                          <mi>w</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>width</mtext>
+                        </math>
+                      </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase r equals radius">
+                          <mi>r</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>radius</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="lowercase s equals arc length">
+                          <mi>s</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>arc length</mtext>
+                        </math>
+                      </div>
+                      <div class="cb-margin-16">
+                        <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML" alttext="theta equals angle">
+                          <mi>&#x3B8;</mi>
+                          <mo>&#xA0;</mo>
+                          <mo>=</mo>
+                          <mo>&#xA0;</mo>
+                          <mtext>angle</mtext>
+                        </math>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Calculus</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <!-- content -->
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-in">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="derivative of f with respect to x equals the derivative of f with respect to u times the derivative of u with respect to x">
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>f</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>f</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>u</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>u</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                      </math>
+                    </div>
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="derivative with respect to x, of open parenthesis, x raised to the power of n, close parenthesis, equals, n, times x raised to the power of, n minus 1">
+                        <mfrac>
+                          <mi>d</mi>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfenced>
+                          <msup>
+                            <mi>x</mi>
+                            <mi>n</mi>
+                          </msup>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mi>n</mi>
+                        <msup>
+                          <mi>x</mi>
+                          <mrow>
+                            <mi>n</mi>
+                            <mo>-</mo>
+                            <mn>1</mn>
+                          </mrow>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="derivative with respect to x, of open parenthesis, e to the power of a x, close parenthesis, equals a times e to the power of a x">
+                        <mfrac>
+                          <mi>d</mi>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfenced>
+                          <msup>
+                            <mi>e</mi>
+                            <mrow>
+                              <mi>a</mi>
+                              <mi>x</mi>
+                            </mrow>
+                          </msup>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mi>a</mi>
+                        <msup>
+                          <mi>e</mi>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="derivative with respect to x, of open parenthesis, natural log of a x, close parenthesis, equals 1 over x">
+                        <mfrac>
+                          <mi>d</mi>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfenced>
+                          <mrow>
+                            <mi>ln</mi>
+                            <mo>&#xA0;</mo>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mi>x</mi>
+                        </mfrac>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="derivative with respect to x, of open bracket sine open parenthesis, a x, close parenthesis close bracket, equals a, cosine open parenthesis, a x, close parenthesis">
+                        <mfrac>
+                          <mi>d</mi>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfenced open="[" close="]">
+                          <mrow>
+                            <mi>sin</mi>
+                            <mfenced>
+                              <mrow>
+                                <mi>a</mi>
+                                <mi>x</mi>
+                              </mrow>
+                            </mfenced>
+                          </mrow>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mi>a</mi>
+                        <mi>cos</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="derivative with respect to x, of open bracket cosine open parenthesis, ax, close parenthesis close bracket, equals negative a, sine open parenthesis, a x, close parenthesis">
+                        <mfrac>
+                          <mi>d</mi>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfrac>
+                        <mfenced open="[" close="]">
+                          <mrow>
+                            <mi>cos</mi>
+                            <mfenced>
+                              <mrow>
+                                <mi>a</mi>
+                                <mi>x</mi>
+                              </mrow>
+                            </mfenced>
+                          </mrow>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mi>a</mi>
+                        <mi>sin</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4 cb-border-xs-bottom">
+
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="The integral of x raised to the power of n, d x, equals the fraction with numerator, 1, and denominator, n plus 1, times x raised to the power of n plus 1, n cannot equal negative 1">
+                        <mo>&#x222B;</mo>
+                        <msup>
+                          <mi>x</mi>
+                          <mi>n</mi>
+                        </msup>
+                        <mi>d</mi>
+                        <mi>x</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mrow>
+                            <mi>n</mi>
+                            <mo>+</mo>
+                            <mn>1</mn>
+                          </mrow>
+                        </mfrac>
+                        <msup>
+                          <mi>x</mi>
+                          <mrow>
+                            <mi>n</mi>
+                            <mo>+</mo>
+                            <mn>1</mn>
+                          </mrow>
+                        </msup>
+                        <mo>,</mo>
+                        <mo>&#xA0;</mo>
+                        <mi>n</mi>
+                        <mo>&#x2260;</mo>
+                        <mo>-</mo>
+                        <mn>1</mn>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the integral of e to the power of a x, d x, equals the fraction 1 over a, times e to the power of a x">
+                        <mo>&#x222B;</mo>
+                        <msup>
+                          <mi>e</mi>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </msup>
+                        <mi>d</mi>
+                        <mi>x</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mi>a</mi>
+                        </mfrac>
+                        <msup>
+                          <mi>e</mi>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </msup>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the integral of d x over x plus a, equals natural log of the absolute value of x plus a">
+                        <mo>&#x222B;</mo>
+                        <mfrac>
+                          <mrow>
+                            <mi>d</mi>
+                            <mi>x</mi>
+                          </mrow>
+                          <mrow>
+                            <mi>x</mi>
+                            <mo>+</mo>
+                            <mi>a</mi>
+                          </mrow>
+                        </mfrac>
+                        <mo>=</mo>
+                        <mi>ln</mi>
+                        <mfenced open="|" close="|">
+                          <mrow>
+                            <mi>x</mi>
+                            <mo>+</mo>
+                            <mi>a</mi>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the integral of cosine open parenthesis a x close parenthesis, d x, equals, the fraction 1 over a, times sine open parenthesis a x close parenthesis">
+                        <mo>&#x222B;</mo>
+                        <mi>cos</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                        <mi>d</mi>
+                        <mi>x</mi>
+                        <mo>=</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mi>a</mi>
+                        </mfrac>
+                        <mi>sin</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the integral of sine open parenthesis a x close parenthesis, d x, equals, the negative fraction 1 over a, times cosine open parenthesis a x close parenthesis">
+                        <mo>&#x222B;</mo>
+                        <mi>sin</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                        <mi>d</mi>
+                        <mi>x</mi>
+                        <mo>=</mo>
+                        <mo>-</mo>
+                        <mfrac>
+                          <mn>1</mn>
+                          <mi>a</mi>
+                        </mfrac>
+                        <mi>cos</mi>
+                        <mfenced>
+                          <mrow>
+                            <mi>a</mi>
+                            <mi>x</mi>
+                          </mrow>
+                        </mfenced>
+                      </math>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-4">
+                    <h3 class="cb-margin-16 cb-font-weight-bold">
+                      Vector Products
+                    </h3>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="vector A dot vector B, equals A B cosine theta">
+                        <mover>
+                          <mi>A</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>&#x2219;</mo>
+                        <mover>
+                          <mi>B</mi>
+                          <mo>&#x21C0;</mo>
+                        </mover>
+                        <mo>=</mo>
+                        <mi>A</mi>
+                        <mi>B</mi>
+                        <mi>cos</mi>
+                        <mi>&#x3B8;</mi>
+                      </math>
+                    </div>
+                    <div class="cb-margin-16">
+                      <math displaystyle="true" xmlns="http://www.w3.org/1998/Math/MathML"
+                        alttext="the absolute value of vector A cross vector B, equals A B sine theta">
+                        <mfenced open="|" close="|">
+                          <mrow>
+                            <mover>
+                              <mi>A</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                            <mo>&#xD7;</mo>
+                            <mover>
+                              <mi>B</mi>
+                              <mo>&#x21C0;</mo>
+                            </mover>
+                          </mrow>
+                        </mfenced>
+                        <mo>=</mo>
+                        <mi>A</mi>
+                        <mi>B</mi>
+                        <mi>sin</mi>
+                        <mi>&#x3B8;</mi>
+                      </math>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+    <style>
+
+      /* Font */
+      main#reference-sheet {
+        font-family: 'notoSerif', 'noto-serif', 'Noto Serif';
+        background-color: #f0f0f0;
+        font-size: 15px;
+      }
+
+      main#reference-sheet h3 {
+        font-size: 15px;
+        font-family: 'notoSerif', 'noto-serif', 'Noto Serif' !important;
+      }
+
+      main#reference-sheet .MathJax span {
+        font-size: 16.5px;
+      }
+
+      main#reference-sheet .MathJax_SVG {
+        font-size: 95% !important;
+      }
+
+      main#reference-sheet .MathJax span.mtext {
+        font-family: 'notoSerif', 'noto-serif', 'Noto Serif' !important;
+        font-size: 15px;
+      }
+
+      main#reference-sheet .text-stix {
+        font-family: 'STIXGeneral' !important;
+        font-size: 16.5px;
+      }
+
+      main#reference-sheet .variable-stix {
+        font-family: 'STIXGeneral' !important;
+        font-style: italic;
+        font-size: 16.5px;
+      }
+
+      /* End Font */
+      main#reference-sheet .Rectangle {
+        background-image: linear-gradient(to bottom, #d9d9d9, #f0f0f0 57%);
+        height: 4px;
+      }
+
+      main#reference-sheet table.cb-table > thead {
+        background-color: #d9d9d9;
+        color: #1e1e1e;
+      }
+      main#reference-sheet table.cb-table thead tr th {
+        background-color: #d9d9d9;
+      }
+      main#reference-sheet table.cb-table :is(td, th) {
+        border-color: #505050;
+      }
+
+      main#reference-sheet .ap-custom-scroll {
+        width: 99%;
+        overflow-y: hidden;
+      }
+
+      main#reference-sheet .table-width {
+        width: 60%;
+      }
+
+      main#reference-sheet .cb-accordion.chrome-os-scroll {
+        min-width: 1000px;
+        overflow-x: scroll;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-controls {
+        font-size: 15px;
+        margin: 0;
+        padding: 16px 24px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-heading {
+        background-color: #ffffff;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-panel .cb-accordion-panel-content {
+        padding: 8px 16px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-panel.cb-in {
+        overflow-y: hidden;
+        height: fit-content !important;
+      }
+    </style>
+    <!-- activate accordion -->
+    <script type="text/javascript" id="apricot-setup-scripts">
+      try {
+        // for A11Y
+        window.cb.apricot.CBInputMethod()
+
+        const utils = cb.apricot.CBUtils
+
+        if (/(CrOS)/.test(navigator.userAgent)) {
+          document.getElementById('reference-sheet-accordion').classList.add('chrome-os-scroll')
+        }
+
+        const customA11yScrollbar = (elem) => {
+          let resizeTimeout = null;
+          let tbl = null;
+          const init = () => {
+            elem.customScroll = 'cb';
+
+            tbl = elem.querySelector('table');
+            adjustScrollBar();
+            window.addEventListener("resize", resizeThrottler, false);
+          }
+
+          const adjustScrollBar = () => {
+            tbl = elem.querySelector('table');
+            const pw = utils.outerWidth(elem);
+
+            const tw = utils.outerWidth(tbl);
+
+            if (tw > pw) {
+              if (elem.customScrollAccordion === undefined || elem.customScrollAccordion === 'open') {
+                utils.attr(elem, 'role', 'region');
+                utils.attr(elem, 'aria-label', 'scrolling table');
+                utils.attr(elem, 'tabindex', '0');
+                utils.attr(elem, 'aria-hidden', "false");
+              }
+            } else {
+              utils.removeAttr(elem, 'tabindex')
+              utils.removeAttr(elem, 'aria-hidden')
+              utils.removeAttr(elem, 'aria-label')
+              utils.removeAttr(elem, 'role')
+            }
+          };
+
+          const resizeThrottler = () => {
+            if (!resizeTimeout) {
+              resizeTimeout = setTimeout(function () {
+                resizeTimeout = null;
+                adjustScrollBar();
+              }, 500);
+            }
+          };
+
+          if (elem.customScroll !== 'cb') {
+            init();
+          }
+
+          return {
+            adjustScrollBar: adjustScrollBar
+          }
+
+        }
+        // initialize custom accesible scroll
+        document.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+          customA11yScrollbar(node)
+        })
+
+        const panelStateHasChanged = (panel) => {
+          if (panel) {
+            // always focusable elements would go here, if any.
+            let focusElements = [];
+            focusElements = focusElements.concat([".MathJax", ".MathJax_SVG", ".MathJax_PHTML", ".MathJax_CHTML"])
+
+            // console.log(`Panel with ID: ${utils.attr(panel, 'id')}, is ${utils.hasClass(panel, 'cb-in') ? 'open' : 'close'} `)
+            let setTabIndexAndAriaHidden = function setTabIndexAndAriaHidden(panel, tabIndexMode, ariaHiddenMode) {
+              getFocusableNodes(panel).forEach(function (node) {
+                utils.attr(node, 'tabindex', tabIndexMode);
+                utils.attr(node, 'aria-hidden', ariaHiddenMode);
+              });
+            };
+
+            let getFocusableNodes = (panel) => {
+              return panel.querySelectorAll(focusElements);
+            };
+
+            if (utils.hasClass(panel, 'cb-in')) {
+              // set focusable elements tabindex & ariahidden
+              focusElements.length && setTabIndexAndAriaHidden(panel, '0', 'false');
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+                const scrollObj = customA11yScrollbar(node)
+                node.customScrollAccordion = 'open'
+                scrollObj.adjustScrollBar()
+              })
+            } else {
+              // set focusable elements tabindex & ariahidden
+              focusElements.length && setTabIndexAndAriaHidden(panel, '-1', 'true');
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+                node.customScrollAccordion = 'closed'
+              })
+            }
+          }
+        }
+
+          try {
+            const responsiveUpdate = () => {
+              // on zoom event, if the accordionian is open, adjust the scrollbar
+              document.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+                const scrollObj = customA11yScrollbar(node)
+                if (node.customScrollAccordion === 'open'){
+                  scrollObj.adjustScrollBar()
+                }
+              })
+
+            }
+            var observer = new MutationObserver(function(mutations) {
+              mutations.forEach(function(mutationRecord) {
+                  responsiveUpdate()
+              });
+            });
+
+            var target = document.getElementsByTagName('html');
+            observer.observe(target[0], { attributes : true, attributeFilter : ['style'] });
+            responsiveUpdate()
+
+          } catch (e) {
+            console.log('Reference Sheet Error: ', e)
+          }
+
+          try {
+            cb.apricot.CBAccordion({
+              elem: document.querySelector('#reference-sheet-accordion.cb-accordion'),
+              callBack: panelStateHasChanged,
+              extendFocusableElements: [".MathJax"]
+            });
+          } catch (e) {
+            console.log('Reference Sheet Error: ', e);
+          }
+
+      } catch (e) {
+        console.log('Reference Sheet Error: ', e)
+      }
+
+    </script>
+  </body>
+</html>

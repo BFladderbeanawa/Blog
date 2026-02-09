@@ -1,0 +1,2 @@
+const e="Maintain crontab file for individual users",t="crontab",n=[{description:"Edit the current crontab",name:"-e"},{description:"Display the current crontab",name:"-l"},{description:"Remove the current crontab",name:"-r"},{description:"Specify the name of the user whose crontab is to be tweaked",name:"-u"}],o={description:e,name:t,options:n};export{o as default,e as description,t as name,n as options};
+//# sourceMappingURL=crontab-89d2fff9.js.map

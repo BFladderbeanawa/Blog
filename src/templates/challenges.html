@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Challenge Page Header -->
+<section class="page-header challenge-page-header">
+    <div class="challenge-page-title">
+        <div class="challenge-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">emoji_events</span>
+                <span>NekoCTF 2025 · 题目预览</span>
+            </span>
+            <h1>探索喵星黑客的奇妙题海</h1>
+            <p>提前感受赛事氛围，挑选你想要征服的赛道。正式开赛后还会有更多惊喜喵～</p>
+        </div>
+        <div class="challenge-page-actions">
+            <div class="challenge-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">赛事时间</p>
+                    <p class="highlight-value">2025 · 春季档</p>
+                </div>
+                <div class="highlight-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ challenges|length }}</span>
+                        <span class="stat-text">当前公开题目</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="difficulty-mini-legend">
+                        <span class="mini-legend-item"><span class="dot easy"></span>Easy</span>
+                        <span class="mini-legend-item"><span class="dot medium"></span>Medium</span>
+                        <span class="mini-legend-item"><span class="dot hard"></span>Hard</span>
+                    </div>
+                </div>
+                <p class="highlight-note">报名即将开启，敬请关注官网与社区公告。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Challenge Grid -->
+<section class="content-section">
+    <div class="challenge-grid">
+        {% set difficulty_map = {
+            'Easy': 'easy',
+            'Medium': 'medium',
+            'Hard': 'hard',
+            '简单': 'easy',
+            '中等': 'medium',
+            '困难': 'hard'
+        } %}
+        {% for challenge in challenges %}
+            {% set difficulty_key = difficulty_map.get(challenge.difficulty, (challenge.difficulty | lower | replace(' ', '-'))) %}
+            {% set progress = user_progress.get(challenge.id, {}) %}
+            {% set stage_total = challenge.flags|length %}
+            {% set solved_count = progress.solved_count|default(0) %}
+            {% set legacy_cleared = progress.legacy|default(False) %}
+            <article class="challenge-card" data-challenge-id="{{ challenge.id }}">
+                <div class="challenge-card-top">
+                    <div class="challenge-card-heading">
+                        <span class="challenge-category">{{ challenge.category }}</span>
+                        <h2>{{ challenge.title }}</h2>
+                    </div>
+                    <span class="difficulty-badge difficulty-{{ difficulty_key }}">
+                        {{ challenge.difficulty }}
+                    </span>
+                </div>
+
+                <div class="challenge-meta-line">
+                    <div class="challenge-meta-left">
+                        <span class="meta-item">
+                            <span class="material-symbols-outlined">emoji_events</span>
+                            <strong>{{ challenge.points }} 分</strong>
+                        </span>
+                        {% if stage_total > 0 %}
+                        <span class="meta-divider"></span>
+                        <span class="meta-item">
+                            <span class="material-symbols-outlined">flag</span>
+                            <strong>{{ stage_total }} 阶段</strong>
+                        </span>
+                        {% endif %}
+                    </div>
+                    <span class="meta-item">
+                        {% if stage_total > 0 %}
+                            {% if solved_count >= stage_total %}
+                                <strong class="status solved">已解</strong>
+                            {% elif solved_count > 0 %}
+                                <strong class="status partial">进阶 {{ solved_count }}/{{ stage_total }}</strong>
+                            {% else %}
+                                <strong class="status unsolved">待挑战</strong>
+                            {% endif %}
+                        {% else %}
+                            {% if legacy_cleared or solved_count > 0 %}
+                                <strong class="status solved">已解</strong>
+                            {% else %}
+                                <strong class="status unsolved">待挑战</strong>
+                            {% endif %}
+                        {% endif %}
+                    </span>
+                </div>
+
+                <div class="challenge-summary rich-text">{{ challenge.summary_html() | safe }}</div>
+
+                <div class="challenge-card-footer">
+                    <div class="challenge-card-tags">
+                        <span class="tag">#{{ challenge.category }}</span>
+                        <span class="tag">#{{ challenge.difficulty }}</span>
+                    </div>
+                    <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.challenge_detail', challenge_id=challenge.id) }}">
+                        <span>查看详情</span>
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </a>
+                </div>
+            </article>
+        {% else %}
+            <div class="empty-state">
+                <p>喵～暂时还没有公开题目，敬请期待！</p>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+// Stagger animation for challenge cards
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.challenge-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+        
+        // 鼠标追踪光效
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            card.style.setProperty('--mouse-x', x + '%');
+            card.style.setProperty('--mouse-y', y + '%');
+        });
+    });
+});
+</script>
+{% endblock %}

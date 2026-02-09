@@ -1,0 +1,7 @@
+# Copyright (c) 2023 Termius Corporation.
+
+if (! $?_termius_integration_installed) then
+  set _termius_integration_installed = "yes"
+  alias _termius_set_cwd 'printf "\033]4545;P;Cwd=%s\007" `echo -n "$PWD" | base64`'
+  alias precmd _termius_set_cwd
+endif

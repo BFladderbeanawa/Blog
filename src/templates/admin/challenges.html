@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}题目管理 - 管理后台{% endblock %}
+
+{% block content %}
+{% set counts = namespace(visible=0) %}
+{% for challenge in challenges %}
+    {% if challenge.is_visible %}
+        {% set counts.visible = counts.visible + 1 %}
+    {% endif %}
+{% endfor %}
+{% set total_challenges = challenges|length %}
+{% set hidden_challenges = total_challenges - counts.visible %}
+
+<!-- Admin Hero Section -->
+<section class="page-header admin-page-header">
+    <div class="admin-page-title">
+        <div class="admin-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">shield_person</span>
+                <span>NekoCTF 2025 · 管理后台</span>
+            </span>
+            <h1>题库控制中心</h1>
+            <div class="admin-toolbar">
+                <a href="{{ url_for('admin.new_challenge') }}" class="md3-btn md3-btn--primary">
+                    <span class="material-symbols-outlined">add</span>
+                    <span>新增题目</span>
+                </a>
+                <a href="{{ url_for('admin.admin_users') }}" class="md3-btn md3-btn--secondary">
+                    <span class="material-symbols-outlined">group</span>
+                    <span>用户管理</span>
+                </a>
+                <a href="{{ url_for('admin.site_content') }}" class="md3-btn md3-btn--secondary">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>站点内容</span>
+                </a>
+                <a href="{{ url_for('public.logout') }}" class="md3-btn md3-btn--tertiary">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>退出登录</span>
+                </a>
+            </div>
+            <p>在这里创建、编辑和整理题目，让参赛者始终保持沉浸式体验喵～</p>
+        </div>
+        <div class="admin-page-actions">
+            <div class="admin-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">管理统计</p>
+                    <p class="highlight-value">实时数据</p>
+                </div>
+                <div class="highlight-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ "%02d"|format(total_challenges) }}</span>
+                        <span class="stat-text">题目总数</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="admin-mini-stats">
+                        <span class="mini-stat-item"><span class="dot online"></span>{{ "%02d"|format(counts.visible) }} 已上线</span>
+                        <span class="mini-stat-item"><span class="dot draft"></span>{{ "%02d"|format(hidden_challenges) }} 草稿</span>
+                    </div>
+                </div>
+                <p class="highlight-note">快速管理题库，实时查看题目状态</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Challenges Table -->
+<section class="admin-section">
+    <div class="admin-content-card">
+        <div class="admin-card-header">
+            <div class="admin-card-header-content">
+                <h2>题目列表</h2>
+                <p>快速回顾题目信息，随时跳转管理提示或进行编辑。</p>
+            </div>
+            <div class="admin-filter-group">
+                <span class="filter-pill active">全部 {{ total_challenges }}</span>
+                <span class="filter-pill">已上线 {{ counts.visible }}</span>
+                <span class="filter-pill">草稿 {{ hidden_challenges }}</span>
+            </div>
+        </div>
+        
+        <div class="admin-table-container">
+            <table class="admin-table admin-table--challenges">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>标题</th>
+                        <th>分类</th>
+                        <th>难度</th>
+                        <th>分值</th>
+                        <th>展示状态</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for challenge in challenges %}
+                    <tr>
+                        <td><span class="admin-table-id">#{{ "%03d"|format(challenge.id) }}</span></td>
+                        <td><span class="admin-table-title">{{ challenge.title }}</span></td>
+                        <td>{{ challenge.category }}</td>
+                        <td>{{ challenge.difficulty }}</td>
+                        <td>{{ challenge.points }}</td>
+                        <td>
+                            <span class="status-chip {{ 'online' if challenge.is_visible else 'draft' }}">
+                                {{ '已上线' if challenge.is_visible else '草稿' }}
+                            </span>
+                        </td>
+                        <td class="admin-table-actions">
+                            <a href="{{ url_for('admin.edit_challenge', challenge_id=challenge.id) }}" class="md3-btn md3-btn--tertiary">
+                                <span class="material-symbols-outlined">edit</span>
+                                <span>编辑</span>
+                            </a>
+                            <form method="post" action="{{ url_for('admin.delete_challenge', challenge_id=challenge.id) }}" onsubmit="return confirm('确定要删除这道题目喵？');">
+                                <button type="submit" class="md3-btn md3-btn--danger">
+                                    <span class="material-symbols-outlined">delete</span>
+                                    <span>删除</span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="admin-table-empty">
+                            <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                                <span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.3;">inventory_2</span>
+                                <p>暂无题目，先去创建一题喵～</p>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock %}

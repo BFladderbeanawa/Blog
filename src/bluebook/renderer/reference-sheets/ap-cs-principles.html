@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <title>Computer Science Principles Reference</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="apricot.main.css" rel="stylesheet" />
+    <script src="prevent-right-click.js"></script>
+    <script src="apricot.main.js"></script>
+    <script src="keyboard-close.js"></script>
+    <link rel="stylesheet" type="text/css" href="/fonts/NotoSerif.css" />
+    <link rel="stylesheet" type="text/css" href="/fonts/CourierPrime.css" />
+    <link rel="stylesheet" type="text/css" href="tts.css" />
+
+    <style>
+      /**
+        * This approach with html and body is to accommodate older versions of
+        * iOS 15.4-15.8.1 not being able to use scrollTo on the <html> tag in the iFrame.
+      */
+      html {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        /* Safari fix, noted above */
+        height: 100%;
+        overflow: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main id="reference-sheet" role="main">
+      <div id="reference-sheet-accordion" class="cb-accordion" data-cb-apricot="accordion">
+        <!-- Controllers -->
+        <div class="cb-accordion-controls cb-white-bg">
+          <div class="cb-accordion-buttons">
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-expand cb-blue5-color">
+              Expand All
+            </button>
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-collapse cb-blue5-color">
+              Collapse All
+            </button>
+          </div>
+        </div>
+
+        <!-- list items container -->
+        <div class="cb-accordion-panels">
+          <!-- list item Assignment, Display, and Input -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Assignment, Display, and Input</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-no-padding">
+                <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                  <div class="col-xs-12 ap-custom-scroll">
+                    <table class="cb-table cb-white-bg">
+                      <thead>
+                        <tr class="cb-align-center">
+                          <th scope="col">Instruction</th>
+                          <th scope="col">Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>a ← expression</code></span>
+Block:
+                 </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[Begin block] a ← expression [end block]">
+                              <span aria-hidden="true"
+                                class="cb-border cb-border-2 cb-black1-border cb-border-radius-8 cb-padding-4">&#8199;<code>a ← expression</code>&#8199;</span>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Evaluates&#8199;<code>expression</code>&#8199;and then assigns a copy of the result to
+                            the variable&#8199;<code>a</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>DISPLAY(expression)</code></span>
+Block:
+                      </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[Begin block] DISPLAY [begin block] expression [end block] [end block]">
+                              <span aria-hidden="true"
+                                class="cb-border cb-border-2 cb-black1-border cb-border-radius-8 cb-padding-4"><code>DISPLAY <span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">expression</span></code></span>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Displays the value of &#8199;<code>expression</code>, &#8199;followed by a space.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>INPUT()</code></span>
+Block:
+                        </pre>
+                            <code>INPUT</code>
+                          </td>
+                          <td class="explanation">
+                            Accepts a value from the user and returns the input value.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Arithmetic Operations and Numeric Procedures -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Arithmetic Operations and Numeric Procedures</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-no-padding cb-gray5-bg">
+                <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                  <div class="col-xs-12 ap-custom-scroll">
+                    <table class="cb-table cb-white-bg">
+                      <thead>
+                        <tr class="cb-align-center">
+                          <th scope="col">Instruction</th>
+                          <th scope="col">Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <pre>Text and Block:
+<span class="pretext"><code>a + b</code>
+<code>a - b</code>
+<code>a * b</code>
+<code>a / b</code></span>
+                        </pre>
+                          </td>
+                          <td class="explanation">
+                            <p class="cb-margin-bottom-8">
+                              The arithmetic operators
+                              <span class="sr" role="img" aria-label="plus, minus, multiplied and divide"><span
+                                  aria-hidden="true">
+                                  &#8199;<code>+</code>, &#8199;<code>-</code>, &#8199;<code>*</code>,&#8199; and
+                                  &#8199;<code>/</code>&#8199;</span></span>
+                              are used to perform arithmetic on &#8199;<code>a</code>&#8199;and &#8199;<code>b</code>.
+                            </p>
+                            <p class="cb-margin-bottom-8">
+                              For example,
+                              <span role="img" aria-label="17 over 5">&#8199;<code
+                                  aria-hidden="true">17 / 5</code>&#8199;</span>
+                              evaluates to &#8199;<code>3.4</code>.
+                            </p>
+                            <p>
+                              The order of operations used in mathematics applies when evaluating
+                              expressions.
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>Text and Block:<span class="pretext"><code>a MOD b</code></span>
+                        </pre>
+                          </td>
+                          <td class="explanation">
+                            <p class="cb-margin-bottom-8">
+                              Evaluates to the remainder when &#8199;<code>a</code>&#8199;is divided by
+                              &#8199;<code>b</code>. Assume that &#8199;<code>a</code>&#8199;is an integer greater than
+                              or
+                              equal to &#8199;<code>0</code>&#8199;and &#8199;<code>b</code>&#8199;is an integer greater
+                              than
+                              &#8199;<code>0</code>.
+                            </p>
+                            <p class="cb-margin-bottom-8">
+                              For example, &#8199;<code>17 MOD 5</code>&#8199;evaluates to &#8199;<code>2</code>.
+                            </p>
+                            <p>
+                              The &#8199;<code>MOD</code>&#8199;operator has the same precedence as the
+                              <span role="img" aria-label="multiply and divide">
+                                <span aria-hidden="true">&#8199;<code>*</code>&#8199;and
+                                  &#8199;<code>/</code>&#8199;</span>
+                                operators.
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>RANDOM(a, b)</code></span>
+Block:
+                        </pre>
+                            <div class="cb-margin-top-8">
+                              <code>RANDOM <span role="img" aria-label="[begin block] a, b [end block]"><span aria-hidden="true" class="cb-border cb-border-2 cb-black1-border"> a, b </span></span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            <p class="cb-margin-bottom-8">
+                              Generates and returns a random integer from &#8199;<code>a</code>&#8199;to
+                              &#8199;<code>b</code>, including &#8199;<code>a</code>&#8199;and &#8199;<code>b</code>.
+                              &#8199; Each result
+                              is equally likely to occur.
+                            </p>
+                            <p class="cb-margin-bottom-8">
+                              For example, &#8199;<code>RANDOM(1, 3)</code>&#8199;could return &#8199;<code>1</code>,
+                              &#8199;<code>2</code>, &#8199;or &#8199;<code>3</code>.
+                            </p>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Relational and Boolean Operators -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Relational and Boolean Operators</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-no-padding">
+                <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                  <div class="col-xs-12 ap-custom-scroll">
+                    <table class="cb-table cb-white-bg">
+                      <thead>
+                        <tr class="cb-align-center">
+                          <th scope="col">Instruction</th>
+                          <th scope="col">Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Text and Block:
+
+                            <pre>
+<span class="pretext"><code>a = b</code>
+<code>a ≠ b</code>
+<code>a > b</code>
+<code>a &#60; b</code>
+<code>a ≥ b</code>
+<code>a ≤ b</code></span>
+                        </pre>
+                          </td>
+                          <td class="explanation">
+                            <p class="cb-margin-bottom-8">
+                              The relational operators<span role="img"
+                                aria-label="equals, not equals, greater than, less than, greater than or equal, less than or equal."><span
+                                  aria-hidden="true">&#8199;<code>=</code>, &#8199;<code>≠</code>,
+                                  &#8199;<code>></code>,
+                                  &#8199;<code>&#60;</code>,
+                                  &#8199;<code>≥</code>, &#8199;and &#8199;<code>≤</code>&#8199;</span>
+                                are used to test the relationship between two variables, expressions, or
+                                values. A comparison using relational operators evaluates to a Boolean
+                                value.
+                            </p>
+                            <p>
+                              For example, &#8199;<code>a = b</code>&#8199;evaluates to
+                              &#8199;<code>true</code>&#8199;if
+                              &#8199;<code>a</code>&#8199;and &#8199;<code>b</code>&#8199;are equal; otherwise it
+                              evaluates to
+                              &#8199;<code>false</code>.
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>NOT condition</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="NOT [begin block] condition [end block]">
+                              <span
+                                aria-hidden="true"><code>NOT <span class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4">condition</span></code></span>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Evaluates to &#8199;<code>true</code>&#8199;if &#8199;<code>condition</code>&#8199;is
+                            &#8199;<code>false</code>; otherwise evaluates to &#8199;<code>false</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>condition1 AND condition2</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] condition1 [end block] AND [begin block] condition2 [end block]">
+                              <code><span class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4">condition1</span> AND <span class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4">condition2</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Evaluates to &#8199;<code>true</code>&#8199;if both &#8199;<code>condition1</code>&#8199;and
+                            &#8199;<code>condition2</code>&#8199;are &#8199;<code>true</code>; otherwise evaluates to
+                            &#8199;<code>false</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>condition1 OR condition2</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] condition1 [end block] OR [begin block] condition2 [end block]">
+                              <code><span class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4">condition1</span> OR <span class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4">condition2</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Evaluates to &#8199;<code>true</code>&#8199;if &#8199;<code>condition1</code>&#8199;is
+                            &#8199;<code>true</code>&#8199;or if &#8199;<code>condition2</code>&#8199;is
+                            &#8199;<code>true</code>&#8199;or if
+                            both &#8199;<code>condition1</code>&#8199;and &#8199;<code>condition2</code>&#8199;are
+                            &#8199;<code>true</code>; otherwise evaluates to &#8199;<code>false</code>.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Selection -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Selection</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-no-padding cb-gray5-bg">
+                <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                  <div class="col-xs-12 ap-custom-scroll">
+                    <table class="cb-table cb-white-bg">
+                      <thead>
+                        <tr class="cb-align-center">
+                          <th scope="col">Instruction</th>
+                          <th scope="col">Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <!-- beautify ignore:start -->
+<!-- CED standard is three spaces of indent, not two -->
+Text:
+<pre><span class="codeblock"><code>IF(condition)
+ {
+   &#60;block of statements>
+ }</code></span>
+<!-- beautify ignore:end -->
+
+                            </pre>
+                            Block:
+                            <div class="procedure-box" role="img"
+                              aria-label="[Begin block] Line 1: IF [begin block] condition [end block] Line 2: [begin block] [begin block] block of statements [end block] [end block] [End block]">
+                              <code aria-hidden="true">
+                              <p class="cb-margin-bottom-8">
+                                IF
+                                <span
+                                  class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4"
+                                  >condition</span
+                                >
+                              </p>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">block of statements</div>
+                              </div>
+                            </code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            The code in &#8199;<code>block of statements</code>&#8199;is executed if the Boolean
+                            expression &#8199;<code>condition</code>&#8199;evaluates to &#8199;<code>true</code>; no
+                            action is taken if &#8199;<code>condition</code>&#8199;evaluates to
+                            &#8199;<code>false</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Text:
+                            <!-- beautify ignore:start -->
+<!-- CED standard is three spaces of indent, not two -->
+<pre><span class="codeblock"><code>IF(condition)
+ {
+   &#60;first block of statements>
+ }
+ ELSE
+ {
+   &#60;second block of statements>
+ }</code></span>
+<!-- beautify ignore:end -->
+
+Block:
+                            </pre>
+                            <div class="procedure-box" role="img"
+                              aria-label="[Begin block] Line 1: IF [begin block] condition [end block] Line 2: [begin block] [begin block] first block of statements [end block] [end block] Line 3: ELSE Line 4: [begin block] [begin block] second block of statements [end block] [end block] [End block]">
+                              <code aria-hidden="true">
+                              <p class="cb-margin-bottom-8">
+                                IF
+                                <span
+                                  class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4"
+                                  >condition</span
+                                >
+                              </p>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">first block of statements</div>
+                              </div>
+                              <p class="cb-margin-bottom-8 cb-margin-top-8">ELSE</p>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">second block of statements</div>
+                              </div>
+                            </code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            The code in &#8199;<code>first block of statements</code>&#8199;is executed if the
+                            Boolean expression &#8199;<code>condition</code>&#8199;evaluates to
+                            &#8199;<code>true</code>;
+                            otherwise the code in &#8199;<code>second block of statements</code>&#8199;is executed.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Iteration -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Iteration</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-no-padding cb-gray5-bg">
+                <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                  <div class="col-xs-12 ap-custom-scroll">
+                    <table class="cb-table cb-white-bg">
+                      <thead>
+                        <tr class="cb-align-center">
+                          <th scope="col">Instruction</th>
+                          <th scope="col">Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+
+                            Text:
+                            <!-- beautify ignore:start -->
+<!-- CED standard is three spaces of indent, not two -->
+
+<pre><span class="codeblock"><code>REPEAT n TIMES
+ {
+   &#60;block of statements>
+ }</code></span>
+<!-- beautify ignore:end -->
+
+Block:
+                            </pre>
+                            <div class="procedure-box" role="img"
+                              aria-label="[Begin block] Line 1: REPEAT n TIMES  Line 2: [begin block] [begin block] block of statements [end block] [end block] [End block]">
+                              <code aria-hidden="true">
+                              <p class="cb-margin-bottom-8">REPEAT n TIMES</p>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">block of statements</div>
+                              </div>
+                            </code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            The code in &#8199;<code>block of statements</code>&#8199;is executed
+                            &#8199;<code>n</code>&#8199;times.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+
+                            Text:
+                            <!-- beautify ignore:start -->
+<!-- CED standard is three spaces of indent, not two -->
+<pre><span class="codeblock"><code>REPEAT UNTIL (condition)
+ {
+   &lt;block of statements>
+ }</code></span>
+<!-- beautify ignore:end -->
+Block:
+                            </pre>
+                            <div class="procedure-box" role="img"
+                              aria-label="[Begin block] Line 1: REPEAT UNTIL [begin block] condition [end block]  Line 2: [begin block] [begin block] block of statements [end block] [end block] [End block]">
+                              <code aria-hidden="true">
+                              <p class="cb-margin-bottom-8">
+                                REPEAT UNTIL
+                                <span
+                                  class="cb-border cb-border-2 cb-border-radius-16 cb-black1-border cb-padding-4"
+                                  >condition</span
+                                >
+                              </p>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">block of statements</div>
+                              </div>
+                            </code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            The code in &#8199;<code>block of statements</code>&#8199;is repeated until the Boolean
+                            expression &#8199;<code>condition</code>&#8199;evaluates to &#8199;<code>true</code>.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item List Operations -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>List Operations</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-no-padding cb-gray5-bg">
+                <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                  <div class="col-xs-12 ap-custom-scroll">
+                    <div class="cb-padding-bottom-24">
+                      For all list operations, if a list index is less than 1 or greater than
+                      the length of the list, an error message is produced and the program
+                      terminates.
+                    </div>
+                    <table class="cb-table cb-white-bg">
+                      <thead>
+                        <tr class="cb-align-center">
+                          <th scope="col">Instruction</th>
+                          <th scope="col">Explanation</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>aList ← [value1, value2, value3, ...]</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] aList ← [begin block] value1, value2, value3,… [end block] [end block]">
+                              <code aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">aList ← <span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">value1, value2, value3, ...</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Creates a new list that contains the values &#8199;<code>value1</code>,
+                            &#8199;<code>value2</code>, &#8199;<code>value3</code>, and &#8199;<code>...</code>&#8199;at
+                            indicies
+                            &#8199;<code>1</code>, &#8199;<code>2</code>, &#8199;<code>3</code>, and
+                            &#8199;<code>...</code>&#8199;respectively and assigns it to &#8199;<code>aList</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>aList ← []</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] aList ← [empty block] [end block]"><code aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">aList ← <span class="cb-border cb-border-2 cb-black1-border">&nbsp;</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Creates an empty list and assigns it to &#8199;<code>aList</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>aList ← bList</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] aList ← bList [end block]">
+                              <code aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">aList ← bList</code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            <p class="cb-margin-bottom-8">
+                              Assigns a copy of the list &#8199;<code>bList</code>&#8199;to the list
+                              &#8199;<code>aList</code>.
+                            </p>
+                            <p>
+                              For example, if &#8199;<code>bList</code>&#8199;contains &#8199;<code>[20, 40, 60]</code>,
+                              then &#8199;<code>aList</code>&#8199;will also contain
+                              &#8199;<code>[20, 40, 60]</code>&#8199;after the assignment.
+                            </p>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<span class="pretext"><code>aList[i]</code></span>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8" aria-label="aList [begin block] i [end block]"><code
+                                aria-hidden="true">aList<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">i</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Accesses the element of &#8199;<code>aList</code>&#8199;at the index &#8199;<code>i</code>.
+                            The first element of &#8199;<code>aList</code>&#8199;is at index
+                            &#8199;<code>1</code>&#8199;and is
+                            accessed using the notation &#8199;<code>aList[1]</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>x ← aList[i]</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] x ← aList [begin block] i [end block] [end block]"><code
+                                aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">x ← aList<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">i</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Assigns the value of &#8199;<code>aList[i]</code>&#8199;to the variable
+                            &#8199;<code>x</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>aList[i] ← x</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] aList [begin block] i [end block] ← x [end block]"><code
+                                aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">aList<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">i</span> ← x</code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Assigns the value of &#8199;<code>x</code>&#8199;to &#8199;<code>aList[i]</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>aList[i] ← aList[j]</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] aList [begin block] i [end block] ← aList [begin block] j [end block] [end block]">
+                              <code aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">aList<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">i</span> ← aList<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">j</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Assigns the value of &#8199;<code>aList[j]</code>&#8199;to &#8199;<code>aList[i]</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>INSERT(aList, i, value)</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] INSERT [begin block] alist, i, value [end block] [end block]">
+                              <code
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">INSERT<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4 cb-margin-left-8">aList, i, value</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Any values in &#8199;<code>aList</code>&#8199;at indicies greater than or equal to
+                            &#8199;<code>i</code>&#8199;are shifted one position to the right. The length of the
+                            list is increased by &#8199;<code>1</code>, and &#8199;<code>value</code>&#8199;is placed at
+                            index &#8199;<code>i</code>&#8199;in &#8199;<code>aList</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>APPEND(aList, value)</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] APPEND [begin block] alist, value [end block] [end block]"><code
+                                aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">APPEND<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4 cb-margin-left-8">aList, value</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            The length of &#8199;<code>aList</code>&#8199;is increased by &#8199;<code>1</code>, and
+                            &#8199;<code>value</code>&#8199;is placed at the end of &#8199;<code>aList</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>REMOVE(aList, i)</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8"
+                              aria-label="[begin block] REMOVE [begin block] alist, i [end block] [end block]"><code
+                                aria-hidden="true"
+                                class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">REMOVE<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4 cb-margin-left-8">aList, i</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Removes the item at index &#8199;<code>i</code>&#8199;in &#8199;<code>aList</code>&#8199;and
+                            shifts
+                            to the left any values at indices greater than &#8199;<code>i</code>. The length
+                            of &#8199;<code>aList</code>&#8199;is decreased by &#8199;<code>1</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <pre>
+Text:
+<div class="pretext"><code>LENGTH(aList)</code></div>
+Block:
+                        </pre>
+                            <div role="img" class="cb-margin-top-8" aria-label="LENGTH [begin block] alist [End block]">
+                              <code
+                                aria-hidden="true">LENGTH<span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4 cb-margin-left-8">aList</span></code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            Evaluates to the number of elements in &#8199;<code>aList</code>.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+
+                            Text:
+                            <!-- beautify ignore:start -->
+                          <pre><span class="codeblock"><code>FOR EACH item IN aList
+ {
+   &#60;block of statements>
+ }</code></span>
+<!-- beautify ignore:end -->
+Block:
+                            </pre>
+                            <div class="procedure-box" role="img"
+                              aria-label="[Begin block] Line 1: FOR EACH item IN aList Line 2: [begin block] [ begin block] block of statements [end block] [end block] [End block]">
+                              <code aria-hidden="true">
+                              <p class="cb-margin-bottom-8">FOR EACH item IN aList</p>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">block of statements</div>
+                              </div>
+                            </code>
+                            </div>
+                          </td>
+                          <td class="explanation">
+                            The variable &#8199;<code>item</code>&#8199;is assigned the value of each element of
+                            &#8199;<code>aList</code>&#8199; sequentially, in order, from the first element to the last
+                            element. The
+                            code in
+                            &#8199;<code>block of statements</code>&#8199;is executed once for each assignment of
+                            &#8199;<code>item</code>.
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- list item Procedures and Procedure Calls -->
+            <div class="cb-accordion-container">
+              <!-- header -->
+              <a href="#" class="cb-accordion-heading cb-white-bg">
+                <div class="cb-accordion-heading-title">
+                  <span>Procedures and Procedure Calls</span>
+                  <div class="cb-accordion-icon">
+                    <span class="line top"></span>
+                    <span class="line bottom"></span>
+                  </div>
+                </div>
+              </a>
+              <!-- open content -->
+              <div class="cb-accordion-panel" role="region">
+                <div class="cb-accordion-panel-content cb-no-padding cb-gray5-bg">
+                  <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                    <div class="col-xs-12 ap-custom-scroll">
+                      <table class="cb-table cb-white-bg">
+                        <thead>
+                          <tr class="cb-align-center">
+                            <th scope="col">Instruction</th>
+                            <th scope="col">Explanation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+
+                              Text:
+                              <!-- beautify ignore:start -->
+<pre><span class="codeblock"><code>PROCEDURE procName(parameter1,
+                    parameter2, ...)
+ {
+   &#60;block of statements>
+ }</code></span>
+<!-- beautify ignore:end -->
+Block:
+                              </pre>
+                              <div class="procedure-box" role="img"
+                                aria-label="[Begin block] Line 1: PROCEDURE procName [begin block] parameter1, parameter2, ... [end block] Line 2: [begin block] [begin block] block of statements [end block] [end block] [End block]">
+                                <code aria-hidden="true">
+                                  <div class="row cb-padding-left-8 cb-padding-right-8">
+                                  <div class="col" style="padding-top: 2px;"> PROCEDURE procName </div>
+                                  <div class="col procedure-list cb-border cb-border-2 cb-black1-border">
+                                    <span>parameter1,</span>
+                                    <br />
+                                    <span>parameter2,...</span>
+                                  </div>
+                                </div>
+                                  <div class="statement-box cb-margin-left-24"><div class="statement-box">block of statements</div></div>
+                                </code>
+                              </div>
+                            </td>
+                            <td class="explanation">
+                              <p class="cb-margin-bottom-8">
+                                Defines &#8199;<code>procName</code>&#8199;as a procedure that takes zero or more
+                                arguments. The procedure contains &#8199;<code>block of statements</code>.
+                              </p>
+                              <p class="cb-margin-bottom-8">
+                                The procedure &#8199;<code>procName</code>&#8199;can be called using the following
+                                notation, where &#8199;<code>arg1</code>&#8199;is assigned to
+                                &#8199;<code>parameter1</code>, &#8199;<code>arg2</code>&#8199;is assigned to
+                                &#8199;<code>parameter2</code>, etc.:
+                                <br />
+                                <code>procName(arg1, arg2, ...)</code>
+                              </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+
+                              Text:
+                              <!-- beautify ignore:start -->
+<pre><span class="codeblock"><code>PROCEDURE procName(parameter1,
+                    parameter2, ...)
+ {
+   &#60;block of statements>
+   RETURN(expression)
+ }</code></span>
+<!-- beautify ignore:end -->
+
+Block:
+                              </pre>
+                              <div class="procedure-box" role="img"
+                                aria-label="[Begin block] Line 1: PROCEDURE procName [begin block] parameter1, parameter2, ... [end block] [Begin block] Line 2: [begin block] block of statements [end block] Line 3: [begin block] RETURN [begin block] expression [end block] [end block] [End block] [End block]">
+                                <code aria-hidden="true">
+                                  <div class="row cb-padding-left-8 cb-padding-right-8">
+                                    <div class="col" style="padding-top: 2px;">
+                              PROCEDURE procName
+                                    </div>
+                                  <div class="col procedure-list cb-border cb-border-2 cb-black1-border">
+                                    <span>parameter1,</span>
+                                    <br />
+                                    <span>parameter2,...</span>
+                                  </div>
+                                </div>
+                              <div class="statement-box cb-margin-left-24">
+                                <div class="statement-box">block of statements</div>
+                                <div class="statement-box">
+                                  RETURN
+                                  <span
+                                    class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4"
+                                    >expression</span
+                                  >
+                                </div>
+                              </div>
+                            </code>
+                              </div>
+                            </td>
+                            <td class="explanation">
+                              <p class="cb-margin-bottom-8">
+                                Defines &#8199;<code>procName</code>&#8199;as a procedure that takes zero or more
+                                arguments. The procedure contains &#8199;<code>block of statements</code>&#8199;and
+                                returns the value of &#8199;<code>expression</code>. The
+                                &#8199;<code>RETURN</code>&#8199;statement may appear at any point inside the
+                                procedure and causes an immediate return from the procedure back to the
+                                calling statement.
+                              </p>
+                              <p class="cb-margin-bottom-8">
+                                The value returned by the procedure &#8199;<code>procName</code>&#8199;can be
+                                assigned to the variable &#8199;<code>result</code>&#8199;using the following
+                                notation:
+                                <br />
+                                <code>result ← procName(arg1, arg2, ...)</code>
+                              </p>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <pre>
+Text:
+<div class="pretext"><code>RETURN(expression)</code></div>
+Block:
+                        </pre>
+                              <div role="img" class="cb-margin-top-8"
+                                aria-label="[begin block] RETURN [begin block] expression [end block] [end block]"><code
+                                  aria-hidden="true"
+                                  class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">RETURN <span class="cb-border cb-border-2 cb-black1-border cb-padding-left-4 cb-padding-right-4">expression</span></code>
+                              </div>
+                            </td>
+
+                            <td class="explanation">
+                              Returns the flow of control to the point where the procedure was called
+                              and returns the value of
+                              &#8199;<code>expression</code>.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- list item Robot -->
+            <div class="cb-accordion-container">
+              <!-- header -->
+              <a href="#" class="cb-accordion-heading cb-white-bg">
+                <div class="cb-accordion-heading-title">
+                  <span>Robot</span>
+                  <div class="cb-accordion-icon">
+                    <span class="line top"></span>
+                    <span class="line bottom"></span>
+                  </div>
+                </div>
+              </a>
+              <!-- open content -->
+              <div class="cb-accordion-panel" role="region">
+                <div class="cb-accordion-panel-content cb-no-padding cb-gray5-bg">
+                  <div class="row cb-padding-left-24 cb-padding-top-24 cb-padding-bottom-24">
+                    <div class="col-xs-12 ap-custom-scroll">
+                      <div class="cb-padding-bottom-24">
+                        If the robot attempts to move to a square that is not open or is beyond
+                        the edge of the grid, the robot will stay in its current location and the
+                        program will terminate.
+                      </div>
+                      <table class="cb-table cb-white-bg">
+                        <thead>
+                          <tr class="cb-align-center">
+                            <th scope="col">Instruction</th>
+                            <th scope="col">Explanation</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <pre>
+Text:
+<div class="pretext"><code>MOVE_FORWARD()</code></div>
+Block:
+                        </pre>
+                              <div role="img" class="cb-margin-top-8"
+                                aria-label="[begin block] MOVE_FORWARD [end block]">
+                                <code aria-hidden="true"
+                                  class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">MOVE_FORWARD</code>
+                              </div>
+                            </td>
+
+                            <td class="explanation">
+                              The robot moves one square forward in the direction it is facing.
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <pre>
+Text:
+<div class="pretext"><code>ROTATE_LEFT()</code></div>
+Block:
+                        </pre>
+                              <div role="img" class="cb-margin-top-8"
+                                aria-label="[begin block] ROTATE_LEFT [end block]">
+                                <code aria-hidden="true"
+                                  class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">ROTATE_LEFT</code>
+                              </div>
+                            </td>
+
+                            <td class="explanation">
+                              The robot rotates in place 90 degrees counterclockwise (i.e., makes an
+                              in-place left turn).
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <pre>
+Text:
+<div class="pretext"><code>ROTATE_RIGHT()</code></div>
+Block:
+                        </pre>
+                              <div role="img" class="cb-margin-top-8"
+                                aria-label="[begin block] ROTATE_RIGHT [end block]">
+                                <code aria-hidden="true"
+                                  class="cb-border cb-border-2 cb-border-radius-8 cb-black1-border cb-padding-4">ROTATE_RIGHT</code>
+                              </div>
+                            </td>
+
+                            <td class="explanation">
+                              The robot rotates in place 90 degrees clockwise (i.e., makes an in-place
+                              right turn).
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <pre>
+Text:
+<div class="pretext"><code>CAN_MOVE(DIRECTION)</code></div>
+Block:
+                        </pre>
+                              <div role="img" class="cb-margin-top-8"
+                                aria-label="CAN_MOVE [begin block] direction [end block]"><code
+                                  aria-hidden="true">CAN_MOVE <span class="cb-border cb-border-2 cb-black1-border cb-padding-4">direction</span></code>
+                              </div>
+                            </td>
+
+                            <td class="explanation">
+                              Evaluates to &#8199;<code>true</code>&#8199;if there is an open square one square in
+                              the direction relative to where the robot is facing; otherwise evaluates
+                              to &#8199;<code>false</code>. The value of direction can be &#8199;<code>left</code>,
+                              &#8199;<code>right</code>, &#8199;<code>forward</code>, or &#8199;<code>backward</code>.
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </main>
+
+    <style>
+      main#reference-sheet {
+        font-family: 'notoSerif', 'noto-serif', 'Noto Serif';
+        background-color: #f0f0f0;
+        font-size: 15px;
+      }
+
+      main#reference-sheet .Rectangle {
+        background-image: linear-gradient(to bottom, #d9d9d9, #f0f0f0 57%);
+        height: 24px;
+      }
+
+      main#reference-sheet code {
+        font-family: "Courier Prime" !important;
+        font-size: 14px;
+        line-height: 1em;
+      }
+
+      main#reference-sheet div.svg-container#assignment-expression svg {
+        margin-left: -24px;
+        transform: scale(0.8);
+      }
+
+      /* accordion */
+      main#reference-sheet .cb-accordion .cb-accordion-controls {
+        font-size: 15px;
+        margin: 0;
+        padding: 16px 24px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-heading {
+        background-color: white;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-panel {
+        overflow-y: hidden !important;
+        background-color: #f5f5f5;
+      }
+
+      main#reference-sheet table {
+        font-family: "Noto Serif";
+      }
+
+      main#reference-sheet table.cb-table>thead {
+        background-color: #d9d9d9;
+        color: #1e1e1e;
+      }
+
+      main#reference-sheet table.cb-table thead tr th {
+        background-color: #d9d9d9;
+      }
+
+      main#reference-sheet table.cb-table :is(td, th) {
+        border-color: #505050;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-heading {
+        background-color: #ffffff;
+      }
+
+      main#reference-sheet td.explanation code {
+        background-color: #f0f0f0;
+        font-family: "Courier Prime" !important;
+        font-size: 14px;
+        padding: 2px;
+      }
+
+      main#reference-sheet td.explanation {
+        vertical-align: middle;
+      }
+
+      main#reference-sheet table td {
+        font-family: "Noto Serif";
+        line-height: 24px;
+        width: 50%;
+      }
+
+      main#reference-sheet table td pre {
+        margin: 0 0 -16px 0;
+      }
+
+      /* Pretext is used for most code elements, codeblock for multiple lines of code */
+      main#reference-sheet table td pre span.pretext,
+      main#reference-sheet table td pre span.codeblock {
+        /* background-color: #f0f0f0; */
+        padding: 12px 12px 12px 0;
+        margin-bottom: -16px;
+        margin-top: 8px;
+      }
+
+      span.pretext,
+      span.codeblock {
+        display: block;
+      }
+
+      span.codeblock code {
+        padding-left: 12px;
+      }
+
+      /* Grey background wraps around the code element rather than being full-width */
+      main#reference-sheet table td pre span.pretext code {
+        background-color: #f0f0f0;
+        padding: 12px;
+      }
+
+      /* But for code blocks, the grey background is full-width to avoid ragged right margin */
+      main#reference-sheet table td pre span.codeblock {
+        background-color: #f0f0f0;
+        /* padding: 12px;
+          margin-bottom: -16px;
+          margin-top: 8px; */
+      }
+
+
+      main#reference-sheet table td div.svg-container svg {
+        height: calc(fit-content - 20px);
+        margin-top: -16px;
+      }
+
+      /* procedure block */
+      main#reference-sheet .procedure-box {
+        background-color: #d9d9d9;
+        border: 2px solid black;
+        border-radius: 8px;
+        padding: 8px;
+        width: fit-content;
+      }
+
+      main#reference-sheet .procedure-list {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      main#reference-sheet div .procedure-list {
+        margin-left: 4px;
+        margin-bottom: 8px;
+        padding: 0 4px;
+      }
+
+      main#reference-sheet .statement-box {
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 8px;
+        padding: 4px;
+        width: fit-content;
+        white-space: nowrap;
+      }
+
+      main#reference-sheet .ap-custom-scroll {
+        width: 99%;
+        overflow-y: hidden;
+      }
+    </style>
+
+    <!-- activate accordion -->
+    <script type="text/javascript" id="apricot-setup-scripts">
+      try {
+        // for A11Y
+        window.cb.apricot.CBInputMethod();
+
+        const utils = cb.apricot.CBUtils;
+
+        const customA11yScrollbar = elem => {
+          let resizeTimeout = null;
+          let tbl = null;
+          const init = () => {
+            elem.customScroll = "cb";
+
+            tbl = elem.querySelector("table");
+            adjustScrollBar();
+            window.addEventListener("resize", resizeThrottler, false);
+          };
+
+          const adjustScrollBar = () => {
+            tbl = elem.querySelector("table");
+            const pw = utils.outerWidth(elem);
+
+            const tw = utils.outerWidth(tbl);
+
+            if (tw > pw) {
+              if (
+                elem.customScrollAccordion === undefined ||
+                elem.customScrollAccordion === "open"
+              ) {
+                utils.attr(elem, "role", "region");
+                utils.attr(elem, "aria-label", "scrolling table");
+                utils.attr(elem, "tabindex", "0");
+                utils.attr(elem, "aria-hidden", "false");
+              }
+            } else {
+              utils.removeAttr(elem, "tabindex");
+              utils.removeAttr(elem, "aria-hidden");
+              utils.removeAttr(elem, "aria-label");
+              utils.removeAttr(elem, "role");
+            }
+          };
+
+          const resizeThrottler = () => {
+            if (!resizeTimeout) {
+              resizeTimeout = setTimeout(function () {
+                resizeTimeout = null;
+                adjustScrollBar();
+              }, 500);
+            }
+          };
+
+          if (elem.customScroll !== "cb") {
+            init();
+          }
+
+          return {
+            adjustScrollBar: adjustScrollBar
+          };
+        };
+        // initialize custom accesible scroll
+        document.querySelectorAll(".ap-custom-scroll").forEach(node => {
+          customA11yScrollbar(node);
+        });
+
+        const panelStateHasChanged = panel => {
+          if (panel) {
+            if (utils.hasClass(panel, "cb-in")) {
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll(".ap-custom-scroll").forEach(node => {
+                const scrollObj = customA11yScrollbar(node);
+                node.customScrollAccordion = "open";
+                scrollObj.adjustScrollBar();
+              });
+            } else {
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll(".ap-custom-scroll").forEach(node => {
+                node.customScrollAccordion = "closed";
+              });
+            }
+          }
+        };
+
+        try {
+          var acc = cb.apricot.CBAccordion({
+            elem: document.querySelector("#reference-sheet-accordion.cb-accordion"),
+            callBack: panelStateHasChanged,
+            extendFocusableElements: [".MathJax"]
+          });
+        } catch (e) {
+          console.log("Reference Sheet Error: ", e);
+        }
+
+        try {
+          const responsiveUpdate = () => {
+            // on zoom event, if the accordionian is open, adjust the scrollbar
+            document.querySelectorAll(".ap-custom-scroll").forEach(node => {
+              const scrollObj = customA11yScrollbar(node);
+              if (node.customScrollAccordion === "open") {
+                scrollObj.adjustScrollBar();
+              }
+            });
+
+            acc.adjustHeight();
+          };
+
+          window.onload = () => {
+            responsiveUpdate();
+          }
+
+          var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutationRecord) {
+              responsiveUpdate();
+            });
+          });
+
+          var target = document.getElementsByTagName("html");
+          observer.observe(target[0], { attributes: true, attributeFilter: ["style"] });
+          responsiveUpdate();
+        } catch (e) {
+          console.log("Reference Sheet Error: ", e);
+        }
+      } catch (e) {
+        console.log("Reference Sheet Error: ", e);
+      }
+    </script>
+  </body>
+
+</html>

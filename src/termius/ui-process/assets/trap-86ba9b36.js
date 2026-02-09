@@ -1,0 +1,2 @@
+const n="Automatically execute commands after receiving signals by processes or the operating system",e="trap",s=[{name:"function name",isOptional:!0},{name:"reason"}],t=[{description:"Prints all defined signal handlers",name:["--print","-p"]},{description:"Displays help about using this command",name:["--help","-h"]}],a={description:n,name:e,args:s,options:t};export{s as args,a as default,n as description,e as name,t as options};
+//# sourceMappingURL=trap-86ba9b36.js.map
