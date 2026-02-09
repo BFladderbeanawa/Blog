@@ -1,0 +1,2 @@
+const e="A code-size profiler for WebAssembly",n="twiggy",s=[{description:"Prints this message or the help of the given subcommand(s)",name:"help",args:[{name:"subcommand",template:["help"]}]}],o=[{description:"Prints help information",name:["--help","-h"]},{description:"Prints version information",name:["--version","-v"]}],i={description:e,name:n,subcommands:s,options:o};export{i as default,e as description,n as name,o as options,s as subcommands};
+//# sourceMappingURL=twiggy-e78c5b52.js.map

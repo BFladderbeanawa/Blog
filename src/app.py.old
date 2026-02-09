@@ -1,0 +1,2094 @@
+from __future__ import annotations
+
+import logging
+import os
+import re
+import smtplib
+from datetime import datetime, timezone
+from email.message import EmailMessage
+from functools import wraps
+from typing import Iterable, Optional
+
+import bleach
+from bleach import callbacks
+from bleach.sanitizer import (
+    ALLOWED_ATTRIBUTES as BLEACH_ALLOWED_ATTRIBUTES,
+    ALLOWED_PROTOCOLS as BLEACH_ALLOWED_PROTOCOLS,
+    ALLOWED_TAGS as BLEACH_ALLOWED_TAGS,
+)
+from flask import abort, Flask, flash, redirect, render_template, request, url_for
+from flask_login import (
+    current_user,
+    LoginManager,
+    UserMixin,
+    login_required,
+    login_user,
+    logout_user,
+)
+from flask_sqlalchemy import SQLAlchemy
+from flask_caching import Cache
+from markdown import markdown
+from sqlalchemy import func, inspect
+from werkzeug.security import check_password_hash, generate_password_hash
+
+from config import Config
+from seed_data import (
+    DEFAULT_ANNOUNCEMENTS,
+    DEFAULT_CATEGORIES,
+    DEFAULT_CHALLENGES,
+    DEFAULT_DIFFICULTIES,
+    DEFAULT_EVENT_OVERVIEW,
+    DEFAULT_HIGHLIGHT_CARDS,
+    DEFAULT_SITE_SETTINGS,
+)
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+db = SQLAlchemy()
+login_manager = LoginManager()
+login_manager.login_view = "login"
+cache = Cache()
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+db.init_app(app)
+login_manager.init_app(app)
+cache.init_app(app)
+
+HOME_CACHE_KEY = app.config.get("CACHE_KEY_PREFIX", "neko_ctf:") + "view:home"
+LEADERBOARD_CACHE_KEY = app.config.get("CACHE_KEY_PREFIX", "neko_ctf:") + "view:leaderboard"
+HOME_CACHE_TIMEOUT = app.config.get("HOME_CACHE_TIMEOUT", app.config.get("CACHE_DEFAULT_TIMEOUT", 300))
+LEADERBOARD_CACHE_TIMEOUT = app.config.get("LEADERBOARD_CACHE_TIMEOUT", app.config.get("CACHE_DEFAULT_TIMEOUT", 300))
+
+MARKDOWN_EXTENSIONS = [
+    "extra",
+    "sane_lists",
+]
+
+MARKDOWN_ALLOWED_TAGS = BLEACH_ALLOWED_TAGS.union(
+    {
+        "p",
+        "pre",
+        "code",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "table",
+        "thead",
+        "tbody",
+        "tr",
+        "th",
+        "td",
+        "hr",
+        "img",
+    }
+)
+
+_default_attrs = dict(BLEACH_ALLOWED_ATTRIBUTES)
+MARKDOWN_ALLOWED_ATTRIBUTES = {
+    **_default_attrs,
+    "a": ["href", "title", "rel", "target"],
+    "img": ["src", "alt", "title"],
+    "code": ["class"],
+    "th": ["colspan", "rowspan", "scope"],
+    "td": ["colspan", "rowspan"],
+}
+
+MARKDOWN_ALLOWED_PROTOCOLS = BLEACH_ALLOWED_PROTOCOLS.union({"mailto"})
+
+
+def render_markdown(text: str | None) -> str:
+    if not text:
+        return ""
+    html = markdown(text, extensions=MARKDOWN_EXTENSIONS, output_format="html5")
+    cleaned = bleach.clean(
+        html,
+        tags=MARKDOWN_ALLOWED_TAGS,
+        attributes=MARKDOWN_ALLOWED_ATTRIBUTES,
+        protocols=MARKDOWN_ALLOWED_PROTOCOLS,
+        strip=True,
+    )
+    return bleach.linkify(
+        cleaned,
+        callbacks=[callbacks.nofollow, callbacks.target_blank],
+        skip_tags=["code", "pre"],
+    )
+
+
+def invalidate_public_cache(*additional_keys: str) -> None:
+    cache_keys = {HOME_CACHE_KEY, LEADERBOARD_CACHE_KEY}
+    cache_keys.update(additional_keys)
+    for key in cache_keys:
+        cache.delete(key)
+
+
+class User(db.Model, UserMixin):
+    __tablename__ = "users"
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(255), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False, nullable=False)
+
+    submissions = db.relationship("Submission", back_populates="user", cascade="all, delete-orphan")
+
+    def set_password(self, raw_password: str) -> None:
+        self.password_hash = generate_password_hash(raw_password)
+
+    def check_password(self, raw_password: str) -> bool:
+        return check_password_hash(self.password_hash, raw_password)
+
+
+class Challenge(db.Model):
+    __tablename__ = "challenges"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(80), nullable=False)
+    difficulty = db.Column(db.String(40), nullable=False)
+    summary = db.Column(db.Text, nullable=False, default="")
+    description = db.Column(db.Text, nullable=False)
+    is_visible = db.Column(db.Boolean, default=True, nullable=False)
+    points = db.Column(db.Integer, default=100, nullable=False)
+    flag_hash = db.Column(db.String(255), nullable=False)
+
+    submissions = db.relationship("Submission", back_populates="challenge", cascade="all, delete-orphan")
+    hints = db.relationship(
+        "ChallengeHint",
+        back_populates="challenge",
+        cascade="all, delete-orphan",
+        order_by="ChallengeHint.order",
+    )
+    flags = db.relationship(
+        "ChallengeFlag",
+        back_populates="challenge",
+        cascade="all, delete-orphan",
+        order_by="ChallengeFlag.display_order",
+    )
+
+    def set_flag(self, flag: str) -> None:
+        self.flag_hash = generate_password_hash(flag.strip())
+
+    def match_flag(self, flag: str) -> Optional["ChallengeFlag"]:
+        if not flag:
+            return None
+        stripped = flag.strip()
+
+        for stage in self.flags:
+            if stage.check_flag(stripped):
+                return stage
+
+        return None
+
+    def verify_flag(self, flag: str) -> bool:
+        matched = self.match_flag(flag)
+        if matched is not None:
+            return True
+
+        if self.flag_hash and flag:
+            return check_password_hash(self.flag_hash, flag.strip())
+
+        return False
+
+    def summary_html(self) -> str:
+        return render_markdown(self.summary)
+
+    def description_html(self) -> str:
+        return render_markdown(self.description)
+
+
+class ChallengeFlag(db.Model):
+    __tablename__ = "challenge_flags"
+
+    id = db.Column(db.Integer, primary_key=True)
+    challenge_id = db.Column(db.Integer, db.ForeignKey("challenges.id"), nullable=False)
+    slug = db.Column(db.String(64), nullable=False)
+    label = db.Column(db.String(120), nullable=False)
+    points = db.Column(db.Integer, nullable=False, default=100)
+    display_order = db.Column(db.Integer, nullable=False, default=1)
+    flag_hash = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+    challenge = db.relationship("Challenge", back_populates="flags")
+
+    __table_args__ = (
+        db.UniqueConstraint("challenge_id", "slug", name="uq_challenge_flag_slug"),
+    )
+
+    def set_flag(self, raw_flag: str) -> None:
+        self.flag_hash = generate_password_hash(raw_flag.strip())
+
+    def check_flag(self, raw_flag: str) -> bool:
+        if not raw_flag:
+            return False
+        return check_password_hash(self.flag_hash, raw_flag.strip())
+
+
+class Submission(db.Model):
+    __tablename__ = "submissions"
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
+    challenge_id = db.Column(db.Integer, db.ForeignKey("challenges.id"), nullable=False)
+    flag_submitted = db.Column(db.Text, nullable=False)
+    is_correct = db.Column(db.Boolean, default=False, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+    challenge_flag_id = db.Column(db.Integer, db.ForeignKey("challenge_flags.id"), nullable=True)
+    awarded_points = db.Column(db.Integer, nullable=True)
+
+    user = db.relationship("User", back_populates="submissions")
+    challenge = db.relationship("Challenge", back_populates="submissions")
+    challenge_flag = db.relationship("ChallengeFlag")
+
+
+class ChallengeHint(db.Model):
+    __tablename__ = "challenge_hints"
+
+    id = db.Column(db.Integer, primary_key=True)
+    challenge_id = db.Column(db.Integer, db.ForeignKey("challenges.id"), nullable=False)
+    title = db.Column(db.String(120), nullable=True)
+    content = db.Column(db.Text, nullable=False)
+    order = db.Column(db.Integer, nullable=False, default=1)
+
+    challenge = db.relationship("Challenge", back_populates="hints")
+
+    def content_html(self) -> str:
+        return render_markdown(self.content)
+
+
+class ChallengeCategory(db.Model):
+    __tablename__ = "challenge_categories"
+
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String(80), unique=True, nullable=False)
+    label = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+    display_order = db.Column(db.Integer, default=0, nullable=False)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+
+
+class ChallengeDifficulty(db.Model):
+    __tablename__ = "challenge_difficulties"
+
+    id = db.Column(db.Integer, primary_key=True)
+    value = db.Column(db.String(80), unique=True, nullable=False)
+    label = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+    display_order = db.Column(db.Integer, default=0, nullable=False)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
+
+
+class SiteSetting(db.Model):
+    __tablename__ = "site_settings"
+
+    key = db.Column(db.String(128), primary_key=True)
+    value = db.Column(db.Text, nullable=False)
+    updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+    @staticmethod
+    def get_value(key: str, default: Optional[str] = None) -> Optional[str]:
+        entry = db.session.get(SiteSetting, key)
+        return entry.value if entry else default
+
+    @staticmethod
+    def set_value(key: str, value: str) -> None:
+        entry = db.session.get(SiteSetting, key)
+        if entry:
+            entry.value = value
+        else:
+            entry = SiteSetting(key=key, value=value)
+            db.session.add(entry)
+
+
+class SiteAnnouncement(db.Model):
+    __tablename__ = "site_announcements"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(80), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    display_date = db.Column(db.String(40), nullable=False)
+    display_order = db.Column(db.Integer, default=0, nullable=False)
+    is_visible = db.Column(db.Boolean, default=True, nullable=False)
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False)
+
+
+class HighlightCard(db.Model):
+    __tablename__ = "highlight_cards"
+
+    id = db.Column(db.Integer, primary_key=True)
+    label = db.Column(db.String(120), nullable=False)
+    metric_key = db.Column(db.String(80), nullable=False)
+    note = db.Column(db.String(160), nullable=False)
+    display_order = db.Column(db.Integer, default=0, nullable=False)
+    is_visible = db.Column(db.Boolean, default=True, nullable=False)
+
+
+class SiteEvent(db.Model):
+    __tablename__ = "site_event"
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    date_range = db.Column(db.String(200), nullable=False)
+    location = db.Column(db.String(200), nullable=False)
+    cta_label = db.Column(db.String(120), nullable=False)
+    cta_link = db.Column(db.String(255), nullable=False)
+    cta_note = db.Column(db.String(255), nullable=True)
+    updated_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
+
+
+@login_manager.user_loader
+def load_user(user_id: str) -> Optional[User]:
+    if user_id is None:
+        return None
+    return db.session.get(User, int(user_id))
+
+
+def admin_required(view_func):
+    @wraps(view_func)
+    @login_required
+    def wrapper(*args, **kwargs):
+        if not current_user.is_admin:
+            abort(403)
+        return view_func(*args, **kwargs)
+
+    return wrapper
+
+
+def bootstrap_defaults() -> None:
+    with app.app_context():
+        inspector = inspect(db.engine)
+        challenge_columns = set()
+        if "challenges" in inspector.get_table_names():
+            challenge_columns = {col["name"] for col in inspector.get_columns("challenges")}
+        if challenge_columns and ({"points", "flag_hash", "summary"} - challenge_columns):
+            logger.info("Detected outdated challenge schema, rebuilding database tables.")
+            db.drop_all()
+
+        db.create_all()
+
+        admin_username = app.config.get("ADMIN_USERNAME")
+        admin_email = app.config.get("ADMIN_EMAIL")
+        admin_password = app.config.get("ADMIN_PASSWORD")
+
+        admin_user = User.query.filter_by(username=admin_username).first()
+        if admin_user is None:
+            admin_user = User(
+                username=admin_username,
+                email=admin_email,
+                is_admin=True,
+            )
+            admin_user.set_password(admin_password)
+            db.session.add(admin_user)
+            logger.info("Created default admin user '%s'", admin_username)
+
+        if ChallengeCategory.query.count() == 0:
+            for data in DEFAULT_CATEGORIES:
+                category = ChallengeCategory(
+                    value=data["value"],
+                    label=data["label"],
+                    description=data.get("description"),
+                    display_order=data.get("display_order", 0),
+                    is_active=True,
+                )
+                db.session.add(category)
+            logger.info("Seeded default challenge categories")
+
+        if ChallengeDifficulty.query.count() == 0:
+            for data in DEFAULT_DIFFICULTIES:
+                difficulty = ChallengeDifficulty(
+                    value=data["value"],
+                    label=data["label"],
+                    description=data.get("description"),
+                    display_order=data.get("display_order", 0),
+                    is_active=True,
+                )
+                db.session.add(difficulty)
+            logger.info("Seeded default challenge difficulties")
+
+        if Challenge.query.count() == 0:
+            for data in DEFAULT_CHALLENGES:
+                stage_definitions = list(data.get("flags") or [])
+
+                primary_flag_value = None
+                if stage_definitions:
+                    primary_flag_value = stage_definitions[0].get("flag") or data.get("flag")
+                else:
+                    primary_flag_value = data.get("flag")
+
+                challenge = Challenge(
+                    title=data["title"],
+                    category=data["category"],
+                    difficulty=data["difficulty"],
+                    summary=data["summary"],
+                    description=data["content"],
+                    points=data["points"],
+                    is_visible=data.get("is_visible", True),
+                )
+                challenge.set_flag(primary_flag_value or "NekoCTF{seed_placeholder_flag}")
+                db.session.add(challenge)
+                db.session.flush()
+
+                if not stage_definitions:
+                    default_stage_flag = primary_flag_value or data.get("flag")
+                    if default_stage_flag:
+                        stage_definitions.append(
+                            {
+                                "slug": "stage-1",
+                                "label": data.get("flag_label") or "Primary Flag",
+                                "points": data.get("points", 0),
+                                "flag": default_stage_flag,
+                                "display_order": 1,
+                            }
+                        )
+
+                total_stage_points = 0
+                for idx, stage_data in enumerate(stage_definitions, start=1):
+                    secret = stage_data.get("flag")
+                    flag_hash_value = stage_data.get("flag_hash")
+                    if not secret and not flag_hash_value:
+                        continue
+
+                    slug_raw = stage_data.get("slug") or f"stage-{idx}"
+                    slug_clean = (slug_raw or "").strip().lower() or f"stage-{challenge.id}-{idx}"
+                    points_value = stage_data.get("points")
+                    if points_value is None:
+                        points_value = data.get("points", 0)
+                    try:
+                        points_int = int(points_value)
+                    except (TypeError, ValueError):
+                        points_int = 0
+                    if points_int < 0:
+                        points_int = 0
+
+                    display_order = stage_data.get("display_order") or idx
+
+                    stage = ChallengeFlag(
+                        challenge=challenge,
+                        slug=slug_clean,
+                        label=stage_data.get("label") or f"Stage {idx}",
+                        points=points_int,
+                        display_order=display_order,
+                    )
+
+                    if flag_hash_value:
+                        stage.flag_hash = flag_hash_value
+                    else:
+                        stage.set_flag(secret)
+
+                    db.session.add(stage)
+                    total_stage_points += points_int
+
+                if total_stage_points > 0:
+                    challenge.points = total_stage_points
+
+            logger.info("Seeded default challenges with flag stages")
+
+        backfilled_legacy = False
+        for challenge in Challenge.query.all():
+            if not challenge.flags:
+                legacy_stage = ChallengeFlag(
+                    challenge=challenge,
+                    slug=f"legacy-{challenge.id}",
+                    label="Legacy Flag",
+                    points=challenge.points,
+                    display_order=1,
+                )
+                legacy_stage.flag_hash = challenge.flag_hash
+                db.session.add(legacy_stage)
+                backfilled_legacy = True
+
+        if backfilled_legacy:
+            logger.info("Backfilled flag stages for legacy challenges")
+
+        if SiteAnnouncement.query.count() == 0:
+            for data in DEFAULT_ANNOUNCEMENTS:
+                announcement = SiteAnnouncement(
+                    title=data["title"],
+                    category=data["category"],
+                    description=data["description"],
+                    display_date=data["display_date"],
+                    display_order=data.get("display_order", 0),
+                    is_visible=True,
+                )
+                db.session.add(announcement)
+            logger.info("Seeded default announcements")
+
+        if HighlightCard.query.count() == 0:
+            for data in DEFAULT_HIGHLIGHT_CARDS:
+                highlight = HighlightCard(
+                    label=data["label"],
+                    metric_key=data["metric_key"],
+                    note=data["note"],
+                    display_order=data.get("display_order", 0),
+                    is_visible=True,
+                )
+                db.session.add(highlight)
+            logger.info("Seeded default highlight cards")
+
+        if SiteEvent.query.count() == 0:
+            event = SiteEvent(
+                title=DEFAULT_EVENT_OVERVIEW["title"],
+                date_range=DEFAULT_EVENT_OVERVIEW["date_range"],
+                location=DEFAULT_EVENT_OVERVIEW["location"],
+                cta_label=DEFAULT_EVENT_OVERVIEW["cta_label"],
+                cta_link=DEFAULT_EVENT_OVERVIEW["cta_link"],
+                cta_note=DEFAULT_EVENT_OVERVIEW.get("cta_note"),
+            )
+            db.session.add(event)
+            logger.info("Seeded default event overview")
+
+        for key, value in DEFAULT_SITE_SETTINGS.items():
+            if db.session.get(SiteSetting, key) is None:
+                db.session.add(SiteSetting(key=key, value=value))
+
+        db.session.commit()
+    cache.clear()
+
+
+bootstrap_defaults()
+
+
+def _send_submission_email(form_data: dict[str, str]) -> None:
+    """Try to send the submission via email if SMTP settings are available."""
+    if not app.config.get("MAIL_SERVER") or not app.config.get("MAIL_RECIPIENT"):
+        raise RuntimeError("Mail server settings are not fully configured.")
+
+    message = EmailMessage()
+    message["Subject"] = f"[NekoCTF Submission] {form_data['team_name']}"
+    message["From"] = app.config.get("MAIL_DEFAULT_SENDER") or app.config.get("MAIL_USERNAME")
+    message["To"] = app.config["MAIL_RECIPIENT"]
+
+    body = [
+        "新题目提交信息:",
+        f"团队 / 作者: {form_data['team_name']}",
+        f"联系邮箱: {form_data['contact_email']}",
+        "",
+        "题目详情:",
+        form_data["message"],
+    ]
+    message.set_content("\n".join(body))
+
+    server = app.config["MAIL_SERVER"]
+    port = app.config["MAIL_PORT"]
+    use_tls = app.config.get("MAIL_USE_TLS", True)
+
+    with smtplib.SMTP(server, port) as smtp:
+        if use_tls:
+            smtp.starttls()
+        username = app.config.get("MAIL_USERNAME")
+        password = app.config.get("MAIL_PASSWORD")
+        if username and password:
+            smtp.login(username, password)
+        smtp.send_message(message)
+
+
+HIGHLIGHT_VALUE_FACTORIES = {
+    "visible_challenges": lambda: Challenge.query.filter_by(is_visible=True).count(),
+    "total_players": lambda: User.query.count(),
+    "total_submissions": lambda: Submission.query.count(),
+    "total_solves": lambda: (
+        db.session.query(Submission.user_id, Submission.challenge_id)
+        .filter(Submission.is_correct.is_(True))
+        .distinct()
+        .count()
+    ),
+}
+
+HIGHLIGHT_METRIC_CHOICES = [
+    ("visible_challenges", "公开赛题"),
+    ("total_players", "注册选手"),
+    ("total_submissions", "累计提交"),
+    ("total_solves", "成功解题"),
+]
+
+HIGHLIGHT_ALLOWED_KEYS = {choice[0] for choice in HIGHLIGHT_METRIC_CHOICES}
+
+
+def compute_highlight_value(metric_key: str) -> int:
+    func_resolver = HIGHLIGHT_VALUE_FACTORIES.get(metric_key)
+    if func_resolver is None:
+        return 0
+    try:
+        return int(func_resolver() or 0)
+    except Exception as exc:  # pragma: no cover - defensive logging
+        logger.warning("Failed to compute highlight metric '%s': %s", metric_key, exc)
+        return 0
+
+
+def parse_int_field(raw_value: Optional[str], default: int = 0) -> int:
+    try:
+        if raw_value is None or raw_value == "":
+            return default
+        return int(raw_value)
+    except (TypeError, ValueError):
+        return default
+
+
+def parse_checkbox(value: Optional[str]) -> bool:
+    return value is not None and value.lower() in {"on", "true", "1", "yes"}
+
+
+def normalize_flag_slug(raw_value: Optional[str], fallback: str) -> str:
+    base = (raw_value or "").strip().lower()
+    if not base:
+        base = fallback
+    cleaned = re.sub(r"[^a-z0-9-_]", "-", base)
+    cleaned = re.sub(r"-+", "-", cleaned).strip("-")
+    return cleaned or fallback
+
+
+def refresh_challenge_points(challenge: Challenge) -> None:
+    if challenge.flags:
+        challenge.points = sum(flag.points for flag in challenge.flags)
+
+
+@app.route("/")
+@cache.cached(timeout=HOME_CACHE_TIMEOUT, key_prefix=HOME_CACHE_KEY)
+def home():
+    highlight_cards = (
+        HighlightCard.query.filter_by(is_visible=True)
+        .order_by(HighlightCard.display_order.asc(), HighlightCard.id.asc())
+        .all()
+    )
+
+    highlight_stats = [
+        {
+            "label": card.label,
+            "note": card.note,
+            "value": compute_highlight_value(card.metric_key),
+        }
+        for card in highlight_cards
+    ]
+
+    top_rows = (
+        db.session.query(
+            User.username.label("username"),
+            func.coalesce(func.sum(Submission.awarded_points), 0).label("score"),
+            func.count(func.distinct(Submission.challenge_id)).label("solves"),
+        )
+        .join(Submission, Submission.user_id == User.id)
+        .filter(Submission.is_correct.is_(True))
+        .group_by(User.id)
+        .order_by(func.coalesce(func.sum(Submission.awarded_points), 0).desc(), func.max(Submission.created_at).asc())
+        .limit(3)
+        .all()
+    )
+
+    top_players = [
+        {
+            "username": row.username,
+            "score": int(row.score or 0),
+            "solves": row.solves or 0,
+            "has_profile": True,
+        }
+        for row in top_rows
+    ]
+
+    if not top_players:
+        placeholder_primary = SiteSetting.get_value(
+            "home.leaderboard.placeholder_primary",
+            "等待登场",
+        )
+        placeholder_secondary = SiteSetting.get_value(
+            "home.leaderboard.placeholder_secondary",
+            "期待你的加入",
+        )
+        top_players = [
+            {"username": placeholder_primary, "score": 0, "solves": 0, "has_profile": False},
+            {"username": placeholder_secondary, "score": 0, "solves": 0, "has_profile": False},
+        ]
+
+    categories = (
+        ChallengeCategory.query.filter_by(is_active=True)
+        .order_by(ChallengeCategory.display_order.desc(), ChallengeCategory.id.asc())
+        .all()
+    )
+
+    category_counts = {
+        row.category: row.count
+        for row in (
+            db.session.query(
+                Challenge.category.label("category"),
+                func.count(Challenge.id).label("count"),
+            )
+            .filter(Challenge.is_visible.is_(True))
+            .group_by(Challenge.category)
+            .all()
+        )
+    }
+
+    featured_categories = []
+    for category in categories:
+        featured_categories.append(
+            {
+                "category": category.label,
+                "value": category.value,
+                "count": category_counts.get(category.value, 0),
+                "description": category.description,
+            }
+        )
+        if len(featured_categories) == 4:
+            break
+
+    event_overview = SiteEvent.query.order_by(SiteEvent.id.asc()).first()
+    if event_overview is None:
+        event_overview = SiteEvent(
+            title=DEFAULT_EVENT_OVERVIEW["title"],
+            date_range=DEFAULT_EVENT_OVERVIEW["date_range"],
+            location=DEFAULT_EVENT_OVERVIEW["location"],
+            cta_label=DEFAULT_EVENT_OVERVIEW["cta_label"],
+            cta_link=DEFAULT_EVENT_OVERVIEW["cta_link"],
+            cta_note=DEFAULT_EVENT_OVERVIEW.get("cta_note"),
+        )
+
+    news_items = (
+        SiteAnnouncement.query.filter_by(is_visible=True)
+        .order_by(SiteAnnouncement.display_order.desc(), SiteAnnouncement.id.desc())
+        .all()
+    )
+
+    news_payload = [
+        {
+            "title": item.title,
+            "category": item.category,
+            "description": item.description,
+            "date": item.display_date,
+        }
+        for item in news_items
+    ]
+
+    leaderboard_tagline = SiteSetting.get_value(
+        "home.leaderboard.tagline",
+        "想要上榜？完成任意题目即可累计积分，登录后台查看详细成绩。",
+    )
+    contact_email = SiteSetting.get_value("home.contact.cta_email", "hi@nekoctf.com")
+
+    return render_template(
+        "index.html",
+        event_name=app.config["EVENT_NAME"],
+        highlight_stats=highlight_stats,
+        top_players=top_players,
+        featured_categories=featured_categories,
+        event_overview=event_overview,
+        news_items=news_payload,
+        leaderboard_tagline=leaderboard_tagline,
+        contact_email=contact_email,
+    )
+
+
+@app.route("/about")
+def about():
+    return render_template(
+        "about.html",
+        event_name=app.config["EVENT_NAME"],
+    )
+
+
+@app.route("/leaderboard")
+@cache.cached(timeout=LEADERBOARD_CACHE_TIMEOUT, key_prefix=LEADERBOARD_CACHE_KEY)
+def leaderboard():
+    rows = (
+        db.session.query(
+            User.username.label("team"),
+            func.coalesce(func.sum(Submission.awarded_points), 0).label("score"),
+            func.max(Submission.created_at).label("last_submit"),
+            func.count(func.distinct(Submission.challenge_id)).label("solves"),
+        )
+        .join(Submission, Submission.user_id == User.id)
+        .filter(Submission.is_correct.is_(True))
+        .group_by(User.id)
+        .order_by(func.coalesce(func.sum(Submission.awarded_points), 0).desc(), func.max(Submission.created_at).asc())
+    )
+
+    leaderboard_data = [
+        {
+            "team": row.team,
+            "score": row.score,
+            "solves": row.solves,
+            "last_submit": row.last_submit.strftime("%Y-%m-%d %H:%M") if row.last_submit else "--",
+        }
+        for row in rows
+    ]
+
+    return render_template(
+        "leaderboard.html",
+        event_name=app.config["EVENT_NAME"],
+        leaderboard=leaderboard_data,
+    )
+
+
+@app.route("/profile")
+@login_required
+def profile_me():
+    return redirect(url_for("profile_view", username=current_user.username))
+
+
+@app.route("/profile/<username>")
+def profile_view(username: str):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+
+    is_self = current_user.is_authenticated and current_user.id == user.id
+
+    score_row = (
+        db.session.query(
+            func.coalesce(func.sum(Submission.awarded_points), 0).label("score"),
+            func.count(func.distinct(Submission.challenge_id)).label("solves"),
+            func.max(Submission.created_at).label("last_submit"),
+            func.min(Submission.created_at).label("first_solve"),
+        )
+        .filter(Submission.user_id == user.id, Submission.is_correct.is_(True))
+        .one()
+    )
+
+    total_score = int(score_row.score or 0)
+    solve_count = score_row.solves or 0
+    last_submit = score_row.last_submit
+    first_solve = score_row.first_solve
+
+    total_submissions = Submission.query.filter_by(user_id=user.id).count()
+
+    accuracy_ratio: Optional[float] = None
+    if total_submissions:
+        accuracy_ratio = solve_count / total_submissions
+
+    category_rows = (
+        db.session.query(
+            Challenge.category.label("category"),
+            func.count(func.distinct(Challenge.id)).label("count"),
+        )
+        .join(Submission, Submission.challenge_id == Challenge.id)
+        .filter(Submission.user_id == user.id, Submission.is_correct.is_(True))
+        .group_by(Challenge.category)
+        .order_by(func.count(func.distinct(Challenge.id)).desc())
+        .all()
+    )
+
+    category_breakdown = [
+        {
+            "category": row.category,
+            "count": row.count,
+            "percentage": (row.count / solve_count * 100) if solve_count else 0,
+        }
+        for row in category_rows
+    ]
+
+    solved_rows = (
+        db.session.query(Submission, Challenge, ChallengeFlag)
+        .join(Challenge, Challenge.id == Submission.challenge_id)
+        .outerjoin(ChallengeFlag, ChallengeFlag.id == Submission.challenge_flag_id)
+        .filter(Submission.user_id == user.id, Submission.is_correct.is_(True))
+        .order_by(Submission.created_at.desc())
+        .all()
+    )
+
+    solved_map: dict[int, dict[str, object]] = {}
+    for submission, challenge, flag in solved_rows:
+        entry = solved_map.get(challenge.id)
+        if entry is None:
+            entry = {
+                "id": challenge.id,
+                "title": challenge.title,
+                "category": challenge.category,
+                "difficulty": challenge.difficulty,
+                "points": challenge.points,
+                "solved_at": submission.created_at,
+                "total_stages": len(challenge.flags),
+                "stage_ids": set(),
+                "latest_stage_label": flag.label if flag else "完整解题",
+            }
+            solved_map[challenge.id] = entry
+        else:
+            if submission.created_at > entry["solved_at"]:
+                entry["solved_at"] = submission.created_at
+                if flag:
+                    entry["latest_stage_label"] = flag.label
+
+        stage_ids: set = entry["stage_ids"]  # type: ignore[assignment]
+        stage_ids.add(flag.id if flag else None)
+
+    solved_challenges = []
+    for entry in solved_map.values():
+        stage_ids: set = entry.pop("stage_ids")  # type: ignore[assignment]
+        total_stages = entry["total_stages"]  # type: ignore[index]
+        solved_stage_count = 0
+        if total_stages:
+            solved_stage_count = len({sid for sid in stage_ids if sid is not None})
+        elif stage_ids:
+            solved_stage_count = 1
+
+        stage_progress = None
+        if total_stages:
+            stage_progress = {
+                "solved": solved_stage_count,
+                "total": total_stages,
+                "is_complete": solved_stage_count >= total_stages,
+            }
+
+        entry["stage_progress"] = stage_progress
+        solved_challenges.append(entry)
+
+    solved_challenges.sort(key=lambda item: item["solved_at"], reverse=True)
+
+    recent_rows = (
+        db.session.query(Submission, Challenge)
+        .join(Challenge, Challenge.id == Submission.challenge_id)
+        .filter(Submission.user_id == user.id)
+        .order_by(Submission.created_at.desc())
+        .limit(8)
+        .all()
+    )
+
+    recent_activity = [
+        {
+            "challenge_id": challenge.id,
+            "title": challenge.title,
+            "category": challenge.category,
+            "points": submission.awarded_points if submission.is_correct else 0,
+            "is_correct": submission.is_correct,
+            "submitted_at": submission.created_at,
+        }
+        for submission, challenge in recent_rows
+    ]
+
+    leaderboard_rows = (
+        db.session.query(
+            User.id.label("user_id"),
+            func.coalesce(func.sum(Submission.awarded_points), 0).label("score"),
+            func.max(Submission.created_at).label("last_submit"),
+        )
+        .join(Submission, Submission.user_id == User.id)
+        .filter(Submission.is_correct.is_(True))
+        .group_by(User.id)
+        .order_by(func.coalesce(func.sum(Submission.awarded_points), 0).desc(), func.max(Submission.created_at).asc())
+        .all()
+    )
+
+    rank = None
+    for idx, row in enumerate(leaderboard_rows, start=1):
+        if row.user_id == user.id:
+            rank = idx
+            break
+
+    profile_stats = {
+        "score": total_score,
+        "solves": solve_count,
+        "last_submit": last_submit,
+        "first_solve": first_solve,
+        "total_submissions": total_submissions,
+        "accuracy_percentage": round(accuracy_ratio * 100, 1) if accuracy_ratio is not None else None,
+        "rank": rank,
+    }
+
+    return render_template(
+        "profile.html",
+        event_name=app.config["EVENT_NAME"],
+        user=user,
+        is_self=is_self,
+        profile_stats=profile_stats,
+        solved_challenges=solved_challenges,
+        recent_activity=recent_activity,
+        category_breakdown=category_breakdown,
+    )
+
+
+@app.route("/challenges")
+def challenges():
+    visible_challenges = Challenge.query.filter_by(is_visible=True).order_by(Challenge.id.asc()).all()
+    user_progress: dict[int, dict[str, object]] = {}
+    if current_user.is_authenticated:
+        solved_submissions = Submission.query.filter_by(user_id=current_user.id, is_correct=True).all()
+        for submission in solved_submissions:
+            entry = user_progress.setdefault(
+                submission.challenge_id,
+                {"stage_ids": set(), "legacy": False},
+            )
+            if submission.challenge_flag_id:
+                entry["stage_ids"].add(submission.challenge_flag_id)
+            else:
+                entry["legacy"] = True
+
+        for entry in user_progress.values():
+            stage_ids = entry.get("stage_ids", set())
+            if isinstance(stage_ids, set):
+                solved_count = len(stage_ids)
+                entry["stage_ids"] = list(stage_ids)
+            else:
+                solved_count = len(stage_ids or [])
+            entry["solved_count"] = solved_count
+
+    return render_template(
+        "challenges.html",
+        event_name=app.config["EVENT_NAME"],
+        challenges=visible_challenges,
+        user_progress=user_progress,
+    )
+
+
+@app.route("/submit", methods=["GET", "POST"])
+def submit():
+    if request.method == "POST":
+        team_name = request.form.get("team_name", "").strip()
+        contact_email = request.form.get("contact_email", "").strip()
+        message = request.form.get("message", "").strip()
+
+        if not team_name or not contact_email or not message:
+            flash("请填写完整的提交信息喵～", "error")
+            return redirect(url_for("submit"))
+
+        submission_payload = {
+            "team_name": team_name,
+            "contact_email": contact_email,
+            "message": message,
+        }
+
+        try:
+            _send_submission_email(submission_payload)
+            flash("我们已经收到你的题目提交，感谢你的贡献喵！", "success")
+        except Exception as exc:  # broad to show graceful fallback
+            logger.warning("Email sending failed, falling back to manual instructions: %s", exc)
+            organizer_email = app.config.get("ORGANIZER_EMAIL")
+            flash(
+                f"邮件服务暂未配置成功，请直接发送题目到 {organizer_email}，非常感谢喵！",
+                "warning",
+            )
+
+        return redirect(url_for("submit"))
+
+    organizer_email = app.config.get("ORGANIZER_EMAIL")
+    mailto_link = f"mailto:{organizer_email}?subject=NekoCTF%202025%20%E9%A2%98%E7%9B%AE%E6%8F%90%E4%BA%A4"
+
+    return render_template(
+        "submit.html",
+        event_name=app.config["EVENT_NAME"],
+        organizer_email=organizer_email,
+        mailto_link=mailto_link,
+    )
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        flash("你已经登录喵～", "info")
+        return redirect(url_for("challenges"))
+
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+        confirm = request.form.get("confirm_password", "")
+
+        if not username or not email or not password:
+            flash("请完整填写注册信息喵～", "error")
+        elif password != confirm:
+            flash("两次输入的密码不一致喵～", "error")
+        elif User.query.filter((User.username == username) | (User.email == email)).first():
+            flash("用户名或邮箱已被注册喵～", "error")
+        else:
+            user = User(username=username, email=email, is_admin=False)
+            user.set_password(password)
+            db.session.add(user)
+            db.session.commit()
+            invalidate_public_cache()
+            login_user(user)
+            flash("注册成功，欢迎加入 NekoCTF！", "success")
+            return redirect(url_for("challenges"))
+
+    return render_template("register.html", event_name=app.config["EVENT_NAME"])
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        flash("你已经登录喵～", "warning")
+        return redirect(url_for("challenges"))
+
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            login_user(user)
+            flash("欢迎回来，猫耳黑客！", "success")
+            next_path = request.args.get("next")
+            default_target = url_for("admin_challenges" if user.is_admin else "challenges")
+            return redirect(next_path or default_target)
+
+        flash("用户名或密码错误喵～", "error")
+
+    return render_template("login.html", event_name=app.config["EVENT_NAME"])
+
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("你已安全退出喵～", "success")
+    return redirect(url_for("home"))
+
+
+@app.route("/challenges/<int:challenge_id>", methods=["GET", "POST"])
+def challenge_detail(challenge_id: int):
+    challenge = db.session.get(Challenge, challenge_id)
+    if challenge is None:
+        abort(404)
+
+    if not challenge.is_visible and (not current_user.is_authenticated or not current_user.is_admin):
+        abort(404)
+
+    solved_stage_ids: set[int] = set()
+    legacy_solved = False
+    if current_user.is_authenticated:
+        solved_rows = (
+            Submission.query.filter_by(
+                user_id=current_user.id,
+                challenge_id=challenge.id,
+                is_correct=True,
+            )
+            .with_entities(Submission.challenge_flag_id)
+            .all()
+        )
+        for row in solved_rows:
+            if row.challenge_flag_id is None:
+                legacy_solved = True
+            else:
+                solved_stage_ids.add(row.challenge_flag_id)
+
+    total_stage_count = len(challenge.flags)
+    solved_stage_count = len(solved_stage_ids)
+    solved = False
+    if total_stage_count:
+        solved = solved_stage_count == total_stage_count
+    else:
+        solved = legacy_solved
+
+    stage_progress = {
+        "total_count": total_stage_count,
+        "solved_count": solved_stage_count,
+        "has_partial": total_stage_count > 0 and 0 < solved_stage_count < total_stage_count,
+    }
+
+    if request.method == "POST":
+        if not current_user.is_authenticated:
+            flash("请先登录后再提交 flag 喵～", "warning")
+            return redirect(
+                url_for("login", next=url_for("challenge_detail", challenge_id=challenge.id))
+            )
+
+        flag = request.form.get("flag", "").strip()
+        if not flag:
+            flash("请填写 flag 喵～", "error")
+            return redirect(url_for("challenge_detail", challenge_id=challenge.id))
+
+        matched_stage = challenge.match_flag(flag)
+
+        if matched_stage is not None:
+            already_stage = Submission.query.filter_by(
+                user_id=current_user.id,
+                challenge_id=challenge.id,
+                challenge_flag_id=matched_stage.id,
+                is_correct=True,
+            ).first()
+
+            if already_stage:
+                flash(f"你已经解锁 {matched_stage.label} 喵，继续探索其它阶段吧！", "info")
+                return redirect(url_for("challenge_detail", challenge_id=challenge.id))
+
+            submission = Submission(
+                user_id=current_user.id,
+                challenge_id=challenge.id,
+                flag_submitted=flag,
+                is_correct=True,
+                challenge_flag_id=matched_stage.id,
+                awarded_points=matched_stage.points,
+            )
+            db.session.add(submission)
+            db.session.commit()
+            invalidate_public_cache()
+
+            stage_prefix = f"成功解锁 {matched_stage.label}" if total_stage_count > 1 else f"成功解决 {challenge.title}"
+            flash(
+                f"恭喜喵！{stage_prefix}，获得 {matched_stage.points} 分。",
+                "success",
+            )
+            return redirect(url_for("challenge_detail", challenge_id=challenge.id))
+
+        is_correct = challenge.verify_flag(flag)
+
+        if is_correct and legacy_solved:
+            flash("你已经完成这道题目啦，继续挑战其它题目喵～", "info")
+            return redirect(url_for("challenge_detail", challenge_id=challenge.id))
+
+        submission = Submission(
+            user_id=current_user.id,
+            challenge_id=challenge.id,
+            flag_submitted=flag,
+            is_correct=is_correct,
+            awarded_points=challenge.points if is_correct else None,
+        )
+        db.session.add(submission)
+        db.session.commit()
+
+        if is_correct:
+            invalidate_public_cache()
+            flash(f"恭喜喵！成功解决 {challenge.title}，获得 {challenge.points} 分。", "success")
+        else:
+            flash("flag 不正确，再试一次喵～", "error")
+
+        return redirect(url_for("challenge_detail", challenge_id=challenge.id))
+
+    hints = (
+        ChallengeHint.query.filter_by(challenge_id=challenge.id)
+        .order_by(ChallengeHint.order.asc(), ChallengeHint.id.asc())
+        .all()
+    )
+
+    return render_template(
+        "challenge_detail.html",
+        event_name=app.config["EVENT_NAME"],
+        challenge=challenge,
+        solved=solved,
+        solved_stage_ids=solved_stage_ids,
+        flags=challenge.flags,
+        stage_progress=stage_progress,
+        legacy_solved=legacy_solved,
+        hints=hints,
+    )
+
+
+@app.route("/submit-flag", methods=["GET", "POST"])
+@login_required
+def submit_flag():
+    flash("flag 提交功能已迁移到题目详情页，请从题目列表进入喵～", "info")
+    return redirect(url_for("challenges"))
+
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    return redirect(url_for("admin_challenges"))
+
+
+@app.route("/admin/site", methods=["GET", "POST"])
+@admin_required
+def admin_site():
+    if request.method == "POST":
+        form_type = request.form.get("form_type", "").strip()
+        try:
+            if form_type == "event_update":
+                title = request.form.get("title", "").strip()
+                date_range = request.form.get("date_range", "").strip()
+                location = request.form.get("location", "").strip()
+                cta_label = request.form.get("cta_label", "").strip()
+                cta_link = request.form.get("cta_link", "").strip()
+                cta_note = request.form.get("cta_note", "").strip()
+
+                if not title or not date_range or not location or not cta_label or not cta_link:
+                    flash("请完整填写活动信息喵～", "error")
+                else:
+                    event = SiteEvent.query.order_by(SiteEvent.id.asc()).first()
+                    if event is None:
+                        event = SiteEvent(
+                            title=title,
+                            date_range=date_range,
+                            location=location,
+                            cta_label=cta_label,
+                            cta_link=cta_link,
+                            cta_note=cta_note or None,
+                        )
+                        db.session.add(event)
+                    else:
+                        event.title = title
+                        event.date_range = date_range
+                        event.location = location
+                        event.cta_label = cta_label
+                        event.cta_link = cta_link
+                        event.cta_note = cta_note or None
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("活动信息已更新喵～", "success")
+
+            elif form_type == "settings_update":
+                leaderboard_primary = request.form.get("leaderboard_placeholder_primary", "").strip()
+                leaderboard_secondary = request.form.get("leaderboard_placeholder_secondary", "").strip()
+                leaderboard_tagline = request.form.get("leaderboard_tagline", "").strip()
+                contact_email = request.form.get("contact_email", "").strip()
+
+                if leaderboard_primary:
+                    SiteSetting.set_value("home.leaderboard.placeholder_primary", leaderboard_primary)
+                if leaderboard_secondary:
+                    SiteSetting.set_value("home.leaderboard.placeholder_secondary", leaderboard_secondary)
+                if leaderboard_tagline:
+                    SiteSetting.set_value("home.leaderboard.tagline", leaderboard_tagline)
+                if contact_email:
+                    SiteSetting.set_value("home.contact.cta_email", contact_email)
+                db.session.commit()
+                invalidate_public_cache()
+                flash("首页文案已保存喵～", "success")
+
+            elif form_type == "announcement_create":
+                title = request.form.get("title", "").strip()
+                category = request.form.get("category", "").strip()
+                description = request.form.get("description", "").strip()
+                display_date = request.form.get("display_date", "").strip()
+                display_order = parse_int_field(request.form.get("display_order"), 0)
+                is_visible = parse_checkbox(request.form.get("is_visible"))
+
+                if not title or not category or not description or not display_date:
+                    flash("请完整填写公告内容喵～", "error")
+                else:
+                    announcement = SiteAnnouncement(
+                        title=title,
+                        category=category,
+                        description=description,
+                        display_date=display_date,
+                        display_order=display_order,
+                        is_visible=is_visible,
+                    )
+                    db.session.add(announcement)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("新的首页动态已创建喵～", "success")
+
+            elif form_type == "announcement_update":
+                announcement_id = request.form.get("announcement_id")
+                announcement = SiteAnnouncement.query.filter_by(id=announcement_id).first()
+                if announcement is None:
+                    flash("未找到指定的公告喵～", "error")
+                else:
+                    announcement.title = request.form.get("title", "").strip()
+                    announcement.category = request.form.get("category", "").strip()
+                    announcement.description = request.form.get("description", "").strip()
+                    announcement.display_date = request.form.get("display_date", "").strip()
+                    announcement.display_order = parse_int_field(request.form.get("display_order"), announcement.display_order)
+                    announcement.is_visible = parse_checkbox(request.form.get("is_visible"))
+                    if not announcement.title or not announcement.category or not announcement.description or not announcement.display_date:
+                        flash("请完整填写公告内容喵～", "error")
+                    else:
+                        db.session.commit()
+                        invalidate_public_cache()
+                        flash("公告内容已更新喵～", "success")
+
+            elif form_type == "announcement_delete":
+                announcement_id = request.form.get("announcement_id")
+                announcement = SiteAnnouncement.query.filter_by(id=announcement_id).first()
+                if announcement is None:
+                    flash("未找到指定的公告喵～", "error")
+                else:
+                    db.session.delete(announcement)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("公告已删除喵～", "success")
+
+            elif form_type == "highlight_create":
+                label = request.form.get("label", "").strip()
+                metric_key = request.form.get("metric_key", "").strip()
+                note = request.form.get("note", "").strip()
+                display_order = parse_int_field(request.form.get("display_order"), 0)
+                is_visible = parse_checkbox(request.form.get("is_visible"))
+
+                if not label or metric_key not in HIGHLIGHT_ALLOWED_KEYS or not note:
+                    flash("请检查高光卡片信息是否完整喵～", "error")
+                else:
+                    highlight = HighlightCard(
+                        label=label,
+                        metric_key=metric_key,
+                        note=note,
+                        display_order=display_order,
+                        is_visible=is_visible,
+                    )
+                    db.session.add(highlight)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("新的数据高光已创建喵～", "success")
+
+            elif form_type == "highlight_update":
+                highlight_id = request.form.get("highlight_id")
+                highlight = HighlightCard.query.filter_by(id=highlight_id).first()
+                if highlight is None:
+                    flash("未找到指定的高光卡片喵～", "error")
+                else:
+                    metric_key = request.form.get("metric_key", "").strip()
+                    highlight.label = request.form.get("label", "").strip()
+                    highlight.metric_key = metric_key if metric_key in HIGHLIGHT_ALLOWED_KEYS else highlight.metric_key
+                    highlight.note = request.form.get("note", "").strip()
+                    highlight.display_order = parse_int_field(request.form.get("display_order"), highlight.display_order)
+                    highlight.is_visible = parse_checkbox(request.form.get("is_visible"))
+                    if not highlight.label or not highlight.note:
+                        flash("请填写完整的高光卡片信息喵～", "error")
+                    else:
+                        db.session.commit()
+                        invalidate_public_cache()
+                        flash("数据高光已更新喵～", "success")
+
+            elif form_type == "highlight_delete":
+                highlight_id = request.form.get("highlight_id")
+                highlight = HighlightCard.query.filter_by(id=highlight_id).first()
+                if highlight is None:
+                    flash("未找到指定的高光卡片喵～", "error")
+                else:
+                    db.session.delete(highlight)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("高光卡片已删除喵～", "success")
+
+            elif form_type == "category_create":
+                value = request.form.get("value", "").strip()
+                label = request.form.get("label", "").strip()
+                description = request.form.get("description", "").strip()
+                display_order = parse_int_field(request.form.get("display_order"), 0)
+                is_active = parse_checkbox(request.form.get("is_active"))
+
+                if not value or not label:
+                    flash("请填写有效的分类标识和名称喵～", "error")
+                elif ChallengeCategory.query.filter_by(value=value).first():
+                    flash("该分类标识已存在喵～", "error")
+                else:
+                    category = ChallengeCategory(
+                        value=value,
+                        label=label,
+                        description=description or None,
+                        display_order=display_order,
+                        is_active=is_active,
+                    )
+                    db.session.add(category)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("新的题目分类已创建喵～", "success")
+
+            elif form_type == "category_update":
+                category_id = request.form.get("category_id")
+                category = ChallengeCategory.query.filter_by(id=category_id).first()
+                if category is None:
+                    flash("未找到指定分类喵～", "error")
+                else:
+                    value = request.form.get("value", "").strip()
+                    label = request.form.get("label", "").strip()
+                    description = request.form.get("description", "").strip()
+                    display_order = parse_int_field(request.form.get("display_order"), category.display_order)
+                    is_active = parse_checkbox(request.form.get("is_active"))
+
+                    if not value or not label:
+                        flash("请填写有效的分类标识和名称喵～", "error")
+                    elif (
+                        ChallengeCategory.query.filter(ChallengeCategory.value == value, ChallengeCategory.id != category.id).first()
+                        is not None
+                    ):
+                        flash("该分类标识已存在喵～", "error")
+                    else:
+                        category.value = value
+                        category.label = label
+                        category.description = description or None
+                        category.display_order = display_order
+                        category.is_active = is_active
+                        db.session.commit()
+                        invalidate_public_cache()
+                        flash("分类信息已更新喵～", "success")
+
+            elif form_type == "difficulty_create":
+                value = request.form.get("value", "").strip()
+                label = request.form.get("label", "").strip()
+                description = request.form.get("description", "").strip()
+                display_order = parse_int_field(request.form.get("display_order"), 0)
+                is_active = parse_checkbox(request.form.get("is_active"))
+
+                if not value or not label:
+                    flash("请填写有效的难度标识和名称喵～", "error")
+                elif ChallengeDifficulty.query.filter_by(value=value).first():
+                    flash("该难度标识已存在喵～", "error")
+                else:
+                    difficulty = ChallengeDifficulty(
+                        value=value,
+                        label=label,
+                        description=description or None,
+                        display_order=display_order,
+                        is_active=is_active,
+                    )
+                    db.session.add(difficulty)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("新的难度级别已创建喵～", "success")
+
+            elif form_type == "difficulty_update":
+                difficulty_id = request.form.get("difficulty_id")
+                difficulty = ChallengeDifficulty.query.filter_by(id=difficulty_id).first()
+                if difficulty is None:
+                    flash("未找到指定难度喵～", "error")
+                else:
+                    value = request.form.get("value", "").strip()
+                    label = request.form.get("label", "").strip()
+                    description = request.form.get("description", "").strip()
+                    display_order = parse_int_field(request.form.get("display_order"), difficulty.display_order)
+                    is_active = parse_checkbox(request.form.get("is_active"))
+
+                    if not value or not label:
+                        flash("请填写有效的难度标识和名称喵～", "error")
+                    elif (
+                        ChallengeDifficulty.query.filter(ChallengeDifficulty.value == value, ChallengeDifficulty.id != difficulty.id).first()
+                        is not None
+                    ):
+                        flash("该难度标识已存在喵～", "error")
+                    else:
+                        difficulty.value = value
+                        difficulty.label = label
+                        difficulty.description = description or None
+                        difficulty.display_order = display_order
+                        difficulty.is_active = is_active
+                        db.session.commit()
+                        invalidate_public_cache()
+                        flash("难度信息已更新喵～", "success")
+
+            else:
+                flash("未知的操作类型喵～", "error")
+
+        except Exception as exc:  # pragma: no cover - defensive
+            db.session.rollback()
+            logger.exception("Failed to handle admin site form '%s': %s", form_type, exc)
+            flash("操作失败，请稍后重试喵～", "error")
+
+        return redirect(url_for("admin_site"))
+
+    event = SiteEvent.query.order_by(SiteEvent.id.asc()).first()
+    if event is None:
+        event = SiteEvent(
+            title=DEFAULT_EVENT_OVERVIEW["title"],
+            date_range=DEFAULT_EVENT_OVERVIEW["date_range"],
+            location=DEFAULT_EVENT_OVERVIEW["location"],
+            cta_label=DEFAULT_EVENT_OVERVIEW["cta_label"],
+            cta_link=DEFAULT_EVENT_OVERVIEW["cta_link"],
+            cta_note=DEFAULT_EVENT_OVERVIEW.get("cta_note"),
+        )
+
+    announcements = (
+        SiteAnnouncement.query.order_by(SiteAnnouncement.display_order.desc(), SiteAnnouncement.id.desc()).all()
+    )
+
+    highlight_cards = (
+        HighlightCard.query.order_by(HighlightCard.display_order.asc(), HighlightCard.id.asc()).all()
+    )
+
+    categories = (
+        ChallengeCategory.query.order_by(ChallengeCategory.display_order.desc(), ChallengeCategory.id.asc()).all()
+    )
+
+    difficulties = (
+        ChallengeDifficulty.query.order_by(ChallengeDifficulty.display_order.desc(), ChallengeDifficulty.id.asc()).all()
+    )
+
+    settings = {
+        "leaderboard_placeholder_primary": SiteSetting.get_value(
+            "home.leaderboard.placeholder_primary",
+            DEFAULT_SITE_SETTINGS["home.leaderboard.placeholder_primary"],
+        ),
+        "leaderboard_placeholder_secondary": SiteSetting.get_value(
+            "home.leaderboard.placeholder_secondary",
+            DEFAULT_SITE_SETTINGS["home.leaderboard.placeholder_secondary"],
+        ),
+        "leaderboard_tagline": SiteSetting.get_value(
+            "home.leaderboard.tagline",
+            DEFAULT_SITE_SETTINGS["home.leaderboard.tagline"],
+        ),
+        "contact_email": SiteSetting.get_value(
+            "home.contact.cta_email",
+            DEFAULT_SITE_SETTINGS["home.contact.cta_email"],
+        ),
+    }
+
+    return render_template(
+        "admin/site_content.html",
+        event=event,
+        announcements=announcements,
+        highlight_cards=highlight_cards,
+        metric_choices=HIGHLIGHT_METRIC_CHOICES,
+        metric_label_map={value: label for value, label in HIGHLIGHT_METRIC_CHOICES},
+        settings=settings,
+        categories=categories,
+        difficulties=difficulties,
+    )
+
+
+@app.route("/admin/challenges")
+@admin_required
+def admin_challenges():
+    all_challenges = Challenge.query.order_by(Challenge.id.asc()).all()
+    return render_template(
+        "admin/challenges.html",
+        event_name=app.config["EVENT_NAME"],
+        challenges=all_challenges,
+    )
+
+
+@app.route("/admin/challenges/new", methods=["GET", "POST"])
+@admin_required
+def new_challenge():
+    categories = (
+        ChallengeCategory.query.order_by(
+            ChallengeCategory.display_order.desc(), ChallengeCategory.id.asc()
+        ).all()
+    )
+    difficulties = (
+        ChallengeDifficulty.query.order_by(
+            ChallengeDifficulty.display_order.desc(), ChallengeDifficulty.id.asc()
+        ).all()
+    )
+
+    active_categories = [cat for cat in categories if cat.is_active]
+    active_difficulties = [level for level in difficulties if level.is_active]
+
+    category_values = {cat.value for cat in active_categories}
+    difficulty_values = {level.value for level in active_difficulties}
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        category = request.form.get("category", "").strip()
+        difficulty = request.form.get("difficulty", "").strip()
+        summary = request.form.get("summary", "").strip()
+        content = request.form.get("content", "").strip()
+        is_visible = parse_checkbox(request.form.get("is_visible"))
+        try:
+            points = int(request.form.get("points", "100"))
+        except ValueError:
+            points = -1
+
+        flag_value = request.form.get("flag", "").strip()
+        flag_label = request.form.get("flag_label", "用户 Flag").strip()
+        flag_slug_raw = request.form.get("flag_slug", "user").strip()
+        flag_points = parse_int_field(request.form.get("flag_points"), points)
+
+        if not title or not category or not difficulty or not summary or not content:
+            flash("请填写完整题目信息喵～", "error")
+            return redirect(url_for("new_challenge"))
+
+        if category not in category_values:
+            flash("请选择有效的分类喵～", "error")
+            return redirect(url_for("new_challenge"))
+
+        if difficulty not in difficulty_values:
+            flash("请选择有效的难度喵～", "error")
+            return redirect(url_for("new_challenge"))
+
+        if points <= 0:
+            flash("请填写有效的分值喵～", "error")
+            return redirect(url_for("new_challenge"))
+
+        if not flag_value:
+            flash("请填写至少一个 flag 阶段喵～", "error")
+            return redirect(url_for("new_challenge"))
+
+        new_challenge = Challenge(
+            title=title,
+            category=category,
+            difficulty=difficulty,
+            summary=summary,
+            description=content,
+            points=points,
+            is_visible=is_visible,
+        )
+        new_challenge.set_flag(flag_value)
+        db.session.add(new_challenge)
+        db.session.flush()
+
+        primary_slug = normalize_flag_slug(flag_slug_raw, "stage-1")
+        if ChallengeFlag.query.filter_by(challenge_id=new_challenge.id, slug=primary_slug).first():
+            primary_slug = f"{primary_slug}-{new_challenge.id}"
+
+        primary_flag = ChallengeFlag(
+            challenge_id=new_challenge.id,
+            slug=primary_slug,
+            label=flag_label or "Primary Flag",
+            points=flag_points if flag_points > 0 else points,
+            display_order=1,
+        )
+        primary_flag.set_flag(flag_value)
+        db.session.add(primary_flag)
+
+        refresh_challenge_points(new_challenge)
+        db.session.commit()
+        invalidate_public_cache()
+        flash("新的题目已发布喵～，继续为它配置更多 flag 阶段吧。", "success")
+        return redirect(url_for("manage_challenge_flags", challenge_id=new_challenge.id))
+
+    return render_template(
+        "admin/new_challenge.html",
+        event_name=app.config["EVENT_NAME"],
+        category_choices=active_categories,
+        difficulty_choices=active_difficulties,
+    )
+
+
+@app.route("/admin/challenges/<int:challenge_id>/edit", methods=["GET", "POST"])
+@admin_required
+def edit_challenge(challenge_id: int):
+    challenge = db.session.get(Challenge, challenge_id)
+    if challenge is None:
+        abort(404)
+
+    categories = (
+        ChallengeCategory.query.order_by(
+            ChallengeCategory.display_order.desc(), ChallengeCategory.id.asc()
+        ).all()
+    )
+    difficulties = (
+        ChallengeDifficulty.query.order_by(
+            ChallengeDifficulty.display_order.desc(), ChallengeDifficulty.id.asc()
+        ).all()
+    )
+
+    active_categories = [cat for cat in categories if cat.is_active]
+    active_difficulties = [level for level in difficulties if level.is_active]
+
+    category_values = {cat.value for cat in active_categories}
+    difficulty_values = {level.value for level in active_difficulties}
+
+    category_choices = list(active_categories)
+    if challenge.category and all(cat.value != challenge.category for cat in category_choices):
+        current_category = next((cat for cat in categories if cat.value == challenge.category), None)
+        if current_category:
+            category_choices.append(current_category)
+
+    difficulty_choices = list(active_difficulties)
+    if challenge.difficulty and all(level.value != challenge.difficulty for level in difficulty_choices):
+        current_difficulty = next((level for level in difficulties if level.value == challenge.difficulty), None)
+        if current_difficulty:
+            difficulty_choices.append(current_difficulty)
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        category = request.form.get("category", "").strip()
+        difficulty = request.form.get("difficulty", "").strip()
+        summary = request.form.get("summary", "").strip()
+        content = request.form.get("content", "").strip()
+        is_visible = parse_checkbox(request.form.get("is_visible"))
+
+        try:
+            points = int(request.form.get("points", str(challenge.points)))
+        except ValueError:
+            points = -1
+
+        if not title or not category or not difficulty or not summary or not content:
+            flash("请填写完整题目信息喵～", "error")
+            return redirect(url_for("edit_challenge", challenge_id=challenge.id))
+
+        if category not in category_values and category != challenge.category:
+            flash("请选择有效的分类喵～", "error")
+            return redirect(url_for("edit_challenge", challenge_id=challenge.id))
+
+        if difficulty not in difficulty_values and difficulty != challenge.difficulty:
+            flash("请选择有效的难度喵～", "error")
+            return redirect(url_for("edit_challenge", challenge_id=challenge.id))
+
+        if points <= 0:
+            flash("请填写有效的分值喵～", "error")
+            return redirect(url_for("edit_challenge", challenge_id=challenge.id))
+
+        challenge.title = title
+        challenge.category = category
+        challenge.difficulty = difficulty
+        challenge.summary = summary
+        challenge.description = content
+        challenge.is_visible = is_visible
+        challenge.points = points
+        refresh_challenge_points(challenge)
+        db.session.commit()
+        invalidate_public_cache()
+        flash("题目信息已更新喵～", "success")
+        return redirect(url_for("admin_challenges"))
+
+    return render_template(
+        "admin/edit_challenge.html",
+        event_name=app.config["EVENT_NAME"],
+        challenge=challenge,
+        category_choices=category_choices,
+        difficulty_choices=difficulty_choices,
+    )
+
+
+@app.route("/admin/challenges/<int:challenge_id>/hints", methods=["GET", "POST"])
+@admin_required
+def manage_challenge_hints(challenge_id: int):
+    challenge = db.session.get(Challenge, challenge_id)
+    if challenge is None:
+        abort(404)
+
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        content = request.form.get("content", "").strip()
+        order_value = request.form.get("order", "").strip()
+
+        if not content:
+            flash("提示内容不能为空喵～", "error")
+            return redirect(url_for("manage_challenge_hints", challenge_id=challenge.id))
+
+        try:
+            order = int(order_value) if order_value else None
+        except ValueError:
+            order = None
+
+        if order is None:
+            max_order = (
+                db.session.query(func.coalesce(func.max(ChallengeHint.order), 0))
+                .filter(ChallengeHint.challenge_id == challenge.id)
+                .scalar()
+            )
+            order = max_order + 1
+
+        hint = ChallengeHint(
+            challenge_id=challenge.id,
+            title=title or None,
+            content=content,
+            order=order,
+        )
+        db.session.add(hint)
+        db.session.commit()
+        flash("新的提示已添加喵～", "success")
+        return redirect(url_for("manage_challenge_hints", challenge_id=challenge.id))
+
+    hints = (
+        ChallengeHint.query.filter_by(challenge_id=challenge.id)
+        .order_by(ChallengeHint.order.asc(), ChallengeHint.id.asc())
+        .all()
+    )
+
+    return render_template(
+        "admin/hints.html",
+        event_name=app.config["EVENT_NAME"],
+        challenge=challenge,
+        hints=hints,
+    )
+
+
+@app.route("/admin/challenges/<int:challenge_id>/flags", methods=["GET", "POST"])
+@admin_required
+def manage_challenge_flags(challenge_id: int):
+    challenge = db.session.get(Challenge, challenge_id)
+    if challenge is None:
+        abort(404)
+
+    if request.method == "POST":
+        action = request.form.get("action", "create").strip()
+        try:
+            if action == "create":
+                slug = normalize_flag_slug(
+                    request.form.get("slug"),
+                    f"stage-{len(challenge.flags) + 1}",
+                )
+                label = request.form.get("label", "").strip() or "新的阶段"
+                flag_secret = request.form.get("flag", "").strip()
+                points = parse_int_field(request.form.get("points"), 0)
+                display_order = parse_int_field(request.form.get("display_order"), len(challenge.flags) + 1)
+
+                if not flag_secret:
+                    flash("请填写 flag 内容喵～", "error")
+                elif ChallengeFlag.query.filter_by(challenge_id=challenge.id, slug=slug).first():
+                    flash("阶段标识已存在喵～", "error")
+                else:
+                    stage = ChallengeFlag(
+                        challenge_id=challenge.id,
+                        slug=slug,
+                        label=label,
+                        points=points if points > 0 else 0,
+                        display_order=display_order,
+                    )
+                    stage.set_flag(flag_secret)
+                    db.session.add(stage)
+                    db.session.flush()
+                    refresh_challenge_points(challenge)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("新的 flag 阶段已创建喵～", "success")
+
+            elif action == "update":
+                flag_id = parse_int_field(request.form.get("flag_id"), 0)
+                stage = ChallengeFlag.query.filter_by(id=flag_id, challenge_id=challenge.id).first()
+                if stage is None:
+                    flash("未找到指定 flag 阶段喵～", "error")
+                else:
+                    slug = normalize_flag_slug(request.form.get("slug"), stage.slug)
+                    if slug != stage.slug and ChallengeFlag.query.filter_by(challenge_id=challenge.id, slug=slug).first():
+                        flash("阶段标识已存在喵～", "error")
+                    else:
+                        stage.slug = slug
+                        stage.label = request.form.get("label", "").strip() or stage.label
+                        stage.points = parse_int_field(request.form.get("points"), stage.points)
+                        stage.display_order = parse_int_field(
+                            request.form.get("display_order"),
+                            stage.display_order,
+                        )
+                        new_secret = request.form.get("flag", "").strip()
+                        if new_secret:
+                            stage.set_flag(new_secret)
+                        refresh_challenge_points(challenge)
+                        db.session.commit()
+                        invalidate_public_cache()
+                        flash("Flag 阶段已更新喵～", "success")
+
+            elif action == "delete":
+                flag_id = parse_int_field(request.form.get("flag_id"), 0)
+                stage = ChallengeFlag.query.filter_by(id=flag_id, challenge_id=challenge.id).first()
+                if stage is None:
+                    flash("未找到指定 flag 阶段喵～", "error")
+                elif len(challenge.flags) <= 1:
+                    flash("至少保留一个 flag 阶段喵～", "error")
+                else:
+                    db.session.delete(stage)
+                    db.session.flush()
+                    refresh_challenge_points(challenge)
+                    db.session.commit()
+                    invalidate_public_cache()
+                    flash("Flag 阶段已删除喵～", "success")
+
+        except Exception as exc:  # pragma: no cover - admin safeguard
+            db.session.rollback()
+            logger.exception("Failed to manage challenge flags for challenge %s: %s", challenge_id, exc)
+            flash("操作失败，请稍后重试喵～", "error")
+
+        return redirect(url_for("manage_challenge_flags", challenge_id=challenge.id))
+
+    stages = (
+        ChallengeFlag.query.filter_by(challenge_id=challenge.id)
+        .order_by(ChallengeFlag.display_order.asc(), ChallengeFlag.id.asc())
+        .all()
+    )
+
+    return render_template(
+        "admin/flags.html",
+        event_name=app.config["EVENT_NAME"],
+        challenge=challenge,
+        stages=stages,
+    )
+
+
+@app.route("/admin/challenges/<int:challenge_id>/hints/<int:hint_id>/delete", methods=["POST"])
+@admin_required
+def delete_challenge_hint(challenge_id: int, hint_id: int):
+    challenge = db.session.get(Challenge, challenge_id)
+    if challenge is None:
+        abort(404)
+
+    hint = ChallengeHint.query.filter_by(id=hint_id, challenge_id=challenge.id).first()
+    if hint is None:
+        abort(404)
+
+    db.session.delete(hint)
+    db.session.commit()
+    flash("提示已删除喵～", "success")
+    return redirect(url_for("manage_challenge_hints", challenge_id=challenge.id))
+
+
+@app.route("/admin/challenges/<int:challenge_id>/delete", methods=["POST"])
+@admin_required
+def delete_challenge(challenge_id: int):
+    challenge = db.session.get(Challenge, challenge_id)
+    if challenge is None:
+        abort(404)
+
+    db.session.delete(challenge)
+    db.session.commit()
+    invalidate_public_cache()
+    flash("题目已删除喵～", "success")
+    return redirect(url_for("admin_challenges"))
+
+
+def _render_error_page(
+    status_code: int,
+    *,
+    title: str,
+    message: str,
+    detail: Optional[str] = None,
+    suggestions: Optional[Iterable[str]] = None,
+    extra_links: Optional[Iterable[dict[str, str]]] = None,
+):
+    support_email = (
+        app.config.get("SUPPORT_EMAIL")
+        or app.config.get("ORGANIZER_EMAIL")
+        or app.config.get("ADMIN_EMAIL")
+    )
+
+    return (
+        render_template(
+            "errors/error.html",
+            event_name=app.config["EVENT_NAME"],
+            status_code=status_code,
+            title=title,
+            message=message,
+            detail=detail,
+            suggestions=list(suggestions or ()),
+            extra_links=list(extra_links or ()),
+            support_email=support_email,
+            request_path=request.path,
+        ),
+        status_code,
+    )
+
+
+@app.errorhandler(404)
+def handle_not_found(error):
+    description = getattr(error, "description", None)
+    return _render_error_page(
+        404,
+        title="页面走丢了喵～",
+        message="我们在二次元和三次元之间找了好几圈，还是没发现这个地址。",
+        detail=description,
+        suggestions=[
+            "检查一下链接是否有小爪子打错了",
+            "回到主页重新选择入口",
+            "前往题目列表继续练级",
+        ],
+        extra_links=[
+            {"href": url_for("home"), "label": "返回喵城主页"},
+            {"href": url_for("challenges"), "label": "探索题目列表"},
+            {"href": url_for("leaderboard"), "label": "看看排行榜"},
+        ],
+    )
+
+
+@app.errorhandler(500)
+def handle_internal_error(error):  # pragma: no cover - exercised in tests
+    description = getattr(error, "description", None)
+    return _render_error_page(
+        500,
+        title="服务器有点晕喵…",
+        message="后台小喵正努力修复，请稍候再试。",
+        detail=description,
+        suggestions=[
+            "稍等片刻再刷新一次",
+            "把遇到的问题告诉组织者",
+        ],
+        extra_links=[
+            {"href": url_for("home"), "label": "返回主页"},
+            {"href": url_for("about"), "label": "了解赛事详情"},
+        ],
+    )
+
+
+@app.errorhandler(403)
+def handle_forbidden(error):
+    description = getattr(error, "description", None)
+    return _render_error_page(
+        403,
+        title="这里需要管理喵牌",
+        message="你似乎还没有访问这个页面的权限。",
+        detail=description,
+        suggestions=[
+            "确认账号是否已登录",
+            "如需管理权限请联系组织者",
+        ],
+        extra_links=[
+            {"href": url_for("login"), "label": "前往登录"},
+            {"href": url_for("register"), "label": "注册参赛帐号"},
+        ],
+    )
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)

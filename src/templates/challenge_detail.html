@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set stage_total = flags|length %}
+{% set stage_solved = stage_progress.solved_count if stage_progress else 0 %}
+{% set has_partial = stage_progress.has_partial if stage_progress else False %}
+
+<!-- Detail Hero Header -->
+<section class="page-header detail-hero">
+    <div class="detail-hero-main">
+        <div class="detail-breadcrumb">
+            <a href="{{ url_for('public.challenges') }}">题目列表</a>
+            <span aria-hidden="true">/</span>
+            <span>{{ challenge.category }}</span>
+        </div>
+        <h1>{{ challenge.title }}</h1>
+        <p class="detail-hero-subtitle">{{ challenge.category }} · {{ challenge.difficulty }} · {{ challenge.points }} 分{% if stage_total > 0 %} · {{ stage_total }} 个阶段{% endif %}</p>
+
+        {% set difficulty_map = {
+            'Easy': 'easy',
+            'Medium': 'medium',
+            'Hard': 'hard',
+            '简单': 'easy',
+            '中等': 'medium',
+            '困难': 'hard'
+        } %}
+        {% set difficulty_key = difficulty_map.get(challenge.difficulty, (challenge.difficulty | lower | replace(' ', '-'))) %}
+
+
+    </div>
+
+    <aside class="detail-hero-side">
+        <div class="detail-status-card">
+            <!-- 挑战进度标题区 -->
+            <div class="challenge-progress-header">
+                <div class="challenge-progress-title">
+                    <h3>
+                        <span class="material-symbols-outlined">trophy</span>
+                        挑战进度
+                    </h3>
+                    <div class="progress-badges">
+                        <span class="difficulty-badge difficulty-{{ difficulty_key }}">{{ challenge.difficulty }}</span>
+                        {% if solved %}
+                            <span class="status-pill solved">已完成</span>
+                        {% elif has_partial %}
+                            <span class="status-pill partial">进行中</span>
+                        {% else %}
+                            <span class="status-pill unsolved">待挑战</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <p class="challenge-progress-message">
+                    {% if solved %}
+                        恭喜你已成功征服这道题目！想不想趁热打铁继续挑战更多谜题？
+                    {% elif has_partial %}
+                        很棒的进展！你已解锁 {{ stage_solved }}/{{ stage_total }} 个阶段，继续向最终旗帜前进喵～
+                    {% else %}
+                        准备好调动灵感与技巧，破解这道喵系谜题吧！加油，你一定可以的！
+                    {% endif %}
+                </p>
+                
+                <!-- 进度统计网格 -->
+                <div class="progress-stats-grid">
+                    <div class="progress-stat">
+                        <span class="progress-stat-value">{{ challenge.points }}</span>
+                        <span class="progress-stat-label">总积分</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span class="progress-stat-value">{% if stage_total > 0 %}{{ stage_solved }}/{{ stage_total }}{% else %}{% if solved %}1/1{% else %}0/1{% endif %}{% endif %}</span>
+                        <span class="progress-stat-label">完成度</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span class="progress-stat-value">{% if stage_total > 0 %}{{ ((stage_solved / stage_total) * 100) | int }}{% else %}{% if solved %}100{% else %}0{% endif %}{% endif %}%</span>
+                        <span class="progress-stat-label">进度</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Flag 阶段列表 -->
+            {% if stage_total > 0 %}
+            <div class="flag-stages-section">
+                <h4 class="flag-stages-title">
+                    <span class="material-symbols-outlined">format_list_numbered</span>
+                    阶段详情
+                </h4>
+                <ol class="flag-stage-list">
+                    {% for stage in flags %}
+                        {% set unlocked = stage.id in solved_stage_ids %}
+                        <li class="flag-stage-item {{ 'unlocked' if unlocked else 'locked' }}">
+                            <div class="flag-stage-icon">
+                                {% if unlocked %}
+                                    <span class="material-symbols-outlined">check_circle</span>
+                                {% else %}
+                                    <span class="material-symbols-outlined">lock</span>
+                                {% endif %}
+                            </div>
+                            <div class="flag-stage-info">
+                                <span class="flag-stage-label">{{ stage.label }}</span>
+                                <span class="flag-stage-order">阶段 {{ stage.display_order }}</span>
+                            </div>
+                            <span class="flag-stage-points">{{ stage.points }} 分</span>
+                            <span class="flag-stage-status">{{ '已解锁' if unlocked else '未完成' }}</span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
+            
+            <!-- 操作按钮区域 -->
+            <div class="detail-actions">
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.challenges') }}">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>返回题目列表</span>
+                </a>
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                    <a class="md3-btn md3-btn--tertiary" href="{{ url_for('admin.manage_challenge_flags', challenge_id=challenge.id) }}">
+                        <span class="material-symbols-outlined">flag</span>
+                        <span>Flag 管理</span>
+                    </a>
+                    <a class="md3-btn md3-btn--tertiary" href="{{ url_for('admin.edit_challenge', challenge_id=challenge.id) }}">
+                        <span class="material-symbols-outlined">edit</span>
+                        <span>后台编辑</span>
+                    </a>
+                    <a class="md3-btn md3-btn--tertiary" href="{{ url_for('admin.manage_challenge_hints', challenge_id=challenge.id) }}">
+                        <span class="material-symbols-outlined">lightbulb</span>
+                        <span>提示管理</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </aside>
+</section>
+
+<!-- Challenge Detail Content -->
+<section class="content-section">
+    <div class="challenge-detail">
+        <article class="detail-card narrative-card">
+            <h2>题目简介</h2>
+            <div class="rich-text">{{ challenge.summary_html() | safe }}</div>
+
+            <h2>题目内容</h2>
+            <div class="rich-text">{{ challenge.description_html() | safe }}</div>
+        </article>
+
+        <div class="detail-side">
+            <!-- Hints Card -->
+            <article class="detail-card hints-card {% if not hints %}empty{% endif %}">
+                <h2>提示</h2>
+                {% if hints %}
+                    <ol class="hint-list" aria-live="polite">
+                        {% for hint in hints %}
+                            <li class="hint-item">
+                                <details>
+                                    <summary class="hint-summary">
+                                        <span class="hint-title">{{ hint.title or ('提示 ' ~ loop.index) }}</span>
+                                        <span class="hint-order">{{ loop.index }}</span>
+                                        <span class="hint-toggle">点击揭开</span>
+                                    </summary>
+                                    <div class="hint-body rich-text">{{ hint.content_html() | safe }}</div>
+                                </details>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% else %}
+                    <div class="hint-empty-state">
+                        <p class="empty-hint">这道题暂时没有公开提示喵～</p>
+                    </div>
+                {% endif %}
+            </article>
+
+            <!-- Submission Card -->
+            <article class="detail-card submission-card">
+                <h2>提交 Flag</h2>
+                {% if not current_user.is_authenticated %}
+                    <p class="form-hint">登录后即可提交 flag 喵～</p>
+                    <div class="auth-actions">
+                        <a class="md3-btn md3-btn--primary" href="{{ url_for('public.login', next=url_for('public.challenge_detail', challenge_id=challenge.id)) }}">
+                            <span>立即登录</span>
+                        </a>
+                        <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.register') }}">
+                            <span>注册账号</span>
+                        </a>
+                    </div>
+                {% else %}
+                    {% if solved %}
+                        <div class="success-callout">你已经完成这道题目啦，继续挑战新的谜题喵！</div>
+                    {% elif has_partial %}
+                        <div class="success-callout">再接再厉喵！你已完成 {{ stage_solved }}/{{ stage_total }} 个阶段。</div>
+                    {% endif %}
+                    <form method="post" class="flag-form">
+                        <label for="flag">Flag</label>
+                        <input type="text" id="flag" name="flag" placeholder="NekoCTF{...}" required>
+                        <button type="submit" class="md3-btn md3-btn--primary">
+                            <span>提交</span>
+                            <span class="material-symbols-outlined">send</span>
+                        </button>
+                    </form>
+                {% endif %}
+            </article>
+        </div>
+    </div>
+</section>
+
+<script>
+// Smooth entrance animation
+document.addEventListener('DOMContentLoaded', () => {
+    const detailCards = document.querySelectorAll('.detail-card');
+    detailCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+    
+    // Hint expansion tracking
+    const hints = document.querySelectorAll('.hint-item details');
+    hints.forEach(detail => {
+        detail.addEventListener('toggle', () => {
+            if (detail.open) {
+                detail.closest('.hint-item').style.background = 'var(--md3-surface-container-highest)';
+            } else {
+                detail.closest('.hint-item').style.background = 'var(--md3-surface-container-high)';
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

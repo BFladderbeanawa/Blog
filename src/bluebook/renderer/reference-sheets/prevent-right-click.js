@@ -1,0 +1,1 @@
+window.addEventListener("contextmenu",(function(e){e&&e.preventDefault()}));

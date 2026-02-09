@@ -1,0 +1,1 @@
+document.addEventListener("keydown",(function(e){"KeyR"===e.code&&(navigator.platform.toUpperCase().includes("MAC")?e.metaKey&&e.altKey&&(e.preventDefault(),window.parent.postMessage("reference-sheet-iframe-kb-close","*")):e.ctrlKey&&e.altKey&&(e.preventDefault(),window.parent.postMessage("reference-sheet-iframe-kb-close","*")))}));
