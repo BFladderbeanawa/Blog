@@ -2,34 +2,60 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="About" description="About the author and this archive">
+<Layout title="About | Shunwen Fan" description="Information About Shunwen Fan">
   <main class="page-shell about-page">
     <section class="about-hero editorial-frame">
       <div>
-        <span class="axis-label">About / identity note</span>
-        <h1>Hi, I am BF.</h1>
+        <span class="axis-label">Information About You / Core Positioning</span>
+        <h1>From programmer to system builder.</h1>
       </div>
       <p>
-        I write as BFladderbean: a front-end developer, learner, and curious systems tinkerer. This archive collects notes about web development, mathematics, machine learning, philosophy, games, and anything else that asks for a place to land.
+        I am Shunwen Fan, a student focused on Logic & Computation. My work began with programming, but it has gradually moved toward system building: I observe the rules, inefficiencies, and biases inside complex systems, then use code, design, data analysis, and logical reasoning to understand and improve them.
       </p>
     </section>
 
-    <section class="about-grid">
-      <article>
-        <span class="axis-label">01 / workbench</span>
-        <h2>What I make</h2>
-        <p>I build web interfaces, study technical systems, and document the patterns I want future-me to find again.</p>
+    <section class="statement-grid">
+      <article class="statement-card">
+        <span class="axis-label">Personal Narrative</span>
+        <h2>How I Think</h2>
+        <p>
+          I am drawn to systems because they reveal how rules become behavior. A classroom reservation platform, a robotics match, a recommendation algorithm, and a machine-learning model may look unrelated, but each one depends on structure, constraints, feedback, and evaluation. My goal is not only to write code that works, but to build systems that can be understood, used, maintained, and improved.
+        </p>
       </article>
-      <article>
-        <span class="axis-label">02 / play</span>
-        <h2>What I notice</h2>
-        <p>Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.</p>
+
+      <article class="statement-card accent">
+        <span class="axis-label">Philosophy</span>
+        <h2>Analytical Before Random</h2>
+        <p>
+          I value analytical reasoning over blind trial and error. In engineering, I try to define the problem, observe the system, identify failure points, and then choose interventions deliberately. This mindset has shaped how I teach front-end development, analyze FRC strategy data, and approach AI research.
+        </p>
       </article>
-      <article>
-        <span class="axis-label">03 / why this exists</span>
-        <h2>Why the blog</h2>
-        <p>Because thinking becomes more useful when it has a shape: tags, routes, fragments, and enough friction to become memorable.</p>
+
+      <article class="statement-card">
+        <span class="axis-label">Values</span>
+        <h2>Usable, Fair, Human</h2>
+        <p>
+          A system should not merely run; it should serve people. HFI-UC taught me that UI/UX design is part of engineering because unclear interfaces prevent useful tools from being trusted. My research interest in recommendation-system fairness extends the same belief: computational decisions should be evaluated not only by performance, but also by whether they distribute attention and opportunity fairly.
+        </p>
       </article>
+    </section>
+
+    <section class="cv-section editorial-frame">
+      <div>
+        <span class="axis-label">CV / Resume</span>
+        <h2>Selected Academic and Technical Record</h2>
+        <p>
+          Download my resume as a PDF. It includes my academic background, technical awards, research experience, and campus contributions.
+        </p>
+        <a class="download-link" href="/downloads/shunwen-fan-resume.pdf" download>Download PDF Resume</a>
+      </div>
+      <ul class="achievement-list">
+        <li><strong>AMC 12:</strong> 145.5 points, global top 1%.</li>
+        <li><strong>USACO:</strong> Platinum division.</li>
+        <li><strong>Kaggle:</strong> Expert; Bronze in NeurIPS Open Polymer Prediction and Ariel Data Challenge.</li>
+        <li><strong>AP Scores:</strong> 5 in AP Computer Science A, AP Chemistry, and AP Physics 2.</li>
+        <li><strong>HFI:</strong> Campus Contributions Award, 2024-2025.</li>
+      </ul>
     </section>
   </main>
 </Layout>
@@ -42,7 +68,7 @@ import Layout from '../layouts/Layout.astro';
 
   .about-hero {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 0.7fr);
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.75fr);
     gap: var(--space-xl);
     padding: clamp(1.2rem, 4vw, 3rem);
     background:
@@ -51,38 +77,95 @@ import Layout from '../layouts/Layout.astro';
   }
 
   .about-hero h1 {
+    max-width: 11ch;
     margin-top: var(--space-xl);
     font-size: var(--text-3xl);
   }
 
   .about-hero p {
     align-self: end;
-    font-size: clamp(1rem, 2vw, 1.3rem);
+    font-size: clamp(1rem, 2vw, 1.28rem);
+    line-height: 1.45;
   }
 
-  .about-grid {
+  .statement-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-lg);
   }
 
-  .about-grid article {
-    min-height: 17rem;
+  .statement-card,
+  .cv-section {
     padding: var(--space-lg);
     border: var(--frame) solid var(--border);
     background: var(--surface);
+  }
+
+  .statement-card {
+    min-height: 24rem;
     display: grid;
     align-content: space-between;
   }
 
-  .about-grid h2 {
-    font-size: clamp(1.8rem, 4vw, 3.6rem);
+  .statement-card.accent {
+    background: var(--accent-lemon);
+  }
+
+  .statement-card.accent * {
+    color: #111;
+  }
+
+  .statement-card h2,
+  .cv-section h2 {
+    margin: var(--space-md) 0;
+    font-size: clamp(2rem, 5vw, 4.4rem);
+  }
+
+  .cv-section {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(18rem, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .download-link {
+    display: inline-flex;
+    width: fit-content;
+    margin-top: var(--space-lg);
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--border);
+    background: var(--text-primary);
+    color: var(--canvas);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .achievement-list {
+    display: grid;
+    gap: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .achievement-list li {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
   }
 
   @media (max-width: 900px) {
     .about-hero,
-    .about-grid {
+    .statement-grid,
+    .cv-section {
       grid-template-columns: 1fr;
+    }
+
+    .statement-card {
+      min-height: auto;
+      gap: var(--space-lg);
     }
   }
 </style>

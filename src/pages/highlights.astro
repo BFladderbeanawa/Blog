@@ -1,0 +1,167 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Highlights at HFI" description="Selected projects, leadership, research, and community contributions">
+  <main class="page-shell highlights-page">
+    <section class="highlights-hero editorial-frame">
+      <span class="axis-label">Highlights at HFI</span>
+      <h1>Systems I helped build, teach, analyze, and sustain.</h1>
+      <p>
+        These projects show how my technical interests developed into leadership, research potential, and community contribution.
+      </p>
+    </section>
+
+    <section class="highlight-section">
+      <div class="section-rail"><span class="rail-node"></span><span class="axis-label">Clubs & Leadership</span></div>
+      <div class="highlight-grid">
+        <article class="highlight-card">
+          <span class="item-index">01</span>
+          <h2>Makers' Club Vice President</h2>
+          <p>I served as vice president of Makers' Club for two consecutive years. My most important contribution was translating my technical experience into teaching: I designed and organized an eight-hour front-end curriculum covering HTML, Tailwind CSS, and project-based web development for newer members.</p>
+        </article>
+        <article class="highlight-card accent-sky">
+          <span class="item-index">02</span>
+          <h2>HFI-UC Utility Center</h2>
+          <p>I helped redesign and develop HFI-UC, a real campus classroom-reservation and lost-and-found system. My role began with front-end design and later expanded into communication and project succession. By focusing on UI/UX, I helped make the tool understandable and usable; it now handles about 1,300 reservations per year.</p>
+        </article>
+        <article class="highlight-card">
+          <span class="item-index">03</span>
+          <h2>UtiBazaar</h2>
+          <p>For UtiBazaar, a student second-hand trading platform, I mainly handled public relations and cross-school promotion. The platform expanded to students from three Guangzhou high schools and received more than 14,000 visits, showing that technical products need trust, communication, and real adoption.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="highlight-section">
+      <div class="section-rail"><span class="rail-node"></span><span class="axis-label">Engineering & Data Strategy</span></div>
+      <article class="wide-highlight editorial-frame">
+        <h2>FRC 8214 Strategy Team</h2>
+        <p>
+          In FRC 8214, I contributed as a strategy team member. Rather than only writing robot code, I watched match videos, recorded opponent performance, and evaluated scoring efficiency, autonomous ability, stability, and alliance value. This experience strengthened my data-driven system thinking: a strong engineering team is not defined by one subsystem alone, but by the coordinated performance of hardware, software, strategy, and communication.
+        </p>
+      </article>
+    </section>
+
+    <section class="highlight-section">
+      <div class="section-rail"><span class="rail-node"></span><span class="axis-label">Academic Achievements & Research</span></div>
+      <div class="highlight-grid two">
+        <article class="highlight-card accent-lemon">
+          <span class="item-index">04</span>
+          <h2>Music Tech X: AI Music Generation</h2>
+          <p>I entered the offline stage of Music Tech X and worked on AI music generation. My work included literature review, data analysis code, model experiments, evaluation, and DPO-related exploration. Our team received Outstanding Group, and the project gave me a complete view of the AI research workflow.</p>
+        </article>
+        <article class="highlight-card">
+          <span class="item-index">05</span>
+          <h2>Kaggle Polymer Prediction</h2>
+          <p>I transferred what I learned from AI music generation into the NeurIPS Open Polymer Prediction competition and later research on polymer property prediction. The work developed into a co-first-author paper now under review at Scientific Reports, with state-of-the-art results on related prediction metrics.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="highlight-section">
+      <div class="section-rail"><span class="rail-node"></span><span class="axis-label">Community & Hobbies</span></div>
+      <article class="wide-highlight gtmc">
+        <h2>GTMC Technical Minecraft Documentation</h2>
+        <p>
+          Through GTMC, I helped explain complex Minecraft mechanisms by reading code, organizing rules, and writing technical documentation. The project now contains more than 300,000 Chinese characters, involves about 40 editors, and demonstrates my ability to turn complex systems into accessible knowledge for a community.
+        </p>
+      </article>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .highlights-page {
+    display: grid;
+    gap: var(--space-3xl);
+  }
+
+  .highlights-hero,
+  .wide-highlight {
+    padding: clamp(1.2rem, 4vw, 3rem);
+  }
+
+  .highlights-hero {
+    background:
+      linear-gradient(100deg, var(--accent-orange) 0 18%, transparent 18%),
+      var(--surface);
+  }
+
+  .highlights-hero h1 {
+    max-width: 13ch;
+    margin: var(--space-xl) 0;
+    font-size: var(--text-3xl);
+  }
+
+  .highlights-hero p,
+  .wide-highlight p {
+    max-width: 58rem;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.5;
+  }
+
+  .highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .highlight-grid.two {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .highlight-card {
+    position: relative;
+    min-height: 26rem;
+    display: grid;
+    align-content: space-between;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    border: var(--frame) solid var(--border);
+    background: var(--surface);
+  }
+
+  .accent-sky { background: var(--accent-sky); }
+  .accent-lemon { background: var(--accent-lemon); }
+  .accent-sky *, .accent-lemon * { color: #111; }
+
+  .item-index {
+    color: var(--text-ghost);
+    font-family: var(--font-display);
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
+  }
+
+  .highlight-card h2,
+  .wide-highlight h2 {
+    font-size: clamp(1.8rem, 4vw, 3.8rem);
+  }
+
+  .wide-highlight {
+    border: var(--frame) solid var(--border);
+    background: var(--surface);
+  }
+
+  .gtmc {
+    background: var(--text-primary);
+  }
+
+  .gtmc h2,
+  .gtmc p {
+    color: var(--canvas);
+  }
+
+  @media (max-width: 980px) {
+    .highlight-grid,
+    .highlight-grid.two {
+      grid-template-columns: 1fr;
+    }
+
+    .highlight-card {
+      min-height: auto;
+    }
+  }
+</style>
