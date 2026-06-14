@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+python-env/
+Pipfile
+Pipfile.lock
+pip-wheel-metadata/
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+
+# Flask specific
+instance/
+*.db
+*.sqlite
+*.sqlite3
+neko_ctf.db
+
+# Logs
+*.log
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# dotenv
+.env
+.env.*
+/__pycache__

@@ -1,0 +1,646 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Computer Science A</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="apricot.main.css" rel="stylesheet" />
+    <script src="prevent-right-click.js"></script>
+    <script src="apricot.main.js"></script>
+    <script src="keyboard-close.js"></script>
+    <link rel="stylesheet" type="text/css" href="/fonts/NotoSerif.css" />
+    <link rel="stylesheet" type="text/css" href="/fonts/CourierPrime.css" />
+    <link rel="stylesheet" type="text/css" href="tts.css" />
+
+    <style>
+      /**
+        * This approach with html and body is to accommodate older versions of
+        * iOS 15.4-15.8.1 not being able to use scrollTo on the <html> tag in the iFrame.
+      */
+      html {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        /* Safari fix, noted above */
+        height: 100%;
+        overflow: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main id="reference-sheet" role="main">
+      <div id="reference-sheet-accordion" class="cb-accordion" data-cb-apricot="accordion">
+        <!-- Controllers -->
+        <div class="cb-accordion-controls cb-white-bg">
+          <div class="cb-accordion-buttons">
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-expand cb-blue5-color">
+              Expand All
+            </button>
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-collapse cb-blue5-color">
+              Collapse All
+            </button>
+          </div>
+        </div>
+
+        <!-- list items container -->
+        <div class="cb-accordion-panels">
+          <!-- list item String Class -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>String Class</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-table-responsive">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">Class Constructors and Methods</th>
+                        <th scope="col">Explanation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr> <!-- String constructor -->
+                        <td>
+                          <div class="pretext"><code>String(String str)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Constructs a new &#8199;<code>String</code>&#8199; object that represents the same
+                          sequence of characters as
+                          &#8199;<code>str</code>
+                        </td>
+                      </tr>
+                      <tr> <!-- length -->
+                        <td>
+                          <div class="pretext"><code>int length()</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the number of characters in a &#8199;<code>String</code>&#8199; object
+                        </td>
+                      </tr>
+                      <tr> <!-- substring from-to -->
+                        <td>
+                          <div class="pretext"><code>String substring(int from, int to)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the substring beginning at index &#8199;<code>from</code>&#8199; and ending at
+                          index
+                          &#8199;<code>to&#8199;-&#8199;1</code>
+                        </td>
+                      </tr>
+                      <tr> <!-- substring from -->
+                        <td>
+                          <div class="pretext"><code>String substring(int from)</code></div>
+                        </td>
+                        <td class="explanation">Returns &#8199;<code>substring(from, length())</code></td>
+                      </tr>
+                      <tr> <!-- indexOf -->
+                        <td>
+                          <div class="pretext"><code>int indexOf(String str)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the index of the first occurrence of &#8199;<code>str</code>;&#8199; returns
+                          &#8199;<code>-1</code>&#8199; if not found
+                        </td>
+                      </tr>
+                      <tr> <!-- equals -->
+                        <td>
+                          <div class="pretext"><code>boolean equals(String other)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns &#8199;<code>true</code>&#8199; if &#8199;<code>this</code>&#8199; is equal to
+                          &#8199;<code>other</code>;&#8199; returns &#8199;<code>false</code>&#8199; otherwise
+                        </td>
+                      </tr>
+                      <tr> <!-- compareTo -->
+                        <td>
+                          <div class="pretext"><code>int compareTo(String other)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns a value &#8199;<code>&#60;0</code>&#8199; if &#8199;<code>this</code>&#8199; is less than
+                          &#8199;<code>other</code>;&#8199; returns zero if &#8199;<code>this</code>&#8199; is equal to
+                          &#8199;<code>other</code>;&#8199; returns a value &#8199;<code>>0</code>&#8199; if
+                          &#8199;<code>this</code>&#8199; is greater than &#8199;<code>other</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Integer Class -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Integer Class</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-table-responsive">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">Class Constructors and Methods</th>
+                        <th scope="col">Explanation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>Integer(int value)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Constructs a new &#8199;<code>Integer</code>&#8199; object that represents the specified
+                          &#8199;<code>int</code>&#8199; value
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>Integer.MIN_VALUE</code></div>
+                        </td>
+                        <td class="explanation">
+                          The minimum value represented by an &#8199;<code>int</code>&#8199; or
+                          &#8199;<code>Integer</code>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>Integer.MAX_VALUE</code></div>
+                        </td>
+                        <td class="explanation">
+                          The maximum value represented by an &#8199;<code>int</code>&#8199; or
+                          &#8199;<code>Integer</code>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>int intValue()</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the value of this &#8199;<code>Integer</code>&#8199; as an &#8199;<code>int</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Double Class -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Double Class</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-table-responsive">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">Class Constructors and Methods</th>
+                        <th scope="col">Explanation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>Double(double value)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Constructs a new &#8199;<code>Double</code>&#8199; object that represents the specified
+                          &#8199;<code>double</code>&#8199; value
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>double doubleValue()</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the value of this &#8199;<code>Double</code>&#8199; as a &#8199;<code>double</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Math Class -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Math Class</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-table-responsive">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">Class Methods</th>
+                        <th scope="col">Explanation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>static int abs(int x)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the absolute value of an &#8199;<code>int</code>&#8199; value
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>static double abs(double x)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the absolute value of a &#8199;<code>double</code>&#8199; value
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext">
+                            <code>static double pow(double base, double exponent)</code>
+                          </div>
+                        </td>
+                        <td class="explanation">
+                          Returns the value of the first parameter raised to the power of the second
+                          parameter
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext">
+                            <code>static double sqrt(double x)</code>
+                          </div>
+                        </td>
+                        <td class="explanation">
+                          Returns the positive square root of a &#8199;<code>double</code>&#8199; value
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>static double random()</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns a &#8199;<code>double</code>&#8199; value greater than or equal to
+                          &#8199;<code>0.0</code>&#8199; and less than
+                          &#8199;<code>1.0</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item ArrayList Class -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>ArrayList Class</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-table-responsive">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">Class Methods</th>
+                        <th scope="col">Explanation</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>int size()</code></div>
+                        </td>
+                        <td class="explanation">Returns the number of elements in the list</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>boolean add(E obj)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Appends &#8199;<code>obj</code>&#8199; to end of list; returns &#8199;<code>true</code>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>void add(int index, E obj)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Inserts &#8199;<code>obj</code>&#8199; at position
+                          &#8199;<code>index</code>&#8199; (&#8199;<code>0 &#60;= index &#60;= size</code>&#8199); moving elements at
+                          position &#8199;<code>index</code>&#8199; and higher to the right (adds 1 to their
+                          indices) and adds 1 to size
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>E get(int index)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Returns the element at position &#8199;<code>index</code>&#8199; in the list
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>E set(int index, E obj)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Replaces the element at position &#8199;<code>index</code>&#8199; with &#8199;<code>obj</code>;&#8199;
+                          returns the element formerly at position &#8199;<code>index</code>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>E remove(int index)</code></div>
+                        </td>
+                        <td class="explanation">
+                          Removes element from position &#8199;<code>index</code>,&#8199; moving elements at
+                          position &#8199;<code>index + 1</code>&#8199; and higher to the left (subtracts 1 from
+                          their indices) and subtracts 1 from size; returns the element formerly at
+                          position &#8199;<code>index</code>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- list item Object Class -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span>Object Class</span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel" role="region">
+              <div class="cb-accordion-panel-content cb-gray5-bg">
+                <div class="cb-table-responsive">
+                  <table class="cb-table cb-white-bg">
+                    <thead>
+                      <tr>
+                        <th scope="col">Class Methods</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>boolean equals(Object other)</code></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="pretext"><code>String toString()</code></div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <style>
+      main#reference-sheet {
+        background-color: #f5f5f5;
+        font-family: "Noto Serif";
+        font-size: 15px;
+      }
+
+      main#reference-sheet code {
+        font-family: "Courier Prime" !important;
+        font-size: 14px;
+        line-height: 1em;
+      }
+
+      main#reference-sheet .pretext code {
+        white-space: nowrap;
+      }
+
+      main#reference-sheet td.explanation {
+        font-family: "Noto Serif";
+      }
+
+      main#reference-sheet td.explanation code {
+        background-color: #f0f0f0;
+        font-family: "Courier Prime" !important;
+        font-size: 14px;
+        padding: 2px;
+      }
+
+      /* accordion */
+      main#reference-sheet .cb-accordion .cb-accordion-controls {
+        font-size: 15px;
+        margin: 0;
+        padding: 16px 24px;
+      }
+
+      main#reference-sheet
+        .cb-accordion
+        .cb-accordion-panels
+        .cb-accordion-container
+        .cb-accordion-panel {
+        overflow-y: hidden !important;
+      }
+
+      main#reference-sheet
+        .cb-accordion
+        .cb-accordion-panels
+        .cb-accordion-container
+        .cb-accordion-heading {
+        background-color: #ffffff;
+      }
+
+      main#reference-sheet .Rectangle {
+        background-image: linear-gradient(to bottom, #d9d9d9, #f0f0f0 57%);
+        height: 24px;
+      }
+
+      main#reference-sheet table.cb-table > thead {
+        background-color: #f0f0f0;
+        color: #1e1e1e;
+      }
+
+      main#reference-sheet table td {
+        font-family: "Courier Prime";
+        font-size: 14px;
+        line-height: 24px;
+        width: 50%;
+      }
+
+      main#reference-sheet table td pre {
+        margin: 0 0 -16px 0;
+      }
+
+      main#reference-sheet table td .pretext {
+        background-color: #f0f0f0;
+        padding: 12px;
+      }
+
+      main#reference-sheet table.cb-table > thead {
+        background-color: #d9d9d9;
+        color: #1e1e1e;
+      }
+
+      main#reference-sheet div.hub-sticky-table-container {
+        max-height: 500px;
+        border-bottom: 1px solid #b2b2b2;
+        border: 1px solid #505050;
+      }
+
+      main#reference-sheet table {
+        border-collapse: collapse;
+        border: none !important;
+        max-height: 500px;
+        position: relative;
+        text-align: left;
+      }
+
+      main#reference-sheet table.cb-table thead tr th {
+        background-color: #d9d9d9;
+      }
+
+      main#reference-sheet table.cb-table :is(td, th) {
+        border-color: #505050 !important;
+      }
+
+      main#reference-sheet table.thead tr th {
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+        position: sticky;
+        left: -1px;
+        top: -1px;
+        /* Don't forget this, required for the stickiness */
+      }
+
+      main#reference-sheet table.thead tr:nth-child(2) th {
+        border-top: 1px solid #b2b2b2;
+        box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+        position: sticky;
+        left: -1px;
+        top: 47px;
+        /* Don't forget this, required for the stickiness */
+      }
+
+      main#reference-sheet table.thead tr:first-child th:first-child {
+        box-shadow: 2px 2px 2px -1px rgba(0, 0, 0, 0.4);
+        position: sticky;
+        left: -1px;
+        top: -1px;
+        z-index: 1;
+        /* Don't forget this, required for the stickiness */
+      }
+
+      main#reference-sheet table.tbody th,
+      main#reference-sheet table.tbody td:first-child {
+        background-color: #d9d9d9;
+        box-shadow: 2px 2px 2px -1px rgba(0, 0, 0, 0.4);
+        position: sticky;
+        left: -1px;
+        top: -1px;
+        /* Don't forget this, required for the stickiness */
+      }
+
+      main#reference-sheet table.tbody th {
+        box-shadow: 2px 2px 2px -1px rgba(0, 0, 0, 0.4);
+      }
+
+      main#reference-sheet .cb-scrollbar-container:not(.active) {
+        height: fit-content;
+      }
+
+      main#reference-sheet .cb-scrollbar-container:not(.active) .cb-table-responsive {
+        height: fit-content !important;
+      }
+
+      main#reference-sheet .cb-scrollbar-container.active {
+        margin-bottom: 0;
+      }
+    </style>
+
+    <script type="text/javascript" id="apricot-setup-scripts">
+      try {
+        var { adjustHeight } = cb.apricot.CBAccordion({
+          elem: document.querySelector("#reference-sheet-accordion.cb-accordion"),
+          callback: adjustHeight,
+          extendFocusableElements: [".MathJax"]
+        });
+        const responsiveUpdate = () => {
+          adjustHeight();
+        };
+        window.onload = () => {
+          responsiveUpdate();
+        }
+        const observer = new MutationObserver(function (mutations) {
+          mutations.forEach(function (mutationRecord) {
+            responsiveUpdate();
+          });
+        });
+        const target = document.getElementsByTagName("html");
+        observer.observe(target[0], { attributes: true, attributeFilter: ["style"] });
+      } catch (e) {
+        console.log("Reference Sheet Error: ", e);
+      }
+    </script>
+  </body>
+</html>

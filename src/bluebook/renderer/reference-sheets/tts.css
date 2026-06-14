@@ -1,0 +1,14 @@
+/*
+Note: These styles are duplicated atm in 
+packages/player-components/src/ally/text-to-speech/text-to-speech.scss
+
+Would be good practice to not duplicate them at some point.
+*/
+
+.tts-speech-highlight {
+  background-color: #ffff00 !important;
+  color: #1e1e1e !important;
+}
+img.tts-speech-highlight, svg.tts-speech-highlight {
+  outline-style: auto; 
+}

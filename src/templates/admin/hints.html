@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set hint_count = hints|length %}
+
+<!-- Hints Management Page Header -->
+<section class="page-header admin-page-header">
+    <div class="admin-page-title">
+        <div class="admin-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">lightbulb</span>
+                <span>提示管理</span>
+            </span>
+            <h1>{{ challenge.title }}</h1>
+            <div class="admin-toolbar">
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.edit_challenge', challenge_id=challenge.id) }}">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>返回题目</span>
+                </a>
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_challenges') }}">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>题库列表</span>
+                </a>
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.logout') }}">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>退出登录</span>
+                </a>
+            </div>
+            <p>为选手逐步解锁线索，记得控制提示顺序和信息量喵～</p>
+        </div>
+        <div class="admin-page-actions">
+            <div class="admin-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">提示统计</p>
+                    <p class="highlight-value">{{ challenge.title }}</p>
+                </div>
+                <div class="highlight-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ "%02d"|format(hint_count) }}</span>
+                        <span class="stat-text">提示数量</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">{% if hints %}{{ hints[-1].order }}{% else %}0{% endif %}</span>
+                        <span class="stat-text">最大序号</span>
+                    </div>
+                </div>
+                <p class="highlight-note">{% if hints %}最新提示: {{ hints[-1].title or '未命名提示' }}{% else %}尚未创建，快来添加一条吧{% endif %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Hints Management Content -->
+<section class="admin-section">
+    <div class="hints-layout">
+        <!-- New Hint Form -->
+        <div class="admin-content-card">
+            <div class="admin-card-header">
+                <div class="admin-card-header-content">
+                    <h2>新增提示</h2>
+                    <p>按照剧情节奏安排提示顺序，帮助选手保持探索乐趣。</p>
+                </div>
+            </div>
+            <form method="post" class="admin-form-grid" style="padding: var(--md3-space-2xl);">
+                <div class="form-field full">
+                    <label for="title">提示标题（可选）</label>
+                    <input type="text" id="title" name="title" placeholder="如：提示一 / 猫抓板">
+                </div>
+
+                <div class="form-field">
+                    <label for="order">显示顺序</label>
+                    <input type="number" id="order" name="order" placeholder="留空则自动追加" min="1">
+                </div>
+
+                <div class="form-field full">
+                    <label for="content">提示内容</label>
+                    <textarea id="content" name="content" rows="4" placeholder="给选手的关键信息" required></textarea>
+                </div>
+
+                <div class="form-actions full">
+                    <button type="submit" class="md3-btn">
+                        <span class="material-symbols-outlined">add</span>
+                        <span>添加提示</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Hints List -->
+        <div class="admin-content-card">
+            <div class="admin-card-header">
+                <div class="admin-card-header-content">
+                    <h2>提示列表</h2>
+                    <p>检查顺序、内容与语气，必要时可以删除重新编排。</p>
+                </div>
+            </div>
+            {% if hints %}
+                <ol class="hints-list">
+                    {% for hint in hints %}
+                        <li class="hint-item">
+                            <div class="hint-content">
+                                <div class="hint-header">
+                                    <h3>{{ hint.title or ("提示 " ~ loop.index) }}</h3>
+                                    <span class="hint-order-badge">顺序: {{ hint.order }}</span>
+                                </div>
+                                <p class="hint-text">{{ hint.content }}</p>
+                            </div>
+                            <form method="post" action="{{ url_for('admin.delete_challenge_hint', challenge_id=challenge.id, hint_id=hint.id) }}" onsubmit="return confirm('确定要删除这个提示喵？');">
+                                <button type="submit" class="md3-btn md3-btn--danger">
+                                    <span class="material-symbols-outlined">delete</span>
+                                    <span>删除</span>
+                                </button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <div class="admin-table-empty">
+                    <span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.3;">inbox</span>
+                    <p>尚未添加提示喵～</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

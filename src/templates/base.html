@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ event_name }} - 点亮星夜的猫耳黑客嘉年华">
+    <meta name="theme-color" content="#F9A8D4">
+    
+    <title>{% block title %}{{ event_name }} | NekoCTF{% endblock %}</title>
+    
+    <!-- MD3 Expressive Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/md3-main.css') }}">
+    
+    <!-- htmx for dynamic interactions -->
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <!-- MD3 Expressive Header -->
+    <header class="md3-header">
+        <div class="md3-header__container">
+            <a href="{{ url_for('public.home') }}" class="md3-header__brand">
+                <span class="md3-header__brand-icon">🐾</span>
+                <span>{{ event_name }}</span>
+            </a>
+            
+            <nav class="md3-header__nav" id="mainNav">
+                <a href="{{ url_for('public.home') }}" class="md3-nav-link {% if request.endpoint == 'public.home' %}md3-nav-link--active{% endif %}">
+                    <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">home</span>
+                    主页
+                </a>
+                <a href="{{ url_for('public.challenges') }}" class="md3-nav-link {% if request.endpoint == 'public.challenges' %}md3-nav-link--active{% endif %}">
+                    <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">quiz</span>
+                    题目列表
+                </a>
+                <a href="{{ url_for('public.leaderboard') }}" class="md3-nav-link {% if request.endpoint == 'public.leaderboard' %}md3-nav-link--active{% endif %}">
+                    <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">leaderboard</span>
+                    排行榜
+                </a>
+                <a href="{{ url_for('public.about') }}" class="md3-nav-link {% if request.endpoint == 'public.about' %}md3-nav-link--active{% endif %}">
+                    <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">info</span>
+                    关于
+                </a>
+                
+                {% if current_user.is_authenticated %}
+                    {% if current_user.is_admin %}
+                        <a href="{{ url_for('admin.admin_challenges') }}" class="md3-nav-link">
+                            <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">admin_panel_settings</span>
+                            后台
+                        </a>
+                    {% endif %}
+                    <a href="{{ url_for('public.profile_me') }}" class="md3-nav-user">
+                        <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">account_circle</span>
+                        {{ current_user.username }}
+                    </a>
+                    <a href="{{ url_for('public.logout') }}" class="md3-nav-link">
+                        <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">logout</span>
+                        退出
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('public.login') }}" class="md3-nav-link">
+                        <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">login</span>
+                        登录
+                    </a>
+                    <a href="{{ url_for('public.register') }}" class="md3-nav-link">
+                        <span class="material-symbols-outlined" style="font-size: 1.2rem; vertical-align: middle; margin-right: 4px;">person_add</span>
+                        注册
+                    </a>
+                {% endif %}
+                
+            </nav>
+            
+            <button class="md3-header__toggle" onclick="toggleNav()" aria-label="切换导航菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Email Verification Banner -->
+    {% if current_user.is_authenticated and not current_user.email_verified and not current_user.is_admin %}
+    <div class="verification-banner">
+        <div class="verification-banner__content">
+            <div class="verification-banner__icon">
+                <span class="material-symbols-outlined">mark_email_unread</span>
+            </div>
+            <div class="verification-banner__text">
+                <strong>邮箱尚未验证</strong>
+                <span>请查收验证邮件完成激活，验证后方可提交 flag 喵～</span>
+            </div>
+            <div class="verification-banner__actions">
+                <a href="{{ url_for('public.resend_verification') }}" class="md3-btn md3-btn--primary verification-banner__btn">
+                    <span class="material-symbols-outlined">send</span>
+                    <span>重新发送</span>
+                </a>
+            </div>
+            <button class="verification-banner__close" aria-label="关闭提示">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div id="flashMessages" style="position: fixed; top: 100px; right: var(--md3-space-2xl); z-index: var(--md3-z-notification); display: flex; flex-direction: column; gap: var(--md3-space-md); max-width: 400px;">
+                {% for category, text in messages %}
+                <div class="md3-flash md3-flash--{{ category }} fade-in">
+                    {{ text }}
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Back to Top FAB -->
+    <button id="backToTop" class="md3-fab" style="opacity: 0; pointer-events: none; transition: opacity var(--md3-duration-medium3) var(--md3-easing-emphasized);" aria-label="回到顶部">
+        <span class="material-symbols-outlined">arrow_upward</span>
+    </button>
+
+    <!-- MD3 Expressive Footer -->
+    <footer class="md3-footer">
+        <div class="md3-footer__container">
+            <div class="md3-footer__top">
+                <div class="md3-footer__brand">
+                    <div class="md3-footer__logo">
+                        <span class="md3-footer__logo-icon">🐾</span>
+                        <span>{{ event_name }}</span>
+                    </div>
+                    <p class="md3-footer__tagline">
+                        点亮星夜的猫耳黑客嘉年华 —— 汇聚剧情爱好者与攻防艺术家的沉浸式 CTF 旅程
+                    </p>
+                    <div class="md3-footer__social">
+                        <a href="#" class="md3-footer__social-link" title="GitHub" aria-label="GitHub">
+                            <span class="material-symbols-outlined">code</span>
+                        </a>
+                        <a href="#" class="md3-footer__social-link" title="Twitter" aria-label="Twitter">
+                            <span class="material-symbols-outlined">chat</span>
+                        </a>
+                        <a href="#" class="md3-footer__social-link" title="Discord" aria-label="Discord">
+                            <span class="material-symbols-outlined">forum</span>
+                        </a>
+                        <a href="mailto:{{ contact_email }}" class="md3-footer__social-link" title="Email" aria-label="Email">
+                            <span class="material-symbols-outlined">mail</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="md3-footer__section">
+                    <h3 class="md3-footer__title">快速链接</h3>
+                    <ul class="md3-footer__links">
+                        <li><a href="{{ url_for('public.challenges') }}" class="md3-footer__link">挑战题目</a></li>
+                        <li><a href="{{ url_for('public.leaderboard') }}" class="md3-footer__link">排行榜</a></li>
+                        <li><a href="{{ url_for('public.submit') }}" class="md3-footer__link">投稿题目</a></li>
+                    </ul>
+                </div>
+                
+                <div class="md3-footer__section">
+                    <h3 class="md3-footer__title">关于我们</h3>
+                    <ul class="md3-footer__links">
+                        <li><a href="{{ url_for('public.about') }}" class="md3-footer__link">关于赛事</a></li>
+                        <li><a href="#" class="md3-footer__link">团队介绍</a></li>
+                        <li><a href="#" class="md3-footer__link">联系我们</a></li>
+                    </ul>
+                </div>
+                
+                <div class="md3-footer__section">
+                    <h3 class="md3-footer__title">资源</h3>
+                    <ul class="md3-footer__links">
+                        <li><a href="#" class="md3-footer__link">规则说明</a></li>
+                        <li><a href="#" class="md3-footer__link">常见问题</a></li>
+                        <li><a href="#" class="md3-footer__link">文档中心</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="md3-footer__bottom">
+                <div class="md3-footer__copyright">
+                    <span>© 2025 {{ event_name }}</span>
+                    <span>·</span>
+                    <span>Made with <span class="md3-footer__heart">❤️</span> for all neko hackers</span>
+                </div>
+                
+                <div class="md3-footer__badges">
+                    <span class="md3-footer__badge">
+                        <span class="md3-footer__badge-icon">⚡</span>
+                        <span>Powered by MD3 Expressive</span>
+                    </span>
+                    <span class="md3-footer__badge">
+                        <span class="md3-footer__badge-icon">✨</span>
+                        <span>htmx Enhanced</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile navigation toggle
+        function toggleNav() {
+            const nav = document.getElementById('mainNav');
+            nav.classList.toggle('md3-header__nav--open');
+        }
+        
+        // Close nav when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.getElementById('mainNav');
+            const toggle = document.querySelector('.md3-header__toggle');
+            const header = document.querySelector('.md3-header');
+            
+            if (nav.classList.contains('md3-header__nav--open') && 
+                !header.contains(event.target)) {
+                nav.classList.remove('md3-header__nav--open');
+            }
+        });
+        
+        // Auto-hide flash messages after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const flashes = document.querySelectorAll('.md3-flash');
+            flashes.forEach(flash => {
+                setTimeout(() => {
+                    flash.style.animation = 'flashSlideIn 0.4s var(--md3-easing-emphasized) reverse';
+                    setTimeout(() => flash.remove(), 400);
+                }, 5000);
+            });
+            
+            // Email verification banner close functionality
+            const verificationBanner = document.querySelector('.verification-banner');
+            if (verificationBanner) {
+                const closeBtn = verificationBanner.querySelector('.verification-banner__close');
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', function() {
+                        verificationBanner.style.animation = 'slideDown 0.3s var(--md3-easing-emphasized) reverse';
+                        setTimeout(() => {
+                            verificationBanner.style.display = 'none';
+                        }, 300);
+                    });
+                }
+            }
+        });
+        
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href');
+                if (targetId !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(targetId);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe sections for fade-in effect
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.md3-section');
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.8s cubic-bezier(0.05, 0.7, 0.1, 1), transform 0.8s cubic-bezier(0.05, 0.7, 0.1, 1)';
+                observer.observe(section);
+            });
+        });
+        
+        // Add parallax effect to hero background
+        document.addEventListener('DOMContentLoaded', function() {
+            const hero = document.querySelector('.md3-hero');
+            if (hero) {
+                window.addEventListener('scroll', function() {
+                    const scrolled = window.pageYOffset;
+                    const parallaxElements = hero.querySelectorAll('.md3-hero__glow, .md3-hero__orb');
+                    parallaxElements.forEach((el, index) => {
+                        const speed = 0.3 + (index * 0.1);
+                        el.style.transform = `translateY(${scrolled * speed}px)`;
+                    });
+                });
+            }
+        });
+        
+        // Add ripple effect on button clicks
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.md3-btn');
+            buttons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+                    
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.left = x + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.position = 'absolute';
+                    ripple.style.borderRadius = '50%';
+                    ripple.style.background = 'rgba(255, 255, 255, 0.5)';
+                    ripple.style.pointerEvents = 'none';
+                    ripple.style.animation = 'ripple 0.6s ease-out';
+                    
+                    this.appendChild(ripple);
+                    setTimeout(() => ripple.remove(), 600);
+                });
+            });
+        });
+        
+        // Add CSS for ripple animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                from {
+                    transform: scale(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('backToTop');
+        if (backToTopBtn) {
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    backToTopBtn.style.opacity = '1';
+                    backToTopBtn.style.pointerEvents = 'all';
+                } else {
+                    backToTopBtn.style.opacity = '0';
+                    backToTopBtn.style.pointerEvents = 'none';
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+    </script>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

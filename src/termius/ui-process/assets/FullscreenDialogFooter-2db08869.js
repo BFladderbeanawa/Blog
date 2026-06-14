@@ -1,0 +1,2 @@
+import{bg as l,bn as o}from"./reconnectSaga-e33541d6.js";const f=t=>{const{className:e,children:s,onTransitionEnd:r=d,innerRef:a=null}=t,{classes:n,cx:i}=c();return o("div",{className:i(n.root,e),onTransitionEnd:r,ref:a,children:o("div",{className:n.footerContent,children:s})})},c=l()({root:{width:"100%",backgroundColor:"var(--main-bg)",display:"flex",justifyContent:"center"},footerContent:{maxWidth:"380px",width:"100%",padding:"30px 0"}}),d=()=>{};export{f as F};
+//# sourceMappingURL=FullscreenDialogFooter-2db08869.js.map

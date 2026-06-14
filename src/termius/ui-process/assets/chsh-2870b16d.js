@@ -1,0 +1,2 @@
+const e="Change your login shell",s="chsh",n=[{name:"username",description:"Target user",isOptional:!0}],i=[{description:"Specify login shell",name:["-s","--shell"],args:[{name:"shell"}]},{description:"Print list of shells and exit",name:["-l","--list-shells"]},{description:"Print help message and exit",name:["-u","-h","--help"]},{description:"Print version and exit",name:["-v","--version"]}],t={description:e,name:s,args:n,options:i};export{n as args,t as default,e as description,s as name,i as options};
+//# sourceMappingURL=chsh-2870b16d.js.map

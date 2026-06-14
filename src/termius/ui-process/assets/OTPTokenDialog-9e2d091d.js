@@ -1,0 +1,2 @@
+import{dI as n,cb as s,r as c,bl as l,bQ as m,bn as r,dM as d,ce as p}from"./reconnectSaga-e33541d6.js";import{O as b}from"./OTPToken-edbf83c6.js";function f({onOk:a,onClose:e,submitCallback:o}){const i=c.useCallback(async t=>{await o(t),a(t)},[a,o]);return l(m.Fragment,{children:[r(d,{color:"primary",endAdornment:"close",title:"Enter verification code",onEndAdornmentClick:e}),r(p,{top:25,right:20,bottom:25,left:20,children:r(b,{submitCallback:i})})]})}const h=n.promisify(s(f));export{h as r};
+//# sourceMappingURL=OTPTokenDialog-9e2d091d.js.map

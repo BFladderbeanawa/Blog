@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Flag Management Page Header -->
+<section class="page-header admin-page-header">
+    <div class="admin-page-title">
+        <div class="admin-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">flag</span>
+                <span>Flag 阶段管理</span>
+            </span>
+            <h1>{{ challenge.title }}</h1>
+            <div class="admin-toolbar">
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.edit_challenge', challenge_id=challenge.id) }}">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>返回题目设置</span>
+                </a>
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('admin.admin_challenges') }}">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>回到题库</span>
+                </a>
+            </div>
+            <p>为题目配置多阶段 flag（如 user / root），并控制分值与顺序。</p>
+        </div>
+        <div class="admin-page-actions">
+            <div class="admin-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">阶段统计</p>
+                    <p class="highlight-value">{{ challenge.title }}</p>
+                </div>
+                <div class="highlight-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ "%02d"|format(stages|length) }}</span>
+                        <span class="stat-text">已配置阶段</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">{{ challenge.points }}</span>
+                        <span class="stat-text">基础分值</span>
+                    </div>
+                </div>
+                <p class="highlight-note">{% if stages %}最新阶段: {{ stages[-1].label }}{% else %}尚未配置阶段{% endif %}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Flag Create Form -->
+<section class="admin-section">
+    <div class="admin-content-card">
+        <div class="admin-card-header">
+            <div class="admin-card-header-content">
+                <h2>新增 Flag 阶段</h2>
+                <p>每个阶段都可单独设置分值和展示顺序，未填写的字段将采用默认值。</p>
+            </div>
+        </div>
+        <form method="post" class="admin-form-grid" style="padding: var(--md3-space-2xl);">
+            <input type="hidden" name="action" value="create">
+            <div class="form-field">
+                <label for="flag_slug">阶段标识</label>
+                <input type="text" id="flag_slug" name="slug" placeholder="user / root" required>
+            </div>
+            <div class="form-field">
+                <label for="flag_label">展示名称</label>
+                <input type="text" id="flag_label" name="label" placeholder="User Flag" required>
+            </div>
+            <div class="form-field">
+                <label for="flag_points">分值</label>
+                <input type="number" id="flag_points" name="points" min="1" value="100" required>
+            </div>
+            <div class="form-field">
+                <label for="flag_display_order">排序</label>
+                <input type="number" id="flag_display_order" name="display_order" min="1" value="{{ stages|length + 1 }}">
+            </div>
+            <div class="form-field full">
+                <label for="flag_secret">Flag</label>
+                <input type="text" id="flag_secret" name="flag" placeholder="NekoCTF{...}" required>
+            </div>
+            <div class="form-actions full">
+                <button type="submit" class="md3-btn">
+                    <span class="material-symbols-outlined">add</span>
+                    <span>新增阶段</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- Flag List -->
+<section class="admin-section">
+    <div class="admin-content-card">
+        <div class="admin-card-header">
+            <div class="admin-card-header-content">
+                <h2>已配置阶段</h2>
+                <p>修改后提交即可保存；留空 flag 字段则保持原密文。</p>
+            </div>
+        </div>
+
+        {% if stages %}
+        <div class="flag-stages-grid">
+            {% for stage in stages %}
+            <div class="flag-stage-card">
+                <form method="post" class="flag-stage-form">
+                    <input type="hidden" name="action" value="update">
+                    <input type="hidden" name="flag_id" value="{{ stage.id }}">
+                    <div class="flag-stage-header">
+                        <h3>{{ stage.label }}</h3>
+                        <span class="stage-badge">{{ stage.slug }}</span>
+                    </div>
+                    <div class="form-field">
+                        <label>阶段标识</label>
+                        <input type="text" name="slug" value="{{ stage.slug }}" required>
+                    </div>
+                    <div class="form-field">
+                        <label>展示名称</label>
+                        <input type="text" name="label" value="{{ stage.label }}" required>
+                    </div>
+                    <div class="form-field">
+                        <label>分值</label>
+                        <input type="number" name="points" min="1" value="{{ stage.points }}" required>
+                    </div>
+                    <div class="form-field">
+                        <label>排序</label>
+                        <input type="number" name="display_order" min="1" value="{{ stage.display_order }}" required>
+                    </div>
+                    <div class="form-field full">
+                        <label>更新 Flag（留空不更改）</label>
+                        <input type="text" name="flag" autocomplete="off" placeholder="NekoCTF{...}">
+                    </div>
+                    <div class="form-actions full">
+                        <button type="submit" class="md3-btn md3-btn--secondary">
+                            <span class="material-symbols-outlined">save</span>
+                            <span>保存</span>
+                        </button>
+                    </div>
+                </form>
+                <form method="post" class="flag-stage-delete" onsubmit="return confirm('确定要删除该阶段喵？');">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="flag_id" value="{{ stage.id }}">
+                    <button type="submit" class="md3-btn md3-btn--danger">
+                        <span class="material-symbols-outlined">delete</span>
+                        <span>删除阶段</span>
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+            <div class="admin-table-empty">
+                <span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.3;">inbox</span>
+                <p>当前还没有配置 Flag 阶段，先在上方添加一条喵～</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

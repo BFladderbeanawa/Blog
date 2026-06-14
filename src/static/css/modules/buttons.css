@@ -1,0 +1,314 @@
+/* ====================================
+   MD3 Expressive - Buttons & CTAs
+   ==================================== */
+
+.md3-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--md3-space-sm);
+    padding: var(--md3-space-md) var(--md3-space-2xl);
+    font-family: var(--md3-font-body);
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: var(--md3-radius-full);
+    cursor: pointer;
+    overflow: hidden;
+    transition: all var(--md3-duration-medium3) var(--md3-easing-emphasized);
+    white-space: nowrap;
+}
+
+.md3-btn > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Primary Button */
+.md3-btn--primary {
+    color: var(--md3-on-primary);
+    background: linear-gradient(135deg, var(--md3-primary) 0%, var(--md3-secondary) 100%);
+    box-shadow: var(--md3-shadow-2), var(--md3-glow-primary);
+}
+
+.md3-btn--primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(135deg, var(--md3-secondary) 0%, var(--md3-primary) 100%);
+    opacity: 0;
+    transition: opacity var(--md3-duration-medium2) var(--md3-easing-standard);
+}
+
+.md3-btn--primary:hover::before {
+    opacity: 1;
+}
+
+.md3-btn--primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--md3-shadow-4), var(--md3-glow-primary);
+}
+
+.md3-btn--primary:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* Secondary Button */
+.md3-btn--secondary {
+    color: var(--md3-primary);
+    background: var(--md3-primary-container);
+    border: 2px solid var(--md3-primary);
+    box-shadow: var(--md3-shadow-1);
+}
+
+.md3-btn--secondary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--md3-overlay-hover);
+    opacity: 0;
+    transition: opacity var(--md3-duration-medium2) var(--md3-easing-standard);
+}
+
+.md3-btn--secondary:hover::before {
+    opacity: 1;
+}
+
+.md3-btn--secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--md3-shadow-3), var(--md3-glow-primary);
+    border-color: var(--md3-secondary);
+    color: var(--md3-secondary);
+}
+
+.md3-btn--secondary:active {
+    transform: translateY(-1px);
+}
+
+/* Tertiary/Text Button */
+.md3-btn--tertiary {
+    color: var(--md3-primary);
+    background: transparent;
+    border: 1px solid var(--md3-outline);
+}
+
+.md3-btn--tertiary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: var(--md3-overlay);
+    opacity: 0;
+    transition: opacity var(--md3-duration-medium2) var(--md3-easing-standard);
+}
+
+.md3-btn--tertiary:hover::before {
+    opacity: 1;
+}
+
+.md3-btn--tertiary:hover {
+    border-color: var(--md3-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--md3-shadow-2);
+}
+
+/* Icon Button */
+.md3-btn--icon {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border-radius: var(--md3-radius-md);
+}
+
+.md3-btn--icon-lg {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+}
+
+/* Floating Action Button (FAB) */
+.md3-fab {
+    position: fixed;
+    bottom: var(--md3-space-2xl);
+    right: var(--md3-space-2xl);
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--md3-primary), var(--md3-secondary));
+    border: none;
+    border-radius: var(--md3-radius-xl);
+    font-size: 1.5rem;
+    color: var(--md3-on-primary);
+    box-shadow: var(--md3-shadow-4), var(--md3-glow-primary);
+    cursor: pointer;
+    transition: all var(--md3-duration-medium3) var(--md3-easing-emphasized);
+    z-index: var(--md3-z-fixed);
+}
+
+.md3-fab:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--md3-shadow-5), var(--md3-glow-primary);
+}
+
+.md3-fab:active {
+    transform: scale(1.05);
+}
+
+/* Button Group */
+.md3-btn-group {
+    display: flex;
+    gap: var(--md3-space-md);
+    flex-wrap: wrap;
+}
+
+/* Disabled State */
+.md3-btn:disabled,
+.md3-btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading State */
+.md3-btn--loading {
+    pointer-events: none;
+}
+
+.md3-btn--loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--md3-space-sm);
+    padding: var(--md3-space-md) var(--md3-space-2xl);
+    font-family: var(--md3-font-body);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    border-radius: var(--md3-radius-full);
+    cursor: pointer;
+    overflow: hidden;
+    color: var(--md3-on-primary);
+    background: linear-gradient(135deg, var(--md3-primary) 0%, var(--md3-secondary) 100%);
+    box-shadow: var(--md3-shadow-2), var(--md3-glow-primary);
+    transition: all var(--md3-duration-medium3) var(--md3-easing-emphasized);
+    white-space: nowrap;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(135deg, var(--md3-secondary) 0%, var(--md3-primary) 100%);
+    opacity: 0;
+    transition: opacity var(--md3-duration-medium2) var(--md3-easing-standard);
+}
+
+.btn > * {
+    position: relative;
+    z-index: 1;
+}
+
+.btn:hover::before {
+    opacity: 1;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: var(--md3-shadow-4), var(--md3-glow-primary);
+}
+
+.btn:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+.btn.secondary {
+    color: var(--md3-primary);
+    background: var(--md3-primary-container);
+    border: 2px solid var(--md3-primary);
+    box-shadow: var(--md3-shadow-1);
+}
+
+.btn.secondary::before {
+    background: var(--md3-overlay-hover);
+}
+
+.btn.secondary:hover {
+    color: var(--md3-secondary);
+    border-color: var(--md3-secondary);
+}
+
+.btn.tertiary {
+    color: var(--md3-primary);
+    background: transparent;
+    border: 1px solid var(--md3-outline);
+    box-shadow: none;
+}
+
+.btn.tertiary::before {
+    background: var(--md3-overlay);
+}
+
+.btn.tertiary:hover {
+    border-color: var(--md3-primary);
+    box-shadow: var(--md3-shadow-1);
+}
+
+.btn.danger {
+    color: var(--md3-on-primary);
+    background: linear-gradient(135deg, rgba(255, 107, 107, 0.9) 0%, rgba(249, 168, 212, 0.6) 100%);
+    box-shadow: var(--md3-shadow-2);
+}
+
+.btn.danger::before {
+    background: linear-gradient(135deg, rgba(249, 168, 212, 0.75) 0%, rgba(255, 107, 107, 0.9) 100%);
+}
+
+.btn.danger:hover {
+    box-shadow: var(--md3-shadow-4);
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .md3-btn {
+        padding: var(--md3-space-sm) var(--md3-space-xl);
+        font-size: 0.95rem;
+    }
+    
+    .md3-fab {
+        bottom: var(--md3-space-xl);
+        right: var(--md3-space-xl);
+        width: 56px;
+        height: 56px;
+    }
+}

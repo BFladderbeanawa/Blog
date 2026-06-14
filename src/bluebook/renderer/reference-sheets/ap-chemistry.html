@@ -1,0 +1,4234 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <title>AP Chemistry Equations and Constants</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+
+    <link href="apricot.main.css" rel="stylesheet">
+    <script src="prevent-right-click.js"></script>
+    <script id="MathJax-script" src="/mathjax/custom-mathjax-refsheet-config.js"></script>
+    <script src="apricot.main.js"></script>
+    <script src="keyboard-close.js"></script>
+    <link rel="stylesheet" type="text/css" href="/fonts/NotoSerif.css" />
+    <link rel="stylesheet" type="text/css" href="/fonts/CourierPrime.css" />
+    <link rel="stylesheet" type="text/css" href="tts.css" />
+
+    <style>
+      /**
+      * This approach with html and body is to accommodate older versions of
+      * iOS 15.4-15.8.1 not being able to use scrollTo on the <html> tag in the iFrame.
+    */
+      html {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        /* Safari fix, noted above */
+        height: 100%;
+        overflow: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main id="reference-sheet" role="main">
+      <!-- Tab Container -->
+      <div class="cb-tabs-menu cb-condensed cb-border-bottom" data-cb-apricot="tabs-menu">
+        <!-- Tab Menu Items -->
+        <ul role="tablist">
+          <li role="presentation" class="cb-padding-left-24 cb-padding-right-24">
+            <a href="#Equations" class="cb-menu-link cb-selected" role="tab">
+              <span class="tab-title">Equations</span>
+            </a>
+          </li>
+          <li role="presentation" class="cb-padding-left-24 cb-padding-right-24">
+            <a href="#PeriodicTable" class="cb-menu-link " role="tab">
+              <span class="tab-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16">
+                  <g fill="none" fill-rule="evenodd">
+                    <g fill="#1E1E1E">
+                      <g>
+                        <path
+                          d="M11.343 0v4.7H5.711V0H0v16h17.054V0h-5.711zm1.927 4.688h1.858V1.926H13.27v2.762zm-11.342 0h1.857V1.926H1.928v2.762zm11.345 4.7h1.855V6.626h-1.855v2.762zm-3.78 0h1.85V6.626h-1.85v2.762zm-3.782 0h1.852V6.626H5.711v2.762zm-3.783 0h1.853V6.626H1.928v2.762zm11.345 4.688h1.855v-2.762h-1.855v2.762zm-3.78 0h1.85v-2.762h-1.85v2.762zm-3.782 0h1.852v-2.762H5.711v2.762zm-3.783 0h1.853v-2.762H1.928v2.762z"
+                          transform="translate(-158 -149) translate(158 149)" />
+                      </g>
+                    </g>
+                  </g>
+                </svg>
+                &nbsp;Periodic Table
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Tab Content -->
+      <div class="cb-tabs-container">
+        <div id="Equations" role="tabpanel" class="cb-tabs-content cb-selected">
+          <!-- Accordion -->
+          <div id="reference-sheet-accordion" class="cb-accordion" data-cb-apricot="accordion">
+            <!-- Controllers -->
+            <div class="cb-accordion-controls cb-white-bg cb-no-padding">
+              <div class="cb-accordion-buttons">
+                <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-expand cb-blue5-color">Expand
+                  All</button>
+                <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-collapse cb-blue5-color">Collapse
+                  All</button>
+              </div>
+            </div>
+
+            <!-- list items container -->
+            <div class="cb-accordion-panels ">
+
+              <!-- list item Atomic Structure -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Atomic Structure</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap E equals h times nu" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>E</mi>
+                            <mo>=</mo>
+                            <mi>h</mi>
+                            <mi>&#x3BD;</mi>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="C equals lambda times nu" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>c</mi>
+                            <mo>=</mo>
+                            <mi>&#x3BB;</mi>
+                            <mi>&#x3BD;</mi>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap F sub coulombic proportional to the fraction with numerator q sub 1 q sub 2 and denominator r squared"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>F</mi>
+                              <mtext mathvariant="italic">coulombic</mtext>
+                            </msub>
+                            <mo>∝</mo>
+                            <mstyle scriptsizemultiplier=".9">
+                              <mfrac>
+                                <mrow>
+                                  <msub>
+                                    <mpadded voffset="7px">
+                                      <mi>q</mi>
+                                    </mpadded>
+                                    <mpadded>
+                                      <mstyle scriptsizemultiplier=".8">
+                                        <mn>1</mn>
+                                      </mstyle>
+                                    </mpadded>
+                                  </msub>
+                                  <msub>
+                                    <mpadded voffset="7px">
+                                      <mi>q</mi>
+                                    </mpadded>
+                                    <mstyle scriptsizemultiplier=".8">
+                                      <mn>2</mn>
+                                    </mstyle>
+                                  </msub>
+                                </mrow>
+                                <msup>
+                                  <mi>r</mi>
+                                  <mstyle scriptsizemultiplier=".8">
+                                    <mn>2</mn>
+                                  </mstyle>
+                                </msup>
+                              </mfrac>
+                            </mstyle>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap E equals energy">
+                            <mi>E</mi>
+                            <mo>=</mo>
+                            <mtext>energy</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="nu equals frequency">
+                            <mi>ν</mi>
+                            <mo>=</mo>
+                            <mtext>frequency</mtext>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-4">
+                          <math alttext="lambda equals wavelength" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>&#x3BB;</mi>
+                            <mo>=</mo>
+                            <mtext>wavelength</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap F equals force">
+                            <mi>F</mi>
+                            <mo>=</mo>
+                            <mtext>force</mtext>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="q equals charge">
+                            <mi>q</mi>
+                            <mo>=</mo>
+                            <mtext>charge</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="r equals separation">
+                            <mi>r</mi>
+                            <mo>=</mo>
+                            <mtext>separation</mtext>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <p class="cb-font-weight-bold cb-margin-bottom-4" style="line-height: 24px">
+                            Planck's constant,
+                          </p>
+                          <math alttext="h equals 6.626 times 10 to the negative 34 power cap J s"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>h</mi>
+                            <mo>=</mo>
+                            <mn>6.626</mn>
+                            <mo>&#xD7;</mo>
+                            <msup>
+                              <mn>10</mn>
+                              <mrow>
+                                <mo>-</mo>
+                                <mn>34</mn>
+                              </mrow>
+                            </msup>
+                            <mo>&#xA0;</mo>
+                            <mo>&#xA0;</mo>
+                            <mi mathvariant="normal">J</mi>
+                            <mo>s</mo>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <p class="cb-font-weight-bold cb-margin-bottom-4" style="line-height: 24px">
+                            Speed of light,
+                          </p>
+                          <math alttext="c equals 2.998 times 10 to the eighth power m s to the negative 1 power"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>c</mi>
+                            <mo>=</mo>
+                            <mn>2.998</mn>
+                            <mo>&#xD7;</mo>
+                            <msup>
+                              <mn>10</mn>
+                              <mn>8</mn>
+                            </msup>
+                            <mo>&#xA0;</mo>
+                            <mo>&#xA0;</mo>
+                            <mi mathvariant="normal">m</mi>
+                            <mo>&#xA0;</mo>
+                            <msup>
+                              <mi mathvariant="normal">s</mi>
+                              <mrow>
+                                <mo>-</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msup>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <p class="cb-font-weight-bold cb-margin-bottom-4" style="line-height: 24px">
+                            Avogadro's number
+                          </p>
+                          <math
+                            alttext="Avogadro's number equals 6.022 times 10 to the 23rd power mol to the negative 1 power"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mo>=</mo>
+                            <mn>6.022</mn>
+                            <mo>&#xD7;</mo>
+                            <msup>
+                              <mn>10</mn>
+                              <mn>23</mn>
+                            </msup>
+                            <mo>&#xA0;</mo>
+                            <msup>
+                              <mi>mol</mi>
+                              <mrow>
+                                <mo>-</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msup>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Gases, Liquids, and Solutions -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Gases, Liquids, and Solutions</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="the fraction with numerator cap P sub 1 cap V sub 1 and denominator cap T sub 1 equals the fraction with numerator cap P sub 2 cap V sub 2 and denominator cap T sub 2"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mfrac>
+                              <mrow>
+                                <msub>
+                                  <mi>P</mi>
+                                  <mn>1</mn>
+                                </msub>
+                                <msub>
+                                  <mi>V</mi>
+                                  <mn>1</mn>
+                                </msub>
+                              </mrow>
+                              <msub>
+                                <mi>T</mi>
+                                <mn>1</mn>
+                              </msub>
+                            </mfrac>
+                            <mo>=</mo>
+                            <mfrac>
+                              <mrow>
+                                <msub>
+                                  <mi>P</mi>
+                                  <mn>2</mn>
+                                </msub>
+                                <msub>
+                                  <mi>V</mi>
+                                  <mn>2</mn>
+                                </msub>
+                              </mrow>
+                              <msub>
+                                <mi>T</mi>
+                                <mn>2</mn>
+                              </msub>
+                            </mfrac>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap P cap V equals n cap R cap T" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>P</mi>
+                            <mi>V</mi>
+                            <mo>&#xA0;</mo>
+                            <mo>=</mo>
+                            <mo>&#xA0;</mo>
+                            <mi>n</mi>
+                            <mi>R</mi>
+                            <mi>T</mi>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap P sub cap A equals cap P sub total times chi sub cap A, where chi sub cap A equals the fraction with numerator moles cap A and denominator total moles"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mtable columnspacing=".3em" columnalign="left">
+                              <mtr>
+                                <mtd>
+                                  <msub>
+                                    <mi>P</mi>
+                                    <mpadded voffset="-5px">
+                                      <mi>A</mi>
+                                    </mpadded>
+                                  </msub>
+                                </mtd>
+                                <mtd>
+                                  <mrow>
+                                    <mo>=</mo>
+                                    <msub>
+                                      <mi>P</mi>
+                                      <mpadded voffset="-5px">
+                                        <mtext>total</mtext>
+                                      </mpadded>
+                                    </msub>
+                                    <mo>×</mo>
+                                    <msub>
+                                      <mi>χ</mi>
+                                      <mpadded voffset="-5px">
+                                        <mrow>
+                                          <mi mathvariant="normal">A</mi>
+                                        </mrow>
+                                      </mpadded>
+                                    </msub>
+                                    <mtext>,</mtext>
+                                  </mrow>
+                                </mtd>
+                              </mtr>
+                              <mtr>
+                                <mtd>
+                                  <mrow />
+                                </mtd>
+                                <mtd>
+                                  <mrow>
+                                    <mo>&nbsp;</mo>
+                                    <mrow>
+                                      <mtext>where&nbsp;</mtext>
+                                    </mrow>
+                                    <msub>
+                                      <mi>χ</mi>
+                                      <mpadded voffset="-5px">
+                                        <mrow>
+                                          <mi mathvariant="normal">A</mi>
+                                        </mrow>
+                                      </mpadded>
+                                    </msub>
+                                    <mo>=</mo>
+                                    <mfrac>
+                                      <mrow>
+                                        <mtext>moles</mtext>
+                                        <mrow>
+                                          <mi mathvariant="normal">A</mi>
+                                        </mrow>
+                                      </mrow>
+                                      <mrow>
+                                        <mtext>total moles</mtext>
+                                      </mrow>
+                                    </mfrac>
+                                  </mrow>
+                                </mtd>
+                              </mtr>
+                            </mtable>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap P sub total equals cap P sub cap A plus cap P sub cap B plus cap P sub cap C plus and so on"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>P</mi>
+                              <mtext>total</mtext>
+                            </msub>
+                            <mo>=</mo>
+                            <msub>
+                              <mi>P</mi>
+                              <mi mathvariant="normal">A</mi>
+                            </msub>
+                            <mo>+</mo>
+                            <msub>
+                              <mi>P</mi>
+                              <mi mathvariant="normal">B</mi>
+                            </msub>
+                            <mo>+</mo>
+                            <msub>
+                              <mi>P</mi>
+                              <mi mathvariant="normal">C</mi>
+                            </msub>
+                            <mo>+</mo>
+                            <mtext>...</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="n equals  m over bold cap M" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>n</mi>
+                            <mo>=</mo>
+                            <mfrac>
+                              <mi>m</mi>
+                              <mi mathvariant="bold-italic">M</mi>
+                            </mfrac>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap D equals m over cap V" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>D</mi>
+                            <mo>=</mo>
+                            <mfrac>
+                              <mi>m</mi>
+                              <mi>V</mi>
+                            </mfrac>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap K cap E equals one half m v squared"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>K</mi>
+                            <mi>E</mi>
+                            <mo>=</mo>
+                            <mfrac>
+                              <mn>1</mn>
+                              <mn>2</mn>
+                            </mfrac>
+                            <mi>m</mi>
+                            <msup>
+                              <mi>v</mi>
+                              <mn>2</mn>
+                            </msup>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap M equals n solute over cap L solution"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="italic">M</mi>
+                            <mo>=</mo>
+                            <mfrac>
+                              <msub>
+                                <mi>n</mi>
+                                <mtext>solute</mtext>
+                              </msub>
+                              <msub>
+                                <mi mathvariant="normal">L</mi>
+                                <mtext>solution</mtext>
+                              </msub>
+                            </mfrac>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap A equals epsilon bc" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>A</mi>
+                            <mo>=</mo>
+                            <mi>&#x3B5;</mi>
+                            <mi>b</mi>
+                            <mi>c</mi>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24 cb-padding-bottom-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-4">
+                          <math alttext="cap P equals pressure" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>P</mi>
+                            <mo>=</mo>
+                            <mtext>pressure</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap V equals volume">
+                            <mi>V</mi>
+                            <mo>=</mo>
+                            <mtext>volume</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap T equals temperature">
+                            <mi>T</mi>
+                            <mo>=</mo>
+                            <mtext>temperature</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="n equals number of moles">
+                            <mi>n</mi>
+                            <mo>=</mo>
+                            <mtext>number of moles</mtext>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-4">
+                          <math alttext="chi equals mole fraction" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>&#x3C7;</mi>
+                            <mo>=</mo>
+                            <mtext>mole&#xA0;fraction</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="m equals mass">
+                            <mi>m</mi>
+                            <mo>=</mo>
+                            <mtext>mass</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math alttext="bold cap M equals molar mass" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="bold-italic">M</mi>
+                            <mo>=</mo>
+                            <mtext>molar mass</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap D equals density">
+                            <mi>D</mi>
+                            <mo>=</mo>
+                            <mtext>density</mtext>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap K cap E equals kinetic energy">
+                            <mi>K</mi>
+                            <mi>E</mi>
+                            <mo>=</mo>
+                            <mtext>kinetic energy</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext=" v equals velocity">
+                            <mi>v</mi>
+                            <mo>=</mo>
+                            <mtext>velocity</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math alttext="cap M equals molarity" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>M</mi>
+                            <mo>=</mo>
+                            <mtext>molarity</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap A equals absorbance">
+                            <mi>A</mi>
+                            <mo>=</mo>
+                            <mtext>absorbance</mtext>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="epsilon equals molar absorptivity">
+                            <mi>&#x3B5;</mi>
+                            <mo>=</mo>
+                            <mtext>molar absorptivity</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext=" b equals path length">
+                            <mi>b</mi>
+                            <mo>=</mo>
+                            <mtext>path length</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math xmlns="http://www.w3.org/1998/Math/MathML" alttext=" c equals concentration">
+                            <mi>c</mi>
+                            <mo>=</mo>
+                            <mtext>concentration</mtext>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <p class="cb-font-weight-bold cb-margin-bottom-4" style="line-height: 24px">
+                            Gas Constant,
+                          </p>
+                          <math
+                            alttext="cap R equals 8.314 cap J mol to the negative 1 power cap K to the negative 1 power blank equals 0 period 08206 cap L atm cap K to the negative 1 power mol to the negative 1 power"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mtable columnspacing=".3em" columnalign="left">
+                              <mtr>
+                                <mtd>
+                                  <mi>R</mi>
+                                </mtd>
+                                <mtd>
+                                  <mo>=</mo>
+                                  <mn>8.314</mn>
+                                  <msup>
+                                    <mi>&#xa0;J&#xa0;mol</mi>
+                                    <mrow>
+                                      <mo>&#x2212;</mo>
+                                      <mn>1</mn>
+                                    </mrow>
+                                  </msup>
+                                  <msup>
+                                    <mi mathvariant="normal">&#xa0;K</mi>
+                                    <mrow>
+                                      <mo>&#x2212;</mo>
+                                      <mn>1</mn>
+                                    </mrow>
+                                  </msup>
+                                </mtd>
+                              </mtr>
+                              <mtr>
+                                <mtd />
+                                <mtd>
+                                  <mo>=</mo>
+                                  <mn>0.08206</mn>
+                                  <msup>
+                                    <mi>&#xa0;L&#xa0;atm&#xa0;K</mi>
+                                    <mrow>
+                                      <mo>&#x2212;</mo>
+                                      <mn>1</mn>
+                                    </mrow>
+                                  </msup>
+                                  <msup>
+                                    <mi>mol</mi>
+                                    <mrow>
+                                      <mo>&#x2212;</mo>
+                                      <mn>1</mn>
+                                    </mrow>
+                                  </msup>
+                                </mtd>
+                              </mtr>
+                            </mtable>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <p class="cb-font-weight-bold cb-margin-bottom-4" style="line-height: 24px">
+                            Standard Temperature and Pressure,
+                          </p>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="STP equals 273.15 cap K and 1.0 atm"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <mi>STP</mi>
+                              <mo>=</mo>
+                              <mn>273.15</mn>
+                              <mo>&#xA0;</mo>
+                              <mi mathvariant="normal">K</mi>
+                              <mo>&#xA0;</mo>
+                              <mtext>and</mtext>
+                              <mo>&#xA0;</mo>
+                              <mn>1.0</mn>
+                              <mo>&#xA0;</mo>
+                              <mi>atm</mi>
+                            </math>
+                          </div>
+                          <math alttext="Ideal gas at STP equals 22.4 cap L mol to the negative 1 power"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mtext>Ideal gas at STP</mtext>
+                            <mo>=</mo>
+                            <mn>22.4</mn>
+                            <mo>&#xA0;</mo>
+                            <mi mathvariant="normal">L</mi>
+                            <mo>&#xA0;</mo>
+                            <msup>
+                              <mi>mol</mi>
+                              <mrow>
+                                <mo>-</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msup>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Kinetics -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Kinetics</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="the molar concentration of cap A sub t minus the molar concentration of cap A sub 0 equals negative  k times  t"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mrow>
+                                <mo>[</mo>
+                                <mi mathvariant="normal">A</mi>
+                                <mo>]</mo>
+                              </mrow>
+                              <mrow>
+                                <mi>t</mi>
+                              </mrow>
+                            </msub>
+                            <mo>-</mo>
+                            <msub>
+                              <mrow>
+                                <mo>[</mo>
+                                <mi mathvariant="normal">A</mi>
+                                <mo>]</mo>
+                              </mrow>
+                              <mrow>
+                                <mn>0</mn>
+                              </mrow>
+                            </msub>
+                            <mo>=</mo>
+                            <mo>-</mo>
+                            <mi>k</mi>
+                            <mi>t</mi>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="ln of the molar concentration of cap A sub t minus ln the molar concentration of cap A sub 0 equals negative k times t"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>ln</mi>
+                            <msub>
+                              <mrow>
+                                <mo>[</mo>
+                                <mi mathvariant="normal">A</mi>
+                                <mo>]</mo>
+                              </mrow>
+                              <mi>t</mi>
+                            </msub>
+                            <mo>-</mo>
+                            <mi>ln</mi>
+                            <msub>
+                              <mrow>
+                                <mo>[</mo>
+                                <mi mathvariant="normal">A</mi>
+                                <mo>]</mo>
+                              </mrow>
+                              <mrow>
+                                <mn>0</mn>
+                              </mrow>
+                            </msub>
+                            <mo>=</mo>
+                            <mo>-</mo>
+                            <mi>k</mi>
+                            <mi>t</mi>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="the fraction with numerator 1 and denominator the molar concentration of cap A sub t minus the fraction with numerator 1 and denominator the molar concentration of cap A sub 0 equals k t"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mfrac>
+                              <mn>1</mn>
+                              <msub>
+                                <mrow>
+                                  <mo>[</mo>
+                                  <mi mathvariant="normal">A</mi>
+                                  <mo>]</mo>
+                                </mrow>
+                                <mrow>
+                                  <mi>t</mi>
+                                </mrow>
+                              </msub>
+                            </mfrac>
+                            <mo>-</mo>
+                            <mfrac>
+                              <mn>1</mn>
+                              <msub>
+                                <mrow>
+                                  <mo>[</mo>
+                                  <mi mathvariant="normal">A</mi>
+                                  <mo>]</mo>
+                                </mrow>
+                                <mrow>
+                                  <mn>0</mn>
+                                </mrow>
+                              </msub>
+                            </mfrac>
+                            <mo>=</mo>
+                            <mi>k</mi>
+                            <mi>t</mi>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="t sub one half equals 0.693 over k" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>t</mi>
+                              <mfrac bevelled="true">
+                                <mn>1</mn>
+                                <mn>2</mn>
+                              </mfrac>
+                            </msub>
+                            <mo>=</mo>
+                            <mfrac>
+                              <mrow>
+                                <mn>0.693</mn>
+                              </mrow>
+                              <mi>k</mi>
+                            </mfrac>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24 cb-padding-bottom-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-4">
+                          <math alttext=" k equals rate constant" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>k</mi>
+                            <mo>=</mo>
+                            <mtext>rate constant</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-4">
+                          <math alttext=" t equals time" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>t</mi>
+                            <mo>=</mo>
+                            <mtext>time</mtext>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-4">
+                          <math alttext=" t sub one half equals half life" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>t</mi>
+                              <mfrac bevelled="true">
+                                <mn>1</mn>
+                                <mn>2</mn>
+                              </mfrac>
+                            </msub>
+                            <mo>=</mo>
+                            <mtext>half-life</mtext>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Equilibrium -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Equilibrium</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap K sub c equals the molar concentration of cap C to the c power times the molar concentration of cap D to the d power over the molar concentration of cap A to the a power times the molar concentration of cap B to the b power, where a cap A plus b cap B reacts to produce c cap C plus d cap D"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mtable columnspacing=".3em" columnalign="left">
+                              <mtr>
+                                <mtd>
+                                  <msub>
+                                    <mi>K</mi>
+                                    <mi>c</mi>
+                                  </msub>
+                                </mtd>
+                                <mtd>
+                                  <mo>=</mo>
+                                  <mstyle scriptsizemultiplier=".9">
+                                    <mfrac>
+                                      <mrow>
+                                        <msup>
+                                          <mrow>
+                                            <mo>[</mo>
+                                            <mi mathvariant="normal">C</mi>
+                                            <mo>]</mo>
+                                          </mrow>
+                                          <mrow>
+                                            <mi>c</mi>
+                                          </mrow>
+                                        </msup>
+                                        <msup>
+                                          <mrow>
+                                            <mo>[</mo>
+                                            <mi mathvariant="normal">D</mi>
+                                            <mo>]</mo>
+                                          </mrow>
+                                          <mrow>
+                                            <mi>d</mi>
+                                          </mrow>
+                                        </msup>
+                                      </mrow>
+                                      <mrow>
+                                        <msup>
+                                          <mrow>
+                                            <mo>[</mo>
+                                            <mi mathvariant="normal">A</mi>
+                                            <mo>]</mo>
+                                          </mrow>
+                                          <mrow>
+                                            <mi>a</mi>
+                                          </mrow>
+                                        </msup>
+                                        <msup>
+                                          <mrow>
+                                            <mo>[</mo>
+                                            <mi mathvariant="normal">B</mi>
+                                            <mo>]</mo>
+                                          </mrow>
+                                          <mrow>
+                                            <mi>b</mi>
+                                          </mrow>
+                                        </msup>
+                                      </mrow>
+                                    </mfrac>
+                                  </mstyle>
+                                  <mtext>,</mtext>
+                                </mtd>
+                              </mtr>
+                              <mtr>
+                                <mtd />
+                                <mtd>
+                                  <mtext>where&nbsp;</mtext>
+                                  <mi>a</mi>
+                                  <mo>&nbsp;</mo>
+                                  <mi>A</mi>
+                                  <mo>+</mo>
+                                  <mi>b</mi>
+                                  <mo>&nbsp;</mo>
+                                  <mi>B</mi>
+                                  <mo stretchy="false">⇄</mo>
+                                  <mi>c</mi>
+                                  <mo>&nbsp;</mo>
+                                  <mi>C</mi>
+                                  <mo>+</mo>
+                                  <mi>d</mi>
+                                  <mo>&nbsp;</mo>
+                                  <mi>D</mi>
+                                </mtd>
+                              </mtr>
+                            </mtable>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap K sub p equals open parenthesis cap P sub cap C close parenthesis to the c power times open parenthesis cap P sub cap D close parenthesis to the d power over open parenthesis cap P sub cap A close parenthesis to the a power times open parenthesis cap P sub cap B close parenthesis to the b power"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>K</mi>
+                              <mi>p</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mstyle scriptsizemultiplier=".8">
+                              <mfrac>
+                                <mrow>
+                                  <msup>
+                                    <mrow>
+                                      <mo>(</mo>
+                                      <msub>
+                                        <mi>P</mi>
+                                        <mo>C</mo>
+                                      </msub>
+                                      <mo>)</mo>
+                                    </mrow>
+                                    <mrow>
+                                      <mi>c</mi>
+                                    </mrow>
+                                  </msup>
+                                  <msup>
+                                    <mrow>
+                                      <mo>(</mo>
+                                      <msub>
+                                        <mi>P</mi>
+                                        <mo>D</mo>
+                                      </msub>
+                                      <mo>)</mo>
+                                    </mrow>
+                                    <mrow>
+                                      <mi>d</mi>
+                                    </mrow>
+                                  </msup>
+                                </mrow>
+                                <mrow>
+                                  <msup>
+                                    <mrow>
+                                      <mo>(</mo>
+                                      <msub>
+                                        <mi>P</mi>
+                                        <mo>A</mo>
+                                      </msub>
+                                      <mo>)</mo>
+                                    </mrow>
+                                    <mrow>
+                                      <mi>a</mi>
+                                    </mrow>
+                                  </msup>
+                                  <msup>
+                                    <mrow>
+                                      <mo>(</mo>
+                                      <msub>
+                                        <mi>P</mi>
+                                        <mo>B</mo>
+                                      </msub>
+                                      <mo>)</mo>
+                                    </mrow>
+                                    <mrow>
+                                      <mi>b</mi>
+                                    </mrow>
+                                  </msup>
+                                </mrow>
+                              </mfrac>
+                            </mstyle>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap K sub w equals the molar concentration of H 3 O with a positive 1 charge times the molar concentration of O H with a negative 1 charge equals 1.0 times 10 to the negative 14 power at 25 degrees Celsius"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mtable columnspacing=".3em" columnalign="left">
+                              <mtr>
+                                <mtd>
+                                  <msub>
+                                    <mi mathvariant="normal">K</mi>
+                                    <mi>w</mi>
+                                  </msub>
+                                </mtd>
+                                <mtd>
+                                  <mo>=</mo>
+                                  <mrow>
+                                    <mo>[</mo>
+                                    <msub>
+                                      <mo>H</mo>
+                                      <mn>3</mn>
+                                    </msub>
+                                    <msup>
+                                      <mo>O</mo>
+                                      <mo>+</mo>
+                                    </msup>
+                                    <mo>]</mo>
+                                    <mrow>
+                                      <mo>[</mo>
+                                      <mrow>
+                                        <mi mathvariant="normal">O</mi>
+                                        <msup>
+                                          <mi mathvariant="normal">H</mi>
+                                          <mo>&#x2212;</mo>
+                                        </msup>
+                                      </mrow>
+                                      <mo>]</mo>
+                                    </mrow>
+                                </mtd>
+                              </mtr>
+                              <mtr>
+                                <mtd>
+                                  <mrow />
+                                </mtd>
+                                <mtd>
+                                  <mo>=</mo>
+                                  <mn>1.0</mn>
+                                  <mo>&#xd7;</mo>
+                                  <msup>
+                                    <mn>10</mn>
+                                    <mrow>
+                                      <mo>&#x2212;</mo>
+                                      <mn>14</mn>
+                                    </mrow>
+                                  </msup>
+                                  <mtext>&#xA0;at&#xA0;</mtext>
+                                  <mn>25</mn>
+                                  <mo>&#xb0;</mo>
+                                  <mi mathvariant="normal">C</mi>
+                                </mtd>
+                              </mtr>
+                            </mtable>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="p cap K sub w equals 14 equals pH plus pOH at 25 degrees Celsius"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>w</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mn>14</mn>
+                            <mo>=</mo>
+                            <mi>pH</mi>
+                            <mo>+</mo>
+                            <mi>pOH</mi>
+                            <mo>&#xA0;</mo>
+                            <mtext>at&#xA0;</mtext>
+                            <mn>25</mn>
+                            <mo>&#xB0;</mo>
+                            <mi mathvariant="normal">C</mi>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="pH equals negative log times the molar concentration of H 3 O with a positive 1 charge"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>pH</mi>
+                            <mo>=</mo>
+                            <mo>-</mo>
+                            <mo>log</mo>
+                            <mo>[</mo>
+                            <mrow>
+                              <msub>
+                                <mo>H</mo>
+                                <mn>3</mn>
+                              </msub>
+                              <msup>
+                                <mo>O</mo>
+                                <mo>+</mo>
+                              </msup>
+                            </mrow>
+                            <mo>]</mo>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="pOH equals negative log of the molar concentration of O H with a negative 1 charge"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>pOH</mi>
+                            <mo>=</mo>
+                            <mo>-</mo>
+                            <mo>log</mo>
+                            <mo>[</mo>
+                            <mrow>
+                              <msup>
+                                <mrow>
+                                  <mi mathvariant="normal">O</mi>
+                                  <mi mathvariant="normal">H</mi>
+                                </mrow>
+                                <mo>-</mo>
+                              </msup>
+                            </mrow>
+                            <mo>]</mo>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap K sub a equals the fraction with numerator the molar concentration of H 3 O with a positive 1 charge times the molar concentration of cap A with a negative 1 charge and denominator the molar concentration of cap H cap A"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>K</mi>
+                              <mi mathvariant="italic">a</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mstyle scriptsizemultiplier=".8">
+                              <mfrac>
+                                <mrow>
+                                  <mrow>
+                                    <mo>[</mo>
+                                    <mrow>
+                                      <msub>
+                                        <mi mathvariant="normal">H</mi>
+                                        <mn>3</mn>
+                                      </msub>
+                                      <msup>
+                                        <mi mathvariant="normal">O</mi>
+                                        <mo>+</mo>
+                                      </msup>
+                                    </mrow>
+                                    <mo>]</mo>
+                                  </mrow>
+                                  <mrow>
+                                    <mo>[</mo>
+                                    <msup>
+                                      <mo>A</mo>
+                                      <mo>-</mo>
+                                    </msup>
+                                    <mo>]</mo>
+                                  </mrow>
+                                </mrow>
+                                <mrow>
+                                  <mo>[</mo>
+                                  <mo>HA</mo>
+                                  <mo>]</mo>
+                                </mrow>
+                              </mfrac>
+                            </mstyle>
+                          </math>
+
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap K sub b equals the fraction with numerator the molar concentration of O H with a negative 1 charge times the molar concentration of cap H cap B with a positive 1 charge and denominator the molar concentration of cap B"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>K</mi>
+                              <mi>b</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mstyle scriptsizemultiplier=".8">
+                              <mfrac>
+                                <mrow>
+                                  <mrow>
+                                    <mo>[</mo>
+                                    <msup>
+                                      <mrow>
+                                        <mi mathvariant="normal">O</mi>
+                                        <mi mathvariant="normal">H</mi>
+                                      </mrow>
+                                      <mrow>
+                                        <mo>-</mo>
+                                      </mrow>
+                                    </msup>
+                                    <mo>]</mo>
+                                  </mrow>
+                                  <mrow>
+                                    <mo>[</mo>
+                                    <msup>
+                                      <mrow>
+                                        <mi mathvariant="normal">H</mi>
+                                        <mi mathvariant="normal">B</mi>
+                                      </mrow>
+                                      <mrow>
+                                        <mo>+</mo>
+                                      </mrow>
+                                    </msup>
+                                    <mo>]</mo>
+                                  </mrow>
+                                </mrow>
+                                <mrow>
+                                  <mo>[</mo>
+                                  <mi mathvariant="normal">B</mi>
+                                  <mo>]</mo>
+                                </mrow>
+                              </mfrac>
+                            </mstyle>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="p cap K sub a equals negative log of cap K sub a"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>a</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mo>-</mo>
+                            <mo>log</mo>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>a</mi>
+                            </msub>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="p cap K sub b equals negative log of cap K sub b"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>b</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mo>-</mo>
+                            <mo>log</mo>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>b</mi>
+                            </msub>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap K sub w equals cap K sub a times cap K sub b"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>K</mi>
+                              <mi>w</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>a</mi>
+                            </msub>
+                            <mo>&#xD7;</mo>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>b</mi>
+                            </msub>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="p cap K sub w equals p cap K sub a plus p cap K sub b"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>w</mi>
+                            </msub>
+                            <mo>=</mo>
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>a</mi>
+                            </msub>
+                            <mo>&#43;</mo>
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>b</mi>
+                            </msub>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="pH equals p cap K sub a plus log of the fraction with numerator the molar concentration of cap A with a negative 1 charge and denominator the molar concentration of cap H cap A"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>pH</mi>
+                            <mo>=</mo>
+                            <mi mathvariant="normal">p</mi>
+                            <msub>
+                              <mi>K</mi>
+                              <mi>a</mi>
+                            </msub>
+                            <mo>+</mo>
+                            <mo>log</mo>
+                            <mfrac>
+                              <mrow>
+                                <mo>[</mo>
+                                <msup>
+                                  <mi mathvariant="normal">A</mi>
+                                  <mo>-</mo>
+                                </msup>
+                                <mo>]</mo>
+                              </mrow>
+                              <mrow>
+                                <mo>[</mo>
+                                <mi mathvariant="normal">H</mi>
+                                <mi mathvariant="normal">A</mi>
+                                <mo>]</mo>
+                              </mrow>
+                            </mfrac>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div class="cb-padding-left-24 cb-padding-right-24 cb-padding-bottom-24">
+                      <div class="cb-font-weight-bold cb-margin-bottom-4 cb-padding-top-24">
+                        Equilibrium Constants
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap K sub c (molar concentrations)"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msub>
+                                <mi>K</mi>
+                                <mi>c</mi>
+                              </msub>
+                              <mtext>&#xA0;&#xA0;(molar concentrations)</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap K sub p (gas pressures)" xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msub>
+                                <mi>K</mi>
+                                <mi>p</mi>
+                              </msub>
+                              <mtext>&#xA0;&#xA0;(gas pressures)</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap K sub w (water)" xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msub>
+                                <mi>K</mi>
+                                <mi>w</mi>
+                              </msub>
+                              <mtext>&#xA0;&#xA0;(water)</mtext>
+                            </math>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap K sub a (acid)" xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msub>
+                                <mi>K</mi>
+                                <mi>a</mi>
+                              </msub>
+                              <mtext>&#xA0;&#xA0;(acid)</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap K sub b (base)" xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msub>
+                                <mi>K</mi>
+                                <mi>b</mi>
+                              </msub>
+                              <mtext>&#xA0;&#xA0;(base)</mtext>
+                            </math>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Thermodynamics/Electrochemistry -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Thermodynamics and Electrochemistry</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <math alttext=" q equals m c delta cap T" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>q</mi>
+                            <mo>=</mo>
+                            <mi>m</mi>
+                            <mi>c</mi>
+                            <mi>&#x394;</mi>
+                            <mi>T</mi>
+                          </math>
+                        </div>
+                        <div class="overflow-scroll cb-padding-bottom-24">
+                          <math
+                            alttext="Delta cap H naught reaction equals sigma delta cap H naught f products minus sigma delta cap H naught f reactants"
+                            xmlns="
+                                                http://www.w3.org/1998/Math/MathML">
+                            <mi>&#x394;</mi>
+                            <msubsup>
+                              <mi>H</mi>
+                              <mtext mathvariant="italic">reaction</mtext>
+                              <mo>&#x2218;</mo>
+                            </msubsup>
+                            <mo>=</mo>
+                            <mo>&#x2211;</mo>
+                            <mi>&#x394;</mi>
+                            <msubsup>
+                              <mi>H</mi>
+                              <mrow>
+                                <mi>f</mi>
+                                <mtext mathvariant="italic">&#xA0;products</mtext>
+                              </mrow>
+                              <mi>&#x2218;</mi>
+                            </msubsup>
+                            <mo>&#x2212;</mo>
+                            <mo>&#x2211;</mo>
+                            <mi>&#x394;</mi>
+                            <msubsup>
+                              <mi>H</mi>
+                              <mrow>
+                                <mi>f</mi>
+                                <mtext mathvariant="italic">&#xA0;reactants</mtext>
+                              </mrow>
+                              <mi>&#x2218;</mi>
+                            </msubsup>
+                          </math>
+                        </div>
+                        <div class="overflow-scroll cb-padding-bottom-24">
+                          <math
+                            alttext="Delta cap S naught reaction equals sigma delta cap S naught products minus sigma delta cap S naught reactants"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">&#x394;</mi>
+                            <msubsup>
+                              <mi>S</mi>
+                              <mrow>
+                                <mtext mathvariant="italic">reaction</mtext>
+                              </mrow>
+                              <mo>&#x2218;</mo>
+                            </msubsup>
+                            <mo>=</mo>
+                            <mo>&#xA0;</mo>
+                            <mo>&#x2211;</mo>
+                            <msubsup>
+                              <mi>S</mi>
+                              <mrow>
+                                <mtext mathvariant="italic">products</mtext>
+                              </mrow>
+                              <mo>&#x2218;</mo>
+                            </msubsup>
+                            <mo>-</mo>
+                            <mo>&#x2211;</mo>
+                            <msubsup>
+                              <mi>S</mi>
+                              <mrow>
+                                <mtext mathvariant="italic">reactants</mtext>
+                              </mrow>
+                              <mo>&#x2218;</mo>
+                            </msubsup>
+                          </math>
+                        </div>
+                        <div class="overflow-scroll cb-padding-bottom-24">
+                          <math
+                            alttext="Delta cap G naught reaction equals sigma delta cap G naught f products minus sigma delta cap G naught f reactants"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>&#x394;</mi>
+                            <msubsup>
+                              <mi>G</mi>
+                              <mtext mathvariant="italic">reaction</mtext>
+                              <mo>&#x2218;</mo>
+                            </msubsup>
+                            <mo>=</mo>
+                            <mo>&#x2211;</mo>
+                            <mi>&#x394;</mi>
+                            <msubsup>
+                              <mi>G</mi>
+                              <mrow>
+                                <mi>f</mi>
+                                <mtext mathvariant="italic">&#xA0;products</mtext>
+                              </mrow>
+                              <mi>&#x2218;</mi>
+                            </msubsup>
+                            <mo>&#x2212;</mo>
+                            <mo>&#x2211;</mo>
+                            <mi>&#x394;</mi>
+                            <msubsup>
+                              <mi>G</mi>
+                              <mrow>
+                                <mi>f</mi>
+                                <mtext mathvariant="italic">&#xA0;reactants</mtext>
+                              </mrow>
+                              <mi>&#x2218;</mi>
+                            </msubsup>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                      </div>
+                      <div class="col-xs-12 col-md-3">
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="Delta cap G naught equals Delta cap H naught minus cap T Delta S naught equals negative cap R cap T ln of cap K equals negative n cap F cap E naught"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mtable columnspacing=".3em" columnalign="left">
+                              <mtr>
+                                <mtd>
+                                  <mrow>
+                                    <mi mathvariant="normal">&#x394;</mi>
+                                    <msup>
+                                      <mi>G</mi>
+                                      <mo lspace="0em" rspace="0em">&#x2218;</mo>
+                                    </msup>
+                                  </mrow>
+                                </mtd>
+                                <mtd>
+                                  <mrow>
+                                    <mo>=</mo>
+                                    <mi mathvariant="normal">&#x394;</mi>
+                                    <msup>
+                                      <mi>H</mi>
+                                      <mo lspace="0em" rspace="0em">&#x2218;</mo>
+                                    </msup>
+                                    <mo>&#x2212;</mo>
+                                    <mi>T</mi>
+                                    <mi mathvariant="normal">&#x394;</mi>
+                                    <msup>
+                                      <mi>S</mi>
+                                      <mo lspace="0em" rspace="0em">&#x2218;</mo>
+                                    </msup>
+                                  </mrow>
+                                </mtd>
+                              </mtr>
+                              <mtr>
+                                <mtd>
+                                  <mrow></mrow>
+                                </mtd>
+                                <mtd>
+                                  <mrow>
+                                    <mo>=</mo>
+                                    <mo>&#x2212;</mo>
+                                    <mi>R</mi>
+                                    <mi>T</mi>
+                                    <mo>ln</mo>
+                                    <mi>K</mi>
+                                  </mrow>
+                                </mtd>
+                              </mtr>
+                              <mtr>
+                                <mtd>
+                                  <mrow></mrow>
+                                </mtd>
+                                <mtd>
+                                  <mrow>
+                                    <mo>=</mo>
+                                    <mo>&#x2212;</mo>
+                                    <mi>n</mi>
+                                    <mi>F</mi>
+                                    <msup>
+                                      <mi>E</mi>
+                                      <mo>&#x2218;</mo>
+                                    </msup>
+                                  </mrow>
+                                </mtd>
+                              </mtr>
+                            </mtable>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="cap I equals q over t" xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi>I</mi>
+                            <mo>=</mo>
+                            <mstyle scriptsizemultiplier="1.1">
+                              <mfrac>
+                                <mrow>
+                                  <mi>q</mi>
+                                </mrow>
+                                <mi>t</mi>
+                              </mfrac>
+                            </mstyle>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math
+                            alttext="cap E sub cell equals cap E naught sub cell minus the fraction with numerator cap R cap T and denominator n F end fraction times ln cap Q"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <msub>
+                              <mi>E</mi>
+                              <mrow>
+                                <mtext mathvariant="italic">cell</mtext>
+                              </mrow>
+                            </msub>
+                            <mo>=</mo>
+                            <msubsup>
+                              <mi>E</mi>
+                              <mrow>
+                                <mtext mathvariant="italic">cell</mtext>
+                              </mrow>
+                              <mo>&#x2218;</mo>
+                            </msubsup>
+                            <mo>-</mo>
+                            <mfrac>
+                              <mrow>
+                                <mi>R</mi>
+                                <mi>T</mi>
+                              </mrow>
+                              <mrow>
+                                <mi>n</mi>
+                                <mi>F</mi>
+                              </mrow>
+                            </mfrac>
+                            <mo>ln</mo>
+                            <mi>Q</mi>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div class="cb-padding-left-24 cb-padding-right-24 cb-padding-bottom-24 cb-padding-top-24">
+                      <div class="row">
+                        <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="q equals heat">
+                              <mi>q</mi>
+                              <mo>=</mo>
+                              <mtext>heat</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="m equals mass">
+                              <mi>m</mi>
+                              <mo>=</mo>
+                              <mtext>mass</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="c equals specific heat capacity">
+                              <mi>c</mi>
+                              <mo>=</mo>
+                              <mtext>specific heat capacity</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap T equals temperature">
+                              <mi>T</mi>
+                              <mo>=</mo>
+                              <mtext>temperature</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap S naught equals Standard entropy"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msup>
+                                <mi>S</mi>
+                                <mo>&#x2218;</mo>
+                              </msup>
+                              <mo>=</mo>
+                              <mtext>standard entropy</mtext>
+                            </math>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap H naught equals Standard enthalpy"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msup>
+                                <mi>H</mi>
+                                <mo>&#x2218;</mo>
+                              </msup>
+                              <mo>=</mo>
+                              <mtext>standard enthalpy</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="cap G naught equals standard Gibbs free energy"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msup>
+                                <mi>G</mi>
+                                <mo>&#x2218;</mo>
+                              </msup>
+                              <mo>=</mo>
+                              <mtext>standard Gibbs free energy</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap R equals gas constant">
+                              <mi>R</mi>
+                              <mo>=</mo>
+                              <mtext>gas constant</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML"
+                              alttext="cap K equals equilibrium constant">
+                              <mi>K</mi>
+                              <mo>=</mo>
+                              <mtext>equilibrium constant</mtext>
+                            </math>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML"
+                              alttext="n equals number of moles of electrons">
+                              <mi>n</mi>
+                              <mo>=</mo>
+                              <mtext>number of moles of electrons</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math alttext="E naught equals standard potential"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <msup>
+                                <mi>E</mi>
+                                <mo>&#x2218;</mo>
+                              </msup>
+                              <mo>=</mo>
+                              <mtext>standard potential</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="I equals current (amperes)">
+                              <mi>I</mi>
+                              <mo>=</mo>
+                              <mtext>current (amperes)</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="q equals charge (coulombs)">
+                              <mi>q</mi>
+                              <mo>=</mo>
+                              <mtext>charge (coulombs)</mtext>
+                            </math>
+                          </div>
+                        </div>
+                        <div class="col-xs-12 col-md-3">
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext=" t equals time (seconds)">
+                              <mi>t</mi>
+                              <mo>=</mo>
+                              <mtext>time (seconds)</mtext>
+                            </math>
+                          </div>
+                          <div class="cb-padding-bottom-4">
+                            <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="cap Q equals reaction quotient">
+                              <mi>Q</mi>
+                              <mo>=</mo>
+                              <mtext>reaction quotient</mtext>
+                            </math>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div class="cb-padding-left-24 cb-padding-right-24 cb-padding-bottom-24">
+                      <div class="cb-font-weight-bold cb-margin-bottom-4 cb-padding-top-24">
+                        Faraday's Constant,
+                      </div>
+                      <div class="row">
+                        <div class="col-xs-12 col-md-3 cb-padding-left-24">
+                          <div class="cb-padding-bottom-4">
+                            <math alltext="F equals 96,485 coulombs per 1 mole of electron"
+                              xmlns="http://www.w3.org/1998/Math/MathML">
+                              <mi>F</mi>
+                              <mo>=</mo>
+                              <mn>96,485</mn>
+                              <mo>&#xA0;</mo>
+                              <mtext>coulombs</mtext>
+                              <mo>/</mo>
+                              <mo>&#xA0;</mo>
+                              <mn>1</mn>
+                              <mi>mol</mi>
+                              <msup>
+                                <mi>e</mi>
+                                <mo>-</mo>
+                              </msup>
+                            </math>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Unit Conversion -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Unit Conversions</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-md-6 cb-padding-left-24">
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="1 hertz equals 1 s to the negative 1 power"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mn>1</mn>
+                            <mo>&#xA0;</mo>
+                            <mtext>hertz</mtext>
+                            <mo>=</mo>
+                            <mo>&#xA0;</mo>
+                            <mn>1</mn>
+                            <msup>
+                              <mrow>
+                                <mo>&#xA0;</mo>
+                                <mi mathvariant="normal">s</mi>
+                              </mrow>
+                              <mrow>
+                                <mo>-</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msup>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="1 atmosphere equals 760 millimeters of mercury equals 760 torr"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mn>1</mn>
+                            <mo>&#xA0;</mo>
+                            <mtext>atm</mtext>
+                            <mo>=</mo>
+                            <mn>760</mn>
+                            <mo>&#xA0;</mo>
+                            <mtext>mm Hg</mtext>
+                            <mo>=</mo>
+                            <mn>760</mn>
+                            <mtext>&#xA0;torr</mtext>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="Kelvin equals degrees Celsius plus 273.15"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mi mathvariant="normal">K</mi>
+                            <mo>=</mo>
+                            <mo>&#xB0;</mo>
+                            <mo>C</mo>
+                            <mo>+</mo>
+                            <mn>&#xA0;273.15</mn>
+                          </math>
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-md-6">
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="1 volt equals 1 joule over 1 coulomb"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mn>1</mn>
+                            <mo>&#xA0;</mo>
+                            <mtext>volt</mtext>
+                            <mo>=</mo>
+                            <mfrac>
+                              <mrow>
+                                <mn>1</mn>
+                                <mo>&#xA0;</mo>
+                                <mtext>joule</mtext>
+                              </mrow>
+                              <mrow>
+                                <mn>1</mn>
+                                <mo>&#xA0;</mo>
+                                <mtext>coulomb</mtext>
+                              </mrow>
+                            </mfrac>
+                          </math>
+                        </div>
+                        <div class="cb-padding-bottom-24">
+                          <math alttext="1 ampere equals 1 coulomb over 1 second"
+                            xmlns="http://www.w3.org/1998/Math/MathML">
+                            <mn>1</mn>
+                            <mo>&#xA0;</mo>
+                            <mtext>ampere</mtext>
+                            <mo>=</mo>
+                            <mo>&#xA0;</mo>
+                            <mfrac>
+                              <mrow>
+                                <mn>1</mn>
+                                <mo>&#xA0;</mo>
+                                <mtext>coulomb</mtext>
+                              </mrow>
+                              <mrow>
+                                <mn>1</mn>
+                                <mo>&#xA0;</mo>
+                                <mtext>second</mtext>
+                              </mrow>
+                            </mfrac>
+                          </math>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Unit Symbols -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Unit Symbols</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <!-- content -->
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                    <div
+                      class="row cb-margin-left-24 cb-margin-right-24 cb-padding-top-24 cb-padding-bottom-24 cb-padding-left-24 cb-padding-right-24">
+                      <div class="col-xs-12 col-sm-3 cb-padding-right-16">
+                        <div class="">
+                          <span class="text-stix">g</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;gram
+                        </div>
+                        <div class="">
+                          <span class="text-stix">mol</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;mole
+                        </div>
+                        <div class="">
+                          <span class="text-stix">L</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp;liter
+                        </div>
+                        <div class="">
+                          <span class="text-stix">m</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; meter
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-3 cb-padding-right-16">
+                        <div class="">
+                          <span class="text-stix">s</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; second
+                        </div>
+                        <div class="">
+                          <span class="text-stix">Hz</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; hertz
+                        </div>
+                        <div class="">
+                          <span class="text-stix">atm</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; atmosphere
+                        </div>
+                        <div class="hidden-sm-down">
+                          <span class="text-stix">mm Hg</span>
+
+                          &nbsp; = &nbsp;millimeter of <br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                          &nbsp; &nbsp; mercury
+                        </div>
+                        <div class="hidden-md-up">
+                          <span class="text-stix">mm Hg</span>
+
+                          &nbsp; = &nbsp;millimeter of <br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                          &nbsp; &nbsp; mercury
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-3 cb-padding-right-16">
+                        <div class="">
+                          <span class="text-stix">°C</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; degree Celsius
+                        </div>
+                        <div class="">
+                          <span class="text-stix">K</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; kelvin
+                        </div>
+                        <div class="">
+                          <span class="text-stix">J</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; joule
+                        </div>
+                        <div class="">
+                          <span class="text-stix">V</span>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; volt
+                        </div>
+                      </div>
+                      <div class="col-xs-12 col-sm-3 cb-padding-right-16">
+                        <div class="">
+                          <span class="text-stix">C</span>
+
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; coulomb
+                        </div>
+                        <div class="">
+                          <span class="text-stix">A</span>
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = &nbsp; ampere
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- list item Prefixes -->
+              <div class="cb-accordion-container">
+                <!-- header -->
+                <a href="#" class="cb-accordion-heading cb-white-bg">
+                  <div class="cb-accordion-heading-title">
+                    <span>Prefixes</span>
+                    <div class="cb-accordion-icon">
+                      <span class="line top"></span>
+                      <span class="line bottom"></span>
+                    </div>
+                  </div>
+                </a>
+                <!-- open content -->
+                <div class="cb-accordion-panel" role="region">
+                  <div class="cb-accordion-panel-content cb-gray5-bg cb-no-padding">
+                      <div class="row cb-padding-24">
+                        <div class="col-xs-12 col-md-6 ap-custom-scroll">
+                          <table class="cb-table cb-white-bg">
+                            <thead>
+                              <tr>
+                                <th scope="col">Factor</th>
+                                <th scope="col">Prefix</th>
+                                <th scope="col">Symbol</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <th>
+                                  <math alttext="10 to the ninth power" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mn>9</mn>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  giga
+                                </td>
+                                <td>
+                                  <span class="text-stix">G</span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th>
+                                  <math alttext="10 to the sixth power" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mn>6</mn>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  mega
+                                </td>
+                                <td>
+                                  <span class="text-stix">M</span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <math alttext="10 cubed" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mn>3</mn>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  kilo
+                                </td>
+                                <td>
+                                  <span class="text-stix">k</span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <math alttext="10 to the negative 2 power" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mrow>
+                                        <mo>-</mo>
+                                        <mn>2</mn>
+                                      </mrow>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  centi
+                                </td>
+                                <td>
+                                  <span class="text-stix">c</span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <math alttext="10 to the negative 3 power" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mrow>
+                                        <mo>-</mo>
+                                        <mn>3</mn>
+                                      </mrow>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  milli
+                                </td>
+                                <td>
+                                  <span class="text-stix">m</span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <math alttext="10 to the negative 6 power" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mrow>
+                                        <mo>-</mo>
+                                        <mn>6</mn>
+                                      </mrow>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  micro
+                                </td>
+                                <td>
+                                  <math xmlns="http://www.w3.org/1998/Math/MathML" alttext="mu">
+                                    <mi>μ</mi>
+                                  </math>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <math alttext="10 to the negative 9 power" xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mrow>
+                                        <mo>-</mo>
+                                        <mn>9</mn>
+                                      </mrow>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  nano
+                                </td>
+                                <td>
+                                  <span class="text-stix">n</span>
+                                </td>
+                              </tr>
+                              <tr>
+                                <th scope="row">
+                                  <math alttext="10 to the negative 12 power"
+                                    xmlns="http://www.w3.org/1998/Math/MathML">
+                                    <msup>
+                                      <mn>10</mn>
+                                      <mrow>
+                                        <mo>-</mo>
+                                        <mn>12</mn>
+                                      </mrow>
+                                    </msup>
+                                  </math>
+                                </th>
+                                <td>
+                                  pico
+                                </td>
+                                <td>
+                                  <span class="text-stix">p</span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div id="PeriodicTable" role="tabpanel" class="cb-tabs-content">
+          <h3 id="PeriodicTitle" class="cb-border-bottom">Periodic Table</h3>
+          <div id="Elements">
+            <ol id="Table">
+              <li id="numeric1" class="row1 col1 Numeric">
+                <div id="grp1"><span class="sr-only">Group </span>1</div>
+              </li>
+              <li id="H" class="row1 col1 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp1 elem_H" role="region" tabindex="0">
+                  <div>1</div>
+                  <div id="elem_H">H</div>
+                  <div>1.008</div>
+                </span>
+              </li>
+              <li id="numeric18" class="row1 col18 Numeric">
+                <div id="grp18"><span class="sr-only">Group </span>18</div>
+              </li>
+              <li id="He" class="row1 col18 cat-noble_gas">
+                <span aria-labelledby="grp18 elem_He" role="region" tabindex="0">
+                  <div>2</div>
+                  <div id="elem_He">He</div>
+                  <div>4.00</div>
+                </span>
+              </li>
+              <li id="Li" class="row2 col1 cat-alkali_metal">
+                <span aria-labelledby="grp1 elem_Li" role="region" tabindex="0">
+                  <div>3</div>
+                  <div id="elem_Li">Li</div>
+                  <div>6.94</div>
+                </span>
+              </li>
+              <li id="numeric2" class="row1 col2 Numeric">
+                <div id="grp2"><span class="sr-only">Group </span>2</div>
+              </li>
+              <li id="Be" class="row2 col2 cat-alkaline_earth_metal">
+                <span aria-labelledby="grp2 elem_Be" role="region" tabindex="0">
+                  <div>4</div>
+                  <div id="elem_Be">Be</div>
+                  <div>9.01</div>
+                </span>
+              </li>
+              <li id="numeric13" class="row1 col13 Numeric">
+                <div id="grp13"><span class="sr-only">Group </span>13</div>
+              </li>
+              <li id="B" class="row2 col13 cat-metalloid">
+                <span aria-labelledby="grp13 elem_B" role="region" tabindex="0">
+                  <div>5</div>
+                  <div id="elem_B">B</div>
+                  <div>10.81</div>
+                </span>
+              </li>
+              <li id="numeric14" class="row1 col14 Numeric">
+                <div id="grp14"><span class="sr-only">Group </span>14</div>
+              </li>
+              <li id="C" class="row2 col14 cat-polyatomic_nonmetal">
+                <span aria-labelledby="grp14 elem_C" role="region" tabindex="0">
+                  <div>6</div>
+                  <div id="elem_C">C</div>
+                  <div>12.01</div>
+                </span>
+              </li>
+              <li id="numeric15" class="row1 col15 Numeric">
+                <div id="grp15"><span class="sr-only">Group </span>15</div>
+              </li>
+              <li id="N" class="row2 col15 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp15 elem_N" role="region" tabindex="0">
+                  <div>7</div>
+                  <div id="elem_N">N</div>
+                  <div>14.01</div>
+                </span>
+              </li>
+              <li id="numeric16" class="row1 col16 Numeric">
+                <div id="grp16"><span class="sr-only">Group </span>16</div>
+              </li>
+              <li id="O" class="row2 col16 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp16 elem_O" role="region" tabindex="0">
+                  <div>8</div>
+                  <div id="elem_O">O</div>
+                  <div>16.00</div>
+                </span>
+              </li>
+              <li id="numeric17" class="row1 col17 Numeric">
+                <div id="grp17"><span class="sr-only">Group </span>17</div>
+              </li>
+              <li id="F" class="row2 col17 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp17 elem_F" role="region" tabindex="0">
+                  <div>9</div>
+                  <div id="elem_F">F</div>
+                  <div>19.00</div>
+                </span>
+              </li>
+              <li id="Ne" class="row2 col18 cat-noble_gas">
+                <span aria-labelledby="grp18 elem_Ne" role="region" tabindex="0">
+                  <div>10</div>
+                  <div id="elem_Ne">Ne</div>
+                  <div>20.18</div>
+                </span>
+              </li>
+              <li id="Na" class="row3 col1 cat-alkali_metal">
+                <span aria-labelledby="grp1 elem_Na" role="region" tabindex="0">
+                  <div>11</div>
+                  <div id="elem_Na">Na</div>
+                  <div>22.99</div>
+                </span>
+              </li>
+              <li id="Mg" class="row3 col2 cat-alkaline_earth_metal">
+                <span aria-labelledby="grp2 elem_Mg" role="region" tabindex="0">
+                  <div>12</div>
+                  <div id="elem_Mg">Mg</div>
+                  <div>24.30</div>
+                </span>
+              </li>
+              <li id="Al" class="row3 col13 cat-post-transition_metal">
+                <span aria-labelledby="grp13 elem_Al" role="region" tabindex="0">
+                  <div>13</div>
+                  <div id="elem_Al">Al</div>
+                  <div>26.98</div>
+                </span>
+              </li>
+              <li id="Si" class="row3 col14 cat-metalloid">
+                <span aria-labelledby="grp14 elem_Si" role="region" tabindex="0">
+                  <div>14</div>
+                  <div id="elem_Si">Si</div>
+                  <div>28.09</div>
+                </span>
+              </li>
+              <li id="P" class="row3 col15 cat-polyatomic_nonmetal">
+                <span aria-labelledby="grp15 elem_P" role="region" tabindex="0">
+                  <div>15</div>
+                  <div id="elem_P">P</div>
+                  <div>30.97</div>
+                </span>
+              </li>
+              <li id="S" class="row3 col16 cat-polyatomic_nonmetal">
+                <span aria-labelledby="grp16 elem_S" role="region" tabindex="0">
+                  <div>16</div>
+                  <div id="elem_S">S</div>
+                  <div>32.06</div>
+                </span>
+              </li>
+              <li id="Cl" class="row3 col17 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp17 elem_Cl" role="region" tabindex="0">
+                  <div>17</div>
+                  <div id="elem_Cl">Cl</div>
+                  <div>35.45</div>
+                </span>
+              </li>
+              <li id="Ar" class="row3 col18 cat-noble_gas">
+                <span aria-labelledby="grp18 elem_Ar" role="region" tabindex="0">
+                  <div>18</div>
+                  <div id="elem_Ar">Ar</div>
+                  <div>39.95</div>
+                </span>
+              </li>
+              <li id="K" class="row4 col1 cat-alkali_metal">
+                <span aria-labelledby="grp1 elem_K" role="region" tabindex="0">
+                  <div>19</div>
+                  <div id="elem_K">K</div>
+                  <div>39.10</div>
+                </span>
+              </li>
+              <li id="Ca" class="row4 col2 cat-alkaline_earth_metal">
+                <span aria-labelledby="grp2 elem_Ca" role="region" tabindex="0">
+                  <div>20</div>
+                  <div id="elem_Ca">Ca</div>
+                  <div>40.08</div>
+                </span>
+              </li>
+              <li id="numeric3" class="row3 col3 Numeric">
+                <div id="grp3"><span class="sr-only">Group </span>3</div>
+              </li>
+              <li id="Sc" class="row4 col3 cat-transition_metal">
+                <span aria-labelledby="grp3 elem_Sc" role="region" tabindex="0">
+                  <div>21</div>
+                  <div id="elem_Sc">Sc</div>
+                  <div>44.96</div>
+                </span>
+              </li>
+              <li id="numeric4" class="row3 col4 Numeric">
+                <div id="grp4"><span class="sr-only">Group </span>4</div>
+              </li>
+              <li id="Ti" class="row4 col4 cat-transition_metal">
+                <span aria-labelledby="grp4 elem_Ti" role="region" tabindex="0">
+                  <div>22</div>
+                  <div id="elem_Ti">Ti</div>
+                  <div>47.87</div>
+                </span>
+              </li>
+              <li id="numeric5" class="row3 col5 Numeric">
+                <div id="grp5"><span class="sr-only">Group </span>5</div>
+              </li>
+              <li id="V" class="row4 col5 cat-transition_metal">
+                <span aria-labelledby="grp5 elem_V" role="region" tabindex="0">
+                  <div>23</div>
+                  <div id="elem_V">V</div>
+                  <div>50.94</div>
+                </span>
+              </li>
+              <li id="numeric6" class="row3 col6 Numeric">
+                <div id="grp6"><span class="sr-only">Group </span>6</div>
+              </li>
+              <li id="Cr" class="row4 col6 cat-transition_metal">
+                <span aria-labelledby="grp6 elem_Cr" role="region" tabindex="0">
+                  <div>24</div>
+                  <div id="elem_Cr">Cr</div>
+                  <div>52.00</div>
+                </span>
+              </li>
+              <li id="numeric7" class="row3 col7 Numeric">
+                <div id="grp7"><span class="sr-only">Group </span>7</div>
+              </li>
+              <li id="Mn" class="row4 col7 cat-transition_metal">
+                <span aria-labelledby="grp7 elem_Mn" role="region" tabindex="0">
+                  <div>25</div>
+                  <div id="elem_Mn">Mn</div>
+                  <div>54.94</div>
+                </span>
+              </li>
+              <li id="numeric8" class="row3 col8 Numeric">
+                <div id="grp8"><span class="sr-only">Group </span>8</div>
+              </li>
+              <li id="Fe" class="row4 col8 cat-transition_metal">
+                <span aria-labelledby="grp8 elem_Fe" role="region" tabindex="0">
+                  <div>26</div>
+                  <div id="elem_Fe">Fe</div>
+                  <div>55.85</div>
+                </span>
+              </li>
+              <li id="numeric9" class="row3 col9 Numeric">
+                <div id="grp9"><span class="sr-only">Group </span>9</div>
+              </li>
+              <li id="Co" class="row4 col9 cat-transition_metal">
+                <span aria-labelledby="grp9 elem_Co" role="region" tabindex="0">
+                  <div>27</div>
+                  <div id="elem_Co">Co</div>
+                  <div>58.93</div>
+                </span>
+              </li>
+              <li id="numeric10" class="row3 col10 Numeric">
+                <div id="grp10"><span class="sr-only">Group </span>10</div>
+              </li>
+              <li id="Ni" class="row4 col10 cat-transition_metal">
+                <span aria-labelledby="grp10 elem_Ni" role="region" tabindex="0">
+                  <div>28</div>
+                  <div id="elem_Ni">Ni</div>
+                  <div>58.69</div>
+                </span>
+              </li>
+              <li id="numeric11" class="row3 col11 Numeric">
+                <div id="grp11"><span class="sr-only">Group </span>11</div>
+              </li>
+              <li id="Cu" class="row4 col11 cat-transition_metal">
+                <span aria-labelledby="grp11 elem_Cu" role="region" tabindex="0">
+                  <div>29</div>
+                  <div id="elem_Cu">Cu</div>
+                  <div>63.55</div>
+                </span>
+              </li>
+              <li id="numeric12" class="row3 col12 Numeric">
+                <div id="grp12"><span class="sr-only">Group </span>12</div>
+              </li>
+              <li id="Zn" class="row4 col12 cat-transition_metal">
+                <span aria-labelledby="grp12 elem_Zn" role="region" tabindex="0">
+                  <div>30</div>
+                  <div id="elem_Zn">Zn</div>
+                  <div>65.38</div>
+                </span>
+              </li>
+              <li id="Ga" class="row4 col13 cat-post-transition_metal">
+                <span aria-labelledby="grp13 elem_Ga" role="region" tabindex="0">
+                  <div>31</div>
+                  <div id="elem_Ga">Ga</div>
+                  <div>69.72</div>
+                </span>
+              </li>
+              <li id="Ge" class="row4 col14 cat-metalloid">
+                <span aria-labelledby="grp14 elem_Ge" role="region" tabindex="0">
+                  <div>32</div>
+                  <div id="elem_Ge">Ge</div>
+                  <div>72.63</div>
+                </span>
+              </li>
+              <li id="As" class="row4 col15 cat-metalloid">
+                <span aria-labelledby="grp15 elem_As" role="region" tabindex="0">
+                  <div>33</div>
+                  <div id="elem_As">As</div>
+                  <div>74.92</div>
+                </span>
+              </li>
+              <li id="Se" class="row4 col16 cat-polyatomic_nonmetal">
+                <span aria-labelledby="grp16 elem_Se" role="region" tabindex="0">
+                  <div>34</div>
+                  <div id="elem_Se">Se</div>
+                  <div>78.97</div>
+                </span>
+              </li>
+              <li id="Br" class="row4 col17 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp17 elem_Br" role="region" tabindex="0">
+                  <div>35</div>
+                  <div id="elem_Br">Br</div>
+                  <div>79.90</div>
+                </span>
+              </li>
+              <li id="Kr" class="row4 col18 cat-noble_gas">
+                <span aria-labelledby="grp18 elem_Kr" role="region" tabindex="0">
+                  <div>36</div>
+                  <div id="elem_Kr">Kr</div>
+                  <div>83.80</div>
+                </span>
+              </li>
+              <li id="Rb" class="row5 col1 cat-alkali_metal">
+                <span aria-labelledby="grp1 elem_Rb" role="region" tabindex="0">
+                  <div>37</div>
+                  <div id="elem_Rb">Rb</div>
+                  <div>85.47</div>
+                </span>
+              </li>
+              <li id="Sr" class="row5 col2 cat-alkaline_earth_metal">
+                <span aria-labelledby="grp2 elem_Sr" role="region" tabindex="0">
+                  <div>38</div>
+                  <div id="elem_Sr">Sr</div>
+                  <div>87.62</div>
+                </span>
+              </li>
+              <li id="Y" class="row5 col3 cat-transition_metal">
+                <span aria-labelledby="grp3 elem_Y" role="region" tabindex="0">
+                  <div>39</div>
+                  <div id="elem_Y">Y</div>
+                  <div>88.91</div>
+                </span>
+              </li>
+              <li id="Zr" class="row5 col4 cat-transition_metal">
+                <span aria-labelledby="grp4 elem_Zr" role="region" tabindex="0">
+                  <div>40</div>
+                  <div id="elem_Zr">Zr</div>
+                  <div>91.22</div>
+                </span>
+              </li>
+              <li id="Nb" class="row5 col5 cat-transition_metal">
+                <span aria-labelledby="grp5 elem_Nb" role="region" tabindex="0">
+                  <div>41</div>
+                  <div id="elem_Nb">Nb</div>
+                  <div>92.91</div>
+                </span>
+              </li>
+              <li id="Mo" class="row5 col6 cat-transition_metal">
+                <span aria-labelledby="grp6 elem_Mo" role="region" tabindex="0">
+                  <div>42</div>
+                  <div id="elem_Mo">Mo</div>
+                  <div>95.95</div>
+                </span>
+              </li>
+              <li id="Tc" class="row5 col7 cat-transition_metal">
+                <span aria-labelledby="grp7 elem_Tc" role="region" tabindex="0">
+                  <div id="elem_Tc">43</div>
+                  <div>Tc</div>
+                </span>
+              </li>
+              <li id="Ru" class="row5 col8 cat-transition_metal">
+                <span aria-labelledby="grp8 elem_Ru" role="region" tabindex="0">
+                  <div>44</div>
+                  <div id="elem_Ru">Ru</div>
+                  <div>101.07</div>
+                </span>
+              </li>
+              <li id="Rh" class="row5 col9 cat-transition_metal">
+                <span aria-labelledby="grp9 elem_Rh" role="region" tabindex="0">
+                  <div>45</div>
+                  <div id="elem_Rh">Rh</div>
+                  <div>102.91</div>
+                </span>
+              </li>
+              <li id="Pd" class="row5 col10 cat-transition_metal">
+                <span aria-labelledby="grp10 elem_Pd" role="region" tabindex="0">
+                  <div>46</div>
+                  <div id="elem_Pd">Pd</div>
+                  <div>106.42</div>
+                </span>
+              </li>
+              <li id="Ag" class="row5 col11 cat-transition_metal">
+                <span aria-labelledby="grp11 elem_Ag" role="region" tabindex="0">
+                  <div>47</div>
+                  <div id="elem_Ag">Ag</div>
+                  <div>107.87</div>
+                </span>
+              </li>
+              <li id="Cd" class="row5 col12 cat-transition_metal">
+                <span aria-labelledby="grp12 elem_Cd" role="region" tabindex="0">
+                  <div>48</div>
+                  <div id="elem_Cd">Cd</div>
+                  <div>112.41</div>
+                </span>
+              </li>
+              <li id="In" class="row5 col13 cat-post-transition_metal">
+                <span aria-labelledby="grp13 elem_In" role="region" tabindex="0">
+                  <div>49</div>
+                  <div id="elem_In">In</div>
+                  <div>114.82</div>
+                </span>
+              </li>
+              <li id="Sn" class="row5 col14 cat-post-transition_metal">
+                <span aria-labelledby="grp14 elem_Sn" role="region" tabindex="0">
+                  <div>50</div>
+                  <div id="elem_Sn">Sn</div>
+                  <div>118.71</div>
+                </span>
+              </li>
+              <li id="Sb" class="row5 col15 cat-metalloid">
+                <span aria-labelledby="grp15 elem_Sb" role="region" tabindex="0">
+                  <div>51</div>
+                  <div id="elem_Sb">Sb</div>
+                  <div>121.76</div>
+                </span>
+              </li>
+              <li id="Te" class="row5 col16 cat-metalloid">
+                <span aria-labelledby="grp16 elem_Te" role="region" tabindex="0">
+                  <div>52</div>
+                  <div id="elem_Te">Te</div>
+                  <div>127.60</div>
+                </span>
+              </li>
+              <li id="I" class="row5 col17 cat-diatomic_nonmetal">
+                <span aria-labelledby="grp17 elem_I" role="region" tabindex="0">
+                  <div>53</div>
+                  <div id="elem_I">I</div>
+                  <div>126.90</div>
+                </span>
+              </li>
+              <li id="Xe" class="row5 col18 cat-noble_gas">
+                <span aria-labelledby="grp18 elem_Xe" role="region" tabindex="0">
+                  <div>54</div>
+                  <div id="elem_Xe">Xe</div>
+                  <div>131.29</div>
+                </span>
+              </li>
+              <li id="Cs" class="row6 col1 cat-alkali_metal">
+                <span aria-labelledby="grp1 elem_Cs" role="region" tabindex="0">
+                  <div>55</div>
+                  <div id="elem_Cs">Cs</div>
+                  <div>132.91</div>
+                </span>
+              </li>
+              <li id="Ba" class="row6 col2 cat-alkaline_earth_metal">
+                <span aria-labelledby="grp2 elem_Ba" role="region" tabindex="0">
+                  <div>56</div>
+                  <div id="elem_Ba">Ba</div>
+                  <div>137.33</div>
+                </span>
+              </li>
+              <li id="57-71" class="row6 col3 shortcut">
+                <div></div>
+                <div class="shortcut-key">57-71</div>
+                <div class="shortcut-asterisk">*</div>
+              </li>
+              <li id="Lanthanoids" class="chem-label">
+                <div style="text-align: left !important;">* Lanthanoids</div>
+              </li>
+              <li id="La" class="row9 col3 cat-lanthanide">
+                <span aria-labelledby="grp9 elem_La" role="region" tabindex="0">
+                  <div>57</div>
+                  <div id="elem_La">La</div>
+                  <div>138.91</div>
+                </span>
+              </li>
+              <li id="Ce" class="row9 col4 cat-lanthanide">
+                <span aria-labelledby="grp4 elem_Ce" role="region" tabindex="0">
+                  <div>58</div>
+                  <div id="elem_Ce">Ce</div>
+                  <div>140.12</div>
+                </span>
+              </li>
+              <li id="Pr" class="row9 col5 cat-lanthanide">
+                <span aria-labelledby="grp5 elem_Pr" role="region" tabindex="0">
+                  <div>59</div>
+                  <div id="elem_Pr">Pr</div>
+                  <div>140.91</div>
+                </span>
+              </li>
+              <li id="Nd" class="row9 col6 cat-lanthanide">
+                <span aria-labelledby="grp6 elem_Nd" role="region" tabindex="0">
+                  <div>60</div>
+                  <div id="elem_Nd">Nd</div>
+                  <div>144.24</div>
+                </span>
+              </li>
+              <li id="Pm" class="row9 col7 cat-lanthanide">
+                <span aria-labelledby="grp7 elem_Pm" role="region" tabindex="0">
+                  <div>61</div>
+                  <div id="elem_Pm">Pm</div>
+                </span>
+              </li>
+              <li id="Sm" class="row9 col8 cat-lanthanide">
+                <span aria-labelledby="grp8 elem_Sm" role="region" tabindex="0">
+                  <div>62</div>
+                  <div id="elem_Sm">Sm</div>
+                  <div>150.36</div>
+                </span>
+              </li>
+              <li id="Eu" class="row9 col9 cat-lanthanide">
+                <span aria-labelledby="grp9 elem_Eu" role="region" tabindex="0">
+                  <div>63</div>
+                  <div id="elem_Eu">Eu</div>
+                  <div>151.97</div>
+                </span>
+              </li>
+              <li id="Gd" class="row9 col10 cat-lanthanide">
+                <span aria-labelledby="grp10 elem_Gd" role="region" tabindex="0">
+                  <div>64</div>
+                  <div id="elem_Gd">Gd</div>
+                  <div>157.25</div>
+                </span>
+              </li>
+              <li id="Tb" class="row9 col11 cat-lanthanide">
+                <span aria-labelledby="grp11 elem_Tb" role="region" tabindex="0">
+                  <div>65</div>
+                  <div id="elem_Tb">Tb</div>
+                  <div>158.93</div>
+                </span>
+              </li>
+              <li id="Dy" class="row9 col12 cat-lanthanide">
+                <span aria-labelledby="grp12 elem_Dy" role="region" tabindex="0">
+                  <div>66</div>
+                  <div id="elem_Dy">Dy</div>
+                  <div>162.50</div>
+                </span>
+              </li>
+              <li id="Ho" class="row9 col13 cat-lanthanide">
+                <span aria-labelledby="grp13 elem_Ho" role="region" tabindex="0">
+                  <div>67</div>
+                  <div id="elem_Ho">Ho</div>
+                  <div>164.93</div>
+                </span>
+              </li>
+              <li id="Er" class="row9 col14 cat-lanthanide">
+                <span aria-labelledby="grp14 elem_Er" role="region" tabindex="0">
+                  <div>68</div>
+                  <div id="elem_Er">Er</div>
+                  <div>167.26</div>
+                </span>
+              </li>
+              <li id="Tm" class="row9 col15 cat-lanthanide">
+                <span aria-labelledby="grp15 elem_Tm" role="region" tabindex="0">
+                  <div>69</div>
+                  <div id="elem_Tm">Tm</div>
+                  <div>168.93</div>
+                </span>
+              </li>
+              <li id="Yb" class="row9 col16 cat-lanthanide">
+                <span aria-labelledby="grp16 elem_Yb" role="region" tabindex="0">
+                  <div>70</div>
+                  <div id="elem_Yb">Yb</div>
+                  <div>173.05</div>
+                </span>
+              </li>
+              <li id="Lu" class="row9 col17 cat-lanthanide">
+                <span aria-labelledby="grp17 elem_Lu" role="region" tabindex="0">
+                  <div>71</div>
+                  <div id="elem_Lu">Lu</div>
+                  <div>174.97</div>
+                </span>
+              </li>
+              <li id="Hf" class="row6 col4 cat-transition_metal">
+                <span aria-labelledby="grp4 elem_Hf" role="region" tabindex="0">
+                  <div>72</div>
+                  <div id="elem_Hf">Hf</div>
+                  <div>178.49</div>
+                </span>
+              </li>
+              <li id="Ta" class="row6 col5 cat-transition_metal">
+                <span aria-labelledby="grp5 elem_Ta" role="region" tabindex="0">
+                  <div>73</div>
+                  <div id="elem_Ta">Ta</div>
+                  <div>180.95</div>
+                </span>
+              </li>
+              <li id="W" class="row6 col6 cat-transition_metal">
+                <span aria-labelledby="grp6 elem_W" role="region" tabindex="0">
+                  <div>74</div>
+                  <div id="elem_W">W</div>
+                  <div>183.84</div>
+                </span>
+              </li>
+              <li id="Re" class="row6 col7 cat-transition_metal">
+                <span aria-labelledby="grp7 elem_Re" role="region" tabindex="0">
+                  <div>75</div>
+                  <div id="elem_Re">Re</div>
+                  <div>186.21</div>
+                </span>
+              </li>
+              <li id="Os" class="row6 col8 cat-transition_metal">
+                <span aria-labelledby="grp8 elem_Os" role="region" tabindex="0">
+                  <div>76</div>
+                  <div id="elem_Os">Os</div>
+                  <div>190.23</div>
+                </span>
+              </li>
+              <li id="Ir" class="row6 col9 cat-transition_metal">
+                <span aria-labelledby="grp9 elem_Ir" role="region" tabindex="0">
+                  <div>77</div>
+                  <div id="elem_Ir">Ir</div>
+                  <div>192.22</div>
+                </span>
+              </li>
+              <li id="Pt" class="row6 col10 cat-transition_metal">
+                <span aria-labelledby="grp1 elem_H" role="region" tabindex="0">
+                  <div>78</div>
+                  <div>Pt</div>
+                  <div>195.08</div>
+                </span>
+              </li>
+              <li id="Au" class="row6 col11 cat-transition_metal">
+                <span aria-labelledby="grp11 elem_Au" role="region" tabindex="0">
+                  <div>79</div>
+                  <div id="elem_Au">Au</div>
+                  <div>196.97</div>
+                </span>
+              </li>
+              <li id="Hg" class="row6 col12 cat-transition_metal">
+                <span aria-labelledby="grp12 elem_Hg" role="region" tabindex="0">
+                  <div>80</div>
+                  <div id="elem_Hg">Hg</div>
+                  <div>200.59</div>
+                </span>
+              </li>
+              <li id="Tl" class="row6 col13 cat-post-transition_metal">
+                <span aria-labelledby="grp13 elem_Tl" role="region" tabindex="0">
+                  <div>81</div>
+                  <div id="elem_Tl">Tl</div>
+                  <div>204.38</div>
+                </span>
+              </li>
+              <li id="Pb" class="row6 col14 cat-post-transition_metal">
+                <span aria-labelledby="grp14 elem_Pb" role="region" tabindex="0">
+                  <div>82</div>
+                  <div id="elem_Pb">Pb</div>
+                  <div>207.2</div>
+                </span>
+              </li>
+              <li id="Bi" class="row6 col15 cat-post-transition_metal">
+                <span aria-labelledby="grp15 elem_Bi" role="region" tabindex="0">
+                  <div>83</div>
+                  <div id="elem_Bi">Bi</div>
+                  <div>208.98</div>
+                </span>
+              </li>
+              <li id="Po" class="row6 col16 cat-post-transition_metal">
+                <span aria-labelledby="grp16 elem_Po" role="region" tabindex="0">
+                  <div>84</div>
+                  <div id="elem_Po">Po</div>
+                </span>
+              </li>
+              <li id="At" class="row6 col17 cat-metalloid">
+                <span aria-labelledby="grp17 elem_At" role="region" tabindex="0">
+                  <div>85</div>
+                  <div id="elem_At">At</div>
+                </span>
+              </li>
+              <li id="Rn" class="row6 col18 cat-noble_gas">
+                <span aria-labelledby="grp18 elem_Rn" role="region" tabindex="0">
+                  <div>86</div>
+                  <div id="elem_Rn">Rn</div>
+                </span>
+              </li>
+              <li id="Fr" class="row7 col1 cat-alkali_metal">
+                <span aria-labelledby="grp1 elem_Fr" role="region" tabindex="0">
+                  <div>87</div>
+                  <div id="elem_Fr">Fr</div>
+                </span>
+              </li>
+              <li id="Ra" class="row7 col2 cat-alkaline_earth_metal">
+                <span aria-labelledby="grp2 elem_Ra" role="region" tabindex="0">
+                  <div>88</div>
+                  <div id="elem_Ra">Ra</div>
+                </span>
+              </li>
+              <li id="89-103" class="row7 col3 shortcut">
+                <div></div>
+                <div class="shortcut-key">89-103</div>
+                <div class="shortcut-asterisk">**</div>
+              </li>
+              <li id="Actinoids" class="chem-label">
+                <div style="text-align: left !important;">** Actinoids</div>
+              </li>
+              <li id="Ac" class="row10 col3 cat-actinide">
+                <span aria-labelledby="grp3 elem_Ac" role="region" tabindex="0">
+                  <div>89</div>
+                  <div id="elem_Ac">Ac</div>
+                </span>
+              </li>
+              <li id="Th" class="row10 col4 cat-actinide">
+                <span aria-labelledby="grp4 elem_Th" role="region" tabindex="0">
+                  <div>90</div>
+                  <div id="elem_Th">Th</div>
+                  <div>232.04</div>
+                </span>
+              </li>
+              <li id="Pa" class="row10 col5 cat-actinide">
+                <span aria-labelledby="grp5 elem_Pa" role="region" tabindex="0">
+                  <div>91</div>
+                  <div id="elem_Pa">Pa</div>
+                  <div>231.04</div>
+                </span>
+              </li>
+              <li id="U" class="row10 col6 cat-actinide">
+                <span aria-labelledby="grp6 elem_U" role="region" tabindex="0">
+                  <div>92</div>
+                  <div id="elem_U">U</div>
+                  <div>238.03</div>
+                </span>
+              </li>
+              <li id="Np" class="row10 col7 cat-actinide">
+                <span aria-labelledby="grp7 elem_Np" role="region" tabindex="0">
+                  <div>93</div>
+                  <div id="elem_Np">Np</div>
+                </span>
+              </li>
+              <li id="Pu" class="row10 col8 cat-actinide">
+                <span aria-labelledby="grp8 elem_Pu" role="region" tabindex="0">
+                  <div>94</div>
+                  <div id="elem_Pu">Pu</div>
+                </span>
+              </li>
+              <li id="Am" class="row10 col9 cat-actinide">
+                <span aria-labelledby="grp9 elem_Am" role="region" tabindex="0">
+                  <div>95</div>
+                  <div id="elem_Am">Am</div>
+                </span>
+              </li>
+              <li id="Cm" class="row10 col10 cat-actinide">
+                <span aria-labelledby="grp10 elem_Cm" role="region" tabindex="0">
+                  <div>96</div>
+                  <div id="elem_Cm">Cm</div>
+                </span>
+              </li>
+              <li id="Bk" class="row10 col11 cat-actinide">
+                <span aria-labelledby="grp11 elem_Bk" role="region" tabindex="0">
+                  <div>97</div>
+                  <div id="elem_Bk">Bk</div>
+                </span>
+              </li>
+              <li id="Cf" class="row10 col12 cat-actinide">
+                <span aria-labelledby="grp1 elem_Cf" role="region" tabindex="0">
+                  <div>98</div>
+                  <div id="elem_Cf">Cf</div>
+                </span>
+              </li>
+              <li id="Es" class="row10 col13 cat-actinide">
+                <span aria-labelledby="grp13 elem_Es" role="region" tabindex="0">
+                  <div>99</div>
+                  <div id="elem_Es">Es</div>
+                </span>
+              </li>
+              <li id="Fm" class="row10 col14 cat-actinide">
+                <span aria-labelledby="grp14 elem_Fm" role="region" tabindex="0">
+                  <div>100</div>
+                  <div id="elem_Fm">Fm</div>
+                </span>
+              </li>
+              <li id="Md" class="row10 col15 cat-actinide">
+                <span aria-labelledby="grp15 elem_Md" role="region" tabindex="0">
+                  <div>101</div>
+                  <div id="elem_Md">Md</div>
+                </span>
+              </li>
+              <li id="No" class="row10 col16 cat-actinide">
+                <span aria-labelledby="grp16 elem_No" role="region" tabindex="0">
+                  <div>102</div>
+                  <div id="elem_No">No</div>
+                </span>
+              </li>
+              <li id="Lr" class="row10 col17 cat-actinide">
+                <span aria-labelledby="grp17 elem_Lr" role="region" tabindex="0">
+                  <div>103</div>
+                  <div id="elem_Lr">Lr</div>
+                </span>
+              </li>
+              <li id="Rf" class="row7 col4 cat-transition_metal">
+                <span aria-labelledby="grp4 elem_Rf" role="region" tabindex="0">
+                  <div>104</div>
+                  <div id="elem_Rf">Rf</div>
+                </span>
+              </li>
+              <li id="Db" class="row7 col5 cat-transition_metal">
+                <span aria-labelledby="grp5 elem_Db" role="region" tabindex="0">
+                  <div>105</div>
+                  <div id="elem_Db">Db</div>
+                </span>
+              </li>
+              <li id="Sg" class="row7 col6 cat-transition_metal">
+                <span aria-labelledby="grp6 elem_Sg" role="region" tabindex="0">
+                  <div>106</div>
+                  <div id="elem_Sg">Sg</div>
+                </span>
+              </li>
+              <li id="Bh" class="row7 col7 cat-transition_metal">
+                <span aria-labelledby="grp7 elem_Bh" role="region" tabindex="0">
+                  <div>107</div>
+                  <div id="elem_Bh">Bh</div>
+                </span>
+              </li>
+              <li id="Hs" class="row7 col8 cat-transition_metal">
+                <span aria-labelledby="grp8 elem_Hs" role="region" tabindex="0">
+                  <div>108</div>
+                  <div id="elem_Hs">Hs</div>
+                </span>
+              </li>
+              <li id="Mt" class="row7 col9 cat-unknown_probably_transition_metal">
+                <span aria-labelledby="grp9 elem_Mt" role="region" tabindex="0">
+                  <div>109</div>
+                  <div id="elem_Mt">Mt</div>
+                </span>
+              </li>
+              <li id="Ds" class="row7 col10 cat-unknown_probably_transition_metal">
+                <span aria-labelledby="grp10 elem_Ds" role="region" tabindex="0">
+                  <div>110</div>
+                  <div id="elem_Ds">Ds</div>
+                </span>
+              </li>
+              <li id="Rg" class="row7 col11 cat-unknown_probably_transition_metal">
+                <span aria-labelledby="grp11 elem_Rg" role="region" tabindex="0">
+                  <div>111</div>
+                  <div id="elem_Rg">Rg</div>
+                </span>
+              </li>
+              <li id="Cn" class="row7 col12 cat-transition_metal">
+                <span aria-labelledby="grp12 elem_Cn" role="region" tabindex="0">
+                  <div>112</div>
+                  <div id="elem_Cn">Cn</div>
+                </span>
+              </li>
+              <li id="Nh" class="row7 col13 cat-unknown_probably_transition_metal">
+                <span aria-labelledby="grp13 elem_Nh" role="region" tabindex="0">
+                  <div>113</div>
+                  <div id="elem_Nh">Nh</div>
+                </span>
+              </li>
+              <li id="Fl" class="row7 col14 cat-post-transition_metal">
+                <span aria-labelledby="grp14 elem_Fl" role="region" tabindex="0">
+                  <div>114</div>
+                  <div id="elem_Fl">Fl</div>
+                </span>
+              </li>
+              <li id="Mc" class="row7 col15 cat-unknown_probably_post-transition_metal">
+                <span aria-labelledby="grp15 elem_Mc" role="region" tabindex="0">
+                  <div>115</div>
+                  <div id="elem_Mc">Mc</div>
+                </span>
+              </li>
+              <li id="Lv" class="row7 col16 cat-unknown_probably_post-transition_metal">
+                <span aria-labelledby="grp16 elem_Lv" role="region" tabindex="0">
+                  <div>116</div>
+                  <div id="elem_Lv">Lv</div>
+                </span>
+              </li>
+              <li id="Ts" class="row7 col17 cat-unknown_probably_metalloid">
+                <span aria-labelledby="grp17 elem_Ts" role="region" tabindex="0">
+                  <div>117</div>
+                  <div id="elem_Ts">Ts</div>
+                </span>
+              </li>
+              <li id="Og" class="row7 col18 cat-unknown_predicted_to_be_noble_gas">
+                <span aria-labelledby="grp18 elem_Og" role="region" tabindex="0">
+                  <div>118</div>
+                  <div id="elem_Og">Og</div>
+                </span>
+              </li>
+              <li id="Uue" class="row8 col1 cat-unknown_but_predicted_to_be_an_alkali_metal">
+              </li>
+            </ol>
+          </div>
+
+          <div class="cb-margin-72 licensing">
+            Original HTML Periodic Table by Adrian Roselli (www.adrianroselli.com) available via Creative Commons
+            license
+            CC BY-SA 3.0 at https://bit.ly/3vE4YX9. This Periodic Table has been augmented by College Board and only
+            this
+            Periodic Table may be shared under the same license.
+          </div>
+          <!-- <cite class="cb-margin-72">Original HTML Periodic Table by Adrian Roselli (www.adrianroselli.com) available via Creative Commons license CC BY-SA 3.0 at <a href="https://adrianroselli.com/2019/05/periodic-table-of-the-elements.html">https://adrianroselli.com/2019/05/periodic-table-of-the-elements.html</a>.  Augmented by College Board and shared under the same license.</cite> -->
+        </div>
+      </div>
+    </main>
+
+    <style>
+      main#reference-sheet {
+        background-color: #f0f0f0;
+        font-family: 'Noto Serif';
+        font-size: 15px;
+        min-height: 100vh;
+      }
+
+      main#reference-sheet .licensing {
+        font-family: 'Roboto' !important;
+        font-size: 12px !important;
+        line-height: 16px !important;
+        color: #6b6b6b !important;
+      }
+
+      main#reference-sheet h1,
+      .cb-h1 {
+        font-size: 2rem !important;
+      }
+
+      main#reference-sheet .cb-tabs-menu .cb-selected {
+        font-weight: bold;
+      }
+
+      main#reference-sheet .cb-accordion-controls {
+        padding: 8px 24px !important;
+      }
+
+      main#refence-sheet .table-title {
+        font-family: 'Roboto';
+      }
+
+      main#reference-sheet table.cb-table>thead {
+        background-color: #d9d9d9;
+        color: #1e1e1e;
+      }
+
+      main#reference-sheet table.cb-table thead tr th {
+        background-color: #d9d9d9;
+      }
+
+      main#reference-sheet table.cb-table :is(td, th) {
+        border-color: #505050;
+      }
+
+
+      main#reference-sheet .MathJax_SVG {
+        font-size: 95% !important;
+      }
+
+      main#reference-sheet .cb-tabs-menu {
+        background-color: #e6edf8;
+        position: sticky;
+        top: 0;
+        z-index: 1;
+      }
+
+      main#reference-sheet .Rectangle {
+        background-image: linear-gradient(to bottom, #d9d9d9, #f0f0f0 57%);
+        height: 24px;
+      }
+
+      main#reference-sheet .ap-custom-scroll {
+        width: 96%;
+        overflow-y: hidden;
+      }
+
+      main#reference-sheet.chrome-os-scroll {
+        min-width: 1000px;
+        overflow-x: scroll;
+      }
+
+      main#reference-sheet .definition-title {
+        color: #1e1e1e;
+        font-family: 'Noto Serif';
+        font-size: 15px;
+        font-weight: bold;
+        line-height: 24px;
+        margin-bottom: 11px;
+      }
+
+      main#reference-sheet .MathJax * {
+        font-size: 16.5px;
+      }
+
+      main#reference-sheet .MathJax span.mtext {
+        font-family: 'notoSerif', 'noto-serif', 'Noto Serif' !important;
+        font-size: 15px;
+      }
+
+      main#reference-sheet #chem-key-trigger {
+        position: sticky;
+        top: calc(100vh - 100px);
+        left: calc(100vw - 100px);
+        z-index: 10;
+        display: inline-block;
+      }
+
+      main#reference-sheet #key-list span.MathJax {
+        margin-left: 4px;
+      }
+
+      main#reference-sheet .cb-accordion {
+        margin-top: -48px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-controls {
+        font-size: 15px;
+        margin: 0;
+        padding: 16px 24px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-controls .cb-accordion-buttons {
+        margin-bottom: auto;
+        margin-top: auto;
+      }
+
+      main#reference-sheet .cb-accordion-panel.cb-in {
+        height: auto !important;
+      }
+
+      main#reference-sheet .cb-accordion-panel-content {
+        font-size: medium;
+      }
+
+      /* PERIODIC TABLE */
+      main#reference-sheet #PeriodicTable {
+        line-height: 1.4;
+        color: #333;
+        margin: 2rem 0rem;
+        min-width: 1000px;
+        background: #fff;
+      }
+
+      main#reference-sheet #PeriodicTitle {
+        font-family: 'Noto Serif';
+        padding-bottom: 24px;
+        margin: -24px 0 24px 24px;
+      }
+
+      /* main#reference-sheet #Elements {
+      margin-left: 12px;
+    } */
+
+      main#reference-sheet #Elements ol {
+        padding: 0;
+        color: #000;
+        margin: 2rem 0;
+        /*   font-size: 30%; */
+      }
+
+      main#reference-sheet #Elements li {
+        list-style-type: none;
+        outline: .1em solid #000;
+        box-sizing: border-box;
+        padding: .5em .75em;
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        transition: transform .05s ease-in-out, box-shadow .2s ease-in-out, background-color .2s ease-in-out;
+        margin-bottom: 0 !important;
+      }
+
+      main#reference-sheet #Elements li div {
+        text-align: center;
+      }
+
+      main#reference-sheet #Elements li div:first-child {
+        font-size: 150%;
+      }
+
+      main#reference-sheet #Elements li div:not(.shortcut-key):nth-child(2) {
+        font-size: 250%;
+        font-weight: bold;
+        line-height: 1.1;
+      }
+
+      main#reference-sheet #Elements li div:nth-child(3) {
+        font-size: 150%;
+        line-height: 1.1;
+      }
+
+      main#reference-sheet #Elements li button {
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        font: inherit;
+        line-height: 1;
+        padding: 0;
+        text-indent: 5em;
+        border: none;
+        color: #fff;
+        border-right: .1em solid #000;
+        border-bottom: .1em solid #000;
+        border-radius: 0 0 67% 0;
+        width: 2em;
+        height: 2em;
+        overflow: hidden;
+        background-color: #000;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M71.77069 61.87311a36.53064 36.53064 0 1 0-9.89917 9.89868l21.1792 21.17792a6.9996 6.9996 0 1 0 9.89844-9.89942zM41.49994 64a22.5 22.5 0 1 1 22.5-22.5 22.52554 22.52554 0 0 1-22.5 22.5z' fill='%23fff'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: 1em 1em;
+        background-position: 30% 40%;
+      }
+
+      main#reference-sheet #Elements li button:focus,
+      main#reference-sheet #Elements li button:hover {
+        background-color: #fff;
+        color: #000;
+        outline: none;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M71.77069 61.87311a36.53064 36.53064 0 1 0-9.89917 9.89868l21.1792 21.17792a6.9996 6.9996 0 1 0 9.89844-9.89942zM41.49994 64a22.5 22.5 0 1 1 22.5-22.5 22.52554 22.52554 0 0 1-22.5 22.5z' fill='%23000'/%3E%3C/svg%3E");
+      }
+
+      main#reference-sheet #Elements li#Key button {
+        position: relative;
+        border-radius: 0;
+        border: none;
+        height: 1.5em;
+        width: 1.5em;
+        background-color: transparent;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M71.77069 61.87311a36.53064 36.53064 0 1 0-9.89917 9.89868l21.1792 21.17792a6.9996 6.9996 0 1 0 9.89844-9.89942zM41.49994 64a22.5 22.5 0 1 1 22.5-22.5 22.52554 22.52554 0 0 1-22.5 22.5z' fill='%23000'/%3E%3C/svg%3E");
+        background-position: 100% 100%;
+      }
+
+      main#reference-sheet #Elements li#Key button:focus,
+      main#reference-sheet #Elements li#Key button:hover {
+        background-color: #000;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M71.77069 61.87311a36.53064 36.53064 0 1 0-9.89917 9.89868l21.1792 21.17792a6.9996 6.9996 0 1 0 9.89844-9.89942zM41.49994 64a22.5 22.5 0 1 1 22.5-22.5 22.52554 22.52554 0 0 1-22.5 22.5z' fill='%23fff'/%3E%3C/svg%3E");
+      }
+
+      /* Colors */
+      main#reference-sheet .cat-diatomic_nonmetal {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-noble_gas {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-alkali_metal {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-alkaline_earth_metal {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-metalloid {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-polyatomic_nonmetal {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-post-transition_metal {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-transition_metal {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-lanthanide {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-actinide {
+        background-color: white;
+      }
+
+      main#reference-sheet .cat-unknown_probably_transition_metal,
+      main#reference-sheet .cat-unknown_probably_post-transition_metal,
+      main#reference-sheet .cat-unknown_probably_metalloid,
+      main#reference-sheet .cat-unknown_predicted_to_be_noble_gas,
+      main#reference-sheet .cat-unknown_but_predicted_to_be_an_alkali_metal {
+        background-color: white
+      }
+
+      main#reference-sheet #Key h2 {
+        margin: 0 0 1em 0;
+        font-size: 1.1em;
+      }
+
+      main#reference-sheet #Key dl {
+        line-height: 1.4;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        text-transform: capitalize;
+      }
+
+      main#reference-sheet #Key dt,
+      main#reference-sheet #Key dd {
+        margin: 0;
+        padding: 0;
+        margin-top: .5em;
+        float: left;
+      }
+
+      main#reference-sheet #Key dt {
+        width: 1.5em;
+        height: 1.5em;
+        outline: .1em solid #000;
+        clear: left;
+        margin-right: 1em;
+      }
+
+      main#reference-sheet #Key dt[class*=unknown],
+      main#reference-sheet #Key dt[class*=unknown]+dd {
+        display: none;
+      }
+
+      /* Fallback for non-grid browsers */
+
+      main#reference-sheet #Elements li {
+        float: left;
+      }
+
+      main#reference-sheet #Elements li:not(#Key):hover {
+          transform: scale(2);
+          z-index: 120;
+          box-shadow: 0 0 1em rgba(0, 0, 0, .8);
+        }
+
+        /* Merge with above when :focus-within is supported */
+        main#reference-sheet #Elements li:not(#Key):focus-within {
+          transform: scale(2);
+          z-index: 120;
+          box-shadow: 0 0 1em rgba(0, 0, 0, .8);
+        }
+
+      main#reference-sheet #Elements ol::after {
+        content: "";
+        display: block;
+        clear: left;
+      }
+
+      main#reference-sheet li#Key {
+        clear: left;
+        width: auto;
+        outline: none;
+        padding-top: 1em;
+        width: 100%;
+      }
+
+      main#reference-sheet li#Uue {
+        background-color: transparent;
+        outline: none;
+        pointer-events: none;
+      }
+
+      main#reference-sheet li.shortcut {
+        background-color: white;
+        pointer-events: none;
+      }
+
+      main#reference-sheet div.shortcut-key {
+        font-size: 150%;
+        font-weight: normal !important;
+        margin: 8px 0 !important;
+      }
+
+      main#reference-sheet div.shortcut-asterisk {
+        font-size: 250% !important;
+        line-height: 16px !important;
+      }
+
+      @supports (display: grid) {
+        main#reference-sheet #Elements li {
+          float: none;
+        }
+
+        main#reference-sheet #Elements ol::after {
+          content: none;
+        }
+
+        main#reference-sheet #Elements ol {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(8em, 8em));
+        }
+
+        main#reference-sheet li#Key {
+          grid-column: 1 / span 3;
+        }
+
+        main#reference-sheet #Key dl {
+          display: grid;
+          grid-template-columns: repeat(1, 1em 12em);
+          grid-gap: .5em 1em;
+        }
+
+        main#reference-sheet #Key dt,
+        main#reference-sheet #Key dd {
+          margin: 0;
+          float: none;
+          clear: none;
+          margin-right: 0;
+        }
+      }
+      @media (min-width: 0em) {
+        main#reference-sheet #Elements {
+          margin-left: 12px;
+          margin-right: 12px;
+          margin-top: 72px;
+        }
+
+        main#reference-sheet #Elements ol {
+          font-size: 0.6em;
+          display: -ms-grid;
+          -ms-grid-columns: 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56%;
+          display: grid;
+          grid-template-columns: 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56% 5.56%;
+        }
+
+        main#reference-sheet li#Key {
+          -ms-grid-row: 1;
+          -ms-grid-row-span: 3;
+          -ms-grid-column: 5;
+          -ms-grid-column-span: 6;
+          grid-row: 1 / 4;
+          grid-column: 5 / 11;
+        }
+
+        /* li.row7 div:last-child {
+        margin-bottom: 0.45em;
+      } */
+
+        main#reference-sheet #Key dl {
+          display: -ms-grid;
+          grid-template-columns: repeat(2, 1em 12em);
+        }
+
+        main#reference-sheet #Key dt:nth-of-type(2n-1) {
+          grid-column: 1;
+          -ms-grid-column: 1;
+        }
+
+        main#reference-sheet #Key dt:nth-of-type(2n) {
+          grid-column: 3;
+          -ms-grid-column: 3;
+        }
+
+        main#reference-sheet #Key dd:nth-of-type(2n-1) {
+          grid-column: 2;
+          -ms-grid-column: 2;
+        }
+
+        main#reference-sheet #Key dd:nth-of-type(2n) {
+          grid-column: 4;
+          -ms-grid-column: 4;
+        }
+
+        main#reference-sheet #Key dl *:nth-child(n+5) {
+          grid-row: 2;
+          -ms-grid-row: 2;
+        }
+
+        main#reference-sheet #Key dl *:nth-child(n+9) {
+          grid-row: 3;
+          -ms-grid-row: 3;
+        }
+
+        main#reference-sheet #Key dl *:nth-child(n+13) {
+          grid-row: 4;
+          -ms-grid-row: 4;
+        }
+
+        main#reference-sheet #Key dl *:nth-child(n+17) {
+          grid-row: 5;
+          -ms-grid-row: 5;
+        }
+
+        main#reference-sheet #Elements li#numeric1 {
+          margin-top: -2.5em !important;
+          margin-left: 0;
+          padding-left: 1.1em;
+        }
+
+        main#reference-sheet #Elements li#numeric18 {
+          margin-top: -2.5em !important;
+          margin-left: 0;
+          padding-left: 0.7em;
+        }
+
+        main#reference-sheet #Elements li:is(#numeric10, #numeric11, #numeric12, #numeric13, #numeric14, #numeric15, #numeric16, #numeric17) {
+          margin-left: -4px;
+        }
+
+        main#reference-sheet #Elements li:is(#numeric2, #numeric3, #numeric4, #numeric5, #numeric6, #numeric7, #numeric8, #numeric9) {
+          margin-left: 7px;
+        }
+
+        main#reference-sheet .Numeric {
+          font-size: 19px;
+          height: min-content;
+          margin-top: 16px;
+          outline: none !important;
+          pointer-events: none;
+          width: min-content;
+          color: #6b6b6b;
+        }
+
+        main#reference-sheet .Numeric div {
+          transform: rotate(0deg);
+          /* height: fit-content; */
+        }
+
+        main#reference-sheet li.row1 {
+          grid-row: 1 / 2;
+          -ms-grid-row: 1;
+        }
+
+        main#reference-sheet li.row2 {
+          grid-row: 2 / 3;
+          -ms-grid-row: 2;
+        }
+
+        main#reference-sheet li.row3 {
+          grid-row: 3 / 4;
+          -ms-grid-row: 3;
+        }
+
+        main#reference-sheet li.row4 {
+          grid-row: 4 / 5;
+          -ms-grid-row: 4;
+        }
+
+        main#reference-sheet li.row5 {
+          grid-row: 5 / 6;
+          -ms-grid-row: 5;
+        }
+
+        main#reference-sheet li.row6 {
+          grid-row: 6 / 7;
+          -ms-grid-row: 6;
+        }
+
+        main#reference-sheet li.row7 {
+          grid-row: 7 / 8;
+          -ms-grid-row: 7;
+          height: 7.223em;
+        }
+
+        main#reference-sheet li.row8 {
+          grid-row: 8 / 9;
+          -ms-grid-row: 8;
+        }
+
+        main#reference-sheet li.row9 {
+          grid-row: 9 / 10;
+          -ms-grid-row: 9;
+        }
+
+        main#reference-sheet li.row10 {
+          grid-row: 10 / 11;
+          -ms-grid-row: 10;
+        }
+
+        main#reference-sheet #Actinoids {
+          grid-column: 0;
+          grid-row: 10;
+        }
+
+        main#reference-sheet #Lanthanoids {
+          grid-column: 0;
+          grid-row: 9;
+        }
+
+        main#reference-sheet li.chem-label {
+          outline: none !important;
+          padding: 0 !important;
+          pointer-events: none;
+          width: 16em !important;
+        }
+
+        main#reference-sheet li.chem-label div {
+          margin-top: 2.5em;
+          transform: rotate(0deg);
+          width: 14em;
+          text-align: right;
+        }
+
+        main#reference-sheet li.col1 {
+          grid-column: 1 / 2;
+          -ms-grid-column: 1;
+        }
+
+        main#reference-sheet li.col2 {
+          grid-column: 2 / 3;
+          -ms-grid-column: 2;
+        }
+
+        main#reference-sheet li.col3 {
+          grid-column: 3 / 4;
+          -ms-grid-column: 3;
+        }
+
+        main#reference-sheet li.col4 {
+          grid-column: 4 / 5;
+          -ms-grid-column: 4;
+        }
+
+        main#reference-sheet li.col5 {
+          grid-column: 5 / 6;
+          -ms-grid-column: 5;
+        }
+
+        main#reference-sheet li.col6 {
+          grid-column: 6 / 7;
+          -ms-grid-column: 6;
+        }
+
+        main#reference-sheet li.col7 {
+          grid-column: 7 / 8;
+          -ms-grid-column: 7;
+        }
+
+        main#reference-sheet li.col8 {
+          grid-column: 8 / 9;
+          -ms-grid-column: 8;
+        }
+
+        main#reference-sheet li.col9 {
+          grid-column: 9 / 10;
+          -ms-grid-column: 9;
+        }
+
+        main#reference-sheet li.col10 {
+          grid-column: 10 / 11;
+          -ms-grid-column: 10;
+        }
+
+        main#reference-sheet li.col11 {
+          grid-column: 11 / 12;
+          -ms-grid-column: 11;
+        }
+
+        main#reference-sheet li.col12 {
+          grid-column: 12 / 13;
+          -ms-grid-column: 12;
+        }
+
+        main#reference-sheet li.col13 {
+          grid-column: 13 / 14;
+          -ms-grid-column: 13;
+        }
+
+        main#reference-sheet li.col14 {
+          grid-column: 14 / 15;
+          -ms-grid-column: 14;
+        }
+
+        main#reference-sheet li.col15 {
+          grid-column: 15 / 16;
+          -ms-grid-column: 15;
+        }
+
+        main#reference-sheet li.col16 {
+          grid-column: 16 / 17;
+          -ms-grid-column: 16;
+        }
+
+        main#reference-sheet li.col17 {
+          grid-column: 17 / 18;
+          -ms-grid-column: 17;
+        }
+
+        main#reference-sheet li.col18 {
+          grid-column: 18 / 19;
+          -ms-grid-column: 18;
+        }
+
+        main#reference-sheet #Elements li.col1:hover {
+          transform-origin: left;
+        }
+
+        main#reference-sheet #Elements li.col18:hover {
+          transform-origin: right;
+        }
+
+        /* Merge with above when :focus-within is supported */
+        main#reference-sheet #Elements li.col1:focus-within {
+          transform-origin: left;
+        }
+
+        main#reference-sheet #Elements li.col18:focus-within {
+          transform-origin: right;
+        }
+      }
+
+      /* Dialog */
+
+      main#reference-sheet #Overlay {
+        position: absolute;
+        z-index: 150;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, .75);
+        display: none;
+        backdrop-filter: blur(.1em);
+        /* Maybe no */
+      }
+
+      main#reference-sheet [role="dialog"] {
+        position: absolute;
+        z-index: 200;
+        top: 10vh;
+        bottom: 10vh;
+        left: 10vw;
+        right: 10vw;
+        max-width: 36rem;
+        margin-left: auto;
+        margin-right: auto;
+        overflow: hidden;
+        box-shadow: 0 0 2em rgba(0, 0, 0, .5);
+        border: .1em solid #000;
+        background: #fefefe;
+        padding: 0;
+        visibility: visible;
+        transition: transform .1s ease-in, opacity .2s ease-in;
+      }
+
+      main#reference-sheet [role="dialog"][hidden] {
+        display: block;
+        visibility: hidden;
+        transform: scale(.5);
+        opacity: .6;
+      }
+
+      main#reference-sheet [role="dialog"] h2 {
+        margin: 0;
+        padding: .5rem 1.25rem;
+        background: #333;
+        color: #fefefe;
+      }
+
+      main#reference-sheet [role="dialog"] button {
+        float: right;
+        margin: -2rem 1.25rem 0 0;
+        padding: 0;
+        text-indent: 5em;
+        line-height: 0;
+        font: inherit;
+        background: transparent;
+        border: none;
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        overflow: hidden;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0a50 50 0 1 0 0 100A50 50 0 0 0 50 0zm26.6 76.6a37.5 37.5 0 0 1-53.2 0 37.5 37.5 0 0 1 0-53.2 37.5 37.5 0 0 1 53.2 0 37.5 37.5 0 0 1 0 53.2zm-7.3-45.9a6.6 6.6 0 0 0-9.3 0l-10 10-10-10a6.6 6.6 0 0 0-9.3 9.3l10 10-10 10a6.6 6.6 0 1 0 9.3 9.3l10-10 10 10a6.6 6.6 0 0 0 9.3 0 6.6 6.6 0 0 0 0-9.3l-10-10 10-10a6.6 6.6 0 0 0 0-9.3z' fill='%23fff'/%3E%3C/svg%3E");
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: 50%;
+      }
+
+      main#reference-sheet [role="dialog"] button:focus,
+      main#reference-sheet [role="dialog"] button:hover {
+        outline: .2em solid transparent;
+        background: #fff;
+        background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0a50 50 0 1 0 0 100A50 50 0 0 0 50 0zm26.6 76.6a37.5 37.5 0 0 1-53.2 0 37.5 37.5 0 0 1 0-53.2 37.5 37.5 0 0 1 53.2 0 37.5 37.5 0 0 1 0 53.2zm-7.3-45.9a6.6 6.6 0 0 0-9.3 0l-10 10-10-10a6.6 6.6 0 0 0-9.3 9.3l10 10-10 10a6.6 6.6 0 1 0 9.3 9.3l10-10 10 10a6.6 6.6 0 0 0 9.3 0 6.6 6.6 0 0 0 0-9.3l-10-10 10-10a6.6 6.6 0 0 0 0-9.3z' fill='%23000'/%3E%3C/svg%3E");
+        box-shadow: 0 0 .5em rgba(255, 255, 255, 1);
+      }
+
+      main#reference-sheet [role="dialog"] div[role=document] {
+        /*  Need this because of a VoiceOver bug  */
+        display: inline;
+      }
+
+      main#reference-sheet [role="dialog"] div[role=document] div {
+        box-sizing: border-box;
+        height: calc(100% - 3rem);
+        overflow: auto;
+        padding: .5rem 1.25rem;
+      }
+
+      @media (min-width: 30em) {
+        main#reference-sheet [role="dialog"] dl {
+          margin: 1em 2rem;
+          column-count: 2;
+          column-gap: 4rem;
+        }
+      }
+
+      /* Reduced motion */
+      @media screen and (prefers-reduced-motion: reduce) {
+
+        main#reference-sheet #Elements li,
+        main#reference-sheet [role="dialog"] {
+          transition: none;
+        }
+      }
+
+      /* Windows High Contrast Mode Support */
+      @media screen and (-ms-high-contrast: active) {
+
+        main#reference-sheet #Elements li button:focus,
+        main#reference-sheet #Elements li button:hover {
+          outline: 1px windowText dotted;
+          background-color: windowText;
+        }
+      }
+
+      @media screen and (-ms-high-contrast: white-on-black) {
+        main#reference-sheet #Elements li button {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M71.77069 61.87311a36.53064 36.53064 0 1 0-9.89917 9.89868l21.1792 21.17792a6.9996 6.9996 0 1 0 9.89844-9.89942zM41.49994 64a22.5 22.5 0 1 1 22.5-22.5 22.52554 22.52554 0 0 1-22.5 22.5z' fill='%23fff'/%3E%3C/svg%3E");
+        }
+
+        main#reference-sheet #Elements li button:focus,
+        main#reference-sheet #Elements li button:hover {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M71.77069 61.87311a36.53064 36.53064 0 1 0-9.89917 9.89868l21.1792 21.17792a6.9996 6.9996 0 1 0 9.89844-9.89942zM41.49994 64a22.5 22.5 0 1 1 22.5-22.5 22.52554 22.52554 0 0 1-22.5 22.5z' fill='%23000'/%3E%3C/svg%3E");
+        }
+
+        main#reference-sheet [role="dialog"] button,
+        main#reference-sheet [role="dialog"] button:focus,
+        main#reference-sheet [role="dialog"] button:hover {
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M50 0a50 50 0 1 0 0 100A50 50 0 0 0 50 0zm26.6 76.6a37.5 37.5 0 0 1-53.2 0 37.5 37.5 0 0 1 0-53.2 37.5 37.5 0 0 1 53.2 0 37.5 37.5 0 0 1 0 53.2zm-7.3-45.9a6.6 6.6 0 0 0-9.3 0l-10 10-10-10a6.6 6.6 0 0 0-9.3 9.3l10 10-10 10a6.6 6.6 0 1 0 9.3 9.3l10-10 10 10a6.6 6.6 0 0 0 9.3 0 6.6 6.6 0 0 0 0-9.3l-10-10 10-10a6.6 6.6 0 0 0 0-9.3z' fill='%23fff'/%3E%3C/svg%3E");
+        }
+      }
+
+      @media print {
+        main#reference-sheet #PeriodicTable {
+          background-color: #fff;
+          color: #000;
+          font-size: 8pt;
+        }
+
+        main#reference-sheet a:link,
+        main#reference-sheet a:visited,
+        main#reference-sheet footer a:link,
+        main#reference-sheet footer a:visited {
+          color: #000;
+        }
+
+        main#reference-sheet #Elements li button {
+          display: none;
+        }
+
+        main#reference-sheet #Elements ol {
+          font-size: .7vw;
+        }
+      }
+
+      @media print and (orientation: landscape) {
+        main#reference-sheet #Elements ol {
+          font-size: .63vw;
+        }
+
+        main#reference-sheet #Elements+h2 {
+          page-break-before: always;
+        }
+      }
+    </style>
+    <script type="text/javascript" id="apricot-setup-scripts">
+      try {
+        // for A11Y
+        window.cb.apricot.CBInputMethod();
+
+        const utils = cb.apricot.CBUtils;
+
+        if (/(CrOS)/.test(navigator.userAgent)) {
+          document.getElementById('reference-sheet-accordion').classList.add('chrome-os-scroll');
+        }
+
+        const customA11yScrollbar = (elem) => {
+          let resizeTimeout = null;
+          let tbl = null;
+          const init = () => {
+            elem.customScroll = 'cb';
+
+            tbl = elem.querySelector('table');
+            adjustScrollBar();
+            window.addEventListener("resize", resizeThrottler, false);
+          };
+
+          const adjustScrollBar = () => {
+            tbl = elem.querySelector('table');
+            const pw = utils.outerWidth(elem);
+
+            const tw = utils.outerWidth(tbl);
+
+            if (tw > pw) {
+              if (elem.customScrollAccordion === undefined || elem.customScrollAccordion === 'open') {
+                utils.attr(elem, 'role', 'region');
+                utils.attr(elem, 'aria-label', 'scrolling table');
+                utils.attr(elem, 'tabindex', '0');
+                utils.attr(elem, 'aria-hidden', "false");
+              }
+            } else {
+              utils.removeAttr(elem, 'tabindex');
+              utils.removeAttr(elem, 'aria-hidden');
+              utils.removeAttr(elem, 'aria-label');
+              utils.removeAttr(elem, 'role');
+            }
+          };
+
+          const resizeThrottler = () => {
+            if (!resizeTimeout) {
+              resizeTimeout = setTimeout(function () {
+                resizeTimeout = null;
+                adjustScrollBar();
+              }, 500);
+            }
+          };
+
+          if (elem.customScroll !== 'cb') {
+            init();
+          }
+
+          return {
+            adjustScrollBar: adjustScrollBar
+          };
+
+        };
+        // initialize custom accesible scroll
+        document.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+          customA11yScrollbar(node);
+        });
+
+        const panelStateHasChanged = (panel) => {
+          if (panel) {
+            if (utils.hasClass(panel, 'cb-in')) {
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+                const scrollObj = customA11yScrollbar(node);
+                node.customScrollAccordion = 'open';
+                scrollObj.adjustScrollBar();
+              });
+            } else {
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+                node.customScrollAccordion = 'closed';
+              });
+            }
+          }
+        };
+
+        try {
+          const responsiveUpdate = () => {
+            // on zoom event, if the accordionian is open, adjust the scrollbar
+            document.querySelectorAll('.ap-custom-scroll').forEach((node) => {
+              const scrollObj = customA11yScrollbar(node);
+              if (node.customScrollAccordion === 'open') {
+                scrollObj.adjustScrollBar();
+              }
+            });
+
+          };
+          var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutationRecord) {
+              responsiveUpdate();
+            });
+          });
+
+          var target = document.getElementsByTagName('html');
+          observer.observe(target[0], { attributes: true, attributeFilter: ['style'] });
+          responsiveUpdate();
+
+        } catch (e) {
+          console.log('Reference Sheet Error: ', e);
+        }
+
+        // activate tabs
+        try {
+          cb.apricot.CBTab({
+            elem: document.querySelector('.cb-tabs-menu')
+          });
+        } catch (e) {
+          console.log('Reference Sheet Error: ', e);
+        }
+
+        // activate accordions
+        try {
+          document.querySelectorAll('.cb-accordion').forEach((node) => {
+            cb.apricot.CBAccordion({
+              elem: node,
+              callBack: panelStateHasChanged,
+              extendFocusableElements: [".MathJax"]
+            });
+          });
+        } catch (e) {
+          console.log('Reference Sheet Error: ', e);
+        }
+
+      } catch (e) {
+        console.log('Reference Sheet Error: ', e);
+      }
+    </script>
+  </body>
+
+</html>
