@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.1",
+    "@astrojs/vercel": "^11.0.10",
     "astro": "^7.3.3",
     "locomotive-scroll": "^5.0.1",
     "rehype-katex": "^7.0.1",
