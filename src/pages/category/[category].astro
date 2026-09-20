@@ -2,8 +2,10 @@
 import Layout from '../../layouts/Layout.astro';
 import BlogNav from '../../components/BlogNav.astro';
 import PostCard from '../../components/PostCard.astro';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
 import { getCollection } from 'astro:content';
-
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
   const uniqueCategories = [...new Set(allPosts.map((post) => post.data.category).flat().filter(Boolean))];
@@ -23,12 +25,14 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
   <main class="page-shell">
     <BlogNav currentCategory={category} />
     <section>
-      <a href="/category" class="back-link">Back to categories</a>
-      <div class="category-heading editorial-frame">
+      <Button variant="ghost" asChild className="p-0 h-auto back-link">
+        <a href="/category">Back to categories</a>
+      </Button>
+      <Card className="category-heading editorial-frame rounded-none border-0 shadow-none">
         <span class="axis-label">Category route</span>
         <h1>{category}</h1>
-        <span class="count-badge">{posts.length} records</span>
-      </div>
+        <Badge variant="default" className="count-badge rounded-none">{posts.length} records</Badge>
+      </Card>
       <div class="post-grid">
         {sortedPosts.map((post) => <PostCard post={post} />)}
       </div>

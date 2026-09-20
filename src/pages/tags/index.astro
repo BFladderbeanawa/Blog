@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import BlogNav from '../../components/BlogNav.astro';
 import PostCard from '../../components/PostCard.astro';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
@@ -18,20 +21,20 @@ const tagCounts = tags.reduce((acc, tag) => {
     <BlogNav />
     <section class="tag-explorer">
       <h1 class="page-title">Tag Filter</h1>
-      <div class="tag-controls">
+      <Card className="tag-controls rounded-none border-0 shadow-none">
         <div class="tag-filter-header">
           <span class="axis-label">Multi-select tags</span>
-          <button id="clear-tags" class="clear-btn" style="display: none;">Clear</button>
+          <Button id="clear-tags" variant="ghost" size="sm" className="clear-btn" style={{ display: 'none' }}>Clear</Button>
         </div>
         <div class="tag-cloud-selector">
           {tags.map((tag) => (
-            <button class="tag-toggle-btn" data-tag={tag} aria-pressed="false">
+            <Button variant="outline" size="sm" className="tag-toggle-btn" data-tag={tag} aria-pressed="false">
               <span class="tag-name">#{tag}</span>
-              <span class="tag-count">{tagCounts[tag]}</span>
-            </button>
+              <Badge variant="secondary" className="tag-count rounded-none">{tagCounts[tag]}</Badge>
+            </Button>
           ))}
         </div>
-      </div>
+      </Card>
 
       <div class="results-header">
         <h2 id="results-count">All records</h2>
