@@ -1,19 +1,22 @@
 ---
 import { Image } from 'astro:assets';
 import avatar from '../assets/avatar.png';
+import { Card } from '@/components/ui/card';
+import { AuthorAvatar } from './AuthorAvatar';
+import { Button } from '@/components/ui/button';
 ---
 
-<div class="author-bio">
-  <div class="avatar">
-    <Image src={avatar} alt="BF" />
-  </div>
+<Card className="author-bio">
+  <AuthorAvatar client:load src={avatar.src} alt="BF" className="avatar rounded-none border-0 size-auto" />
   <div class="bio-content">
     <span class="axis-label">Author note</span>
     <h3>BFladderbean</h3>
     <p>Front-end developer, learner, and collector of technical field notes.</p>
-    <a href="/about">Read the identity note</a>
+    <Button variant="link" asChild className="p-0 h-auto">
+      <a href="/about">Read the identity note</a>
+    </Button>
   </div>
-</div>
+</Card>
 
 <style>
   .author-bio {
