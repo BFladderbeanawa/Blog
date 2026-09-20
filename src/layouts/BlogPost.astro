@@ -2,6 +2,10 @@
 import Layout from './Layout.astro';
 import Author from '../components/Author.astro';
 import BlogNav from '../components/BlogNav.astro';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { ArrowLeft } from 'lucide-react';
 import { getCollection } from 'astro:content';
 
 const { title, description, pubDate, updatedDate, heroImage, tags, category } = Astro.props;
@@ -29,34 +33,51 @@ const simplePosts = allPosts.map((p) => ({
         </figure>
       )}
 
-      <header class="post-header editorial-frame">
+      <Card className="post-header editorial-frame rounded-none border-0 shadow-none">
         <div class="post-date">
           {pubDate && <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })}</time>}
           {updatedDate && <span>Updated {updatedDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>}
         </div>
         <h1>{title}</h1>
         <div id="back-nav" class="back-nav" style="display: none;">
-          <a href="#" class="back-link">Back to archive</a>
+          <Button variant="ghost" asChild className="p-0 h-auto back-link gap-1.5 inline-flex">
+            <a href="#">
+              <ArrowLeft className="size-3.5" />
+              <span>Back to archive</span>
+            </a>
+          </Button>
         </div>
         <div class="taxon-row">
-          {category && <a class="taxon" href={`/category/${category}/`}>{category}</a>}
-          {tags && tags.map((tag) => <a class="taxon" href={`/tags?tags=${tag}`}>#{tag}</a>)}
+          {category && (
+            <Badge variant="outline" asChild className="taxon rounded-none">
+              <a href={`/category/${category}/`}>{category}</a>
+            </Badge>
+          )}
+          {tags && tags.map((tag: string) => (
+            <Badge variant="outline" asChild className="taxon rounded-none">
+              <a href={`/tags?tags=${tag}`}>#{tag}</a>
+            </Badge>
+          ))}
         </div>
-      </header>
+      </Card>
 
       <div class="prose">
         <slot />
         <Author />
 
         <nav class="post-navigation" id="post-nav" style="display: none;">
-          <a href="#" id="prev-post" class="nav-item prev">
-            <span class="label">Newer</span>
-            <span class="nav-title"></span>
-          </a>
-          <a href="#" id="next-post" class="nav-item next">
-            <span class="label">Older</span>
-            <span class="nav-title"></span>
-          </a>
+          <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+            <a href="#" id="prev-post" class="nav-item prev">
+              <span class="label">Newer</span>
+              <span class="nav-title"></span>
+            </a>
+          </Card>
+          <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+            <a href="#" id="next-post" class="nav-item next">
+              <span class="label">Older</span>
+              <span class="nav-title"></span>
+            </a>
+          </Card>
         </nav>
       </div>
     </article>
