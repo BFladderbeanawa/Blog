@@ -85,9 +85,10 @@ const tagCounts = tags.reduce((acc, tag) => {
       if (clearBtn) clearBtn.style.display = activeTags.size > 0 ? 'inline-block' : 'none';
 
       let visibleCount = 0;
+      const activeTagsList = Array.from(activeTags);
       postItems.forEach((item) => {
-        const itemTags = JSON.parse(item.getAttribute('data-tags') || '[]');
-        const matches = activeTags.size === 0 || Array.from(activeTags).every((t) => itemTags.includes(t));
+        const itemTagSet = new Set(JSON.parse(item.getAttribute('data-tags') || '[]'));
+        const matches = activeTags.size === 0 || activeTagsList.every((t) => itemTagSet.has(t));
         item.style.display = matches ? 'block' : 'none';
         if (matches) visibleCount++;
 

@@ -93,8 +93,8 @@ const simplePosts = allPosts.map((p) => ({
     if (navContext.type === 'category' && navContext.data) {
       relevantPosts = simplePosts.filter((p) => p.category === navContext.data);
     } else if (navContext.type === 'tags' && navContext.data) {
-      const filterTags = navContext.data.split(',');
-      relevantPosts = simplePosts.filter((p) => p.tags.some((t) => filterTags.includes(t)));
+      const filterTags = new Set(navContext.data.split(','));
+      relevantPosts = simplePosts.filter((p) => p.tags.some((t) => filterTags.has(t)));
     }
 
     const path = window.location.pathname;

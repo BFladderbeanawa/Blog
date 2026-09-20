@@ -7,7 +7,8 @@ import featuredSlugs from '../featured-posts.json';
 const allPosts = await getCollection('blog');
 const normalizeSlug = (slug: string) => slug.toLowerCase().replace(/\s+/g, '-');
 const normalizedFeatured = featuredSlugs.map(normalizeSlug);
-let featuredPosts = allPosts.filter((post) => normalizedFeatured.includes(normalizeSlug(post.id)));
+const featuredSlugSet = new Set(normalizedFeatured);
+let featuredPosts = allPosts.filter((post) => featuredSlugSet.has(normalizeSlug(post.id)));
 featuredPosts.sort((a, b) => normalizedFeatured.indexOf(normalizeSlug(a.id)) - normalizedFeatured.indexOf(normalizeSlug(b.id)));
 
 if (featuredPosts.length === 0) {
