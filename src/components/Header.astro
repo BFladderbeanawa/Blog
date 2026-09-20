@@ -1,4 +1,7 @@
 ---
+import { Button } from '@/components/ui/button';
+import { Search } from 'lucide-react';
+
 const { pathname } = Astro.url;
 const isActive = (path: string) => {
   if (path === '/') return pathname === '/';
@@ -17,16 +20,26 @@ const isActive = (path: string) => {
     </a>
 
     <div class="internal-links">
-      <a href="/" class={isActive('/') ? 'active' : ''}>Home</a>
-      <a href="/start-here" class={isActive('/start-here') ? 'active' : ''}>Start</a>
-      <a href="/blog" class={isActive('/blog') ? 'active' : ''}>Archive</a>
-      <a href="/about" class={isActive('/about') ? 'active' : ''}>About</a>
+      <Button variant="ghost" asChild className="rounded-none border-0 shadow-none p-0 h-auto">
+        <a href="/" class={isActive('/') ? 'active' : ''}>Home</a>
+      </Button>
+      <Button variant="ghost" asChild className="rounded-none border-0 shadow-none p-0 h-auto">
+        <a href="/start-here" class={isActive('/start-here') ? 'active' : ''}>Start</a>
+      </Button>
+      <Button variant="ghost" asChild className="rounded-none border-0 shadow-none p-0 h-auto">
+        <a href="/blog" class={isActive('/blog') ? 'active' : ''}>Archive</a>
+      </Button>
+      <Button variant="ghost" asChild className="rounded-none border-0 shadow-none p-0 h-auto">
+        <a href="/about" class={isActive('/about') ? 'active' : ''}>About</a>
+      </Button>
     </div>
 
-    <a class="search-link" href="/search" aria-label="Search">
-      <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
-      <span>Search</span>
-    </a>
+    <Button variant="ghost" asChild className="rounded-none border-0 shadow-none p-0 h-auto search-button-wrapper">
+      <a class="search-link" href="/search" aria-label="Search">
+        <Search className="size-[19px]" />
+        <span>Search</span>
+      </a>
+    </Button>
   </nav>
 </header>
 
