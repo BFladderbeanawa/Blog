@@ -39,7 +39,7 @@ import Layout from '../layouts/Layout.astro';
 
     searchResults.innerHTML = filtered.map((post) => `
       <li>
-        <a href="/blog/${post.slug}">
+        <a href="/blog/${post.slug || post.id}/">
           <h3>${post.title}</h3>
           <p>${post.description}</p>
         </a>

@@ -7,7 +7,8 @@ export async function GET() {
     posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
-      slug: post.slug,
+      slug: post.id,
+      id: post.id,
       tags: post.data.tags,
     })),
   )
