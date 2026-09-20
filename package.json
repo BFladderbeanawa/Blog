@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.6.2",
+    "react-doctor": "^0.9.14",
     "typescript": "^7.0.2",
     "vite": "catalog:",
     "vite-plus": "catalog:"
