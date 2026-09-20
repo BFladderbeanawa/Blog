@@ -1,6 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { getCollection } from 'astro:content';
 import featuredSlugs from '../featured-posts.json';
 
@@ -22,13 +24,13 @@ const categories = [...new Set(allPosts.map((post) => post.data.category).filter
 
 <Layout title="Start Here" description="A reading guide for new visitors">
   <main class="page-shell start-page">
-    <section class="start-hero editorial-frame">
+    <Card className="start-hero editorial-frame rounded-none border-0 shadow-none">
       <span class="axis-label">Start here / orientation</span>
       <h1>Choose a path through the archive.</h1>
       <p>
         This site is less a linear blog and more a working desk. Begin with a category, follow a suggested route, or jump straight into recent records.
       </p>
-    </section>
+    </Card>
 
     <section>
       <div class="section-rail">
@@ -36,8 +38,14 @@ const categories = [...new Set(allPosts.map((post) => post.data.category).filter
         <span class="axis-label">Topic gates</span>
       </div>
       <div class="category-cloud">
-        {categories.map((cat) => <a href={`/category/${cat}`} class="cat-pill">{cat}</a>)}
-        <a href="/category" class="cat-pill more">All categories</a>
+        {categories.map((cat) => (
+          <Badge variant="outline" asChild className="cat-pill rounded-none">
+            <a href={`/category/${cat}`}>{cat}</a>
+          </Badge>
+        ))}
+        <Badge variant="outline" asChild className="cat-pill more rounded-none">
+          <a href="/category">All categories</a>
+        </Badge>
       </div>
     </section>
 
@@ -47,21 +55,27 @@ const categories = [...new Set(allPosts.map((post) => post.data.category).filter
         <span class="axis-label">Recommended route</span>
       </div>
       <div class="roadmap-grid">
-        <a class="roadmap-card" href="/about">
-          <span class="step-number">01</span>
-          <h3>Meet the author</h3>
-          <p>Understand the person behind the notes before diving into the archive.</p>
-        </a>
-        <a class="roadmap-card" href="/blog">
-          <span class="step-number">02</span>
-          <h3>Open the archive</h3>
-          <p>Scan the whole record, then switch between expanded and compact reading modes.</p>
-        </a>
-        <a class="roadmap-card" href="/tags">
-          <span class="step-number">03</span>
-          <h3>Filter by tags</h3>
-          <p>Use tags as cross-wires between math, code, philosophy, and daily fragments.</p>
-        </a>
+        <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+          <a class="roadmap-card" href="/about">
+            <span class="step-number">01</span>
+            <h3>Meet the author</h3>
+            <p>Understand the person behind the notes before diving into the archive.</p>
+          </a>
+        </Card>
+        <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+          <a class="roadmap-card" href="/blog">
+            <span class="step-number">02</span>
+            <h3>Open the archive</h3>
+            <p>Scan the whole record, then switch between expanded and compact reading modes.</p>
+          </a>
+        </Card>
+        <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+          <a class="roadmap-card" href="/tags">
+            <span class="step-number">03</span>
+            <h3>Filter by tags</h3>
+            <p>Use tags as cross-wires between math, code, philosophy, and daily fragments.</p>
+          </a>
+        </Card>
       </div>
     </section>
 

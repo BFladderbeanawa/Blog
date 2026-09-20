@@ -2,6 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
 import VisitorWidgets from '../components/VisitorWidgets.astro';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
@@ -12,20 +14,20 @@ const latestPosts = posts.slice(0, 3);
 
 <Layout>
   <main class="home-page page-shell">
-    <section class="hero-panel editorial-frame">
+    <Card className="hero-panel editorial-frame rounded-none border-0 shadow-none">
       <div class="hero-copy">
-        <span class="axis-label">Personal archive / 00-Home</span>
+        <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">Personal archive / 00-Home</Badge>
         <h1>Notes for things that refuse to stay tidy.</h1>
         <p>
           A digital garden for code, mathematics, philosophy, stray tools, and the little systems that make thinking easier to revisit.
         </p>
       </div>
-      <div class="hero-card">
-        <span class="card-kicker">Current Mode</span>
+      <Card className="hero-card rounded-none shadow-none">
+        <Badge variant="outline" className="card-kicker rounded-none w-fit border-0 p-0">Current Mode</Badge>
         <strong>Field Notes</strong>
         <p>Drafted in public, revised in motion, indexed for future wandering.</p>
-      </div>
-    </section>
+      </Card>
+    </Card>
 
     <section class="latest-section">
       <div class="section-rail">
@@ -38,18 +40,21 @@ const latestPosts = posts.slice(0, 3);
     </section>
 
     <section class="route-section">
-      <a href="/start-here" class="route-card accent-band">
-        <span class="axis-label">First visit</span>
-        <strong>Start with the map</strong>
-        <span>Reading guide</span>
-      </a>
-      <a href="/blog" class="route-card">
-        <span class="axis-label">Archive</span>
-        <strong>Open all records</strong>
-        <span>Browse posts</span>
-      </a>
+      <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+        <a href="/start-here" class="route-card accent-band">
+          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">First visit</Badge>
+          <strong>Start with the map</strong>
+          <span>Reading guide</span>
+        </a>
+      </Card>
+      <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+        <a href="/blog" class="route-card">
+          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">Archive</Badge>
+          <strong>Open all records</strong>
+          <span>Browse posts</span>
+        </a>
+      </Card>
     </section>
-
     <section class="stats-section">
       <div class="section-rail">
         <span class="rail-node"></span>
