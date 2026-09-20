@@ -1,7 +1,7 @@
-// src/pages/search.json.js
+import type { APIRoute } from "astro"
 import { getCollection } from "astro:content"
 
-export async function GET() {
+export const GET: APIRoute = async () => {
   const posts = await getCollection("blog")
   const body = JSON.stringify(
     posts.map((post) => ({

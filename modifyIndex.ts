@@ -1,4 +1,5 @@
-﻿const fs = require("fs")
+import fs from "node:fs"
+
 let index = fs.readFileSync("src/pages/index.astro", "utf8")
 
 // Replace "tanh \ 桁 +" with something more personal/blog-like

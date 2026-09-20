@@ -58,7 +58,7 @@
 │   │   ├── start-here.astro # 指引页
 │   │   └── ...
 │   └── featured-posts.json # [配置] 首页/指引页的精选文章列表
-├── astro.config.mjs     # Astro 配置文件
+├── astro.config.ts      # Astro 配置文件
 └── package.json
 ```
 
