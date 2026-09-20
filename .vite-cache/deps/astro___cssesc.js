@@ -1,96 +1,100 @@
-import {
-  __commonJS
-} from "./chunk-BUSYA2B4.js";
+import { __commonJS } from "./chunk-BUSYA2B4.js"
 
 // node_modules/cssesc/cssesc.js
 var require_cssesc = __commonJS({
   "node_modules/cssesc/cssesc.js"(exports, module) {
-    var object = {};
-    var hasOwnProperty = object.hasOwnProperty;
+    var object = {}
+    var hasOwnProperty = object.hasOwnProperty
     var merge = function merge2(options, defaults) {
       if (!options) {
-        return defaults;
+        return defaults
       }
-      var result = {};
+      var result = {}
       for (var key in defaults) {
-        result[key] = hasOwnProperty.call(options, key) ? options[key] : defaults[key];
+        result[key] = hasOwnProperty.call(options, key) ? options[key] : defaults[key]
       }
-      return result;
-    };
-    var regexAnySingleEscape = /[ -,\.\/:-@\[-\^`\{-~]/;
-    var regexSingleEscape = /[ -,\.\/:-@\[\]\^`\{-~]/;
-    var regexExcessiveSpaces = /(^|\\+)?(\\[A-F0-9]{1,6})\x20(?![a-fA-F0-9\x20])/g;
+      return result
+    }
+    var regexAnySingleEscape = /[ -,./:-@[-^`{-~]/
+    var regexSingleEscape = /[ -,./:-@[\]^`{-~]/
+    var regexExcessiveSpaces = /(^|\\+)?(\\[A-F0-9]{1,6})\x20(?![a-fA-F0-9\x20])/g
     var cssesc = function cssesc2(string, options) {
-      options = merge(options, cssesc2.options);
+      options = merge(options, cssesc2.options)
       if (options.quotes != "single" && options.quotes != "double") {
-        options.quotes = "single";
+        options.quotes = "single"
       }
-      var quote = options.quotes == "double" ? '"' : "'";
-      var isIdentifier = options.isIdentifier;
-      var firstChar = string.charAt(0);
-      var output = "";
-      var counter = 0;
-      var length = string.length;
+      var quote = options.quotes == "double" ? '"' : "'"
+      var isIdentifier = options.isIdentifier
+      var firstChar = string.charAt(0)
+      var output = ""
+      var counter = 0
+      var length = string.length
       while (counter < length) {
-        var character = string.charAt(counter++);
-        var codePoint = character.charCodeAt();
-        var value = void 0;
+        var character = string.charAt(counter++)
+        var codePoint = character.charCodeAt()
+        var value = void 0
         if (codePoint < 32 || codePoint > 126) {
           if (codePoint >= 55296 && codePoint <= 56319 && counter < length) {
-            var extra = string.charCodeAt(counter++);
+            var extra = string.charCodeAt(counter++)
             if ((extra & 64512) == 56320) {
-              codePoint = ((codePoint & 1023) << 10) + (extra & 1023) + 65536;
+              codePoint = ((codePoint & 1023) << 10) + (extra & 1023) + 65536
             } else {
-              counter--;
+              counter--
             }
           }
-          value = "\\" + codePoint.toString(16).toUpperCase() + " ";
+          value = "\\" + codePoint.toString(16).toUpperCase() + " "
         } else {
           if (options.escapeEverything) {
             if (regexAnySingleEscape.test(character)) {
-              value = "\\" + character;
+              value = "\\" + character
             } else {
-              value = "\\" + codePoint.toString(16).toUpperCase() + " ";
+              value = "\\" + codePoint.toString(16).toUpperCase() + " "
             }
           } else if (/[\t\n\f\r\x0B]/.test(character)) {
-            value = "\\" + codePoint.toString(16).toUpperCase() + " ";
-          } else if (character == "\\" || !isIdentifier && (character == '"' && quote == character || character == "'" && quote == character) || isIdentifier && regexSingleEscape.test(character)) {
-            value = "\\" + character;
+            value = "\\" + codePoint.toString(16).toUpperCase() + " "
+          } else if (
+            character == "\\" ||
+            (!isIdentifier &&
+              ((character == '"' && quote == character) ||
+                (character == "'" && quote == character))) ||
+            (isIdentifier && regexSingleEscape.test(character))
+          ) {
+            value = "\\" + character
           } else {
-            value = character;
+            value = character
           }
         }
-        output += value;
+        output += value
       }
       if (isIdentifier) {
         if (/^-[-\d]/.test(output)) {
-          output = "\\-" + output.slice(1);
+          output = "\\-" + output.slice(1)
         } else if (/\d/.test(firstChar)) {
-          output = "\\3" + firstChar + " " + output.slice(1);
+          output = "\\3" + firstChar + " " + output.slice(1)
         }
       }
-      output = output.replace(regexExcessiveSpaces, function($0, $1, $2) {
+      output = output.replace(regexExcessiveSpaces, function ($0, $1, $2) {
         if ($1 && $1.length % 2) {
-          return $0;
+          return $0
         }
-        return ($1 || "") + $2;
-      });
+        return ($1 || "") + $2
+      })
       if (!isIdentifier && options.wrap) {
-        return quote + output + quote;
+        return quote + output + quote
       }
-      return output;
-    };
+      return output
+    }
     cssesc.options = {
-      "escapeEverything": false,
-      "isIdentifier": false,
-      "quotes": "single",
-      "wrap": false
-    };
-    cssesc.version = "3.0.0";
-    module.exports = cssesc;
-  }
-});
-export default require_cssesc();
+      escapeEverything: false,
+      isIdentifier: false,
+      quotes: "single",
+      wrap: false,
+    }
+    cssesc.version = "3.0.0"
+    module.exports = cssesc
+  },
+})
+export default require_cssesc()
 /*! Bundled license information:
 
 cssesc/cssesc.js:

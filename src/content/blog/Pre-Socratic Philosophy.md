@@ -1,9 +1,9 @@
 ---
-title: '前苏格拉底哲学'
-description: '对米利都学派，赫拉克利特，巴门尼德，毕达哥拉斯和德谟克里特的简要总结'
-pubDate: '2026-02-08'
-tags: ['Philosophy']
-category: 'Study'
+title: "前苏格拉底哲学"
+description: "对米利都学派，赫拉克利特，巴门尼德，毕达哥拉斯和德谟克里特的简要总结"
+pubDate: "2026-02-08"
+tags: ["Philosophy"]
+category: "Study"
 ---
 
 ## 哲学的诞生
