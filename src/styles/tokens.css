@@ -83,7 +83,7 @@
   --z-modal: 160;
 }
 
-html[data-theme='nord'] {
+html[data-theme="nord"] {
   color-scheme: dark;
   --canvas: #101010;
   --canvas-raised: #171717;

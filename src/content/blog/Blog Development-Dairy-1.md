@@ -1,9 +1,9 @@
 ---
-title: 'Blog开发日记 1'
-description: '这是这个Blog的第一篇开发日记'
-pubDate: '2026-02-08'
-tags: ['blogging', 'coding']
-category: 'Tech'
+title: "Blog开发日记 1"
+description: "这是这个Blog的第一篇开发日记"
+pubDate: "2026-02-08"
+tags: ["blogging", "coding"]
+category: "Tech"
 ---
 
 欢迎来到我的博客！这个文章用于简单介绍一下开发的心路历程。

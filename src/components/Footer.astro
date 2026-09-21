@@ -260,7 +260,10 @@ const today = new Date();
     overlay?.addEventListener('click', closeDrawerAction);
 
     fetch('https://status-api.fannbryan.workers.dev/')
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+        return response.json();
+      })
       .then((data) => {
         const appEl = document.getElementById('status-app');
         if (!appEl) return;

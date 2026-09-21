@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -26,9 +28,12 @@ body {
   background:
     linear-gradient(var(--guide-line) 1px, transparent 1px),
     linear-gradient(90deg, var(--guide-line) 1px, transparent 1px),
-    radial-gradient(circle at 18% 18%, rgba(var(--accent), 0.09), transparent 24rem),
-    var(--canvas);
-  background-size: 88px 88px, 88px 88px, auto, auto;
+    radial-gradient(circle at 18% 18%, rgba(var(--accent), 0.09), transparent 24rem), var(--canvas);
+  background-size:
+    88px 88px,
+    88px 88px,
+    auto,
+    auto;
 }
 
 body::before {
@@ -37,13 +42,12 @@ body::before {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background:
-    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.055) 0 1px, transparent 1px 4px);
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.055) 0 1px, transparent 1px 4px);
   mix-blend-mode: multiply;
   opacity: 0.38;
 }
 
-html[data-theme='nord'] body::before {
+html[data-theme="nord"] body::before {
   mix-blend-mode: screen;
   opacity: 0.18;
 }
@@ -91,7 +95,12 @@ svg {
   color: #111111;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: var(--text-primary);
   font-family: var(--font-display);
   font-weight: 900;
@@ -236,13 +245,23 @@ code {
 }
 
 @keyframes marquee {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 @keyframes revealUp {
-  from { opacity: 0; transform: translateY(1rem); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -5,8 +5,11 @@ import { getCollection } from 'astro:content';
 import featuredSlugs from '../featured-posts.json';
 
 const allPosts = await getCollection('blog');
-let featuredPosts = allPosts.filter((post) => featuredSlugs.includes(post.slug));
-featuredPosts.sort((a, b) => featuredSlugs.indexOf(a.slug) - featuredSlugs.indexOf(b.slug));
+const normalizeSlug = (slug: string) => slug.toLowerCase().replace(/\s+/g, '-');
+const normalizedFeatured = featuredSlugs.map(normalizeSlug);
+const featuredSlugSet = new Set(normalizedFeatured);
+let featuredPosts = allPosts.filter((post) => featuredSlugSet.has(normalizeSlug(post.id)));
+featuredPosts.sort((a, b) => normalizedFeatured.indexOf(normalizeSlug(a.id)) - normalizedFeatured.indexOf(normalizeSlug(b.id)));
 
 if (featuredPosts.length === 0) {
   featuredPosts = allPosts
