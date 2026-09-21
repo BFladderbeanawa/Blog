@@ -1,8 +1,9 @@
 ---
+import { Card } from '@/components/ui/card';
 ---
 
 <div class="widgets-wrapper">
-  <div class="widget-card counter-card">
+  <Card className="widget-card counter-card">
     <span class="axis-label">Visitor count</span>
     <div class="counter-content">
       <div class="count-item">
@@ -14,9 +15,9 @@
         <span id="busuanzi_value_site_uv" class="count-num"><i class="loading">...</i></span>
       </div>
     </div>
-  </div>
+  </Card>
 
-  <div class="widget-card map-card">
+  <Card className="widget-card map-card">
     <span class="axis-label">Visitor map</span>
     <div class="map-container">
       <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=GfWaagulw5y8ePx2r-A54yQmg5UIATp6pJDDcwAta44&cl=ffffff&w=a"></script>
@@ -24,7 +25,7 @@
         <p>Map loading...</p>
       </div>
     </div>
-  </div>
+  </Card>
 </div>
 
 <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>

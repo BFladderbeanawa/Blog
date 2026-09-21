@@ -1,3 +1,71 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "./tokens.css";
+
+@custom-variant dark (&:where([data-theme="nord"], [data-theme="nord"] *, .dark, .dark *));
+
+@theme inline {
+  --color-background: var(--canvas);
+  --color-foreground: var(--text-primary);
+  --color-card: var(--surface);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--surface-solid);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--text-primary);
+  --color-primary-foreground: var(--canvas);
+  --color-secondary: var(--canvas-inset);
+  --color-secondary-foreground: var(--text-secondary);
+  --color-muted: var(--canvas-inset);
+  --color-muted-foreground: var(--text-tertiary);
+  --color-accent: rgb(var(--accent));
+  --color-accent-foreground: var(--canvas);
+  --color-destructive: var(--accent-red);
+  --color-destructive-foreground: #ffffff;
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: rgb(var(--accent));
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-mono);
+  --font-display: var(--font-display);
+}
+
+/*
+ * shadcn token names mapped onto the site's existing brutalist tokens.
+ * NOTE: `--accent` and `--border` are intentionally NOT redeclared here —
+ * they already exist in tokens.css (--accent is a raw RGB triplet, --border
+ * the high-contrast ink color) and redeclaring them as self-references
+ * (`--accent: rgb(var(--accent))`) would be a cyclic custom property and
+ * resolve to guaranteed-invalid, killing accents and borders.
+ */
+:root {
+  --background: var(--canvas);
+  --foreground: var(--text-primary);
+  --card: var(--surface);
+  --card-foreground: var(--text-primary);
+  --popover: var(--surface-solid);
+  --popover-foreground: var(--text-primary);
+  --primary: var(--text-primary);
+  --primary-foreground: var(--canvas);
+  --secondary: var(--canvas-inset);
+  --secondary-foreground: var(--text-secondary);
+  --muted: var(--canvas-inset);
+  --muted-foreground: var(--text-tertiary);
+  --accent-foreground: var(--canvas);
+  --destructive: var(--accent-red);
+  --destructive-foreground: #ffffff;
+  --input: var(--border);
+  --ring: rgb(var(--accent));
+  --radius: 0px;
+}
+
+@utility frame {
+  border: var(--frame) solid var(--border);
+}
+
 *,
 *::before,
 *::after {

@@ -6,7 +6,7 @@ import PageTransition from '../components/PageTransition.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 import BackgroundParticles from '../components/BackgroundParticles.astro';
 import '../styles/tokens.css';
-import '../styles/global.css';
+import '../styles/globals.css';
 
 interface Props {
   title?: string;
@@ -34,9 +34,10 @@ const { title = "BF's Digital Garden", description = 'Notes, experiments, and fi
         };
 
         const applyTheme = () => {
-          document.documentElement.setAttribute('data-theme', getTheme());
+          const theme = getTheme();
+          document.documentElement.setAttribute('data-theme', theme);
+          document.documentElement.classList.toggle('dark', theme === 'nord');
         };
-
         applyTheme();
         document.addEventListener('astro:after-swap', applyTheme);
       })();

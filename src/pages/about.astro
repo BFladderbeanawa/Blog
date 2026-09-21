@@ -1,35 +1,43 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 ---
 
 <Layout title="About" description="About the author and this archive">
   <main class="page-shell about-page">
-    <section class="about-hero editorial-frame">
+    <Card className="about-hero editorial-frame rounded-none border-0 shadow-none">
       <div>
-        <span class="axis-label">About / identity note</span>
+        <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">About / identity note</Badge>
         <h1>Hi, I am BF.</h1>
       </div>
       <p>
         I write as BFladderbean: a front-end developer, learner, and curious systems tinkerer. This archive collects notes about web development, mathematics, machine learning, philosophy, games, and anything else that asks for a place to land.
       </p>
-    </section>
+    </Card>
 
     <section class="about-grid">
-      <article>
-        <span class="axis-label">01 / workbench</span>
-        <h2>What I make</h2>
-        <p>I build web interfaces, study technical systems, and document the patterns I want future-me to find again.</p>
-      </article>
-      <article>
-        <span class="axis-label">02 / play</span>
-        <h2>What I notice</h2>
-        <p>Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.</p>
-      </article>
-      <article>
-        <span class="axis-label">03 / why this exists</span>
-        <h2>Why the blog</h2>
-        <p>Because thinking becomes more useful when it has a shape: tags, routes, fragments, and enough friction to become memorable.</p>
-      </article>
+      <Card className="rounded-none border-0 shadow-none p-0 bg-transparent">
+        <article>
+          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">01 / workbench</Badge>
+          <h2>What I make</h2>
+          <p>I build web interfaces, study technical systems, and document the patterns I want future-me to find again.</p>
+        </article>
+      </Card>
+      <Card className="rounded-none border-0 shadow-none p-0 bg-transparent">
+        <article>
+          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">02 / play</Badge>
+          <h2>What I notice</h2>
+          <p>Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.</p>
+        </article>
+      </Card>
+      <Card className="rounded-none border-0 shadow-none p-0 bg-transparent">
+        <article>
+          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">03 / why this exists</Badge>
+          <h2>Why the blog</h2>
+          <p>Because thinking becomes more useful when it has a shape: tags, routes, fragments, and enough friction to become memorable.</p>
+        </article>
+      </Card>
     </section>
   </main>
 </Layout>

@@ -2,6 +2,9 @@
 import Layout from '../../layouts/Layout.astro';
 import PostCard from '../../components/PostCard.astro';
 import BlogNav from '../../components/BlogNav.astro';
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { getCollection } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -20,9 +23,15 @@ const { posts } = Astro.props;
 
 <Layout title={`Tag: ${tag}`}>
   <main class="page-shell">
-    <BlogNav tags={[tag]} />
-    <a class="back-link" href={`/tags?tags=${tag}`}>Open tag explorer</a>
-    <h1 class="page-title">#{tag}</h1>
+    <Button variant="ghost" asChild className="p-0 h-auto back-link">
+      <a href={`/tags?tags=${tag}`}>Open tag explorer</a>
+    </Button>
+    <Card className="tag-heading-card editorial-frame rounded-none border-0 shadow-none mb-6">
+      <div class="flex items-center justify-between gap-4">
+        <h1 class="page-title m-0">#{tag}</h1>
+        <Badge variant="default" className="rounded-none font-mono text-xs uppercase px-2 py-1">{posts.length} records</Badge>
+      </div>
+    </Card>
     <div class="post-grid">
       {posts.map((post) => <PostCard post={post} highlightTags={[tag]} />)}
     </div>

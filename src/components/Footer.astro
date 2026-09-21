@@ -1,53 +1,49 @@
 ---
+import { Button } from '@/components/ui/button';
+import { StatusDrawer } from './StatusDrawer';
+
 const today = new Date();
 ---
 
 <footer class="site-footer">
   <div class="footer-strip" aria-hidden="true">
-    <span>BF / DIGITAL GARDEN / NOTES</span>
-    <span>BF / DIGITAL GARDEN / NOTES</span>
-    <span>BF / DIGITAL GARDEN / NOTES</span>
-    <span>BF / DIGITAL GARDEN / NOTES</span>
+    <div class="marquee-track">
+      <span>BFladderbean</span>
+      <span>Field Notes</span>
+      <span>Digital Garden</span>
+      <span>Archive</span>
+      <span>Signal Online</span>
+      <span>System Active</span>
+      <span>BFladderbean</span>
+      <span>Field Notes</span>
+      <span>Digital Garden</span>
+      <span>Archive</span>
+      <span>Signal Online</span>
+      <span>System Active</span>
+    </div>
   </div>
 
   <div class="footer-main">
     <div class="footer-left">
       <div class="social-links">
-        <a href="https://github.com/BFladderbeanawa" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <span class="sr-only">GitHub</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.44 5.44 0 0 0 3.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        </a>
-        <a href="https://space.bilibili.com/499560971" target="_blank" rel="noopener noreferrer" aria-label="Bilibili">
-          <span class="sr-only">Bilibili</span>
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><rect x="2" y="7" width="20" height="15"></rect><path d="m17 2-5 5-5-5"></path></svg>
-        </a>
+        <Button variant="ghost" size="icon" asChild className="rounded-none border-0 shadow-none p-0 size-auto">
+          <a href="https://github.com/BFladderbeanawa" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <span class="sr-only">GitHub</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.44 5.44 0 0 0 3.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+        </Button>
+        <Button variant="ghost" size="icon" asChild className="rounded-none border-0 shadow-none p-0 size-auto">
+          <a href="https://space.bilibili.com/499560971" target="_blank" rel="noopener noreferrer" aria-label="Bilibili">
+            <span class="sr-only">Bilibili</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><rect x="2" y="7" width="20" height="15"></rect><path d="m17 2-5 5-5-5"></path></svg>
+          </a>
+        </Button>
       </div>
       <p class="copyright">&copy; {today.getFullYear()} BFladderbean. <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</p>
     </div>
 
-    <button id="status-trigger" class="status-trigger" aria-label="Show status">
-      <span class="pulse-dot"></span>
-      <span>Live Status</span>
-    </button>
+    <StatusDrawer client:load />
   </div>
-
-  <div id="status-overlay" class="status-overlay"></div>
-  <aside id="status-drawer" class="status-drawer" aria-hidden="true">
-    <div class="drawer-header">
-      <span class="axis-label">Current Signal</span>
-      <button id="close-drawer" class="close-btn" aria-label="Close">X</button>
-    </div>
-    <div class="status-card-inner">
-      <h3 id="status-app" class="status-app">Loading...</h3>
-      <p class="status-subtitle">Device and presence telemetry</p>
-      <div class="status-items">
-        <div class="status-item"><span>Battery</span><strong id="status-battery">--</strong></div>
-        <div class="status-item"><span>Network</span><strong id="status-wifi">--</strong></div>
-        <div class="status-item"><span>City</span><strong id="status-city">--</strong></div>
-        <div class="status-item"><span>Model</span><strong id="status-model">--</strong></div>
-      </div>
-    </div>
-  </aside>
 </footer>
 
 <style>
@@ -146,81 +142,6 @@ const today = new Date();
     height: 0.55rem;
     background: var(--accent-green);
   }
-
-  .status-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 998;
-    visibility: hidden;
-    background: rgba(0, 0, 0, 0.45);
-    opacity: 0;
-    transition: opacity var(--duration-base) var(--ease-editorial);
-  }
-
-  .status-overlay.active {
-    visibility: visible;
-    opacity: 1;
-  }
-
-  .status-drawer {
-    position: fixed;
-    top: 0;
-    right: -31rem;
-    z-index: 999;
-    width: min(30rem, 100vw);
-    height: 100vh;
-    padding: var(--space-lg);
-    border-left: var(--frame) solid var(--border);
-    background: var(--surface);
-    transition: right var(--duration-base) var(--ease-editorial);
-  }
-
-  .status-drawer.active {
-    right: 0;
-  }
-
-  .drawer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: var(--space-md);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .close-btn {
-    width: 2.25rem;
-    height: 2.25rem;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-primary);
-    font-family: var(--font-mono);
-  }
-
-  .status-app {
-    margin-top: var(--space-xl);
-    font-size: clamp(2.5rem, 8vw, 5rem);
-  }
-
-  .status-subtitle {
-    margin: 0.5rem 0 var(--space-lg);
-  }
-
-  .status-items {
-    display: grid;
-    border-top: 1px solid var(--border);
-  }
-
-  .status-item {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.9rem 0;
-    border-bottom: 1px solid var(--border);
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-  }
-
   @media (max-width: 720px) {
     .footer-main,
     .footer-left {
@@ -231,54 +152,5 @@ const today = new Date();
     .status-trigger {
       justify-content: center;
     }
-
-    .status-drawer {
-      right: -105vw;
-    }
   }
 </style>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const trigger = document.getElementById('status-trigger');
-    const drawer = document.getElementById('status-drawer');
-    const overlay = document.getElementById('status-overlay');
-    const closeBtn = document.getElementById('close-drawer');
-
-    function openDrawer() {
-      drawer?.classList.add('active');
-      overlay?.classList.add('active');
-    }
-
-    function closeDrawerAction() {
-      drawer?.classList.remove('active');
-      overlay?.classList.remove('active');
-    }
-
-    trigger?.addEventListener('click', openDrawer);
-    closeBtn?.addEventListener('click', closeDrawerAction);
-    overlay?.addEventListener('click', closeDrawerAction);
-
-    fetch('https://status-api.fannbryan.workers.dev/')
-      .then((response) => {
-        if (!response.ok) throw new Error(`Request failed: ${response.status}`);
-        return response.json();
-      })
-      .then((data) => {
-        const appEl = document.getElementById('status-app');
-        if (!appEl) return;
-
-        appEl.textContent = data.app || 'Online';
-        const battery = data['battery '] || data.battery || '--';
-        document.getElementById('status-battery').textContent = String(battery).trim() + '%';
-        const isConnected = data.wifi && data.wifi !== 'Not Connected';
-        document.getElementById('status-wifi').textContent = isConnected ? 'Connected' : 'Offline';
-        document.getElementById('status-city').textContent = data.city || '--';
-        document.getElementById('status-model').textContent = data.model || '--';
-      })
-      .catch(() => {
-        const appEl = document.getElementById('status-app');
-        if (appEl) appEl.textContent = 'Offline';
-      });
-  });
-</script>

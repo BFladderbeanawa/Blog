@@ -1,8 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import BlogNav from '../../components/BlogNav.astro';
+import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { getCollection } from 'astro:content';
-
 const allPosts = await getCollection('blog');
 const categories = [...new Set(allPosts.map((post) => post.data.category).filter(Boolean))];
 const categoryCounts = categories.reduce((acc, category) => {
@@ -19,13 +20,14 @@ const categoryCounts = categories.reduce((acc, category) => {
       <h1 class="page-title">Categories</h1>
       <div class="category-grid">
         {categories.map((category) => (
-          <a href={`/category/${category}/`} class="category-card">
-            <span class="axis-label">Category</span>
-            <h3>{category}</h3>
-            <span class="count">{categoryCounts[category as string]} records</span>
-          </a>
+          <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
+            <a href={`/category/${category}/`} class="category-card">
+              <span class="axis-label">Category</span>
+              <h3>{category}</h3>
+              <Badge variant="outline" className="count rounded-none">{categoryCounts[category as string]} records</Badge>
+            </a>
+          </Card>
         ))}
-        {categories.length === 0 && <p>No categories yet.</p>}
       </div>
     </section>
   </main>
