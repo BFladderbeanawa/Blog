@@ -1,0 +1,2 @@
+const e="⚡️ Quickly generate a disposable email straight from terminal",n="mailsy",o=[{description:"Get help for a command",name:"help",args:[{name:"command",template:["help"],isOptional:!0}]}],s=[{description:"Output the current version",name:["-v","--version"]},{description:"Display help for command",name:["-h","--help"]}],t={description:e,name:n,subcommands:o,options:s};export{t as default,e as description,n as name,s as options,o as subcommands};
+//# sourceMappingURL=mailsy-a0d24fce.js.map

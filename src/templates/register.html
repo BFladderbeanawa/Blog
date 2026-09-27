@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="auth-hero">
+    <div class="auth-hero-background" aria-hidden="true">
+        <span class="auth-glow glow-left"></span>
+        <span class="auth-glow glow-right"></span>
+        <span class="auth-grid"></span>
+    </div>
+    <div class="auth-hero-inner">
+        <div class="auth-hero-copy">
+            <span class="auth-badge">Neko Identity Hub</span>
+            <h1>创建新战队</h1>
+            <p>注册成为 NekoCTF 选手，与你的猫耳战队一起冲击排行榜喵～</p>
+            <ul class="auth-benefits">
+                <li>累计积分解锁限定头像与主题</li>
+                <li>参加线上线下活动首发报名</li>
+                <li>同步题目进度，获取专属提示</li>
+            </ul>
+        </div>
+        <div class="auth-hero-card">
+            <h2>注册账号</h2>
+            <form method="post" class="auth-form">
+                <div>
+                    <label for="username">战队名 / 用户名</label>
+                    <input type="text" id="username" name="username" placeholder="选择一个独特的战队名" required autofocus>
+                </div>
+
+                <div>
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                </div>
+
+                <div>
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" placeholder="至少 8 位字符" required>
+                </div>
+
+                <div>
+                    <label for="confirm_password">确认密码</label>
+                    <input type="password" id="confirm_password" name="confirm_password" placeholder="再次输入密码" required>
+                </div>
+
+                <button type="submit" class="md3-btn md3-btn--primary">注册</button>
+            </form>
+            <p class="auth-hint">已经有账号了？<a href="{{ url_for('public.login') }}">直接登录</a></p>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const card = document.querySelector('.auth-hero-card');
+    if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 200);
+    }
+});
+</script>
+{% endblock %}

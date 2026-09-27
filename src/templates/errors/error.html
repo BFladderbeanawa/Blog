@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="error-page-hero">
+    <div class="error-hero-background" aria-hidden="true">
+        <span class="error-glow glow-primary"></span>
+        <span class="error-glow glow-secondary"></span>
+        <span class="error-glow glow-tertiary"></span>
+        <span class="error-pattern"></span>
+    </div>
+    <div class="error-hero-inner">
+        <div class="error-main-card">
+            <span class="error-badge">{{ event_name }} · 捕捉到异常</span>
+            
+            <div class="error-code-display">
+                <div class="error-icon" aria-hidden="true">
+                    <span class="material-symbols-outlined">
+                        {% if status_code == 404 %}search_off
+                        {% elif status_code == 403 %}lock
+                        {% elif status_code == 500 %}error
+                        {% else %}warning{% endif %}
+                    </span>
+                </div>
+                <div class="error-code" aria-label="错误代码">{{ status_code }}</div>
+            </div>
+
+            <h1>{{ title }}</h1>
+            <p class="error-message">{{ message }}</p>
+
+            {% if suggestions %}
+            <ul class="error-suggestions">
+                {% for suggestion in suggestions %}
+                <li>{{ suggestion }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="error-actions md3-btn-group">
+                <a class="md3-btn md3-btn--primary" href="{{ url_for('public.home') }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">home</span>
+                    返回主页
+                </a>
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.challenges') }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">quiz</span>
+                    去挑战列表看看
+                </a>
+                {% if support_email %}
+                <a class="md3-btn md3-btn--tertiary" href="mailto:{{ support_email }}">
+                    <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+                    联系组织者
+                </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="error-meta-sidebar" role="complementary" aria-label="错误详情">
+            <article class="error-meta-card">
+                <span class="error-meta-label">请求路径</span>
+                <span class="error-meta-value">{{ request_path }}</span>
+                <p class="error-meta-note">确认地址拼写无误，或通过左侧按钮返回主站。</p>
+            </article>
+            
+            <article class="error-meta-card accent">
+                <span class="error-meta-label">提示</span>
+                <p class="error-meta-value">{{ detail or "这并不是你操作的问题，可能是页面已迁移或暂时不可用。" }}</p>
+            </article>
+            
+            {% if extra_links %}
+            <article class="error-meta-card">
+                <span class="error-meta-label">快捷入口</span>
+                <ul class="error-extra-links">
+                    {% for link in extra_links %}
+                    <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+                    {% endfor %}
+                </ul>
+            </article>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const errorCard = document.querySelector('.error-main-card');
+    const metaCards = document.querySelectorAll('.error-meta-card');
+    
+    if (errorCard) {
+        setTimeout(() => {
+            errorCard.style.opacity = '0';
+            errorCard.style.transform = 'translateY(20px)';
+            errorCard.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            
+            requestAnimationFrame(() => {
+                errorCard.style.opacity = '1';
+                errorCard.style.transform = 'translateY(0)';
+            });
+        }, 50);
+    }
+    
+    metaCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            
+            requestAnimationFrame(() => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+        }, 150 + (index * 100));
+    });
+});
+</script>
+{% endblock %}

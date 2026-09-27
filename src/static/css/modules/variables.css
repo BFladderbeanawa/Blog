@@ -1,0 +1,117 @@
+/* ====================================
+   MD3 Expressive - Design Tokens
+   ==================================== */
+
+:root {
+    /* Primary Color Palette - Pink/Purple Theme */
+    --md3-primary: #F9A8D4;
+    --md3-primary-container: rgba(249, 168, 212, 0.12);
+    --md3-on-primary: #1A0E1F;
+    --md3-primary-glow: rgba(249, 168, 212, 0.35);
+    
+    /* Secondary & Accent */
+    --md3-secondary: #A78BFA;
+    --md3-secondary-container: rgba(167, 139, 250, 0.12);
+    --md3-tertiary: #5EEAD4;
+    --md3-tertiary-container: rgba(94, 234, 212, 0.12);
+    
+    /* Surface Colors */
+    --md3-surface: #0F0E1A;
+    --md3-surface-dim: #09080F;
+    --md3-surface-bright: #1A1825;
+    --md3-surface-container-lowest: #0A0910;
+    --md3-surface-container-low: #121118;
+    --md3-surface-container: #161520;
+    --md3-surface-container-high: #1E1D2A;
+    --md3-surface-container-highest: #252436;
+    
+    /* Overlay & Elevation */
+    --md3-overlay: rgba(249, 168, 212, 0.08);
+    --md3-overlay-hover: rgba(249, 168, 212, 0.14);
+    --md3-overlay-pressed: rgba(249, 168, 212, 0.22);
+    
+    /* Text Colors */
+    --md3-on-surface: #F5F3FF;
+    --md3-on-surface-variant: rgba(245, 243, 255, 0.75);
+    --md3-on-surface-dim: rgba(245, 243, 255, 0.6);
+    --md3-outline: rgba(245, 243, 255, 0.12);
+    --md3-outline-variant: rgba(245, 243, 255, 0.08);
+    
+    /* Functional Colors */
+    --md3-error: #FF6B6B;
+    --md3-success: #4ADE80;
+    --md3-warning: #FBBF24;
+    --md3-info: #60A5FA;
+    
+    /* Shadows & Effects */
+    --md3-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.15);
+    --md3-shadow-2: 0 2px 6px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2);
+    --md3-shadow-3: 0 4px 12px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
+    --md3-shadow-4: 0 8px 24px rgba(0, 0, 0, 0.4), 0 16px 48px rgba(0, 0, 0, 0.3);
+    --md3-shadow-5: 0 16px 48px rgba(0, 0, 0, 0.45), 0 32px 96px rgba(0, 0, 0, 0.35);
+    
+    /* Expressive Glow Effects */
+    --md3-glow-primary: 0 0 32px rgba(249, 168, 212, 0.4), 0 0 64px rgba(249, 168, 212, 0.2);
+    --md3-glow-secondary: 0 0 32px rgba(167, 139, 250, 0.4), 0 0 64px rgba(167, 139, 250, 0.2);
+    --md3-glow-tertiary: 0 0 32px rgba(94, 234, 212, 0.4), 0 0 64px rgba(94, 234, 212, 0.2);
+    
+    /* Typography Scale - Expressive */
+    --md3-font-brand: 'Comfortaa', 'Noto Sans SC', system-ui, sans-serif;
+    --md3-font-display: 'Righteous', 'Noto Sans SC', system-ui, sans-serif;
+    --md3-font-body: 'Nunito', 'Noto Sans SC', system-ui, sans-serif;
+    --md3-font-mono: 'JetBrains Mono', 'Consolas', monospace;
+    
+    /* Spacing Scale */
+    --md3-space-xs: 0.25rem;
+    --md3-space-sm: 0.5rem;
+    --md3-space-md: 1rem;
+    --md3-space-lg: 1.5rem;
+    --md3-space-xl: 2rem;
+    --md3-space-2xl: 3rem;
+    --md3-space-3xl: 4rem;
+    --md3-space-4xl: 6rem;
+    
+    /* Border Radius - Expressive */
+    --md3-radius-xs: 0.5rem;
+    --md3-radius-sm: 0.75rem;
+    --md3-radius-md: 1rem;
+    --md3-radius-lg: 1.5rem;
+    --md3-radius-xl: 2rem;
+    --md3-radius-2xl: 2.5rem;
+    --md3-radius-3xl: 3rem;
+    --md3-radius-full: 999px;
+    
+    /* Transitions - Expressive Easing */
+    --md3-easing-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --md3-easing-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
+    --md3-easing-decelerated: cubic-bezier(0.0, 0.0, 0.2, 1);
+    --md3-easing-accelerated: cubic-bezier(0.4, 0.0, 1, 1);
+    
+    --md3-duration-short1: 50ms;
+    --md3-duration-short2: 100ms;
+    --md3-duration-short3: 150ms;
+    --md3-duration-short4: 200ms;
+    --md3-duration-short: 200ms; /* Alias for short4 */
+    --md3-duration-medium1: 250ms;
+    --md3-duration-medium2: 300ms;
+    --md3-duration-medium3: 350ms;
+    --md3-duration-medium4: 400ms;
+    --md3-duration-medium: 350ms; /* Alias for medium3 */
+    --md3-duration-long1: 450ms;
+    --md3-duration-long2: 500ms;
+    --md3-duration-long3: 550ms;
+    --md3-duration-long4: 600ms;
+    
+    /* Z-Index Scale */
+    --md3-z-base: 0;
+    --md3-z-raised: 1;
+    --md3-z-overlay: 10;
+    --md3-z-dialog: 100;
+    --md3-z-dropdown: 200;
+    --md3-z-sticky: 300;
+    --md3-z-fixed: 400;
+    --md3-z-modal: 500;
+    --md3-z-popover: 600;
+    --md3-z-tooltip: 700;
+    --md3-z-notification: 800;
+}

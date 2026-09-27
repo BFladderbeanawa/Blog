@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_1password_oph=self.webpackChunk_1password_oph||[]).push([[2874],{52874:(e,s,n)=>{n.r(s),n.d(s,{messages:()=>a});const a=JSON.parse('{"GuidedSignInExperienceScanQrCodeInstructions":["在 1Password 行動應用程式中使用「掃描 QR Code」立即登入。1"],"HelpMenuTitle":["説明"],"VerifierSentRequestToastMessage":["請求已寄送至 ",["name"]]}')}}]);

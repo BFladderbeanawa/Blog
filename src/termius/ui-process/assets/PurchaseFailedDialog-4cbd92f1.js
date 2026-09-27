@@ -1,0 +1,2 @@
+import{bh as u,r as e,yp as l,yq as i,bn as h,yr as y}from"./reconnectSaga-e33541d6.js";const b=({message:n,purchaseLocation:r,upgradeToProFunnelID:c,closeDialog:t})=>{const a=u(),s=e.useCallback(()=>{a(l()),t()},[a,t]),o=e.useCallback(()=>{a(i({buyNowButtonLocation:r,upgradeToProFunnelID:c})),t()},[a,r,c,t]);return h(y,{title:"Purchase failed",message:n,onClose:s,actionButtons:[{children:"Cancel",onClick:s},{children:"Retry",onClick:o,color:"accent",autoFocus:!0}]})};export{b as default};
+//# sourceMappingURL=PurchaseFailedDialog-4cbd92f1.js.map

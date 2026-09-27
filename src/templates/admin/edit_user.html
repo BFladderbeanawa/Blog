@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header admin-page-header">
+    <div class="admin-page-title">
+        <div class="admin-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">manage_accounts</span>
+                <span>编辑用户 · #{{ user.id }}</span>
+            </span>
+            <h1>{{ user.username }}</h1>
+            <div class="admin-toolbar">
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_users') }}">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>返回用户列表</span>
+                </a>
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_challenges') }}">
+                    <span class="material-symbols-outlined">flag</span>
+                    <span>题库总览</span>
+                </a>
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.logout') }}">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>退出登录</span>
+                </a>
+            </div>
+            <p>调整战队资料、补充加分或重置密码，保存后会自动刷新排行榜喵～</p>
+        </div>
+        <div class="admin-page-actions">
+            <div class="admin-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">积分快照</p>
+                    <p class="highlight-value">{{ stats.total_points }} 分</p>
+                </div>
+                <div class="highlight-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">{{ stats.solve_count }}</span>
+                        <span class="stat-text">成功解题</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="admin-mini-stats">
+                        <span class="mini-stat-item"><span class="dot online"></span>{{ stats.awarded_points }} 基础积分</span>
+                        <span class="mini-stat-item"><span class="dot bonus"></span>{{ stats.bonus_points }} 额外积分</span>
+                    </div>
+                </div>
+                <p class="highlight-note">最近提交：{{ stats.last_submit.strftime('%Y-%m-%d %H:%M') if stats.last_submit else '暂无记录' }}</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="admin-section">
+    <div class="admin-content-card">
+        <div class="admin-card-header">
+            <div class="admin-card-header-content">
+                <h2>基础信息</h2>
+                <p>修改用户字段或加分奖励。密码留空则不变。</p>
+            </div>
+        </div>
+        <form method="post" class="admin-form-grid" style="padding: var(--md3-space-2xl);">
+            <div class="form-field">
+                <label for="username">用户名 / 队伍名</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+            </div>
+            <div class="form-field">
+                <label for="email">邮箱</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="form-field">
+                <label for="bonus_points">额外加分</label>
+                <input type="number" id="bonus_points" name="bonus_points" min="0" value="{{ user.bonus_points }}">
+            </div>
+            <div class="form-field inline">
+                <label class="switch" for="is_admin">
+                    <input type="checkbox" id="is_admin" name="is_admin" {% if user.is_admin %}checked{% endif %}>
+                    <span>授予管理员权限</span>
+                </label>
+            </div>
+            <div class="form-field inline">
+                <label class="switch" for="email_verified">
+                    <input type="checkbox" id="email_verified" name="email_verified" {% if user.email_verified %}checked{% endif %}>
+                    <span>邮箱已验证</span>
+                </label>
+            </div>
+            <div class="form-section-divider" data-label="密码重置"></div>
+            <div class="form-field">
+                <label for="new_password">新密码</label>
+                <input type="password" id="new_password" name="new_password" placeholder="留空则不修改">
+            </div>
+            <div class="form-field">
+                <label for="confirm_password">确认新密码</label>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="再次输入新密码">
+            </div>
+            <div class="form-actions full">
+                <button type="submit" class="md3-btn md3-btn--primary">
+                    <span class="material-symbols-outlined">save</span>
+                    <span>保存更改</span>
+                </button>
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('admin.admin_users') }}">
+                    <span class="material-symbols-outlined">close</span>
+                    <span>取消</span>
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
