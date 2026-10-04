@@ -12,20 +12,20 @@ const isActive = (path: string) => {
       <span class="brand-mark">BF</span>
       <span class="brand-copy">
         <span class="brand-title">BFladderbean</span>
-        <span class="brand-subtitle">Digital Garden / Field Notes</span>
+        <span class="brand-subtitle">数字庭園 // デジタル庭 // Digital Garden</span>
       </span>
     </a>
 
     <div class="internal-links">
-      <a href="/" class={isActive('/') ? 'active' : ''}>Home</a>
-      <a href="/start-here" class={isActive('/start-here') ? 'active' : ''}>Start</a>
-      <a href="/blog" class={isActive('/blog') ? 'active' : ''}>Archive</a>
-      <a href="/about" class={isActive('/about') ? 'active' : ''}>About</a>
+      <a href="/" class={isActive('/') ? 'active' : ''}>Home<br /><span>首頁</span></a>
+      <a href="/start-here" class={isActive('/start-here') ? 'active' : ''}>Start<br /><span>開始</span></a>
+      <a href="/blog" class={isActive('/blog') ? 'active' : ''}>Archive<br /><span>記録</span></a>
+      <a href="/about" class={isActive('/about') ? 'active' : ''}>About<br /><span>自己</span></a>
     </div>
 
     <a class="search-link" href="/search" aria-label="Search">
       <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
-      <span>Search</span>
+      <span>Search<br /><small>検索</small></span>
     </a>
   </nav>
 </header>
@@ -35,52 +35,60 @@ const isActive = (path: string) => {
     position: relative;
     z-index: var(--z-header);
     flex: 0 0 auto;
-    border-bottom: 1px solid var(--border);
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    border-bottom: var(--frame) solid var(--border);
+    border-top: 3px solid var(--accent-iris);
+    background: var(--surface);
   }
 
   .site-nav {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto auto;
-    align-items: stretch;
-    gap: 0;
-    min-height: 4.35rem;
+    grid-template-columns: minmax(14rem, 1.1fr) minmax(0, 1.6fr) minmax(4.75rem, 0.2fr);
+    align-items: end;
+    gap: var(--space-sm);
+    min-height: 6.75rem;
+    padding: var(--space-sm) var(--space-md) 0;
   }
 
   .brand {
-    display: flex;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    align-items: end;
     min-width: 0;
     color: var(--text-primary);
+    transform: translateY(var(--space-sm));
   }
 
   .brand-mark {
     display: grid;
     place-items: center;
-    width: 4.35rem;
-    border-right: 1px solid var(--border);
-    background: var(--text-primary);
-    color: var(--canvas);
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 900;
+    width: 6.5rem;
+    min-height: 6.1rem;
+    border: var(--frame) solid var(--border);
+    background: var(--surface-solid);
+    color: var(--accent-cream);
+    font-family: var(--font-slab);
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 800;
     letter-spacing: -0.06em;
+    clip-path: polygon(0 0, 100% 0, 76% 100%, 0 86%);
   }
 
   .brand-copy {
     display: grid;
     align-content: center;
     gap: 0.2rem;
-    padding: 0.65rem 1rem;
+    padding: var(--space-sm) var(--space-md);
     min-width: 0;
+    border-block: var(--frame) solid var(--border);
+    background: var(--accent-cream);
   }
 
   .brand-title {
     font-family: var(--font-display);
     font-size: clamp(1.15rem, 2vw, 1.75rem);
-    font-weight: 900;
+    font-weight: 700;
     line-height: 0.95;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.02em;
     text-transform: uppercase;
   }
 
@@ -93,41 +101,131 @@ const isActive = (path: string) => {
   }
 
   .internal-links {
-    display: flex;
-    border-left: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    align-items: end;
+    gap: var(--space-xs);
+    border-left: 0;
   }
 
   .internal-links a,
   .search-link {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 5.8rem;
+    min-width: 0;
+    min-height: 4.2rem;
     padding: 0.8rem 1rem;
-    border-right: 1px solid var(--border);
+    border: var(--frame) solid var(--border);
     color: var(--text-primary);
     font-family: var(--font-mono);
     font-size: 0.72rem;
     letter-spacing: 0.14em;
+    line-height: 1.05;
     text-transform: uppercase;
-    transition: background var(--duration-fast) var(--ease-sharp), color var(--duration-fast) var(--ease-sharp);
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      color var(--duration-fast) var(--ease-sharp),
+      transform var(--duration-base) var(--ease-editorial);
+  }
+
+  .internal-links a::before,
+  .internal-links a::after,
+  .search-link::before,
+  .search-link::after {
+    content: "";
+    position: absolute;
+    inset: auto auto 0 0;
+    z-index: 0;
+    width: 0;
+    height: 100%;
+    pointer-events: none;
+    transition: width var(--duration-base) var(--ease-editorial);
+  }
+
+  .internal-links a::before,
+  .search-link::before {
+    background: var(--accent-iris);
+    clip-path: polygon(0 0, 88% 0, 100% 100%, 0 100%);
+  }
+
+  .internal-links a > *,
+  .search-link > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .internal-links a::after,
+  .search-link::after {
+    right: 0;
+    left: auto;
+    background: var(--accent-ice);
+    clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .internal-links span,
+  .search-link small {
+    color: var(--text-tertiary);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
   }
 
   .internal-links a:hover,
   .internal-links a.active,
   .search-link:hover {
-    background: var(--text-primary);
-    color: var(--canvas);
+    color: var(--accent-cream);
+    transform: translateY(-0.4rem) rotate(-1deg);
+  }
+
+  .internal-links a:hover::before,
+  .internal-links a.active::before,
+  .search-link:hover::before {
+    width: 72%;
+  }
+
+  .internal-links a:hover::after,
+  .internal-links a.active::after,
+  .search-link:hover::after {
+    width: 38%;
+  }
+
+  .internal-links a:hover span,
+  .internal-links a.active span,
+  .search-link:hover small {
+    color: var(--accent-cream);
+  }
+
+  /* Node echo: the active cell's sub-label carries the vocabulary square */
+  .internal-links a.active span::before {
+    content: "■";
+    margin-right: 0.4em;
+    font-size: 0.5rem;
+    vertical-align: 0.08em;
   }
 
   .search-link {
     gap: 0.5rem;
-    border-right: 0;
+    align-self: stretch;
+    background: var(--surface-solid);
+    color: var(--accent-cream);
+    clip-path: polygon(18% 0, 100% 0, 100% 100%, 0 82%);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .search-link:hover {
+    border-color: var(--accent-iris);
+  }
+
+  .search-link small {
+    color: var(--accent-cream);
   }
 
   @media (max-width: 840px) {
     .site-nav {
       grid-template-columns: 1fr auto;
+      min-height: auto;
     }
 
     .brand-subtitle,
@@ -137,15 +235,14 @@ const isActive = (path: string) => {
 
     .internal-links {
       grid-column: 1 / -1;
+      grid-template-columns: repeat(4, minmax(6.5rem, 1fr));
       overflow-x: auto;
       border-top: 1px solid var(--border);
       border-left: 0;
     }
 
     .internal-links a {
-      flex: 1 0 auto;
       min-width: 0;
-      border-right: 1px solid var(--border);
     }
 
     .search-link {

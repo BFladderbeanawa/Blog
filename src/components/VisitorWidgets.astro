@@ -2,7 +2,8 @@
 ---
 
 <div class="widgets-wrapper">
-  <div class="widget-card counter-card">
+  <div class="widget-card counter-card obs-frame obs-frame--powered">
+    <span class="obs-id">VIS.COUNT</span>
     <span class="axis-label">Visitor count</span>
     <div class="counter-content">
       <div class="count-item">
@@ -16,7 +17,8 @@
     </div>
   </div>
 
-  <div class="widget-card map-card">
+  <div class="widget-card map-card obs-frame obs-frame--powered">
+    <span class="obs-id">VIS.MAP</span>
     <span class="axis-label">Visitor map</span>
     <div class="map-container">
       <script type="text/javascript" id="mapmyvisitors" src="//mapmyvisitors.com/map.js?d=GfWaagulw5y8ePx2r-A54yQmg5UIATp6pJDDcwAta44&cl=ffffff&w=a"></script>
@@ -39,8 +41,6 @@
   .widget-card {
     min-height: 16rem;
     padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
   }
 
   .counter-card {
@@ -48,14 +48,14 @@
   }
 
   .map-card {
-    background: var(--accent-gray);
+    background: var(--accent-lemon);
   }
 
   .widget-card .axis-label,
   .counter-card .label,
   .counter-card .count-num,
   .map-card .axis-label {
-    color: #111;
+    color: var(--accent-cream);
   }
 
   .counter-content {
@@ -94,8 +94,8 @@
     min-height: 12rem;
     margin-top: var(--space-lg);
     overflow: hidden;
-    border: 1px solid #111;
-    background: #fffef8;
+    border: 1px solid var(--border-subtle);
+    background: var(--canvas-raised);
   }
 
   @media (max-width: 820px) {

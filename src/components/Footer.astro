@@ -4,10 +4,12 @@ const today = new Date();
 
 <footer class="site-footer">
   <div class="footer-strip" aria-hidden="true">
-    <span>BF / DIGITAL GARDEN / NOTES</span>
-    <span>BF / DIGITAL GARDEN / NOTES</span>
-    <span>BF / DIGITAL GARDEN / NOTES</span>
-    <span>BF / DIGITAL GARDEN / NOTES</span>
+    <div class="marquee-track">
+      <span>IRIS OBSERVATORY / 觀測記録 / DIGITAL GARDEN</span>
+      <span>IRIS OBSERVATORY / 觀測記録 / DIGITAL GARDEN</span>
+      <span>IRIS OBSERVATORY / 觀測記録 / DIGITAL GARDEN</span>
+      <span>IRIS OBSERVATORY / 觀測記録 / DIGITAL GARDEN</span>
+    </div>
   </div>
 
   <div class="footer-main">
@@ -27,24 +29,25 @@ const today = new Date();
 
     <button id="status-trigger" class="status-trigger" aria-label="Show status">
       <span class="pulse-dot"></span>
-      <span>Live Status</span>
+      <span>Live Status // 信号</span>
     </button>
   </div>
 
   <div id="status-overlay" class="status-overlay"></div>
-  <aside id="status-drawer" class="status-drawer" aria-hidden="true">
+  <aside id="status-drawer" class="status-drawer obs-frame" aria-hidden="true">
+    <span class="obs-id">SYS.STATUS</span>
     <div class="drawer-header">
-      <span class="axis-label">Current Signal</span>
+      <span class="obs-eyebrow">Current Signal // 現在信号 // 在线状态</span>
       <button id="close-drawer" class="close-btn" aria-label="Close">X</button>
     </div>
     <div class="status-card-inner">
       <h3 id="status-app" class="status-app">Loading...</h3>
       <p class="status-subtitle">Device and presence telemetry</p>
       <div class="status-items">
-        <div class="status-item"><span>Battery</span><strong id="status-battery">--</strong></div>
-        <div class="status-item"><span>Network</span><strong id="status-wifi">--</strong></div>
-        <div class="status-item"><span>City</span><strong id="status-city">--</strong></div>
-        <div class="status-item"><span>Model</span><strong id="status-model">--</strong></div>
+        <div class="status-item obs-stat"><span>Battery</span><strong id="status-battery">--</strong></div>
+        <div class="status-item obs-stat"><span>Network</span><strong id="status-wifi">--</strong></div>
+        <div class="status-item obs-stat"><span>City</span><strong id="status-city">--</strong></div>
+        <div class="status-item obs-stat"><span>Model</span><strong id="status-model">--</strong></div>
       </div>
     </div>
   </aside>
@@ -65,13 +68,13 @@ const today = new Date();
     width: 100%;
     border-bottom: 1px solid var(--border);
     overflow: hidden;
-    background: var(--text-primary);
-    color: var(--canvas);
-    font-family: var(--font-display);
+    background: var(--accent-red);
+    color: var(--accent-cream);
+    font-family: var(--font-macro);
     font-size: clamp(1.2rem, 3vw, 2.2rem);
-    font-weight: 900;
+    font-weight: 800;
     line-height: 0.9;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.03em;
     text-transform: uppercase;
   }
 
@@ -101,11 +104,33 @@ const today = new Date();
   }
 
   .social-links a {
+    position: relative;
     display: grid;
     place-items: center;
     width: 2.5rem;
     height: 2.5rem;
     border-right: 1px solid var(--border);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .social-links a::before,
+  .status-trigger::before,
+  .close-btn::before {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    z-index: 0;
+    height: 0;
+    background: linear-gradient(112deg, var(--accent-red) 0 62%, var(--accent-blue) 62% 100%);
+    transition: height var(--duration-base) var(--ease-editorial);
+  }
+
+  .social-links a > *,
+  .status-trigger > *,
+  .close-btn > * {
+    position: relative;
+    z-index: 1;
   }
 
   .social-links a:last-child {
@@ -115,8 +140,13 @@ const today = new Date();
   .social-links a:hover,
   .status-trigger:hover,
   .close-btn:hover {
-    background: var(--text-primary);
-    color: var(--canvas);
+    color: var(--accent-cream);
+  }
+
+  .social-links a:hover::before,
+  .status-trigger:hover::before,
+  .close-btn:hover::before {
+    height: 100%;
   }
 
   .copyright {
@@ -128,6 +158,7 @@ const today = new Date();
   }
 
   .status-trigger {
+    position: relative;
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
@@ -139,12 +170,14 @@ const today = new Date();
     font-size: 0.7rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
+    isolation: isolate;
+    overflow: hidden;
   }
 
   .pulse-dot {
     width: 0.55rem;
     height: 0.55rem;
-    background: var(--accent-green);
+    background: var(--accent-red);
   }
 
   .status-overlay {
@@ -188,12 +221,15 @@ const today = new Date();
   }
 
   .close-btn {
+    position: relative;
     width: 2.25rem;
     height: 2.25rem;
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-primary);
     font-family: var(--font-mono);
+    isolation: isolate;
+    overflow: hidden;
   }
 
   .status-app {

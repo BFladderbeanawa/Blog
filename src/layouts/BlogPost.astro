@@ -4,7 +4,7 @@ import Author from '../components/Author.astro';
 import BlogNav from '../components/BlogNav.astro';
 import { getCollection } from 'astro:content';
 
-const { title, description, pubDate, updatedDate, heroImage, tags, category } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, category, readingMinutes } = Astro.props;
 
 const allPosts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -29,9 +29,11 @@ const simplePosts = allPosts.map((p) => ({
       )}
 
       <header class="post-header editorial-frame">
-        <div class="post-date">
-          {pubDate && <time datetime={pubDate.toISOString()}>{pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })}</time>}
-          {updatedDate && <span>Updated {updatedDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })}</span>}
+        <span class="obs-id">LOG.ENTRY</span>
+        <div class="post-date obs-stat">
+          {pubDate && <time datetime={pubDate.toISOString()}><b>{pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })}</b></time>}
+          {updatedDate && <span>Updated <b>{updatedDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'short', day: 'numeric' })}</b></span>}
+          {readingMinutes && <span>Read <b>~{readingMinutes} min</b></span>}
         </div>
         <h1>{title}</h1>
         <div id="back-nav" class="back-nav" style="display: none;">
@@ -48,11 +50,11 @@ const simplePosts = allPosts.map((p) => ({
         <Author />
 
         <nav class="post-navigation" id="post-nav" style="display: none;">
-          <a href="#" id="prev-post" class="nav-item prev">
+          <a href="#" id="prev-post" class="nav-item prev obs-frame obs-hover">
             <span class="label">Newer</span>
             <span class="nav-title"></span>
           </a>
-          <a href="#" id="next-post" class="nav-item next">
+          <a href="#" id="next-post" class="nav-item next obs-frame obs-hover">
             <span class="label">Older</span>
             <span class="nav-title"></span>
           </a>
@@ -156,9 +158,7 @@ const simplePosts = allPosts.map((p) => ({
 
   .post-header {
     padding: clamp(1rem, 4vw, 3rem);
-    background:
-      linear-gradient(110deg, transparent 0 70%, var(--accent-lemon) 70% 86%, transparent 86%),
-      var(--surface);
+    background: var(--surface);
   }
 
   .post-date,
@@ -181,7 +181,9 @@ const simplePosts = allPosts.map((p) => ({
   .post-header h1 {
     max-width: 12ch;
     margin: var(--space-xl) 0;
+    font-family: var(--font-display);
     font-size: var(--text-3xl);
+    font-weight: 600;
   }
 
   .back-link {
@@ -202,19 +204,35 @@ const simplePosts = allPosts.map((p) => ({
   }
 
   .taxon:hover {
-    background: var(--text-primary);
-    color: var(--canvas);
+    background: var(--accent-iris);
+    color: var(--accent-cream);
   }
 
   .prose {
     width: min(var(--content-width), 100%);
     margin: 0 auto;
     color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.85;
+  }
+
+  /* Drop cap on the opening paragraph (首字下沉) */
+  :global(.prose > p:first-of-type::first-letter) {
+    float: left;
+    padding: 0.06em 0.14em 0 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 3.1em;
+    line-height: 0.85;
+    color: var(--accent-iris);
   }
 
   .prose :global(h2),
   .prose :global(h3) {
     margin: 2.5rem 0 1rem;
+    font-family: var(--font-display);
+    font-weight: 600;
   }
 
   .prose :global(p),
@@ -224,9 +242,22 @@ const simplePosts = allPosts.map((p) => ({
   }
 
   .prose :global(a) {
+    color: var(--accent-iris);
     text-decoration: underline;
     text-decoration-thickness: 1px;
-    text-underline-offset: 0.18em;
+    text-underline-offset: 3px;
+  }
+
+  .prose :global(a:hover) {
+    color: var(--accent-signal);
+  }
+
+  .prose :global(blockquote) {
+    margin: 1.5rem 0;
+    padding-left: var(--space-lg);
+    border-left: 3px solid var(--accent-iris);
+    background: var(--accent-wash);
+    font-style: italic;
   }
 
   .prose :global(table) {
@@ -252,7 +283,6 @@ const simplePosts = allPosts.map((p) => ({
   .nav-item {
     min-height: 9rem;
     padding: var(--space-md);
-    border: 1px solid var(--border);
     align-content: space-between;
   }
 
@@ -263,15 +293,16 @@ const simplePosts = allPosts.map((p) => ({
   .nav-title {
     font-family: var(--font-display);
     font-size: clamp(1.2rem, 3vw, 2rem);
-    font-weight: 900;
+    font-weight: 600;
     line-height: 0.95;
-    letter-spacing: -0.045em;
-    text-transform: uppercase;
+    letter-spacing: -0.02em;
   }
 
-  .nav-item:hover {
-    background: var(--text-primary);
-    color: var(--canvas);
+  /* Iris marks interactivity; the frame surface stays light in both themes,
+     so the title must never flip to cream here. */
+  .nav-item:hover .nav-title,
+  .nav-item:focus-visible .nav-title {
+    color: var(--accent-iris);
   }
 
   @media (max-width: 720px) {

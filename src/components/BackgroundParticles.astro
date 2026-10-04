@@ -22,11 +22,11 @@
             
             // Configuration
             this.config = {
-                particleColor: 'rgba(0, 0, 0, 0.15)', // Light gray for day (approx #ececec)
-                lineColor: 'rgba(0, 0, 0, 0.08)',
+                particleColor: 'rgba(59, 84, 214, 0.15)', // iris
+                lineColor: 'rgba(59, 84, 214, 0.10)',
                 particleCount: 0, // Will be calculated based on screen size
                 connectionDistance: 120,
-                baseSpeed: 0.5,
+                baseSpeed: 0.4,
                 repulseForce: 5 // How hard the mouse pushes
             };
 
@@ -44,14 +44,12 @@
             // Check for current theme to adjust colors
             const isDark = document.documentElement.getAttribute('data-theme') === 'nord';
             if (isDark) {
-                this.config.particleColor = 'rgba(255, 255, 255, 0.25)';
-                this.config.lineColor = 'rgba(255, 255, 255, 0.15)';
+                this.config.particleColor = 'rgba(126, 151, 255, 0.25)';
+                this.config.lineColor = 'rgba(126, 151, 255, 0.12)';
                 this.canvas.style.zIndex = '0';
             } else {
-                // User requested very faint #f0f0f0-ish look. 
-                // On white bg, #f0f0f0 is invisible, so we use low opacity black to achieve "light gray" visual
-                this.config.particleColor = 'rgba(0, 0, 0, 0.15)'; 
-                this.config.lineColor = 'rgba(0, 0, 0, 0.08)';
+                this.config.particleColor = 'rgba(59, 84, 214, 0.15)';
+                this.config.lineColor = 'rgba(59, 84, 214, 0.10)';
                 this.canvas.style.zIndex = '-1';
             }
         }
@@ -61,9 +59,9 @@
             this.canvas.height = window.innerHeight;
             
             // Calculate appropriate number of particles based on screen area
-            // Fewer particles = cleaner look
+            // Reduced particle count target ~60%
             const area = this.canvas.width * this.canvas.height;
-            this.config.particleCount = Math.floor(area / 15000); 
+            this.config.particleCount = Math.floor(area / 25000); 
 
             this.createParticles();
         }

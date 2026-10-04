@@ -250,15 +250,15 @@
 
     /* TEXT ANIMATION */
     .loader-text {
-        font-family: var(--font-display, sans-serif);
+        font-family: var(--font-slab, sans-serif);
         font-size: 4rem;
-        font-weight: 900;
-        font-style: italic;
-        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--accent-cream);
         opacity: 0;
         transform: scale(1.1);
         transition: all 0.5s ease 0.2s; /* Delay text in */
-        mix-blend-mode: exclusion; /* Cool effect */
     }
     
     [data-state="loading"] .loader-text {
@@ -269,18 +269,17 @@
     /* THEME OVERRIDES */
     /* Force specific colors for layers */
     
-    /* Modern Day: White Primary, Red Accent, Black Text */
-    :global(html[data-theme='modern']) .layer-primary { background-color: var(--surface); }
+    /* Modern Day: White Primary, Iris Accent */
+    :global(html[data-theme='modern']) .layer-primary { background-color: var(--surface-solid); }
     :global(html[data-theme='modern']) .layer-accent { background-color: rgb(var(--accent)); }
     :global(html[data-theme='modern']) .loader-text { 
-        color: #000000; 
-        mix-blend-mode: normal; 
+        color: var(--accent-cream);
     }
     
-    /* Nord Night: Dark Primary, Cyan Accent */
-    :global(html[data-theme='nord']) .layer-primary { background-color: var(--surface); }
+    /* Nord Night: Dark Primary, Iris Accent */
+    :global(html[data-theme='nord']) .layer-primary { background-color: var(--surface-solid); }
     :global(html[data-theme='nord']) .layer-accent { background-color: rgb(var(--accent)); }
-    :global(html[data-theme='nord']) .loader-text { color: var(--text-primary); }
+    :global(html[data-theme='nord']) .loader-text { color: var(--accent-cream); }
 
     /* Global Transitions Disable */
     :global(html.is-navigating::view-transition-group(root)) { animation: none !important; }

@@ -7,23 +7,23 @@ const isTags = currentPath.startsWith('/tags');
 const showToggle = isAllPosts || isCategory || isTags;
 ---
 
-<nav class="blog-nav" aria-label="Archive navigation">
+<nav class="blog-nav obs-frame" aria-label="Archive navigation">
   <div class="nav-content">
-    <span class="nav-label">Browse</span>
+    <span class="nav-label obs-stat">Browse</span>
     <a href="/blog" class={`nav-link ${isAllPosts ? 'active' : ''}`}>All</a>
     <a href="/category" class={`nav-link ${isCategory ? 'active' : ''}`}>Categories</a>
     <a href="/tags" class={`nav-link ${isTags ? 'active' : ''}`}>Tags</a>
 
-    {currentCategory && <span class="item-badge">Category: {currentCategory}</span>}
-    {tags && tags.length > 0 && tags.map((t) => <span class="item-badge">#{t}</span>)}
+    {currentCategory && <span class="item-badge obs-stat">Category: {currentCategory}</span>}
+    {tags && tags.length > 0 && tags.map((t) => <span class="item-badge obs-stat">#{t}</span>)}
   </div>
 
   {showToggle && (
     <div class="view-toggle">
-      <button id="view-expanded" class="toggle-btn active" title="Expanded view" aria-label="Expanded view">
+      <button id="view-expanded" class="toggle-btn obs-stat active" title="Expanded view" aria-label="Expanded view">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18"></rect><path d="M3 12h18"></path></svg>
       </button>
-      <button id="view-compact" class="toggle-btn" title="Compact view" aria-label="Compact view">
+      <button id="view-compact" class="toggle-btn obs-stat" title="Compact view" aria-label="Compact view">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"></path></svg>
       </button>
     </div>
@@ -84,8 +84,7 @@ const showToggle = isAllPosts || isCategory || isTags;
     align-items: stretch;
     gap: 1rem;
     margin-bottom: var(--space-xl);
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .nav-content {
@@ -124,8 +123,9 @@ const showToggle = isAllPosts || isCategory || isTags;
 
   .nav-link:hover,
   .nav-link.active {
-    background: var(--text-primary);
-    color: var(--canvas);
+    background: var(--accent-iris);
+    color: var(--accent-cream);
+    border-bottom: 2px solid var(--accent-iris);
   }
 
   .item-badge {
@@ -153,8 +153,8 @@ const showToggle = isAllPosts || isCategory || isTags;
 
   .toggle-btn:hover,
   .toggle-btn.active {
-    background: rgb(var(--accent));
-    color: #fffef8;
+    background: var(--accent-iris);
+    color: var(--accent-cream);
   }
 
   @media (max-width: 720px) {

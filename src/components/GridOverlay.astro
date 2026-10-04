@@ -11,63 +11,11 @@ const xMinorTicks = range(-850, 850, 50).filter((tick) => tick !== 0 && tick % 1
 const yMinorTicks = range(-550, 550, 50).filter((tick) => tick !== 0 && tick % 100 !== 0);
 ---
 <div class="grid-overlay" aria-hidden="true">
-  <div class="schematic-field"></div>
   <div class="grid-lines"></div>
   <div class="axis axis-x"></div>
   <div class="axis axis-y"></div>
-  <div class="axis-ticks">
-    {xMinorTicks.map((tick) => (
-      <span class="axis-tick tick-x tick-minor" style={`--tick-offset: ${tick}px;`}></span>
-    ))}
-    {yMinorTicks.map((tick) => (
-      <span class="axis-tick tick-y tick-minor" style={`--tick-offset: ${tick}px;`}></span>
-    ))}
-    {xMajorTicks.map((tick) => (
-      <span class="axis-tick tick-x tick-major" style={`--tick-offset: ${tick}px;`}>
-        <span class="tick-label">X: {tick}</span>
-      </span>
-    ))}
-    {yMajorTicks.map((tick) => (
-      <span class="axis-tick tick-y tick-major" style={`--tick-offset: ${tick}px;`}>
-        <span class="tick-label">Y: {tick}</span>
-      </span>
-    ))}
-  </div>
-  <div class="survey-arc arc-a"></div>
-  <div class="survey-arc arc-b"></div>
-  <div class="survey-arc arc-c"></div>
-  <div class="survey-arc arc-d"></div>
-  <span class="ghost-word word-the macro-serif">T</span>
-  <span class="ghost-word word-coffs macro-serif">C</span>
-  <div class="crosshair top-left">
-    <span class="h-line"></span>
-    <span class="v-line"></span>
-  </div>
-  <div class="crosshair top-right">
-    <span class="h-line"></span>
-    <span class="v-line"></span>
-  </div>
-  <div class="crosshair bottom-left">
-    <span class="h-line"></span>
-    <span class="v-line"></span>
-  </div>
-  <div class="crosshair bottom-right">
-    <span class="h-line"></span>
-    <span class="v-line"></span>
-  </div>
-  <!-- Calibration marks -->
-  <span class="cal-mark cal-tl">+</span>
-  <span class="cal-mark cal-tr">+</span>
-  <span class="cal-mark cal-bl">+</span>
-  <span class="cal-mark cal-br">+</span>
-  <!-- Coordinate labels -->
   <span class="coord coord-x">X AXIS</span>
   <span class="coord coord-y">Y AXIS</span>
-  <span class="coord coord-origin">(0,0)</span>
-  <span class="coord coord-z">Z AXIS</span>
-  <span class="coord coord-y1">Y1</span>
-  <span class="coord coord-y2">Y2</span>
-  <span class="coord coord-neg-y">-Y</span>
   <span id="coord-readout" class="coord-readout">X:0000 / Y:0000</span>
 </div>
 
@@ -101,11 +49,9 @@ const yMinorTicks = range(-550, 550, 50).filter((tick) => tick !== 0 && tick % 1
     z-index: 1;
     background-image:
       linear-gradient(var(--blueprint-grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px),
-      linear-gradient(var(--guide-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--guide-line) 1px, transparent 1px);
-    background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
-    opacity: 0.72;
+      linear-gradient(90deg, var(--blueprint-grid) 1px, transparent 1px);
+    background-size: 32px 32px, 32px 32px;
+    opacity: 1;
   }
 
   .schematic-field {
@@ -367,22 +313,12 @@ const yMinorTicks = range(-550, 550, 50).filter((tick) => tick !== 0 && tick % 1
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.25em;
-    color: var(--text-tertiary);
+    color: var(--accent-ice);
     text-transform: uppercase;
+    opacity: 0.8;
   }
   .coord-x { top: calc(50% + 8px); right: 24px; }
   .coord-y { top: 24px; left: calc(50% + 8px); writing-mode: vertical-rl; }
-  .coord-origin { top: calc(50% + 8px); left: calc(50% + 8px); color: var(--accent-blue); }
-  .coord-z {
-    top: 14px;
-    left: calc(50% + 28px);
-    padding: 2px 5px;
-    background: var(--border);
-    color: var(--canvas);
-  }
-  .coord-y1 { top: 28%; left: calc(50% + 8px); }
-  .coord-y2 { top: 68%; left: calc(50% + 8px); }
-  .coord-neg-y { bottom: 24px; left: calc(50% + 8px); }
 
   .coord-readout {
     position: absolute;
@@ -392,7 +328,7 @@ const yMinorTicks = range(-550, 550, 50).filter((tick) => tick !== 0 && tick % 1
     padding: 3px 6px;
     background: var(--surface-solid);
     border: 1px solid var(--border-subtle);
-    color: var(--accent-blue);
+    color: var(--accent-iris);
     font-family: var(--font-mono);
     font-size: 9px;
     letter-spacing: 0.18em;
@@ -400,8 +336,8 @@ const yMinorTicks = range(-550, 550, 50).filter((tick) => tick !== 0 && tick % 1
   }
 
   @media (max-width: 768px) {
-    .grid-lines { background-size: 72px 72px, 72px 72px, 24px 24px, 24px 24px; }
-    .crosshair, .cal-mark, .coord, .survey-arc, .ghost-word, .axis-ticks { display: none; }
+    .grid-lines { background-size: 32px 32px, 32px 32px; }
+    .coord { display: none; }
     .axis-y { left: 24px; }
     .coord-readout {
       right: 8px;
