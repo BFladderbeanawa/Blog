@@ -98,6 +98,8 @@ const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
     display: contents;
   }
 
+  .rec-no, .row-date, .row-cat, .row-main, .row-arrow { grid-row: 1; }
+
   .rec-no {
     grid-column: 1;
     font-family: var(--font-mono);
@@ -256,10 +258,12 @@ const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
 
     .row-main {
       grid-column: 1;
+      grid-row: 2;
     }
 
     .row-arrow {
       grid-column: 2;
+      grid-row: 1 / 3;
       align-self: center;
     }
   }

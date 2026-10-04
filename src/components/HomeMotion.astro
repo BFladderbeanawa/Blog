@@ -1,0 +1,207 @@
+<script>
+  const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
+  let dispose: (() => void) | undefined;
+  let introPlayed = false;
+
+  function bindHomeMotion() {
+    dispose?.();
+    const page = document.querySelector<HTMLElement>('.home-page');
+    const root = document.getElementById('scroll-container');
+    if (!page || !root) return;
+
+    const controller = new AbortController();
+    const { signal } = controller;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const animations = new Set<Animation>();
+    const resets = new Set<() => void>();
+    const observers: IntersectionObserver[] = [];
+
+    const animate = (element: Element, keyframes: Keyframe[], duration = 500, delay = 0) => {
+      if (reduced.matches) return;
+      const animation = element.animate(keyframes, { duration, delay, easing: ease, fill: 'backwards' });
+      animations.add(animation);
+      animation.finished.then(() => animations.delete(animation), () => animations.delete(animation));
+    };
+
+    // A single arrival sequence. Text remains visible if JavaScript is unavailable.
+    if (!introPlayed && !reduced.matches) {
+      const intro = [
+        ['.hero-kicker', 0, -8],
+        ['.red-slab', 40, 16],
+        ['.blue-slab', 90, -16],
+        ['.hero-readout', 160, 8],
+        ['.manifesto-block', 220, 12],
+        ['.hero-actions', 260, 8],
+      ] as const;
+      intro.forEach(([selector, delay, distance]) => {
+        const element = page.querySelector(selector);
+        if (element) animate(element, [
+          { opacity: 0, transform: `translateY(${distance}px)` },
+          { opacity: 1, transform: 'translateY(0)' },
+        ], 600, delay);
+      });
+      page.querySelectorAll('.kinetic .kw > span').forEach((word, index) => {
+        animate(word, [{ transform: 'translateY(105%)' }, { transform: 'translateY(0)' }], 700, 80 + index * 65);
+      });
+    }
+    introPlayed = true;
+
+    // Selected editorial moments reveal once; article results stay immediately usable.
+    const revealTargets = page.querySelectorAll<HTMLElement>('[data-home-reveal]');
+    const reveal = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        const element = target as HTMLElement;
+        reveal.unobserve(element);
+        element.removeAttribute('data-motion-pending');
+        animate(element, [
+          { opacity: 0, transform: 'translateY(14px)' },
+          { opacity: 1, transform: 'translateY(0)' },
+        ], 500, Number(element.dataset.homeReveal) || 0);
+      });
+    }, { root, rootMargin: '0px 0px -24px 0px', threshold: 0 });
+    if (!reduced.matches) {
+      const edge = root.getBoundingClientRect().bottom;
+      revealTargets.forEach((element) => {
+        if (element.getBoundingClientRect().top >= edge) {
+          element.dataset.motionPending = '';
+          reveal.observe(element);
+        }
+      });
+    }
+    observers.push(reveal);
+    page.addEventListener('focusin', (event) => {
+      const element = (event.target as HTMLElement).closest<HTMLElement>('[data-motion-pending]');
+      if (element) {
+        reveal.unobserve(element);
+        element.removeAttribute('data-motion-pending');
+      }
+    }, { signal });
+
+    // Pointer depth is decorative only; the reading surface stays still.
+    function bindPointerSurface(surface: HTMLElement, layers: HTMLElement[], magnetic = false) {
+      let frame = 0;
+      let x = 0, y = 0, targetX = 0, targetY = 0;
+      const reset = () => {
+        cancelAnimationFrame(frame);
+        frame = 0;
+        x = y = targetX = targetY = 0;
+        layers.forEach((layer) => layer.style.removeProperty('translate'));
+      };
+      resets.add(reset);
+      const tick = () => {
+        x += (targetX - x) * 0.14;
+        y += (targetY - y) * 0.14;
+        layers.forEach((layer) => {
+          const depth = magnetic ? 5 : Number(layer.dataset.depth || 0);
+          layer.style.translate = `${(x * depth).toFixed(2)}px ${(y * depth).toFixed(2)}px`;
+        });
+        if (Math.abs(targetX - x) > 0.002 || Math.abs(targetY - y) > 0.002) {
+          frame = requestAnimationFrame(tick);
+        } else {
+          frame = 0;
+          if (!targetX && !targetY) reset();
+        }
+      };
+      surface.addEventListener('pointermove', (event) => {
+        if (reduced.matches || !finePointer.matches || event.pointerType === 'touch') return;
+        const rect = surface.getBoundingClientRect();
+        targetX = (event.clientX - rect.left) / rect.width - 0.5;
+        targetY = (event.clientY - rect.top) / rect.height - 0.5;
+        if (!frame) frame = requestAnimationFrame(tick);
+      }, { passive: true, signal });
+      surface.addEventListener('pointerleave', () => {
+        targetX = targetY = 0;
+        if (frame) cancelAnimationFrame(frame);
+        if (reduced.matches) reset();
+        else frame = requestAnimationFrame(tick);
+      }, { signal });
+    }
+    const hero = page.querySelector<HTMLElement>('.section-hero');
+    if (hero) bindPointerSurface(hero, [...hero.querySelectorAll<HTMLElement>('[data-depth]')]);
+    page.querySelectorAll<HTMLElement>('.nav-card').forEach((card) => bindPointerSurface(card, [card], true));
+
+    // Active section follows the actual app scroll container.
+    const links = page.querySelectorAll<HTMLAnchorElement>('.home-index a');
+    const index = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        if (!isIntersecting) return;
+        const id = target.id || 'home-top';
+        links.forEach((link) => {
+          if (link.hash === `#${id}`) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    }, { root, rootMargin: '-12% 0px -62% 0px', threshold: 0 });
+    page.querySelectorAll(':scope > section').forEach((section) => index.observe(section));
+    observers.push(index);
+
+    const stopMotion = () => {
+      animations.forEach((animation) => animation.cancel());
+      animations.clear();
+      resets.forEach((reset) => reset());
+      reveal.disconnect();
+      revealTargets.forEach((element) => element.removeAttribute('data-motion-pending'));
+    };
+    reduced.addEventListener('change', () => { if (reduced.matches) stopMotion(); }, { signal });
+    finePointer.addEventListener('change', () => resets.forEach((reset) => reset()), { signal });
+    dispose = () => {
+      stopMotion();
+      controller.abort();
+      observers.forEach((observer) => observer.disconnect());
+      dispose = undefined;
+    };
+  }
+
+  document.addEventListener('astro:page-load', bindHomeMotion);
+  document.addEventListener('astro:before-swap', () => dispose?.());
+</script>
+
+<style is:global>
+  .home-page [data-motion-pending] { opacity: 0; }
+  #scroll-container:has(.home-page) { scroll-behavior: smooth; }
+  .home-page a, .home-page button { touch-action: manipulation; }
+  .home-page .hero-actions a, .home-page .filter, .home-page .tag-links a {
+    transition: transform 160ms var(--ease-editorial), background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+  .home-page .hero-actions a:active, .home-page .filter:active, .home-page .tag-links a:active {
+    transform: scale(0.97);
+    transition-duration: 0s;
+  }
+  .home-page .home-index a { position: relative; }
+  .home-page .home-index a::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    background: var(--accent-iris);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 200ms var(--ease-editorial);
+  }
+  .home-page .home-index a[aria-current] { text-decoration: none; }
+  .home-page .home-index a[aria-current]::after,
+  .home-page .home-index a:focus-visible::after { transform: scaleX(1); }
+  .home-page :is(.hero-actions a, .archive-link, .all-topics, .all-tags, .author-note > a, .mode-search) > span[aria-hidden] {
+    display: inline-block;
+    transition: transform 160ms var(--ease-editorial);
+  }
+  .home-page .topic-arrow { transition: transform 180ms var(--ease-editorial); }
+  .home-page .topic-symbol { transition: transform 250ms var(--ease-editorial); }
+  .home-page .topic-row:focus-visible .topic-arrow { transform: translate(3px, -3px); }
+  .home-page :is(.hero-actions a, .archive-link, .all-topics, .all-tags, .author-note > a, .mode-search):focus-visible > span[aria-hidden] { transform: translate(2px, -2px); }
+  @media (hover: hover) and (pointer: fine) {
+    .home-page .home-index a:hover::after { transform: scaleX(1); }
+    .home-page .topic-row:hover .topic-arrow { transform: translate(3px, -3px); }
+    .home-page .topic-row:hover .topic-symbol { transform: translateY(-3px) rotate(-4deg); }
+    .home-page :is(.hero-actions a, .archive-link, .all-topics, .all-tags, .author-note > a, .mode-search):hover > span[aria-hidden] { transform: translate(2px, -2px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #scroll-container:has(.home-page) { scroll-behavior: auto; }
+    .home-page [data-motion-pending] { opacity: 1; }
+    .home-page .topic-symbol, .home-page .topic-arrow,
+    .home-page :is(.hero-actions a, .archive-link, .all-topics, .all-tags, .author-note > a, .mode-search) > span[aria-hidden] { transform: none !important; }
+    .home-page .hero-actions a:active, .home-page .filter:active, .home-page .tag-links a:active { transform: none; }
+  }
+</style>

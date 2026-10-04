@@ -1,216 +1,215 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PostCard from '../components/PostCard.astro';
-import VisitorWidgets from '../components/VisitorWidgets.astro';
+import HomeRegistry from '../components/HomeRegistry.astro';
+import ArchiveAtlas from '../components/ArchiveAtlas.astro';
+import HomeMotion from '../components/HomeMotion.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) =>
     b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id)
 );
-const latestPosts = posts.slice(0, 3);
+const latestPosts = posts.slice(0, 6);
+const categories = [...new Set(posts.flatMap((post) => post.data.category ? [post.data.category] : []))];
+const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+const latestPost = posts[0];
+const lastUpdated = posts.length ? new Date(Math.max(...posts.map((post) => (post.data.updatedDate || post.data.pubDate).valueOf()))) : null;
+const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
 
 <Layout>
-  <main class="home-page page-shell">
-    <section class="poster-board" aria-labelledby="home-title">
-      <div class="poster-kicker axis-label">知识构成 // 記録編集 // Personal archive / 00</div>
+  <main class="home-page" id="home-top">
+    <nav class="home-index" aria-label="首页章节">
+      <span class="index-caption">FIELD INDEX <span aria-hidden="true">／</span></span>
+      <a href="#home-top" aria-current="location">00 <span>序章</span></a>
+      <a href="#navigate">01 <span>入口</span></a>
+      <a href="#dispatches">02 <span>新着</span></a>
+      <a href="#atlas">03 <span>地圖</span></a>
+      <span class="index-edition">PERSONAL ARCHIVE <span aria-hidden="true">＋</span></span>
+    </nav>
+    <!-- Section 1: Hero -->
+    <section class="snap-section section-hero" aria-labelledby="home-title">
+      <div class="hero-container">
+        <div class="hero-kicker axis-label">知識構成 // 記録編集 // Personal archive / 00</div>
 
-      <div class="red-slab" aria-hidden="true" data-depth="10">BF</div>
-      <div class="blue-slab" aria-hidden="true" data-depth="14">構成</div>
-      <span class="hero-ghost" aria-hidden="true" data-depth="-8">§</span>
+        <div class="red-slab" aria-hidden="true" data-depth="10">BF</div>
+        <div class="blue-slab" aria-hidden="true" data-depth="14">構成</div>
+        <span class="hero-ghost" aria-hidden="true" data-depth="-8">§</span>
 
-      <header class="poster-title-block" data-depth="6">
-        <span class="obs-eyebrow calibrate">OBS.STATION // FIELD NOTES</span>
-        <h1 id="home-title" class="kinetic">
-          <span class="kw"><span style="--i:0">Construct</span></span>
-          <span class="kw"><span style="--i:1">the</span></span>
-          <span class="kw kw-accent"><span style="--i:2">untidy</span></span>
-          <span class="kw"><span style="--i:3">notes.</span></span>
-        </h1>
-      </header>
+        <header class="hero-title-block">
+          <span class="obs-eyebrow">OBS.STATION // FIELD NOTES</span>
+          <h1 id="home-title" class="kinetic">
+            <span class="kw"><span style="--i:0">Construct</span></span>
+            <span class="kw"><span style="--i:1">the</span></span>
+            <span class="kw kw-accent"><span style="--i:2">untidy</span></span>
+            <span class="kw"><span style="--i:3">notes.</span></span>
+          </h1>
+        </header>
 
-      <aside class="manifesto-block calibrate-2" data-depth="4">
-        <span class="axis-label">宣言 // Manifesto // 宣言</span>
-        <p>
-          A digital garden for code, mathematics, philosophy, stray tools, and the little systems that make thinking easier to revisit.
-          知识在这里被切割、重排、再装订。思考はここで組み直される。
-        </p>
-        <p class="obs-stat">LAT <b>31.23</b> // LON <b>121.47</b> // EST. <b>BF.01</b></p>
-      </aside>
+        <aside class="manifesto-block">
+          <span class="axis-label">宣言 // Manifesto // 宣言</span>
+          <p>
+            A digital garden for code, mathematics, philosophy, stray tools, and the little systems that make thinking easier to revisit.
+            知識在這裡被切割、重排、再裝訂。思考はここで組み直される。
+          </p>
+          <p class="obs-stat">LAT <b>31.23</b> // LON <b>121.47</b> // EST. <b>BF.01</b></p>
+        </aside>
 
-      <a href="/start-here" class="poster-route route-start calibrate-3">
-        <span>初访入口</span>
-        <strong>Start with the map</strong>
-        <small>Reading guide ／ 読書地図</small>
-      </a>
+        <div class="hero-actions">
+          <a class="hero-read" href="#dispatches">閱讀最新筆記 <span aria-hidden="true">↗</span></a>
+          <a class="hero-about" href="/about">About the keeper <span aria-hidden="true">→</span></a>
+        </div>
 
-      <a href="/blog" class="poster-route route-archive calibrate-3">
-        <span>文档庫</span>
-        <strong>Open all records</strong>
-        <small>Browse posts ／ 全記録</small>
-      </a>
+        <dl class="hero-readout" aria-label="档案概览">
+          <div><dt>Records / 記録</dt><dd>{String(posts.length).padStart(2, '0')}</dd></div>
+          <div><dt>Fields / 領域</dt><dd>{String(categories.length).padStart(2, '0')}</dd></div>
+          <div><dt>Threads / 線索</dt><dd>{String(tags.length).padStart(2, '0')}</dd></div>
+        </dl>
 
-      <div class="mode-block obs-frame obs-hover">
-        <span class="axis-label">Current Mode // 現在信号</span>
-        <strong>Field Notes<br />野外記録</strong>
-        <p>Drafted in public, revised in motion, indexed for future wandering.</p>
+        <a class="scroll-hint" href="#navigate" aria-label="向下浏览阅读入口">
+          <span class="axis-label">Scroll // 下滑 // スクロール</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14m0 0l-7-7m7 7l7-7"/>
+          </svg>
+        </a>
       </div>
+      <div class="hero-colophon">
+        <span>Independent thoughts. Interconnected notes.</span>
+        <span>{lastUpdated ? `LAST ENTRY / ${formatDate(lastUpdated)}` : 'AWAITING FIRST ENTRY'}</span>
+      </div>
+    </section>
 
-      <hr class="obs-ruler" />
+    <!-- Section 2: Navigation -->
+    <section class="snap-section section-navigation" id="navigate" aria-labelledby="navigate-title">
+      <div class="nav-deco-top" aria-hidden="true">00.2</div>
+      <div class="nav-deco-side" aria-hidden="true">
+        <span>NAV</span>
+        <span>ナビ</span>
+      </div>
+      <div class="nav-accent-block" aria-hidden="true"></div>
 
-      <section class="dispatch-block" aria-labelledby="dispatch-title" data-reveal>
-        <div class="block-heading">
-          <span id="dispatch-title" class="obs-eyebrow">Latest dispatches // 最新通信 // 新着記録</span>
+      <div class="nav-container">
+        <div class="nav-header">
+          <span class="axis-label">Navigate // 導航 // ナビゲート</span>
+          <h2 id="navigate-title">Every note is a way in.</h2>
+          <div class="nav-subtitle">不必按順序閱讀。選一個入口，開始漫遊。</div>
         </div>
-        <div class="post-grid poster-post-grid">
-          {latestPosts.map((post) => <PostCard post={post} />)}
-        </div>
-      </section>
 
-      <hr class="obs-ruler" />
+        <div class="nav-grid">
+          <a href="/start-here" class="nav-card route-start" data-home-reveal="0">
+            <span class="nav-label">初訪入口 <span aria-hidden="true">↗</span></span>
+            <strong>Start with the map</strong>
+            <p>從閱讀地圖開始，找到你感興趣的方向。</p>
+            <small>Reading guide ／ 読書地図</small>
+          </a>
 
-      <section class="telemetry-block" aria-labelledby="telemetry-title" data-reveal>
-        <div class="block-heading">
-          <span id="telemetry-title" class="obs-eyebrow">Visitor telemetry // 来访信号 // 来訪計測</span>
+          <a href="/blog" class="nav-card route-archive" data-home-reveal="60">
+            <span class="nav-label">文檔庫 <span aria-hidden="true">↗</span></span>
+            <strong>Open all records</strong>
+            <p>代碼、數學與哲學，所有思考在這裡交匯。</p>
+            <small>{String(posts.length).padStart(2, '0')} records ／ 全記録</small>
+          </a>
+
+          <div class="mode-card obs-frame" data-home-reveal="100">
+            <span class="axis-label">Current Mode // 現在信號</span>
+            <strong>Field Notes<br />野外記録</strong>
+            <p>Drafted in public, revised in motion, indexed for future wandering.</p>
+            <a href="/search" class="mode-search">尋找一個想法 <span aria-hidden="true">↗</span></a>
+          </div>
         </div>
-        <VisitorWidgets />
-      </section>
+        {latestPost && (
+          <a class="desk-note" href={`/blog/${latestPost.id}/`}>
+            <span class="obs-eyebrow">On the desk // 最近一筆</span>
+            <span class="desk-title">{latestPost.data.title}</span>
+            <time class="obs-stat" datetime={latestPost.data.pubDate.toISOString()}>{formatDate(latestPost.data.pubDate)}</time>
+            <span aria-hidden="true">↗</span>
+          </a>
+        )}
+      </div>
+    </section>
+
+    <!-- Section 3: Latest Posts -->
+    <section class="snap-section section-posts" id="dispatches" aria-label="最新文章">
+      <div class="posts-container">
+        <HomeRegistry posts={latestPosts} />
+      </div>
+    </section>
+
+    <section class="snap-section section-atlas" id="atlas" aria-labelledby="atlas-title">
+      <div class="atlas-container">
+        <ArchiveAtlas posts={posts} />
+        <a class="back-to-top" href="#home-top">Back to the beginning / 回到序章 <span aria-hidden="true">↑</span></a>
+      </div>
     </section>
   </main>
+  <HomeMotion />
 </Layout>
 
-<script>
-  /* Hero parallax: layers drift at different depths behind the cursor.
-     Uses the CSS `translate` property so it composes with hover transforms. */
-  function bindHeroParallax() {
-    const board = document.querySelector('.poster-board');
-    if (!board) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-    if (board.dataset.parallaxBound) return;
-    board.dataset.parallaxBound = '1';
 
-    const layers = Array.from(board.querySelectorAll('[data-depth]'));
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
-
-    function tick() {
-      raf = requestAnimationFrame(() => {
-        cx += (tx - cx) * 0.07;
-        cy += (ty - cy) * 0.07;
-        layers.forEach((l) => {
-          const d = parseFloat(l.dataset.depth || '0');
-          l.style.translate = `${(cx * d).toFixed(2)}px ${(cy * d).toFixed(2)}px`;
-        });
-        if (Math.abs(tx - cx) > 0.002 || Math.abs(ty - cy) > 0.002) tick();
-        else raf = 0;
-      });
-    }
-
-    board.addEventListener('mousemove', (e) => {
-      const r = board.getBoundingClientRect();
-      tx = (e.clientX - r.left) / r.width - 0.5;
-      ty = (e.clientY - r.top) / r.height - 0.5;
-      if (!raf) tick();
-    }, { passive: true });
-
-    board.addEventListener('mouseleave', () => {
-      tx = 0;
-      ty = 0;
-      if (!raf) tick();
-    });
-  }
-
-  /* Magnetic route slabs: pull toward the cursor, spring back on leave. */
-  function bindMagnets() {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-
-    document.querySelectorAll('.poster-route').forEach((el) => {
-      if (el.dataset.magnetBound) return;
-      el.dataset.magnetBound = '1';
-      let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0;
-      const PULL = 9;
-
-      function tick() {
-        raf = requestAnimationFrame(() => {
-          cx += (tx - cx) * 0.15;
-          cy += (ty - cy) * 0.15;
-          el.style.translate = `${cx.toFixed(2)}px ${cy.toFixed(2)}px`;
-          if (Math.abs(tx - cx) > 0.02 || Math.abs(ty - cy) > 0.02) tick();
-          else {
-            raf = 0;
-            if (tx === 0 && ty === 0) el.style.translate = '';
-          }
-        });
-      }
-
-      el.addEventListener('mousemove', (e) => {
-        const r = el.getBoundingClientRect();
-        tx = ((e.clientX - r.left) / r.width - 0.5) * PULL;
-        ty = ((e.clientY - r.top) / r.height - 0.5) * PULL;
-        if (!raf) tick();
-      }, { passive: true });
-
-      el.addEventListener('mouseleave', () => {
-        tx = 0;
-        ty = 0;
-        if (!raf) tick();
-      });
-    });
-  }
-
-  document.addEventListener('astro:page-load', () => {
-    bindHeroParallax();
-    bindMagnets();
-  });
-  bindHeroParallax();
-  bindMagnets();
-</script>
 
 <style>
+  /* ═══════════════════════════════════════════════════════════════════
+     Snap Scroll Container
+     ═══════════════════════════════════════════════════════════════════ */
   .home-page {
+    position: relative;
     min-height: 100%;
   }
 
-  .poster-board {
+  .snap-section {
     position: relative;
-    display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-auto-rows: minmax(4.5rem, auto);
-    min-height: min(980px, calc(100dvh - 10rem));
-    border: var(--frame) solid var(--border);
-    background:
-      repeating-linear-gradient(90deg, transparent 0 calc(8.333% - 1px), var(--border-subtle) calc(8.333% - 1px) 8.333%),
-      repeating-linear-gradient(0deg, transparent 0 4.5rem, var(--border-subtle) 4.5rem calc(4.5rem + 1px)),
-      var(--surface);
+    min-height: min(780px, 100svh);
+    scroll-margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     isolation: isolate;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Section 1: Hero
+     ═══════════════════════════════════════════════════════════════════ */
+  .section-hero {
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(8.333% - 1px), var(--blueprint-grid) calc(8.333% - 1px) 8.333%),
+      repeating-linear-gradient(0deg, transparent 0 4.5rem, var(--blueprint-grid) 4.5rem calc(4.5rem + 1px)),
+      var(--surface);
     overflow: hidden;
   }
 
-  .poster-board > * {
-    min-width: 0;
-  }
-
-  .poster-board::before {
+  .section-hero::before {
     content: "";
     position: absolute;
-    inset: 8% -10% auto 45%;
-    height: 28%;
+    inset: 15% -10% auto 50%;
+    height: 35%;
     background: var(--blueprint-grid);
     transform: rotate(-18deg);
-    transform-origin: center;
     pointer-events: none;
     z-index: 0;
   }
 
-  .poster-kicker {
+  .hero-container {
+    position: relative;
+    width: min(1360px, 92%);
+    min-height: 650px;
+    height: min(760px, 85svh);
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: repeat(12, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+
+  .hero-kicker {
     grid-column: 1 / 8;
     grid-row: 1;
     align-self: start;
     padding: var(--space-sm) var(--space-md);
     background: var(--accent-lemon);
     color: var(--accent-cream);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
 
   .red-slab,
@@ -227,287 +226,86 @@ const latestPosts = posts.slice(0, 3);
 
   .red-slab {
     grid-column: 1 / 4;
-    grid-row: 2 / 6;
+    grid-row: 2 / 5;
     background: var(--accent-signal);
     font-size: clamp(2.5rem, 7vw, 5.5rem);
     clip-path: polygon(0 0, 100% 0, 72% 100%, 0 84%);
   }
 
   .blue-slab {
-    grid-column: 9 / 13;
-    grid-row: 1 / 5;
+    grid-column: 10 / 13;
+    grid-row: 1 / 4;
     background: var(--surface-solid);
     color: var(--accent-ice);
-    font-family: var(--font-slab);
     font-size: clamp(3.5rem, 10vw, 9rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
     writing-mode: vertical-rl;
     clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 76%);
   }
 
-  .poster-title-block {
+  .hero-title-block {
     grid-column: 3 / 11;
-    grid-row: 2 / 7;
+    grid-row: 3 / 10;
     align-self: center;
-    padding: var(--space-lg);
+    padding: var(--space-xl);
     background: var(--surface);
     border: var(--frame) solid var(--border);
     clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 92% 100%, 0 100%);
   }
 
-  .poster-code {
-    display: block;
-    margin-bottom: var(--space-md);
-    color: var(--accent-signal);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-
-  .poster-title-block h1 {
-    max-width: min(9ch, 100%);
+  .hero-title-block h1 {
+    max-width: 10ch;
     overflow-wrap: break-word;
     font-family: var(--font-display);
-    font-size: clamp(4rem, 10vw, 9.5rem);
+    font-size: clamp(4rem, 7.7vw, 7rem);
+    line-height: 0.98;
     font-weight: 600;
   }
 
   .manifesto-block {
-    grid-column: 7 / 11;
-    grid-row: 6 / 9;
-    align-self: stretch;
-    padding: var(--space-lg);
+    grid-column: 8 / 13;
+    grid-row: 9 / 13;
+    align-self: start;
+    z-index: 2;
+    padding: 1.5rem;
     background: var(--accent-cream);
     border: 1px solid var(--border);
     border-left: var(--frame-lg) solid var(--accent-iris);
-    /* cream plate stays light in both themes — pin ink, never theme-flipping text tokens */
     color: var(--accent-lemon);
   }
 
   .manifesto-block .axis-label,
-  .manifesto-block .obs-stat,
-  .manifesto-block .obs-eyebrow {
+  .manifesto-block .obs-stat {
     color: var(--accent-lemon);
   }
 
   .manifesto-block p {
     margin-top: var(--space-md);
     font-family: var(--font-display);
-    font-size: clamp(1rem, 1.6vw, 1.25rem);
-    line-height: 1.35;
+    color: var(--accent-lemon);
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.5;
     font-style: italic;
   }
 
-  .poster-route {
-    position: relative;
-    display: grid;
-    align-content: space-between;
-    min-height: 12rem;
-    padding: var(--space-md);
-    isolation: isolate;
-    overflow: hidden;
-    transition:
-      color var(--duration-fast) var(--ease-sharp);
-  }
+  .manifesto-block .obs-stat { font-size: 0.65rem; font-style: normal; }
+  .manifesto-block .obs-stat b { color: var(--accent-lemon); }
 
-  .poster-route::before,
-  .poster-route::after {
-    content: "";
-    position: absolute;
-    inset: auto auto 0 0;
-    z-index: -1;
-    height: 0;
-    pointer-events: none;
-    transition: height var(--duration-base) var(--ease-editorial), width var(--duration-base) var(--ease-editorial);
-  }
-
-  .poster-route::before {
-    width: 100%;
-    background: var(--accent-iris);
-    clip-path: none;
-  }
-
-  .poster-route > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .poster-route::after {
-    right: 0;
-    left: auto;
-    width: 44%;
-    background: var(--surface-solid);
-    clip-path: polygon(32% 0, 100% 0, 100% 100%, 0 100%);
-  }
-
-  .poster-route span,
-  .poster-route small {
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .poster-route strong {
-    display: block;
-    max-width: 100%;
-    font-family: var(--font-display);
-    font-size: clamp(1.65rem, 3.3vw, 3.25rem);
-    font-weight: 600;
-    line-height: 0.92;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    text-wrap: balance;
-  }
-
-  .poster-route:hover,
-  .poster-route:focus-visible {
-    transform: translate(-0.35rem, -0.35rem) rotate(-1deg);
-    color: var(--accent-cream);
-  }
-
-  .poster-route:hover::before,
-  .poster-route:focus-visible::before {
-    height: 100%;
-  }
-
-  .poster-route:hover::after,
-  .poster-route:focus-visible::after {
-    height: 100%;
-    width: 18%;
-  }
-
-  .poster-route:hover small,
-  .poster-route:hover span,
-  .poster-route:hover strong,
-  .poster-route:focus-visible small,
-  .poster-route:focus-visible span,
-  .poster-route:focus-visible strong {
-    color: var(--accent-cream);
-  }
-
-  /* Nord's iris is intentionally light: invert to ink text and an ice
-     secondary slice so both hover planes keep accessible contrast. */
-  :global(html[data-theme='nord']) .poster-route:hover,
-  :global(html[data-theme='nord']) .poster-route:hover small,
-  :global(html[data-theme='nord']) .poster-route:hover span,
-  :global(html[data-theme='nord']) .poster-route:hover strong,
-  :global(html[data-theme='nord']) .poster-route:focus-visible,
-  :global(html[data-theme='nord']) .poster-route:focus-visible small,
-  :global(html[data-theme='nord']) .poster-route:focus-visible span,
-  :global(html[data-theme='nord']) .poster-route:focus-visible strong {
-    color: var(--canvas);
-  }
-
-  :global(html[data-theme='nord']) .poster-route::after {
-    background: var(--accent-ice);
-  }
-
-  .route-start {
-    grid-column: 1 / 4;
-    grid-row: 7 / 10;
-    background: var(--accent-red);
-    color: var(--accent-cream);
-    clip-path: polygon(0 0, 100% 12%, 86% 100%, 0 100%);
-  }
-
-  .route-archive {
-    grid-column: 4 / 7;
-    grid-row: 8 / 11;
-    background: var(--surface);
-    clip-path: polygon(12% 0, 100% 0, 100% 88%, 0 100%, 0 16%);
-  }
-
-  .mode-block {
-    grid-column: 10 / 13;
-    grid-row: 5 / 8;
-    align-self: stretch;
-    display: grid;
-    align-content: end;
-    gap: var(--space-md);
-    padding: var(--space-lg);
-    background: var(--accent-navy);
-    color: var(--accent-cream);
-    clip-path: polygon(0 18%, 100% 0, 100% 100%, 12% 100%);
-  }
-
-  .mode-block .axis-label,
-  .mode-block p,
-  .mode-block strong {
-    color: var(--accent-cream);
-  }
-
-  .mode-block strong {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4.5vw, 4rem);
-    line-height: 0.9;
-    letter-spacing: -0.06em;
-    text-transform: uppercase;
-  }
-
-  .dispatch-block {
-    grid-column: 1 / 9;
-    grid-row: 11 / 16;
-    padding: var(--space-lg);
-    background: var(--surface);
-    border-top: var(--frame-lg) solid var(--accent-blue);
-  }
-
-  .telemetry-block {
-    grid-column: 9 / 13;
-    grid-row: 9 / 16;
-    padding: var(--space-lg);
-    background: var(--accent-cream);
-    border-left: var(--frame-lg) solid var(--accent-red);
-    color: var(--accent-lemon);
-  }
-
-  .telemetry-block > .block-heading .obs-eyebrow {
-    color: var(--accent-lemon);
-  }
-
-  .block-heading {
+  .scroll-hint {
+    grid-column: 5 / 8;
+    grid-row: 12;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: var(--space-md);
-    margin-bottom: var(--space-lg);
+    gap: var(--space-sm);
+    justify-self: center;
+
   }
 
-  .poster-post-grid {
-    border-top: var(--frame) solid var(--border);
+  .scroll-hint svg {
+    opacity: 0.6;
   }
 
-  /* Kinetic hero title: words rise out of overflow masks, one accent word */
-  .kinetic .kw {
-    display: inline-block;
-    overflow: hidden;
-    vertical-align: bottom;
-    padding-bottom: 0.09em;
-    margin-bottom: -0.09em;
-  }
 
-  .kinetic .kw > span {
-    display: inline-block;
-    transform: translateY(112%);
-    animation: kw-rise 0.85s var(--ease-editorial) forwards;
-    animation-delay: calc(var(--i) * 95ms + 150ms);
-  }
-
-  .kw-accent > span {
-    font-style: italic;
-    color: var(--accent-iris);
-  }
-
-  @keyframes kw-rise {
-    to {
-      transform: translateY(0);
-    }
-  }
-
-  /* Ghost section-mark: oversized serif § drifting behind the hero */
   .hero-ghost {
     position: absolute;
     top: -12%;
@@ -520,22 +318,285 @@ const latestPosts = posts.slice(0, 3);
     line-height: 1;
     color: var(--text-ghost);
     pointer-events: none;
-    animation: ghost-drift 90s linear infinite;
+
   }
 
-  @keyframes ghost-drift {
-    to {
-      rotate: 360deg;
-    }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Section 2: Navigation
+     ═══════════════════════════════════════════════════════════════════ */
+  .section-navigation {
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(12.5% - 1px), var(--border-subtle) calc(12.5% - 1px) 12.5%),
+      var(--canvas);
+    position: relative;
+    overflow: hidden;
   }
 
-  /* Parallax layers translate via the CSS `translate` property so it
-     composes with hover transforms (transform + translate both apply). */
-  [data-depth] {
-    will-change: translate;
+  .section-navigation::before {
+    content: "";
+    position: absolute;
+    inset: auto -5% 8% auto;
+    width: 45%;
+    height: 32%;
+    background: var(--blueprint-grid);
+    transform: rotate(8deg);
+    pointer-events: none;
+    z-index: 0;
   }
 
+  .nav-deco-top {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-tertiary);
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  .nav-deco-side {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    writing-mode: vertical-rl;
+    color: var(--text-tertiary);
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .nav-accent-block {
+    position: absolute;
+    top: 12%;
+    left: 6%;
+    width: 120px;
+    height: 160px;
+    background: var(--accent-iris);
+    opacity: 0.08;
+    clip-path: polygon(0 0, 88% 0, 100% 18%, 76% 100%, 0 100%);
+    z-index: 0;
+  }
+
+  .nav-container {
+    width: min(1360px, 92%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    z-index: 1;
+  }
+
+  .nav-header {
+    text-align: left;
+  }
+
+  .nav-subtitle {
+    margin-top: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.85fr;
+    gap: var(--space-lg);
+  }
+
+  .nav-card {
+    position: relative;
+    display: grid;
+    align-content: space-between;
+    min-height: 21rem;
+    padding: var(--space-xl);
+    border: var(--frame) solid var(--border);
+    isolation: isolate;
+    overflow: hidden;
+    transition: transform var(--duration-base) var(--ease-editorial),
+                color var(--duration-fast) var(--ease-sharp),
+                border-color var(--duration-base) var(--ease-editorial);
+  }
+
+  .nav-card::before {
+    content: "";
+    position: absolute;
+    inset: auto auto 0 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform var(--duration-base) var(--ease-editorial);
+    pointer-events: none;
+  }
+
+  .nav-card::after {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.15;
+    transition: transform var(--duration-base) var(--ease-editorial),
+                opacity var(--duration-base) var(--ease-editorial);
+  }
+
+  .nav-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .route-start {
+    background: var(--accent-red);
+    color: var(--accent-cream);
+    clip-path: polygon(0 0, 100% 6%, 94% 100%, 0 100%);
+  }
+
+  .route-start::before {
+    background: var(--accent-iris);
+  }
+
+  .route-archive {
+    background: var(--surface);
+    clip-path: polygon(6% 0, 100% 0, 100% 94%, 0 100%);
+  }
+
+  .route-archive::before {
+    background: var(--accent-iris);
+  }
+
+  .nav-card:focus-visible {
+    transform: translateY(-3px);
+    color: var(--accent-cream);
+    border-color: var(--accent-iris);
+  }
+
+  .nav-card:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  .nav-card:focus-visible::after {
+    transform: scale(1.2) rotate(45deg);
+    opacity: 0.3;
+  }
+
+  .nav-label,
+  .nav-card small {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .nav-card strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    font-weight: 600;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .mode-card {
+    display: grid;
+    align-content: end;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    background: var(--accent-navy);
+    color: var(--accent-cream);
+    border: var(--frame) solid var(--border);
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 6% 100%);
+    position: relative;
+  }
+
+  .mode-card::before {
+    content: "//";
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: var(--font-mono);
+    font-size: 3rem;
+    font-weight: 700;
+    opacity: 0.1;
+  }
+
+  .mode-card .axis-label,
+  .mode-card p,
+  .mode-card strong {
+    color: var(--accent-cream);
+  }
+
+  .mode-card strong {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Section 3: Latest Posts
+     ═══════════════════════════════════════════════════════════════════ */
+  .section-posts {
+    background: var(--surface);
+    border-top: var(--frame-lg) solid var(--accent-blue);
+  }
+
+  .posts-container {
+    width: min(1360px, 92%);
+    padding: clamp(3rem, 6vw, 6rem) 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Kinetic Title Animation
+     ═══════════════════════════════════════════════════════════════════ */
+  .kinetic .kw {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.09em;
+    margin-bottom: -0.09em;
+  }
+
+  .kinetic .kw > span {
+    display: inline-block;
+
+  }
+
+  .kw-accent > span {
+    font-style: italic;
+    color: var(--accent-iris);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Parallax Layers
+     ═══════════════════════════════════════════════════════════════════ */
+
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Reduced Motion
+     ═══════════════════════════════════════════════════════════════════ */
   @media (prefers-reduced-motion: reduce) {
+    .home-page {
+      scroll-behavior: auto;
+    }
+
     .kinetic .kw > span {
       animation: none;
       transform: none;
@@ -544,38 +605,135 @@ const latestPosts = posts.slice(0, 3);
     .hero-ghost {
       animation: none;
     }
+
+    .scroll-hint {
+      animation: none;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Responsive
+     ═══════════════════════════════════════════════════════════════════ */
+  .home-index {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    min-height: 3rem;
+    padding: 0.5rem 4%;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+  }
+  .home-index a { display: flex; gap: 0.6rem; align-items: center; min-height: 32px; color: var(--text-tertiary); }
+  .home-index a:hover, .home-index a[aria-current] { color: var(--accent-iris); }
+  .home-index a[aria-current] { text-decoration: underline; text-underline-offset: 6px; }
+  .index-caption { color: var(--text-primary); }
+  .index-caption > span { margin-left: 1rem; color: var(--accent-iris); }
+  .index-edition { margin-left: auto; color: var(--text-tertiary); }
+  .index-edition > span { margin-left: 1rem; }
+  .section-hero { flex-direction: column; padding-top: 1.5rem; }
+  .hero-title-block h1::before { display: none; }
+  .hero-title-block .obs-eyebrow { margin-bottom: 1.25rem; }
+  .hero-actions { grid-column: 3 / 8; grid-row: 10 / 12; display: flex; align-self: center; align-items: center; flex-wrap: wrap; gap: 1rem 1.5rem; }
+  .hero-actions a { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 44px; padding: 0.7rem 1rem; font-family: var(--font-mono); font-size: 0.7rem; }
+  .hero-read { background: var(--surface-solid); color: var(--accent-cream); border: 1px solid var(--border); }
+  .hero-read:hover, .hero-read:focus-visible { color: var(--accent-ice); }
+  .hero-about { border-bottom: 1px solid var(--border-subtle); }
+  .hero-readout { grid-column: 1 / 3; grid-row: 6 / 12; align-self: center; display: grid; gap: 1rem; padding-right: 1rem; }
+  .hero-readout > div { border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; }
+  .hero-readout dt { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.04em; color: var(--text-tertiary); }
+  .hero-readout dd { font-family: var(--font-slab); font-size: 2.5rem; font-weight: 600; line-height: 1.3; color: var(--accent-iris); }
+  .hero-colophon { width: 92%; max-width: 1360px; display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--border-subtle); padding-block: 1rem; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.07em; color: var(--text-tertiary); }
+  .section-navigation { padding-block: 5rem; }
+  .nav-container { gap: 2.5rem; }
+  .nav-header h2 { margin-top: 1rem; font-size: clamp(2.5rem, 5.8vw, 5.5rem); line-height: 1.08; font-weight: 500; }
+  .nav-header h2::before { display: none; }
+  .nav-subtitle { font-style: normal; font-size: 0.95rem; margin-top: 1.25rem; }
+  .nav-card { padding: 2rem; gap: 1.5rem; }
+  .nav-label { display: flex; justify-content: space-between; }
+  .nav-label > span { font-size: 1.1rem; }
+  .nav-card p { color: inherit; font-size: 0.85rem; line-height: 1.85; max-width: 23em; }
+  .mode-card { clip-path: none; padding: 2rem; }
+  .mode-card strong { line-height: 1.1; letter-spacing: -0.02em; text-transform: none; }
+  .mode-card p { font-size: 0.85rem; line-height: 1.85; }
+  .mode-card .axis-label { color: var(--accent-ice); }
+  .mode-search { display: flex; justify-content: space-between; padding-top: 1rem; min-height: 44px; border-top: 1px solid var(--accent-ice); font-family: var(--font-mono); font-size: 0.7rem; }
+  .mode-search:hover, .mode-search:focus-visible { color: var(--accent-ice); }
+  .desk-note { display: flex; align-items: center; gap: 1.5rem; border-block: 1px solid var(--border-subtle); padding: 1.1rem 0; }
+  .desk-title { flex: 1; font-size: 1.1rem; }
+  .desk-note > :last-child { color: var(--accent-iris); }
+  .section-posts { min-height: 0; }
+  .section-atlas { background: var(--canvas); border-top: 1px solid var(--border-subtle); }
+  .atlas-container { width: min(1360px, 92%); padding-block: clamp(3rem, 6vw, 6rem) 2rem; }
+  .back-to-top { display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.65rem; }
+  .back-to-top:hover { color: var(--accent-iris); }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav-card:hover { transform: translateY(-3px); color: var(--accent-cream); border-color: var(--accent-iris); }
+    .nav-card:hover::before { transform: scaleY(1); }
+    .nav-card:hover::after { transform: scale(1.2) rotate(45deg); opacity: 0.3; }
+  }
+  .nav-card:active { transform: scale(0.99); transition-duration: 0s; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-card:hover, .nav-card:focus-visible, .nav-card:active { transform: none; }
   }
 
   @media (max-width: 1100px) {
-    .poster-board {
-      grid-template-columns: 1fr;
-      grid-auto-rows: auto;
-      min-height: auto;
-    }
+    .hero-container { gap: 1rem; }
+    .hero-title-block { grid-column: 3 / 12; padding: 2rem; }
+    .hero-title-block h1 { font-size: clamp(4rem, 8vw, 6rem); }
+    .manifesto-block { grid-column: 8 / 13; padding: 1.5rem; }
+    .manifesto-block p { font-size: 1rem; }
+    .nav-grid { gap: 1rem; }
+    .nav-card, .mode-card { padding: 1.5rem; }
+    .nav-deco-side, .nav-accent-block { display: none; }
+  }
 
-    .poster-kicker,
-    .red-slab,
-    .blue-slab,
-    .poster-title-block,
-    .manifesto-block,
-    .route-start,
-    .route-archive,
-    .mode-block,
-    .dispatch-block,
-    .telemetry-block {
-      grid-column: 1;
-      grid-row: auto;
-      clip-path: none;
-    }
+  @media (max-width: 800px) {
+    .index-edition { display: none; }
+    .home-index { gap: 1.25rem; }
+    .snap-section { min-height: auto; }
+    .hero-container { height: auto; min-height: 0; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: auto; gap: 1.5rem 1rem; padding-bottom: 1.5rem; }
+    .hero-kicker { grid-column: 1 / -1; grid-row: 1; padding: 0.65rem; font-size: 0.55rem; }
+    .red-slab { grid-column: 1 / 3; grid-row: 2; min-height: 7rem; font-size: 3.5rem; }
+    .blue-slab { grid-column: 5 / 7; grid-row: 2; min-height: 7rem; writing-mode: horizontal-tb; font-size: 3rem; }
+    .hero-title-block { grid-column: 1 / -1; grid-row: 3; padding: 1.5rem; }
+    .hero-title-block h1 { max-width: 12ch; font-size: clamp(3rem, 10vw, 5.5rem); }
+    .hero-title-block .obs-eyebrow { font-size: 0.55rem; }
+    .hero-actions { grid-column: 1 / -1; grid-row: 4; gap: 0.5rem 1rem; }
+    .manifesto-block { grid-column: 1 / -1; grid-row: 5; padding: 1.5rem; }
+    .manifesto-block p { max-width: 55ch; }
+    .hero-readout { grid-column: 1 / -1; grid-row: 6; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; }
+    .hero-readout dd { font-size: 2rem; }
+    .scroll-hint { grid-column: 1 / -1; grid-row: 7; flex-direction: row; animation: none; }
+    .hero-ghost { top: 3rem; right: 20%; font-size: 16rem; }
+    .hero-colophon { flex-wrap: wrap; }
+    .nav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nav-card { min-height: 19rem; clip-path: none; }
+    .nav-card strong { font-size: clamp(1.75rem, 4.5vw, 3rem); }
+    .mode-card { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; align-items: end; gap: 1.5rem; }
+    .mode-card > .axis-label, .mode-search { grid-column: 1 / -1; }
+    .desk-note { flex-wrap: wrap; gap: 0.75rem; }
+    .desk-note .obs-eyebrow { width: 100%; }
+    .section-navigation { padding-block: 3rem; }
+    .nav-deco-top { display: none; }
+  }
 
-    .red-slab,
-    .blue-slab {
-      min-height: 8rem;
-      writing-mode: horizontal-tb;
-    }
-
-    .poster-title-block h1 {
-      font-size: clamp(3rem, 16vw, 6rem);
-    }
+  @media (max-width: 480px) {
+    .home-index { justify-content: space-between; gap: 0.5rem; }
+    .home-index a { min-height: 36px; gap: 0.4rem; }
+    .index-caption { display: none; }
+    .nav-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .nav-card { min-height: 17rem; }
+    .nav-card strong { max-width: 10ch; font-size: 2.5rem; }
+    .mode-card { grid-template-columns: 1fr; }
+    .hero-readout dt { font-size: 0.5rem; }
+    .hero-actions a { gap: 0.75rem; padding-inline: 0.75rem; font-size: 0.65rem; }
+    .hero-colophon { font-size: 0.5rem; }
   }
 </style>
