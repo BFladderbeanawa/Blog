@@ -394,7 +394,7 @@ function bootstrapWithNpmInstall(packageNames) {
     process.exit(installResult.status ?? 1);
   }
 
-  const args = process.argv.slice(1);
+  const args = [...process.argv.slice(1)];
   const result = spawnSync(process.execPath, args, {
     stdio: "inherit",
     env: {

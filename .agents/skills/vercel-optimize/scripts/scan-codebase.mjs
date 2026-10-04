@@ -178,7 +178,7 @@ async function enumerateRoutes(root) {
     if (m) {
       const stripped = m[1]
         .split('/')
-        .filter((seg) => !/^\([^)]+\)$/.test(seg) && !seg.startsWith('@') && !seg.startsWith('_'))
+        .filter((seg) => !/^\([^)]+\)$/.test(seg) && !/^@/.test(seg) && !/^_/.test(seg))
         .join('/')
         .replace(/^\/+|\/+$/g, '');
       const routePath = stripped === '' ? '/' : `/${stripped}`;
@@ -207,7 +207,7 @@ async function enumerateRoutes(root) {
     m = rel.match(/^(?:src\/)?pages\/(.*)\.(tsx?|jsx?)$/);
     if (m) {
       const name = m[1].replace(/\/index$/, '').replace(/^index$/, '');
-      const isApi = name.startsWith('api/');
+      const isApi = /^api\//.test(name);
       routes.push({
         routePath: name === '' ? '/' : '/' + name,
         file: rel,

@@ -469,7 +469,7 @@ function mentionsUnsafeImmutableDynamicRoute(rec) {
     ...asArray(rec?.findingRefs).map((ref) => String(ref).match(/^(.+?):\d+$/)?.[1]).filter(Boolean),
   ];
   const routeHandler = files.some((file) => /(?:^|\/)route\.[cm]?[jt]sx?$/.test(String(file)));
-  const apiRoute = String(rec?.candidateRef ?? '').startsWith('cache_header_gap:/api/');
+  const apiRoute = /^cache_header_gap:\/api\//.test(String(rec?.candidateRef ?? ''));
   return routeHandler || apiRoute;
 }
 
@@ -499,13 +499,13 @@ function mentionsCachedNotFoundOr404(rec) {
 }
 
 function mentionsRuntimeErrorCause(rec) {
-  if (!String(rec?.candidateRef ?? '').startsWith('route_errors:')) return false;
+  if (!/^route_errors:/.test(String(rec?.candidateRef ?? ''))) return false;
   const haystack = recText(rec);
   return /\b(?:ENOENT|ETIMEDOUT|ECONNRESET|outputFileTracing|missing\s+(?:file|mdx|module)|no\s+(?:matching|corresponding)\s+(?:file|mdx|post)|does\s+not\s+exist|signature\s+of|root cause|caused by|unhandled\s+exceptions?|uncaught(?:-exception)?|throws?|bubbles?\s+to\s+the\s+runtime|reads?\s+[^.]{0,80}(?:filePath|filesystem|file system|disk)|readFile)\b/i.test(haystack);
 }
 
 function mentionsCatchToNotFound(rec) {
-  if (!String(rec?.candidateRef ?? '').startsWith('route_errors:')) return false;
+  if (!/^route_errors:/.test(String(rec?.candidateRef ?? ''))) return false;
   const haystack = recText(rec);
   return /\bcatch\b/i.test(haystack) &&
     /\b(?:404|not[- ]found|not found|notFound)\b/i.test(haystack);

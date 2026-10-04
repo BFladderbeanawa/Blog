@@ -1067,7 +1067,7 @@ function functionStatusForRoute(signals, route) {
     const value = numberValue(row?.value);
     if (value == null) continue;
     total += value;
-    if (String(row?.http_status ?? '').startsWith('5')) errors += value;
+    if (/^5/.test(String(row?.http_status ?? ''))) errors += value;
   }
   return total > 0 ? { total, errors } : null;
 }

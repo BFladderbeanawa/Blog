@@ -128,7 +128,7 @@ function isCacheLifeRec(rec) {
     rec?.desiredBehavior,
     ...(Array.isArray(rec?.citations) ? rec.citations : []),
   ].filter(Boolean).join('\n');
-  return String(rec?.candidateRef ?? '').startsWith('isr_overrevalidation:') &&
+  return /^isr_overrevalidation:/.test(String(rec?.candidateRef ?? '')) &&
     /\bcacheLife\s*\(|\bcacheLife\b/i.test(text);
 }
 
@@ -179,13 +179,15 @@ function cacheLifeIntent(rec) {
     [...text.matchAll(/\bcacheLife\s*\(\s*['"`]([^'"`]+)['"`]/g)]
       .map((m) => m[1])
   );
-  const tags = unique([...text.matchAll(/\bcacheTag\s*\(([^)]*)\)/gs)].flatMap((m) => {
+  const tags = unique([
+    ...[...text.matchAll(/\bcacheTag\s*\(([^)]*)\)/gs)].flatMap((m) => {
       const args = m[1] ?? '';
       return [
         ...[...args.matchAll(/['"]([^'"]+)['"]/g)].map((x) => x[1]),
         ...[...args.matchAll(/`([^`]+)`/g)].map((x) => x[1].includes('${') ? `${x[1].split('${')[0]}*` : x[1]),
       ];
-    }));
+    }),
+  ]);
   const invalidation = /\b(?:revalidateTag|updateTag)\s*\(/.test(text) ? 'with-invalidation-api' : 'no-invalidation-api';
   return [
     'next-cache:cache-life',

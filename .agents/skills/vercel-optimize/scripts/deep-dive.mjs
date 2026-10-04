@@ -198,7 +198,7 @@ async function main() {
       return {
         ...c,
         evidence: {
-          ...c.evidence,
+          ...(c.evidence ?? {}),
           deepDive: { note },
         },
       };
@@ -208,7 +208,7 @@ async function main() {
     return {
       ...c,
       evidence: {
-        ...c.evidence,
+        ...(c.evidence ?? {}),
         deepDive: merged,
       },
     };

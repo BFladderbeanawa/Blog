@@ -58,7 +58,7 @@ export function reconcileInvestigation(investigation, { gate = null } = {}) {
     platform: reconcilePool(investigation.platform, 'platform'),
     preResolvedRecords: [...priorPreResolved, ...preResolvedRecords],
     reconciliation: {
-      ...investigation.reconciliation,
+      ...(investigation.reconciliation ?? {}),
       ...reconciliation,
     },
   };
@@ -141,7 +141,7 @@ function slowRouteErrorDecision(candidate, ctx) {
     const value = numberValue(row?.value);
     if (value == null) continue;
     total += value;
-    if (String(row.http_status ?? '').startsWith('5')) errors += value;
+    if (/^5/.test(String(row.http_status ?? ''))) errors += value;
   }
   if (total <= 0) return null;
   const rate = errors / total;
