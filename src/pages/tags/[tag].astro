@@ -23,6 +23,13 @@ const { posts } = Astro.props;
     <BlogNav tags={[tag]} />
     <a class="back-link" href={`/tags?tags=${tag}`}>Open tag explorer</a>
     <h1 class="page-title">#{tag}</h1>
+    <div class="registry-head" aria-hidden="true">
+      <span>REC</span>
+      <span>Date</span>
+      <span>Record</span>
+      <span>Category</span>
+      <span></span>
+    </div>
     <div class="post-grid">
       {posts.map((post) => <PostCard post={post} highlightTags={[tag]} />)}
     </div>

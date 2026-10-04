@@ -14,6 +14,14 @@ const posts = (await getCollection('blog')).sort(
     <BlogNav />
     <section>
       <h1 class="page-title">Archive</h1>
+      <hr class="obs-ruler" />
+      <div class="registry-head" aria-hidden="true">
+        <span>REC</span>
+        <span>Date</span>
+        <span>Record</span>
+        <span>Category</span>
+        <span></span>
+      </div>
       <div class="post-grid">
         {posts.map((post) => <PostCard post={post} />)}
       </div>

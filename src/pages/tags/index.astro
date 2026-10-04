@@ -18,9 +18,10 @@ const tagCounts = tags.reduce((acc, tag) => {
     <BlogNav />
     <section class="tag-explorer">
       <h1 class="page-title">Tag Filter</h1>
-      <div class="tag-controls">
+      <div class="tag-controls obs-frame">
+        <span class="obs-id">FILTER.TAGS</span>
         <div class="tag-filter-header">
-          <span class="axis-label">Multi-select tags</span>
+          <span class="obs-eyebrow">Multi-select tags</span>
           <button id="clear-tags" class="clear-btn" style="display: none;">Clear</button>
         </div>
         <div class="tag-cloud-selector">
@@ -33,8 +34,16 @@ const tagCounts = tags.reduce((acc, tag) => {
         </div>
       </div>
 
-      <div class="results-header">
+      <div class="results-header obs-stat">
         <h2 id="results-count">All records</h2>
+      </div>
+
+      <div class="registry-head" aria-hidden="true">
+        <span>REC</span>
+        <span>Date</span>
+        <span>Record</span>
+        <span>Category</span>
+        <span></span>
       </div>
 
       <div class="post-grid" id="posts-grid">
@@ -132,8 +141,6 @@ const tagCounts = tags.reduce((acc, tag) => {
   .tag-controls {
     margin-bottom: var(--space-xl);
     padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
   }
 
   .tag-filter-header {
@@ -174,21 +181,12 @@ const tagCounts = tags.reduce((acc, tag) => {
   .tag-toggle-btn:hover,
   .tag-toggle-btn.active,
   .clear-btn:hover {
-    background: var(--text-primary);
-    color: var(--canvas);
-  }
-
-  .tag-count {
-    opacity: 0.65;
+    background: var(--accent-iris);
+    color: var(--accent-cream);
   }
 
   .results-header h2 {
     margin-bottom: var(--space-lg);
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
 
   #no-results {

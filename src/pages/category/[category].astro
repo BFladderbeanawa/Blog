@@ -25,9 +25,17 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
     <section>
       <a href="/category" class="back-link">Back to categories</a>
       <div class="category-heading editorial-frame">
-        <span class="axis-label">Category route</span>
+        <span class="obs-id">ARCHIVE.CAT</span>
+        <span class="obs-eyebrow">Category route</span>
         <h1>{category}</h1>
-        <span class="count-badge">{posts.length} records</span>
+        <span class="count-badge obs-stat"><b>{posts.length}</b> records</span>
+      </div>
+      <div class="registry-head" aria-hidden="true">
+        <span>REC</span>
+        <span>Date</span>
+        <span>Record</span>
+        <span>Category</span>
+        <span></span>
       </div>
       <div class="post-grid">
         {sortedPosts.map((post) => <PostCard post={post} />)}
@@ -84,9 +92,5 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
     border: 1px solid var(--border);
     background: var(--text-primary);
     color: var(--canvas);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
   }
 </style>

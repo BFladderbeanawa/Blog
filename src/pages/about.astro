@@ -5,8 +5,9 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="About" description="About the author and this archive">
   <main class="page-shell about-page">
     <section class="about-hero editorial-frame">
+      <span class="obs-id">SEC.01 // PROFILE</span>
       <div>
-        <span class="axis-label">About / identity note</span>
+        <span class="obs-eyebrow">About / identity note</span>
         <h1>Hi, I am BF.</h1>
       </div>
       <p>
@@ -15,18 +16,18 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <section class="about-grid">
-      <article>
-        <span class="axis-label">01 / workbench</span>
+      <article class="obs-frame obs-hover">
+        <span class="obs-eyebrow">NOTE.A</span>
         <h2>What I make</h2>
         <p>I build web interfaces, study technical systems, and document the patterns I want future-me to find again.</p>
       </article>
-      <article>
-        <span class="axis-label">02 / play</span>
+      <article class="obs-frame obs-hover">
+        <span class="obs-eyebrow">NOTE.B</span>
         <h2>What I notice</h2>
         <p>Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.</p>
       </article>
-      <article>
-        <span class="axis-label">03 / why this exists</span>
+      <article class="obs-frame obs-hover">
+        <span class="obs-eyebrow">NOTE.C</span>
         <h2>Why the blog</h2>
         <p>Because thinking becomes more useful when it has a shape: tags, routes, fragments, and enough friction to become memorable.</p>
       </article>
@@ -45,14 +46,14 @@ import Layout from '../layouts/Layout.astro';
     grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 0.7fr);
     gap: var(--space-xl);
     padding: clamp(1.2rem, 4vw, 3rem);
-    background:
-      linear-gradient(90deg, transparent 0 58%, var(--accent-pink) 58% 72%, transparent 72%),
-      var(--surface);
+    background: var(--surface);
   }
 
   .about-hero h1 {
     margin-top: var(--space-xl);
+    font-family: var(--font-display);
     font-size: var(--text-3xl);
+    font-weight: 600;
   }
 
   .about-hero p {
@@ -69,14 +70,14 @@ import Layout from '../layouts/Layout.astro';
   .about-grid article {
     min-height: 17rem;
     padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
     display: grid;
     align-content: space-between;
   }
 
   .about-grid h2 {
+    font-family: var(--font-display);
     font-size: clamp(1.8rem, 4vw, 3.6rem);
+    font-weight: 600;
   }
 
   @media (max-width: 900px) {

@@ -4,12 +4,13 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Search" description="Search the blog">
   <main class="narrow-shell search-page">
-    <span class="axis-label">Search / live index</span>
+    <span class="obs-eyebrow">Search / live index</span>
     <h1>Search the archive</h1>
-    <div class="search-container">
+    <div class="search-container obs-frame obs-frame--powered">
+      <span class="obs-id">QUERY</span>
       <input type="text" id="search-input" placeholder="Type at least two characters..." autofocus />
-      <ul id="search-results"></ul>
     </div>
+    <ul id="search-results"></ul>
   </main>
 </Layout>
 
@@ -54,43 +55,92 @@ import Layout from '../layouts/Layout.astro';
     font-size: var(--text-3xl);
   }
 
+  .search-container {
+    position: relative;
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+
   input {
     width: 100%;
     padding: 1rem;
-    border: var(--frame) solid var(--border);
+    border: none;
     border-radius: 0;
-    background: var(--surface);
+    background: transparent;
     color: var(--text-primary);
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 5vw, 3rem);
-    font-weight: 900;
-    letter-spacing: -0.05em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     outline: none;
   }
 
   input:focus {
-    background: var(--accent-lemon);
-    color: #111;
+    color: var(--accent-iris);
   }
+</style>
 
+<style is:global>
+  /* Results are injected at runtime via innerHTML — scoped selectors
+     never match them, so these rules must be global. */
   ul {
     list-style: none;
     padding: 0;
     margin-top: var(--space-xl);
-    border-top: 1px solid var(--border);
+    border-top: var(--frame) solid var(--border);
   }
 
   li a {
-    display: block;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--border);
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.5rem;
+    gap: var(--space-sm);
+    align-items: center;
+    padding: var(--space-md) var(--space-sm) var(--space-md) var(--space-md);
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color var(--duration-fast) var(--ease-sharp);
   }
 
-  h3 {
-    font-size: clamp(1.4rem, 3vw, 2.4rem);
+  li a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-iris);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--duration-base) var(--ease-editorial);
   }
 
-  p {
-    margin-top: 0.35rem;
+  li a:hover,
+  li a:focus-visible {
+    background: var(--accent-wash);
+  }
+
+  li a:hover::before,
+  li a:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  li a h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
+  }
+
+  li a p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+    margin-top: 0.2rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
   }
 </style>

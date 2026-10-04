@@ -19,10 +19,11 @@ const categoryCounts = categories.reduce((acc, category) => {
       <h1 class="page-title">Categories</h1>
       <div class="category-grid">
         {categories.map((category) => (
-          <a href={`/category/${category}/`} class="category-card">
-            <span class="axis-label">Category</span>
+          <a href={`/category/${category}/`} class="category-row">
+            <span class="cat-marker" aria-hidden="true"></span>
             <h3>{category}</h3>
-            <span class="count">{categoryCounts[category as string]} records</span>
+            <span class="count obs-stat"><b>{categoryCounts[category as string]}</b> records</span>
+            <span class="row-arrow" aria-hidden="true">→</span>
           </a>
         ))}
         {categories.length === 0 && <p>No categories yet.</p>}
@@ -33,38 +34,88 @@ const categoryCounts = categories.reduce((acc, category) => {
 
 <style>
   .category-grid {
+    display: flex;
+    flex-direction: column;
+    border-top: var(--frame) solid var(--border);
+  }
+
+  /* Category registry rows — same anatomy as post rows: marker, name, count, arrow */
+  .category-row {
+    position: relative;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
-    gap: var(--space-lg);
+    grid-template-columns: auto minmax(0, 1fr) auto 2rem;
+    gap: var(--space-md);
+    align-items: center;
+    padding: var(--space-md) var(--space-sm) var(--space-md) var(--space-md);
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color var(--duration-fast) var(--ease-sharp);
   }
 
-  .category-card {
-    min-height: 16rem;
-    display: grid;
-    align-content: space-between;
-    padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
+  .category-row::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-iris);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--duration-base) var(--ease-editorial);
   }
 
-  .category-card:nth-child(3n + 1) { background: var(--accent-lemon); }
-  .category-card:nth-child(3n + 2) { background: var(--accent-sky); }
-  .category-card:nth-child(3n + 3) { background: var(--accent-orange); }
-
-  .category-card h3 {
-    color: #111;
-    font-size: clamp(2rem, 5vw, 4rem);
+  .category-row:hover,
+  .category-row:focus-visible {
+    background: var(--accent-wash);
   }
 
-  .category-card .axis-label,
-  .category-card .count {
-    color: #111;
+  .category-row:hover::before,
+  .category-row:focus-visible::before {
+    transform: scaleY(1);
   }
 
-  .count {
+  .cat-marker {
+    width: 7px;
+    height: 7px;
+    flex: none;
+  }
+
+  .category-row:nth-child(3n + 1) .cat-marker { background: var(--accent-iris); }
+  .category-row:nth-child(3n + 2) .cat-marker { background: var(--accent-ice); }
+  .category-row:nth-child(3n + 3) .cat-marker { background: var(--accent-signal); }
+
+  .category-row h3 {
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .row-arrow {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 0.95rem;
+    color: var(--text-tertiary);
+    text-align: right;
+    transition:
+      color var(--duration-fast) var(--ease-sharp),
+      transform var(--duration-base) var(--ease-editorial);
+  }
+
+  .category-row:hover .row-arrow,
+  .category-row:focus-visible .row-arrow {
+    color: var(--accent-iris);
+    transform: translateX(3px);
+  }
+
+  @media (max-width: 760px) {
+    .category-row {
+      grid-template-columns: auto minmax(0, 1fr) 1.5rem;
+    }
+
+    .count {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
   }
 </style>
