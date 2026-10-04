@@ -22,5 +22,6 @@
   },
   "devDependencies": {
     "vite-plus": "^1.0.0"
-  }
+  },
+  "packageManager": "pnpm@12.9.1"
 }

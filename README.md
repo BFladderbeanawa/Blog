@@ -68,13 +68,15 @@ adius: 8px\)，降低对比度刺激。
 ### 安装依赖
 
 ```bash
-npm install
+pnpm install
 ```
+
+本项目使用 [pnpm](https://pnpm.io) 管理依赖（\`packageManager\` 字段已锁定版本），依赖版本变更后请提交 \`pnpm-lock.yaml\`。
 
 ### 本地开发
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ### 代码检查 (Lint / Format)
@@ -82,9 +84,9 @@ npm run dev
 项目的 JS / TS / CSS 由 [Vite+](https://viteplus.dev) 工具链负责（Oxfmt 格式化 + Oxlint 规则检查），配置见 `vite.config.ts`：
 
 ```bash
-npm run check   # 格式 + 规则检查
-npm run lint    # 仅规则检查
-npm run fmt     # 仅格式化
+pnpm check   # 格式 + 规则检查
+pnpm lint    # 仅规则检查
+pnpm fmt     # 仅格式化
 ```
 
 提交前会自动对暂存的文件执行 `vp check --fix`（钩子由 `vp hooks enable` 安装）。
