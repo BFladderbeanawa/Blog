@@ -5,7 +5,8 @@ import VisitorWidgets from '../components/VisitorWidgets.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id)
 );
 const latestPosts = posts.slice(0, 3);
 ---
