@@ -1,4 +1,4 @@
-﻿const fs = require("fs");
+﻿const fs = require('fs');
 
 function fixHeader() {
   const content = `---
@@ -42,6 +42,6 @@ const isActive = (href) => {
   .nav-item.active::before { opacity: 1; left: -10px; }
 </style>
 `;
-  fs.writeFileSync("src/components/Header.astro", content, "utf8");
+  fs.writeFileSync('src/components/Header.astro', content, 'utf8');
 }
 fixHeader();

@@ -50,7 +50,7 @@
 
   --border: #16233a;
   --border-subtle: rgba(15, 27, 45, 0.18);
-  --guide-line: rgba(59, 84, 214, 0.30);
+  --guide-line: rgba(59, 84, 214, 0.3);
 
   --accent-iris: #3b54d6;
   --accent-ice: #8fb7e6;
@@ -91,11 +91,11 @@
   --box-shadow: none;
   --radius: 0;
 
-  --font-display: "Playfair Display", "Noto Serif SC", "Source Han Serif SC", "Songti SC", serif;
-  --font-body: "Noto Serif SC", "Playfair Display", Georgia, "Songti SC", serif;
-  --font-macro: "Syne", "Arial Black", "Noto Sans SC", sans-serif;
+  --font-display: 'Playfair Display', 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', serif;
+  --font-body: 'Noto Serif SC', 'Playfair Display', Georgia, 'Songti SC', serif;
+  --font-macro: 'Syne', 'Arial Black', 'Noto Sans SC', sans-serif;
   --font-slab: var(--font-macro);
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --font-label: var(--font-mono);
 
   --text-xs: 0.688rem;
@@ -176,7 +176,7 @@ html[data-theme='nord'] {
   --gray-dark: 157, 171, 196;
 
   --blueprint-grid: rgba(126, 151, 255, 0.07);
-  --axis: rgba(126, 151, 255, 0.30);
+  --axis: rgba(126, 151, 255, 0.3);
   --accent-gold: var(--accent-ice);
   --accent-gold-dim: var(--accent-ice);
 }
