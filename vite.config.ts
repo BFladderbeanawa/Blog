@@ -29,7 +29,7 @@ export default defineConfig({
   },
   lint: {
     ignorePatterns: [
-      '.astro/**',
+      '.agents/**',
       '.codegraph/**',
       '.extract-design-system/**',
       '.playwright-mcp/**',
