@@ -18,48 +18,41 @@ html {
 }
 
 body {
-  min-height: 100vh;
-  height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background:
-    linear-gradient(var(--guide-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--guide-line) 1px, transparent 1px),
-    radial-gradient(circle at 18% 18%, rgba(var(--accent), 0.09), transparent 24rem),
-    var(--canvas);
-  background-size: 88px 88px, 88px 88px, auto, auto;
+  background: var(--canvas);
+  position: relative;
 }
 
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 2;
+  z-index: 1;
   pointer-events: none;
-  background:
-    repeating-linear-gradient(180deg, rgba(0, 0, 0, 0.055) 0 1px, transparent 1px 4px);
-  mix-blend-mode: multiply;
-  opacity: 0.38;
-}
-
-html[data-theme='nord'] body::before {
-  mix-blend-mode: screen;
-  opacity: 0.18;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0 31px, var(--blueprint-grid) 31px 32px),
+    repeating-linear-gradient(0deg, transparent 0 31px, var(--blueprint-grid) 31px 32px),
+    linear-gradient(135deg, transparent 0 48%, var(--guide-line) 48% 48.5%, transparent 48.5% 100%);
+  opacity: 1;
 }
 
 body::after {
-  content: "ARCHIVE / PERSONAL FIELD NOTES / SIGNAL: ONLINE";
+  content: "IRIS OBSERVATORY // 觀測記録 // SERIF FIELD NOTES";
   position: fixed;
   right: 1rem;
   bottom: 0.75rem;
   z-index: 70;
   color: var(--text-tertiary);
   font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
   white-space: nowrap;
   pointer-events: none;
+  opacity: 0.9;
 }
 
 a {
@@ -68,7 +61,66 @@ a {
 }
 
 a:hover {
-  color: rgb(var(--accent));
+  color: var(--accent-iris);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent-iris);
+  outline-offset: 4px;
+}
+
+.marquee-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 28s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+.ink-hover::before,
+.ink-hover::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, 0, 0) skewX(-18deg);
+  transition:
+    opacity var(--duration-fast) var(--ease-sharp),
+    transform var(--duration-base) var(--ease-editorial);
+}
+
+.ink-hover::before {
+  inset: -0.35rem auto auto -0.35rem;
+  width: 42%;
+  height: 0.55rem;
+  background: var(--accent-red);
+}
+
+.ink-hover::after {
+  inset: auto -0.35rem -0.35rem auto;
+  width: 52%;
+  height: 0.55rem;
+  background: var(--accent-blue);
+}
+
+.ink-hover:hover::before,
+.ink-hover:hover::after,
+.ink-hover:focus-visible::before,
+.ink-hover:focus-visible::after {
+  opacity: 1;
+}
+
+.ink-hover:hover::before,
+.ink-hover:focus-visible::before {
+  transform: translate3d(-0.15rem, -0.15rem, 0) skewX(-18deg);
+}
+
+.ink-hover:hover::after,
+.ink-hover:focus-visible::after {
+  transform: translate3d(0.15rem, 0.15rem, 0) skewX(-18deg);
 }
 
 button,
@@ -87,17 +139,25 @@ svg {
 }
 
 ::selection {
-  background: var(--accent-sky);
-  color: #111111;
+  background: var(--accent-iris);
+  color: var(--accent-cream);
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   font-family: var(--font-display);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.92;
-  letter-spacing: -0.045em;
-  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+h1::before, h2::before {
+  content: "／";
+  color: var(--accent-signal);
+  margin-right: 0.4em;
+  font-size: 0.75em;
+  vertical-align: middle;
 }
 
 p {
@@ -105,10 +165,20 @@ p {
 }
 
 hr {
-  height: 1px;
+  height: 3px;
   border: 0;
   margin: var(--space-xl) 0;
-  background: var(--border);
+  background: repeating-linear-gradient(
+    90deg,
+    var(--accent-iris) 0,
+    var(--accent-iris) 4px,
+    var(--surface-solid) 4px,
+    var(--surface-solid) 10px,
+    var(--accent-ice) 10px,
+    var(--accent-ice) 14px,
+    transparent 14px,
+    transparent 18px
+  );
 }
 
 pre {
@@ -119,6 +189,16 @@ pre {
   color: var(--text-primary);
   font-family: var(--font-mono);
   font-size: var(--text-sm);
+  position: relative;
+}
+
+pre::before {
+  content: "//";
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  color: var(--accent-ice);
+  font-weight: bold;
 }
 
 code {
@@ -129,7 +209,7 @@ code {
   padding: 0.1rem 0.35rem;
   border: 1px solid var(--border-subtle);
   background: var(--surface);
-  color: rgb(var(--accent));
+  color: var(--accent-iris);
 }
 
 .scroll-container {
@@ -178,44 +258,71 @@ code {
   text-transform: uppercase;
 }
 
-.section-rail {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-}
-
-.section-rail::after {
-  content: "";
-  height: 1px;
-  flex: 1;
-  background: var(--border);
-}
-
-.rail-node {
-  width: 1rem;
-  height: 1rem;
-  flex: 0 0 auto;
-  background: rgb(var(--accent));
-  clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
-}
-
 .editorial-frame {
-  border: var(--frame) solid var(--border);
+  position: relative;
+  padding: var(--space-lg);
+  border: 1px solid var(--border-subtle);
+  border-left: 3px solid var(--accent-iris);
   background: var(--surface);
-  overflow: hidden;
+}
+
+.editorial-frame::before,
+.editorial-frame::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--accent-ice), var(--accent-ice)) center / 1px 100% no-repeat,
+    linear-gradient(var(--accent-ice), var(--accent-ice)) center / 100% 1px no-repeat;
+  transition: top var(--duration-base) var(--ease-editorial),
+    left var(--duration-base) var(--ease-editorial),
+    bottom var(--duration-base) var(--ease-editorial),
+    right var(--duration-base) var(--ease-editorial);
+}
+
+.editorial-frame::before {
+  top: -6px;
+  left: -6px;
+}
+
+.editorial-frame::after {
+  bottom: -6px;
+  right: -6px;
 }
 
 .accent-band {
-  background: rgb(var(--accent));
-  color: #fffef8;
+  background: var(--accent-iris);
+  color: var(--accent-cream);
 }
 
+/* Article registry: records are rows, not cards. Frames are reserved
+   for instruments (filters, drawers, query boxes). */
 .post-grid {
+  counter-reset: obs-rec;
+  display: flex;
+  flex-direction: column;
+}
+
+.registry-head {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: 4.5rem 7.5rem minmax(0, 1fr) auto 2rem;
+  gap: var(--space-md);
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: var(--frame) solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 760px) {
+  .registry-head {
+    display: none;
+  }
 }
 
 .page-title {
@@ -240,10 +347,7 @@ code {
   to { transform: translate3d(-50%, 0, 0); }
 }
 
-@keyframes revealUp {
-  from { opacity: 0; transform: translateY(1rem); }
-  to { opacity: 1; transform: translateY(0); }
-}
+
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -265,4 +369,201 @@ code {
   .narrow-shell {
     padding-top: var(--space-xl);
   }
+}
+
+/* ===== OBSERVATORY PATTERN LIBRARY ===== */
+
+/* 1. Instrument frame: hairline + registration crosses + ID slot */
+.obs-frame {
+  position: relative;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface);
+}
+.obs-frame::before,
+.obs-frame::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--accent-ice), var(--accent-ice)) center / 1px 100% no-repeat,
+    linear-gradient(var(--accent-ice), var(--accent-ice)) center / 100% 1px no-repeat;
+  transition: top var(--duration-base) var(--ease-editorial),
+    left var(--duration-base) var(--ease-editorial),
+    bottom var(--duration-base) var(--ease-editorial),
+    right var(--duration-base) var(--ease-editorial);
+}
+.obs-frame::before { top: -6px; left: -6px; }
+.obs-frame::after { bottom: -6px; right: -6px; }
+.obs-frame--powered { border-left: 3px solid var(--accent-iris); }
+.obs-id {
+  position: absolute;
+  top: -1px;
+  left: var(--space-sm);
+  transform: translateY(-50%);
+  background: var(--canvas);
+  padding: 0 var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-iris);
+}
+
+/* 2. Tick ruler section transition */
+.obs-ruler {
+  position: relative;
+  height: 12px;
+  border: none;
+  margin: var(--space-xl) 0;
+  background:
+    repeating-linear-gradient(90deg, var(--border-subtle) 0 1px, transparent 1px 8px) bottom / 100% 5px no-repeat,
+    linear-gradient(var(--border-subtle), var(--border-subtle)) bottom / 100% 1px no-repeat;
+}
+.obs-ruler::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 0 0;
+  background: repeating-linear-gradient(90deg, var(--accent-iris) 0 1px, transparent 1px 40px) bottom / 100% 11px no-repeat;
+  opacity: 0.55;
+}
+
+/* 3. Eyebrow: square node + mono label */
+.obs-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.obs-eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--accent-iris);
+  flex: none;
+}
+.obs-eyebrow--signal::before { background: var(--accent-signal); }
+
+/* 4. Stat readout */
+.obs-stat {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+.obs-stat b,
+.obs-stat strong {
+  color: var(--accent-iris);
+  font-weight: 700;
+}
+
+/* 5. Bracket hover: frame crosses expand outward */
+.obs-hover {
+  transition: transform var(--duration-base) var(--ease-editorial),
+    border-color var(--duration-base) var(--ease-editorial);
+}
+.obs-hover:hover,
+.obs-hover:focus-visible {
+  transform: translate(-2px, -2px);
+  border-color: var(--accent-iris);
+}
+.obs-hover:hover::before,
+.obs-hover:focus-visible::before { top: -9px; left: -9px; }
+.obs-hover:hover::after,
+.obs-hover:focus-visible::after { bottom: -9px; right: -9px; }
+
+/* 6. Calibration reveal */
+@keyframes calibrate {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.calibrate { animation: calibrate var(--duration-slow) var(--ease-editorial) both; }
+.calibrate-2 { animation-delay: 80ms; }
+.calibrate-3 { animation-delay: 160ms; }
+
+/* 8. Scroll reveal — one entrance gesture, used sparingly */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--duration-slow) var(--ease-editorial),
+    transform var(--duration-slow) var(--ease-editorial);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* 9. Registry row title underline sweep */
+.post-card .title {
+  padding-bottom: 0.06em;
+  background-image: linear-gradient(var(--accent-iris), var(--accent-iris));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1.5px;
+  transition: background-size var(--duration-base) var(--ease-editorial);
+}
+
+.post-card:hover .title,
+.post-card:focus-visible .title {
+  background-size: 100% 1.5px;
+}
+
+/* 10. Scroll calibration rail (instrument readout of reading position) */
+.scroll-cal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 95;
+  background: var(--border-subtle);
+  pointer-events: none;
+}
+
+.scroll-cal i {
+  display: block;
+  height: 100%;
+  background: var(--accent-iris);
+  transform: scaleX(0);
+  transform-origin: 0 0;
+}
+
+.scroll-readout {
+  position: absolute;
+  top: 6px;
+  right: var(--space-md);
+  padding: 0 0.35rem;
+  background: var(--canvas);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--text-tertiary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calibrate,
+  .calibrate-2,
+  .calibrate-3 { animation: none; }
+  .obs-frame::before,
+  .obs-frame::after { transition: none; }
 }
