@@ -5,12 +5,14 @@ import { getCollection } from 'astro:content';
 import featuredSlugs from '../featured-posts.json';
 
 const allPosts = await getCollection('blog');
-let featuredPosts = allPosts.filter((post) => featuredSlugs.includes(post.slug));
-featuredPosts.sort((a, b) => featuredSlugs.indexOf(a.slug) - featuredSlugs.indexOf(b.slug));
+let featuredPosts = allPosts.filter((post) => featuredSlugs.includes(post.id));
+featuredPosts.sort((a, b) => featuredSlugs.indexOf(a.id) - featuredSlugs.indexOf(b.id));
 
 if (featuredPosts.length === 0) {
   featuredPosts = allPosts
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    .sort(
+      (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id)
+    )
     .slice(0, 3);
 }
 

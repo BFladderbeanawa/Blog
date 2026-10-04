@@ -7,11 +7,11 @@ import { getCollection } from 'astro:content';
 const { title, description, pubDate, updatedDate, heroImage, tags, category, readingMinutes } = Astro.props;
 
 const allPosts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id)
 );
 
 const simplePosts = allPosts.map((p) => ({
-  slug: p.slug,
+  id: p.id,
   title: p.data.title,
   category: p.data.category,
   tags: p.data.tags || [],
@@ -99,10 +99,10 @@ const simplePosts = allPosts.map((p) => ({
     }
 
     const path = window.location.pathname;
-    let currentIndex = relevantPosts.findIndex((p) => path.includes(`/blog/${p.slug}`));
+    let currentIndex = relevantPosts.findIndex((p) => path.includes(`/blog/${p.id}`));
     if (currentIndex === -1) {
       relevantPosts = simplePosts;
-      currentIndex = relevantPosts.findIndex((p) => path.includes(`/blog/${p.slug}`));
+      currentIndex = relevantPosts.findIndex((p) => path.includes(`/blog/${p.id}`));
     }
 
     if (currentIndex !== -1) {
@@ -113,7 +113,7 @@ const simplePosts = allPosts.map((p) => ({
       const olderPost = relevantPosts[currentIndex + 1];
 
       if (newerPost) {
-        prevLink.href = `/blog/${newerPost.slug}/`;
+        prevLink.href = `/blog/${newerPost.id}/`;
         prevLink.querySelector('.nav-title').textContent = newerPost.title;
         prevLink.style.display = 'grid';
       } else {
@@ -121,7 +121,7 @@ const simplePosts = allPosts.map((p) => ({
       }
 
       if (olderPost) {
-        nextLink.href = `/blog/${olderPost.slug}/`;
+        nextLink.href = `/blog/${olderPost.id}/`;
         nextLink.querySelector('.nav-title').textContent = olderPost.title;
         nextLink.style.display = 'grid';
       } else {

@@ -9,9 +9,9 @@ const formattedDate = post.data.pubDate.toLocaleDateString('zh-CN', {
 ---
 
 <a
-  href={`/blog/${post.slug}/`}
+  href={`/blog/${post.id}/`}
   class="post-card"
-  data-slug={post.slug}
+  data-slug={post.id}
   data-tags={post.data.tags?.join(',') || ''}
   data-category={post.data.category || ''}
 >
