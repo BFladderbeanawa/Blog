@@ -1,5 +1,17 @@
-# pnpm root settings. Astro brings its own Vite, so the Vite+ core alias is
-# deliberately not overridden here — see vite.config.ts.
+# pnpm root settings.
+#
+# The Vite+ docs recommend aliasing vite to @voidzero-dev/vite-plus-core
+# here. That is deliberately not done: Astro runs on its own Vite 6, and a
+# workspace-wide override would swap Astro's bundler out from under it.
+# Vite+ is only used for lint/format here, never for vp dev or vp build.
+#
+# Consequence: `pnpm install` reports an unmet `vite` peer from vitest.
+# vite-plus ships Vite as @voidzero-dev/vite-plus-core@1.0.0, whose version
+# falls outside vitest's ^6 || ^7 || ^8 range. It is advisory — nothing
+# resolves a second Vite at runtime.
+#
+# sharp is a direct dependency because Astro imports it at runtime and pnpm's
+# isolated layout does not expose astro's transitive copy.
 #
 # esbuild and sharp ship postinstall scripts that place their native binaries.
 # Everything else is disallowed by default; pnpm adds unknown build scripts here
