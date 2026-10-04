@@ -1,11 +1,14 @@
 {
   "name": "blog",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "check": "vp check",
+    "lint": "vp lint",
+    "fmt": "vp fmt",
     "astro": "astro"
   },
   "dependencies": {
@@ -16,5 +19,8 @@
     "locomotive-scroll": "^5.0.1",
     "rehype-katex": "^7.0.1",
     "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "vite-plus": "^1.0.0"
   }
 }

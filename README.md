@@ -77,6 +77,20 @@ npm install
 npm run dev
 ```
 
+### 代码检查 (Lint / Format)
+
+项目的 JS / TS / CSS 由 [Vite+](https://viteplus.dev) 工具链负责（Oxfmt 格式化 + Oxlint 规则检查），配置见 `vite.config.ts`：
+
+```bash
+npm run check   # 格式 + 规则检查
+npm run lint    # 仅规则检查
+npm run fmt     # 仅格式化
+```
+
+提交前会自动对暂存的文件执行 `vp check --fix`（钩子由 `vp hooks enable` 安装）。
+
+> **注意**：\`.astro\` 组件由 Astro 编译，不在 Vite+ 的检查范围内；格式化与规则检查只覆盖 JS / TS / CSS。
+
 ### 新建文章
 
 在 \src/content/blog/\ 目录下创建 \.md\ 或 \.mdx\ 文件。Frontmatter 格式如下：
