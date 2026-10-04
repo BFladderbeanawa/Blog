@@ -25,6 +25,10 @@ dev*.log
 .omo/
 .playwright-mcp/
 
+# agent skill mirror: absolute symlinks into .agents/skills, regenerated
+# by the skills CLI on every machine
+.claude/
+
 # environment variables
 .env
 .env.production
