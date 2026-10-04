@@ -13,6 +13,13 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+# local dev server logs
+dev*.log
+
+# local agent / browser-automation artifacts
+.omo/
+.playwright-mcp/
+
 # environment variables
 .env
 .env.production
