@@ -38,3 +38,8 @@ dev*.log
 
 # jetbrains setting folder
 .idea/
+
+# vite dep caches (generated)
+.vite-cache/
+.vite-cache-codex/
+.vercel

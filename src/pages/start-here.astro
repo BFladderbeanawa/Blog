@@ -5,7 +5,8 @@ import { getCollection } from 'astro:content';
 import featuredSlugs from '../featured-posts.json';
 
 const allPosts = await getCollection('blog');
-let featuredPosts = allPosts.filter((post) => featuredSlugs.includes(post.id));
+const featuredSlugSet = new Set(featuredSlugs);
+let featuredPosts = allPosts.filter((post) => featuredSlugSet.has(post.id));
 featuredPosts.sort((a, b) => featuredSlugs.indexOf(a.id) - featuredSlugs.indexOf(b.id));
 
 if (featuredPosts.length === 0) {
