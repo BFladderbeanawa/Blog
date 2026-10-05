@@ -1,668 +1,220 @@
-# Nippori Seminar Design System
+# IRIS OBSERVATORY / 鸢尾観測站 Design System
 
-Source: https://nippori.lamm.tokyo/
+## 1. Atmosphere & Identity
 
-This document captures a starter design system extracted from the public Nippori Seminar website. It is a practical v1 for reuse: it records visible primitives, repeated composition patterns, and motion language from the homepage and shipped CSS. It is not a full component library or a guarantee that every page on the site uses only these rules.
+A minimalist surveying terminal for a personal archive: serif letterforms (elegance from tanh.moe) measured by mono instrument labels (Arknights tech UI), on an ice/slate/iris palette (Persona 3 Reload depth), with constructivist diagonal cuts retained sparingly as hairline guides. **Flat fills only.** Zero border-radius. No box-shadows. No soft gradients — only mechanical hairline patterns and constructivist geometry.
 
-## 1. Design Direction
+The signature: a **minimal registration cross** (+ marks at corners) plus a thin iris accent bar on editorial frames, with serif typography carrying all warmth against technical mono labels.
 
-The site feels like an experimental editorial radio zine: black-and-white structure, oversized type, rigid borders, playful rotations, and sudden saturated color fields. The visual system balances cultural seriousness with loose, handmade energy.
+## 2. Color
 
-Core traits:
+### GLACIER (Light / modern)
 
-- High-contrast monochrome foundation: white backgrounds, black text, black rules, black bordered frames.
-- Editorial density: large display headlines, long text blocks, vertical writing, tight line-height, and layered text.
-- Anti-grid energy inside a controlled system: rotated labels, skewed cards, floating frames, and overlapping panels.
-- Bright accent sections: muted but saturated red, green, sky, orange, pink, lemon, and gray blocks.
-- Media-forward storytelling: thumbnail grids, portrait/background photography, masked image reveals, and image cards with visible borders.
-- Interactive radio identity: fixed player, platform links, custom cursors, animated marquee loading, audio controls, and hover-reactive lines/images.
+| Role | Token | Value | Usage |
+|------|-------|-------|-------|
+| Canvas/primary | `--canvas` | `#edf1f7` | Main shell background |
+| Canvas/raised | `--canvas-raised` | `#f7f9fc` | Cards, elevated panels |
+| Canvas/inset | `--canvas-inset` | `#e0e7f0` | Code blocks, recessed regions |
+| Surface | `--surface` | `#f7f9fc` | Default component surface |
+| Surface/solid | `--surface-solid` | `#101a2c` | High-contrast ink plates |
+| Text/primary | `--text-primary` | `#0f1b2d` | Headlines, body |
+| Text/secondary | `--text-secondary` | `#3d4f68` | Secondary copy |
+| Text/tertiary | `--text-tertiary` | `#71809a` | Captions, disabled |
+| Text/ghost | `--text-ghost` | `rgba(15,27,45,0.07)` | Background letterforms |
+| Border | `--border` | `#16233a` | Primary dividers |
+| Border/subtle | `--border-subtle` | `rgba(15,27,45,0.18)` | Hairline divisions |
+| Iris (primary accent) | `--accent-iris` | `#3b54d6` | CTAs, active states, focus |
+| Ice (secondary accent) | `--accent-ice` | `#8fb7e6` | Accents, hover hints |
+| Signal (alert) | `--accent-signal` | `#e0364c` | Warnings, live indicators |
+| Wash | `--accent-wash` | `rgba(59,84,214,0.06)` | Hover backgrounds |
 
-## 2. Color Tokens
+### ABYSS (Dark / nord)
 
-### Core
+| Role | Token | Value |
+|------|-------|-------|
+| Canvas | `--canvas` | `#05080f` |
+| Surface | `--surface` | `#0c1424` |
+| Surface/solid | `--surface-solid` | `#16233a` |
+| Text/primary | `--text-primary` | `#e8edf6` |
+| Iris | `--accent-iris` | `#7e97ff` |
+| Ice | `--accent-ice` | `#9cc3ee` |
+| Signal | `--accent-signal` | `#ff4d61` |
 
-```css
-:root {
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-border: #000000;
-  --color-muted-border: #e5e7eb;
-  --color-placeholder: #9ca3af;
-}
-```
+### Rules
 
-Usage:
-
-- `--color-white`: page background, transition overlay, framed content cards.
-- `--color-black`: primary text, borders, nav blocks, icon fills, buttons.
-- `--color-border`: 1px default borders and 5-10px heavy editorial frames.
-- `--color-placeholder`: inherited from the reset for form placeholder text.
-
-### Accent Palette
-
-```css
-:root {
-  --color-green-main: #8eb669;
-  --color-sky-main: #74cfd4;
-  --color-orange-main: #f2a167;
-  --color-red-main: #a23737;
-  --color-pink-main: #f890cd;
-  --color-lemon-main: #e0e2ab;
-  --color-gray-main: #959595;
-  --color-gray-100: #f3f4f6;
-}
-```
-
-Usage:
-
-- `green-main`: major section backgrounds and masked type contrast.
-- `sky-main`: supporting panels and horizontal information bands.
-- `orange-main`: section headers, label strips, and panel overlays.
-- `red-main`: loud editorial accents and title bands.
-- `pink-main`: secondary content blocks.
-- `lemon-main`: small high-contrast labels.
-- `gray-main`: utility blocks and quieter metadata surfaces.
-
-Guidance:
-
-- Keep black and white dominant.
-- Use accent colors as large flat planes, not gradients.
-- Prefer abrupt adjacency between color blocks rather than soft blending.
-- Use white text with `mix-blend-difference` where text crosses saturated blocks.
+- Use only flat fills. Gradients create mechanical hatch patterns or hairline grid overlays, never mood washes.
+- Iris is structural: CTAs, active nav, focus rings, accent bars.
+- Ice is atmospheric: hover hints, axis labels, coordinate readout, scanline.
+- Signal is alert-only: pulse indicators, warning marks.
+- No green, cyan, pink, or glows in production UI.
 
 ## 3. Typography
 
-### Font Families
+### Font Stacks
 
-```css
-:root {
-  --font-serif-ja: "kozuka-mincho-pro", serif;
-  --font-sans-en: Helvetica, sans-serif;
-  --font-playfair: Playfair, serif;
-}
-```
-
-Observed imports and usage:
-
-- Adobe Typekit kit: `cqt0hlg`.
-- Google font import: `Playfair` variable serif.
-- Base body font: `kozuka-mincho-pro, serif`.
-- English display and UI font: `Helvetica, sans-serif`.
-- Radio/player decorative font: `Playfair, serif`.
-
-### Type Roles
-
-#### Japanese Body / Editorial Serif
-
-Use `--font-serif-ja` for long Japanese editorial copy and default body text.
-
-```css
-.font-serif {
-  font-family: var(--font-serif-ja);
-}
-```
-
-Recommended values:
-
-- Body size: `14px-16px`.
-- Body line-height: `160%-180%`.
-- Weight: regular to bold depending on emphasis.
-
-#### English Display Sans
-
-Use `--font-sans-en` for large English statements, section titles, nav labels, and rotated annotations.
-
-```css
-.font-en {
-  font-family: var(--font-sans-en);
-  text-transform: uppercase;
-}
-```
-
-Recommended display values:
-
-- Hero headline mobile: `calc(52 / 375 * 100vw)`.
-- Hero headline desktop: `calc(205 / 1440 * 100vw)`.
-- Large section title: `calc(135 / 1440 * 100vw)`.
-- Personality names: `calc(85 / 1440 * 100vw)`.
-- Leading: `0.75-0.95`.
-- Letter spacing: `-0.02em` to `-0.05em` for oversized display type.
-
-#### Playfair UI Accent
-
-Use `--font-playfair` for the compact audio player, small nav counters, and soft editorial UI accents.
-
-```css
-.font-playfair {
-  font-family: var(--font-playfair);
-}
-```
-
-Recommended values:
-
-- Small UI: `10px-16px`.
-- Mobile menu labels: `20px`.
-- Leading: `1`.
+- **Display**: `"Playfair Display"`, `"Noto Serif SC"`, serif — page titles, post titles, hero display. Weight 600/700; Latin may italicize for flourish.
+- **Body**: `"Noto Serif SC"`, `"Playfair Display"`, Georgia, serif — all body prose, line-height 1.85, size 1.0625rem.
+- **Slab**: `"Syne"`, `"Arial Black"`, sans-serif — uppercase geometric slabs, ghost numerals, brand mark. Weight 700/800.
+- **Mono**: `"JetBrains Mono"`, `"Fira Code"`, monospace — labels, axis readout, date pills, metadata.
 
 ### Type Scale
 
-```css
-:root {
-  --text-10: 0.625rem;
-  --text-11: 0.6875rem;
-  --text-12: 0.75rem;
-  --text-13: 0.8125rem;
-  --text-14: 0.875rem;
-  --text-16: 1rem;
-  --text-20: 1.25rem;
-  --text-24: 1.5rem;
-  --text-28: 1.75rem;
-  --text-30: 1.875rem;
-  --text-31: 1.9375rem;
-  --text-36: 2.25rem;
-  --text-40: 2.5rem;
-  --text-48: 3rem;
-  --text-56: 3.5rem;
-  --text-75: 4.6875rem;
-}
-```
-
-Responsive display sizes are viewport-derived rather than a simple modular scale. The site often maps design pixels directly to viewport units:
-
-```css
---display-hero-sp: calc(52 / 375 * 100vw);
---display-hero-md: calc(205 / 1440 * 100vw);
---display-section-md: calc(135 / 1440 * 100vw);
---display-personality-sp: calc(36 / 375 * 100vw);
---display-personality-md: calc(85 / 1440 * 100vw);
-```
-
-## 4. Layout Tokens
-
-### Breakpoints
-
-The shipped CSS follows Tailwind-like breakpoints.
-
-```css
-:root {
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-2xl: 1536px;
-}
-```
-
-### Root Sizing
-
-```css
-html,
-body {
-  font-size: calc(16 / 375 * 100vw);
-}
-
-@media (min-width: 768px) {
-  html,
-  body {
-    font-size: max(calc(16 / 1440 * 100vw), 12px);
-  }
-}
-
-@media (min-width: 1440px) {
-  html,
-  body {
-    font-size: 1rem;
-  }
-}
-```
-
-### Container
-
-```css
-.container {
-  padding-inline: calc(20 / 375 * 100vw);
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 1440px;
-    margin-inline: auto;
-    padding-inline: calc(121 / 1440 * 100vw);
-  }
-}
-```
-
-### Spacing Scale
-
-The site mixes rem-based utility spacing with viewport-derived positioning. Use exact viewport math for hero/media staging and rem values for UI controls.
-
-```css
-:root {
-  --space-1: 0.25rem;
-  --space-1-5: 0.375rem;
-  --space-2: 0.5rem;
-  --space-2-5: 0.625rem;
-  --space-3: 0.75rem;
-  --space-3-5: 0.875rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-11: 2.75rem;
-  --space-12: 3rem;
-  --space-20: 5rem;
-}
-```
+| Level | Size | Weight | Line Height | Tracking | Usage |
+|-------|------|--------|-------------|----------|-------|
+| Display | `clamp(4.5rem, 13vw, 12rem)` | 700 | 0.82 | -0.02em | Hero slabs (Syne) |
+| H1 | `clamp(3rem, 8vw, 7rem)` | 600 | 0.88 | -0.02em | Page titles (serif) |
+| H2 | `clamp(2rem, 5vw, 4rem)` | 600 | 0.95 | -0.02em | Section headers (serif) |
+| H3 | `clamp(1.4rem, 3vw, 2.2rem)` | 600 | 1 | -0.01em | Card titles (serif) |
+| Body | `1.0625rem` | 400 | 1.85 | 0 | Prose (serif) |
+| Body/sm | `0.938rem` | 400 | 1.6 | 0 | Secondary text |
+| Caption | `0.688rem` | 500 | 1.25 | 0.14em | Metadata (mono, uppercase) |
+| Overline | `0.625rem` | 500 | 1.2 | 0.18em | Trilingual microcopy (mono) |
 
-Repeated layout values:
+### Rules
 
-- Mobile page gutter: `20 / 375 * 100vw`.
-- Desktop page gutter: `121 / 1440 * 100vw`.
-- Header padding: `10px` mobile, `20px` desktop.
-- Fixed platform links: bottom/right `10px` mobile, `20px` desktop.
-- Section gaps often use `30 / 375 * 100vw` mobile and `60 / 1440 * 100vw` desktop.
+- Headings are serif 600-700 (NOT 900 — serif 900 is blobby). Uppercase only for Syne slabs and mono labels; serif headings stay sentence-case or italic-flourished.
+- Display tracking looser than old constructivist (-0.02em vs -0.06em). Serif reads warm; slab/mono read technical.
+- Microcopy may mix Chinese, Japanese, English, separated by `//` or `／`.
 
-## 5. Shape, Border, Shadow
+## 4. Spacing & Layout
 
-The system is almost shadowless. Depth comes from overlap, stacking, borders, and motion rather than elevation.
+Base unit: **4px**. All spacing tokens unchanged from prior system (`--space-xs` through `--space-3xl`). Max content width `1360px`, breakpoints at `720px`, `900px`, `1280px`.
 
-```css
-:root {
-  --radius-none: 0;
-  --radius-full: 9999px;
-  --border-hairline: 1px;
-  --border-heavy-sp: 5px;
-  --border-heavy-md: 10px;
-}
-```
+### Rules
 
-Rules:
+- Diagonal `clip-path` cuts on signature slabs and cards only; routine controls stay rectangular.
+- Layout alternates dense label clusters (mono) with large serif blocks.
+- **Zero border-radius.**
 
-- Default surfaces use square corners.
-- Pills are used only for compact controls, especially audio/player CTAs.
-- Image and content frames use black borders.
-- Heavy frames use `5px` on mobile and `10px` on desktop.
-- Avoid soft shadows; use bordered panels and z-index layering instead.
+## 5. Components
 
-## 6. Component Patterns
+### Editorial Frame
 
-### Fixed Audio Player
+- **Structure**: 1px hairline border + 3px iris left bar + corner registration crosses (+ marks, 10px, via ::before/::after with ice color) + small 12px clip corner top-right.
+- **Spacing**: `--space-lg` padding.
+- **States**: static informational pattern.
+- **Accessibility**: semantic markup, visible focus.
+- **Motion**: none.
 
-Visual anatomy:
+### Section Rail
 
-- Fixed top-left control block.
-- White background, black 1px border.
-- Square thumbnail/control area with right border.
-- Circular black play/pause button inside.
-- Playfair label text.
-- Compact CTA pill beside/under it.
+- **Structure**: 8px diamond node (iris, rotated 45deg) + trilingual mono label + 1px hairline gradient iris→ink.
+- **Variants**: single iris theme.
+- **Spacing**: gap `--space-md`, margin-bottom `--space-lg`.
+- **Motion**: none.
 
-Tokens:
+### PostCard
 
-```css
-.audio-player {
-  background: var(--color-white);
-  border: 1px solid var(--color-black);
-}
+- **Structure**: bordered anchor with corner bracket watermark (2px ice lines, 18px, top-right ::after), serif title 600, mono date pill, mono category label (iris), hairline borders.
+- **Variants**: expanded/compact modes.
+- **Spacing**: `--space-md` to `--space-lg`.
+- **States**: hover translates (-2px, -2px) + border iris + ::before wash var(--accent-wash).
+- **Motion**: 250ms transform, disabled under reduced motion.
 
-.audio-player__button {
-  width: 1.5rem;
-  height: 1.5rem;
-  border-radius: var(--radius-full);
-  background: var(--color-black);
-  color: var(--color-white);
-}
-```
+### Header & Footer
 
-Behavior:
+- **Header**: 3px iris top edge, Syne 800 brand mark "BF" on ink plate, nav cells flat iris fill on hover/active.
+- **Footer**: marquee mono strip (surface-solid bg, ice text, wraps in .marquee-track div), pulse-dot signal, drawer hairline borders.
 
-- Thumbnail grayscale swaps on hover/play state.
-- Controls remain fixed above content.
-- Header wrapper disables pointer events except on actual links/buttons.
-
-### Navigation
-
-Desktop:
-
-- Fixed bottom-center black strip.
-- Links use Playfair `16px`, white text, all caps.
-- Hover effect rolls the label vertically using duplicate pseudo text.
-- Section counts appear as small black badges offset near labels.
-
-Mobile:
-
-- Full-screen white menu overlay.
-- Black block links with white Playfair text.
-- Simple `MENU` / `CLOSE` controls.
-
-### Hero
-
-Visual anatomy:
-
-- White page with black editorial text.
-- Massive uppercase English display headline.
-- Japanese title/subtitle paired with English supporting phrases.
-- Bordered image card overlapped near the headline.
-- Crosshair-like diagonal lines in framed media placeholders.
-
-Implementation notes:
-
-- Use `font-en`, uppercase, tight tracking, and line-height below `1`.
-- Avoid centered polished marketing layout.
-- Let text fill the viewport width with controlled tension.
-- Use absolute positioning and overlapping media to break the grid.
-
-### Editorial Cards / Framed Panels
-
-Visual anatomy:
-
-- White background.
-- Black heavy border.
-- Oversized English title in Helvetica.
-- Japanese body in serif.
-- Optional vertical writing.
-- Panels overlap and rotate slightly.
-
-Rules:
-
-- Use no border radius.
-- Use `overflow: hidden`.
-- Stack using z-index steps `10`, `20`, `30`, `40`.
-- Use viewport-derived widths rather than fixed max-widths.
-
-### Colored Block Sections
-
-Visual anatomy:
-
-- Full-width flat color fields.
-- Huge white text with `mix-blend-difference`.
-- Hard-edged overlay strips in red/orange/sky/lemon.
-- Some text rotates or writes vertically.
-
-Rules:
-
-- Use large color planes.
-- Keep typography compressed and loud.
-- Let labels sit flush to edges.
-- Prefer black/white contrast over subtle tonal changes.
-
-### Episode / Story Lists
-
-Observed structure:
-
-- Dense list of radio episode links.
-- Image thumbnails for guest, highlight, other story, and personality entries.
-- Black typographic metadata and counters.
-- Platform links for Stand FM, Spotify, Amazon, and Apple.
-
-Rules:
-
-- Treat each item as a media-and-text editorial tile.
-- Keep borders and type strong.
-- Use real photography thumbnails.
-- Avoid card softness; use framed or flush image blocks.
-
-### Personality Section
-
-Visual anatomy:
-
-- Dark/photographic background layer.
-- White rotated Helvetica names and roles.
-- Thin/wavy white connector lines.
-- Hover swaps background images per person.
-- Small biographical descriptions in light Helvetica.
-
-Rules:
-
-- Use absolute positioning.
-- Rotate names aggressively, from subtle `3deg` to near-vertical.
-- Keep body blurbs compact, around `11px-14px`.
-- Lines can be straight on mobile and wavy SVG paths on desktop.
-
-## 7. Motion System
-
-### Easing
-
-```css
-:root {
-  --ease-out-expressive: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-image: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-nav: cubic-bezier(0.87, 0, 0.13, 1);
-  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
-}
-```
+## 6. Motion & Interaction
 
 ### Timing
 
-```css
-:root {
-  --duration-fast: 300ms;
-  --duration-medium: 600ms;
-  --duration-image: 1200ms;
-  --duration-word: 800ms;
-  --duration-line: 1100ms;
-}
+| Type | Duration | Easing | Usage |
+|------|----------|--------|-------|
+| Micro | 120ms | `cubic-bezier(0.4, 0, 0.6, 1)` | Color changes |
+| Standard | 250ms | `cubic-bezier(0.16, 1, 0.3, 1)` | Card hover, drawer |
+| Emphasis | 500ms | `cubic-bezier(0.16, 1, 0.3, 1)` | Page transition |
+
+### Rules
+
+- Animate only `transform`, `opacity`, `filter`.
+- Every interactive element has hover and focus-visible states.
+- Respect `prefers-reduced-motion` (marquee/scanline/particles disable).
+
+## 7. Depth & Surface
+
+**Borders-only plus flat offset plates.** No shadows.
+
+| Type | Value | Usage |
+|------|-------|-------|
+| Hairline | `1px solid var(--border-subtle)` | Secondary dividers |
+| Frame | `2px solid var(--border)` | Cards, nav |
+| Heavy accent | `3px solid var(--accent-iris)` | Header top edge, editorial left bar |
+| Corner registration | `+` marks via ::before/::after, 10px, ice | Editorial frames |
+| Hairline gradient | `linear-gradient(90deg, iris, ink)` | Section rails |
+| Repeating hairline bar | `repeating-linear-gradient` iris/ink/ice | `<hr>` elements |
+
+No blur, glassmorphism, soft elevation, or glow effects.
+
+## 8. Pattern Library / Design Language
+
+The **Observatory Instrument Vocabulary** enforces consistent visual grammar across all surfaces through a small set of reusable classes. Every content surface shares these patterns:
+
+### The 5 Rules
+
+1. **Records are rows, not cards.** Articles, categories, and search results render as registry rows (`.post-grid` rows): mono REC number | date | serif title (+1-line description) | category | arrow, hairline-separated. Boxes are reserved for **instruments only** (`.obs-frame`: author bio, status drawer, tag filter, search query, prev/next nav).
+2. **Section transitions use `.obs-ruler`** tick ruler (never a plain `<hr>`).
+3. **Every serif display heading is preceded by `.obs-eyebrow`** mono label with iris square node.
+4. **Metadata rows use `.obs-stat`** — mono uppercase tertiary with bold iris values.
+5. **Every registry list is numbered**: REC-01/02/03 via CSS counters on `.post-grid`, with a `.registry-head` mono column header (REC / Date / Record / Category) on full archive pages.
+
+### Pattern Classes
+
+| Class | Purpose | Anatomy | Usage |
+|-------|---------|---------|-------|
+| `.post-grid` | Registry list | Flex column; `counter-reset: obs-rec`; rows separated by hairlines | All article lists (archive, tags, categories, featured). Rows are PostCard registry entries. |
+| `.registry-head` | Column header | Mono uppercase labels on 2px rule, same grid as rows (REC/Date/Record/Category/→) | Above `.post-grid` on full archive pages; hidden under 760px. |
+| `.obs-frame` | Instrument frame | 1px hairline border + ice registration crosses (+ marks, 11px, top-left/bottom-right) | Instruments only: author bio, status drawer, tag filter, search query, hero editorial blocks, prev/next nav. NEVER for article/category entries. |
+| `.obs-frame--powered` | Emphasized frame | Adds 3px iris left bar | Stack with `.obs-frame` for author bio, visitor widgets, search query. |
+| `.obs-id` | Mono ID label | Absolute positioned at top border, iris uppercase mono, 0.625rem | Place inside `.obs-frame` (e.g., SYS.STATUS, LOG.ENTRY, FILTER.TAGS). |
+| `.obs-ruler` | Section transition | Tick ruler: hairline base + 5px ticks every 8px + iris accent ticks every 40px | Replace plain `<hr>` between sections. |
+| `.obs-eyebrow` | Section label | Iris 7px square node + mono label, 0.6875rem, 0.16em tracking | Precede serif headings; `.obs-eyebrow--signal` for signal-red variant. |
+| `.obs-stat` | Metadata readout | Mono tertiary, 0.6875rem, 0.12em tracking, bold values iris | Dates, counts, coordinates, status rows. |
+| `.obs-hover` | Interactive frame | Registration crosses expand outward on hover/focus; translate (-2px,-2px) + border iris | Stack with `.obs-frame` on clickable instruments. |
+| `.calibrate` | Page-load reveal | Staggered fade-up: 0→1 opacity, translateY(10px)→0 | Hero blocks only; `.calibrate-2`/`.calibrate-3` for 80/160ms delays. |
+
+### Registry Row Anatomy (PostCard / category rows / search rows)
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│ REC-01  2026年2月8日 │ Construct the untidy notes      Tech   → │
+│                       └ 1-line serif description                │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-### Page Transition
+- Columns: `4.5rem | 7.5rem | 1fr | auto | 2rem`; date column carries a right hairline.
+- Hover/focus: `--accent-wash` background + 2px iris left bar (scaleY reveal) + arrow slides right and turns iris.
+- Compact mode (`.compact-view`): strips description, tightens padding — single-line ledger.
+- Mobile (<760px): REC/date/category collapse into one mono metadata line above the title.
+- Category rows swap the REC column for a 7px cycled color marker (iris/ice/signal); search rows drop the date column.
 
-- White full-screen overlay.
-- Scales vertically from bottom.
-- Loading marks fade and translate.
-- Duration: `600ms`.
-- Easing: `cubic-bezier(0.16, 1, 0.3, 1)`.
+### When to Use Each
 
-### Text Reveal
+- **`.post-grid` + registry rows**: every list of articles, categories, or search results.
+- **`.obs-frame` + `.obs-id`**: instruments — hero editorial blocks, author bio, search input, status drawer, category archive heading, prev/next navigation.
+- **`.obs-hover`**: stack with `.obs-frame` when the instrument is clickable.
+- **`.obs-ruler`**: between major sections (after page titles, between dispatch/telemetry blocks).
+- **`.obs-eyebrow`**: precede serif headings inside frames and sections.
+- **`.obs-stat`**: any key/value or numeric metadata.
+- **`.calibrate`**: hero blocks only.
 
-Patterns:
+### What NOT to Do
 
-- Split-line reveal: words translate from `100%` to `0`.
-- Split-word reveal: words translate from `115%` to `0`.
-- Split-character reveal: character spans translate from `115%` to `0`.
+- Don't wrap articles/categories/search results in boxes or cards — they are registry rows. Boxes are for instruments.
+- Don't nest `.obs-frame` inside `.obs-frame` (registration crosses conflict).
+- Don't apply `.obs-hover` without `.obs-frame` (the crosses are required for the hover expansion).
+- Don't use `.obs-eyebrow` as a heading replacement — it precedes headings.
+- Don't add `.obs-frame` borders when the element already has a distinct background/clip-path identity (poster slabs, route links, mode-block).
 
-Use stagger delays via CSS variables:
+### Page-Load Sequencing
 
-```css
-transition-delay: calc(var(--left-delay) * 1ms);
-transition-delay: calc(var(--center-delay) * 1ms);
-transition-delay: calc(var(--top-delay) * 1ms);
+Page-load reveals use `.calibrate` / `.calibrate-2` / `.calibrate-3` on major blocks only (hero + one level below, not every card). Example (index.astro):
+
+```html
+<header class="poster-title-block calibrate">...</header>
+<aside class="manifesto-block calibrate-2">...</aside>
+<a class="poster-route calibrate-3">...</a>
 ```
 
-### Image Reveal
-
-```css
-.effect-image {
-  clip-path: inset(50%);
-  overflow: hidden;
-  transition: clip-path 1.2s var(--ease-image);
-}
-
-.effect-image img {
-  transform: scale(1.2);
-}
-
-.is-active .effect-image {
-  clip-path: inset(0);
-}
-
-.is-active .effect-image img {
-  transform: scale(1);
-  transition: transform 1.2s var(--ease-image);
-}
-```
-
-### Marquee
-
-The loading and content marquee uses linear infinite translation.
-
-```css
-@keyframes marquee {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-100%, 0, 0);
-  }
-}
-```
-
-Mobile loading marquee subtracts `8vw`; desktop subtracts `60 / 1440 * 100vw`.
-
-### Hover Behavior
-
-- Links fade to `0.6` opacity on hover.
-- Black buttons invert to black background / white text.
-- Arrow buttons slide the current arrow out and next arrow in.
-- Nav labels roll vertically.
-- Personality names swap background imagery on hover.
-- Wavy lines respond to cursor movement.
-
-## 8. Interaction Details
-
-Custom cursors are part of the identity:
-
-- `cursor-pointer.svg`
-- `cursor-pointering.svg`
-- `cursor-grabbing.svg`
-- `cursor-grob.svg`
-
-Use them sparingly for immersive sections and draggable/hover states. Standard UI controls should remain accessible and obvious.
-
-Audio/player controls:
-
-- Keep controls fixed.
-- Ensure the audio fallback text remains available.
-- Do not hide platform links behind hover-only interactions.
-
-Reduced motion:
-
-- The CSS includes a `prefers-reduced-motion` branch for link opacity.
-- Extend that pattern to marquee, text reveals, image reveals, and page transitions when adapting this system.
-
-## 9. Implementation Starter
-
-```css
-:root {
-  color-scheme: light;
-
-  --color-black: #000000;
-  --color-white: #ffffff;
-  --color-border: #000000;
-  --color-green-main: #8eb669;
-  --color-sky-main: #74cfd4;
-  --color-orange-main: #f2a167;
-  --color-red-main: #a23737;
-  --color-pink-main: #f890cd;
-  --color-lemon-main: #e0e2ab;
-  --color-gray-main: #959595;
-
-  --font-serif-ja: "kozuka-mincho-pro", serif;
-  --font-sans-en: Helvetica, sans-serif;
-  --font-playfair: Playfair, serif;
-
-  --ease-out-expressive: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-image: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-nav: cubic-bezier(0.87, 0, 0.13, 1);
-
-  --border-hairline: 1px;
-  --border-heavy-sp: 5px;
-  --border-heavy-md: 10px;
-  --radius-full: 9999px;
-}
-
-html,
-body {
-  margin: 0;
-  background: var(--color-white);
-  color: var(--color-black);
-  font-family: var(--font-serif-ja);
-  font-size: calc(16 / 375 * 100vw);
-  font-kerning: none;
-  -webkit-font-smoothing: antialiased;
-}
-
-@media (min-width: 768px) {
-  html,
-  body {
-    font-size: max(calc(16 / 1440 * 100vw), 12px);
-  }
-}
-
-@media (min-width: 1440px) {
-  html,
-  body {
-    font-size: 1rem;
-  }
-}
-
-.ds-container {
-  padding-inline: calc(20 / 375 * 100vw);
-}
-
-@media (min-width: 768px) {
-  .ds-container {
-    max-width: 1440px;
-    margin-inline: auto;
-    padding-inline: calc(121 / 1440 * 100vw);
-  }
-}
-
-.ds-display {
-  font-family: var(--font-sans-en);
-  font-size: calc(52 / 375 * 100vw);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-}
-
-@media (min-width: 768px) {
-  .ds-display {
-    font-size: calc(205 / 1440 * 100vw);
-    line-height: 0.8;
-  }
-}
-
-.ds-frame {
-  background: var(--color-white);
-  border: var(--border-heavy-sp) solid var(--color-black);
-  overflow: hidden;
-}
-
-@media (min-width: 768px) {
-  .ds-frame {
-    border-width: var(--border-heavy-md);
-  }
-}
-
-.ds-pill {
-  border: 1px solid var(--color-black);
-  border-radius: var(--radius-full);
-  background: var(--color-white);
-  color: var(--color-black);
-}
-
-.ds-pill:hover {
-  background: var(--color-black);
-  color: var(--color-white);
-}
-```
-
-## 10. Do / Do Not
-
-Do:
-
-- Use hard black borders.
-- Use oversized Helvetica display type.
-- Pair English display typography with Japanese serif body copy.
-- Use real images and thumbnails.
-- Use saturated accent blocks as flat planes.
-- Use rotation, overlap, vertical writing, and tight line-height for editorial tension.
-- Use clip-path image reveals and marquee motion.
-
-Do not:
-
-- Add soft shadows, glassmorphism, gradients, or rounded cards.
-- Replace the photographic/editorial feel with generic SaaS components.
-- Smooth out every irregular layout choice.
-- Use a one-color palette.
-- Make the UI feel like a conventional podcast landing page.
-- Overuse accent colors in small decorative fragments; they work best as committed blocks.
+Respect `prefers-reduced-motion` — `.calibrate` animations disable automatically.

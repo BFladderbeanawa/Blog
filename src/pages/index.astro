@@ -1,204 +1,739 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import PostCard from '../components/PostCard.astro';
-import VisitorWidgets from '../components/VisitorWidgets.astro';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import HomeRegistry from '../components/HomeRegistry.astro';
+import ArchiveAtlas from '../components/ArchiveAtlas.astro';
+import HomeMotion from '../components/HomeMotion.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  (a, b) =>
+    b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id)
 );
-const latestPosts = posts.slice(0, 3);
+const latestPosts = posts.slice(0, 6);
+const categories = [...new Set(posts.flatMap((post) => post.data.category ? [post.data.category] : []))];
+const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+const latestPost = posts[0];
+const lastUpdated = posts.length ? new Date(Math.max(...posts.map((post) => (post.data.updatedDate || post.data.pubDate).valueOf()))) : null;
+const formatDate = (date: Date) => date.toISOString().slice(0, 10).replaceAll('-', '.');
 ---
 
 <Layout>
-  <main class="home-page page-shell">
-    <Card className="hero-panel editorial-frame rounded-none border-0 shadow-none">
-      <div class="hero-copy">
-        <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">Personal archive / 00-Home</Badge>
-        <h1>Notes for things that refuse to stay tidy.</h1>
-        <p>
-          A digital garden for code, mathematics, philosophy, stray tools, and the little systems that make thinking easier to revisit.
-        </p>
-      </div>
-      <Card className="hero-card rounded-none shadow-none">
-        <Badge variant="outline" className="card-kicker rounded-none w-fit border-0 p-0">Current Mode</Badge>
-        <strong>Field Notes</strong>
-        <p>Drafted in public, revised in motion, indexed for future wandering.</p>
-      </Card>
-    </Card>
+  <main class="home-page" id="home-top">
+    <nav class="home-index" aria-label="首页章节">
+      <span class="index-caption">FIELD INDEX <span aria-hidden="true">／</span></span>
+      <a href="#home-top" aria-current="location">00 <span>序章</span></a>
+      <a href="#navigate">01 <span>入口</span></a>
+      <a href="#dispatches">02 <span>新着</span></a>
+      <a href="#atlas">03 <span>地圖</span></a>
+      <span class="index-edition">PERSONAL ARCHIVE <span aria-hidden="true">＋</span></span>
+    </nav>
+    <!-- Section 1: Hero -->
+    <section class="snap-section section-hero" aria-labelledby="home-title">
+      <div class="hero-container">
+        <div class="hero-kicker axis-label">知識構成 // 記録編集 // Personal archive / 00</div>
 
-    <section class="latest-section">
-      <div class="section-rail">
-        <span class="rail-node"></span>
-        <span class="axis-label">Latest dispatches</span>
+        <div class="red-slab" aria-hidden="true" data-depth="10">BF</div>
+        <div class="blue-slab" aria-hidden="true" data-depth="14">構成</div>
+        <span class="hero-ghost" aria-hidden="true" data-depth="-8">§</span>
+
+        <header class="hero-title-block">
+          <span class="obs-eyebrow">OBS.STATION // FIELD NOTES</span>
+          <h1 id="home-title" class="kinetic">
+            <span class="kw"><span style="--i:0">Construct</span></span>
+            <span class="kw"><span style="--i:1">the</span></span>
+            <span class="kw kw-accent"><span style="--i:2">untidy</span></span>
+            <span class="kw"><span style="--i:3">notes.</span></span>
+          </h1>
+        </header>
+
+        <aside class="manifesto-block">
+          <span class="axis-label">宣言 // Manifesto // 宣言</span>
+          <p>
+            A digital garden for code, mathematics, philosophy, stray tools, and the little systems that make thinking easier to revisit.
+            知識在這裡被切割、重排、再裝訂。思考はここで組み直される。
+          </p>
+          <p class="obs-stat">LAT <b>31.23</b> // LON <b>121.47</b> // EST. <b>BF.01</b></p>
+        </aside>
+
+        <div class="hero-actions">
+          <a class="hero-read" href="#dispatches">閱讀最新筆記 <span aria-hidden="true">↗</span></a>
+          <a class="hero-about" href="/about">About the keeper <span aria-hidden="true">→</span></a>
+        </div>
+
+        <dl class="hero-readout" aria-label="档案概览">
+          <div><dt>Records / 記録</dt><dd>{String(posts.length).padStart(2, '0')}</dd></div>
+          <div><dt>Fields / 領域</dt><dd>{String(categories.length).padStart(2, '0')}</dd></div>
+          <div><dt>Threads / 線索</dt><dd>{String(tags.length).padStart(2, '0')}</dd></div>
+        </dl>
+
+        <a class="scroll-hint" href="#navigate" aria-label="向下浏览阅读入口">
+          <span class="axis-label">Scroll // 下滑 // スクロール</span>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14m0 0l-7-7m7 7l7-7"/>
+          </svg>
+        </a>
       </div>
-      <div class="post-grid">
-        {latestPosts.map((post) => <PostCard post={post} />)}
+      <div class="hero-colophon">
+        <span>Independent thoughts. Interconnected notes.</span>
+        <span>{lastUpdated ? `LAST ENTRY / ${formatDate(lastUpdated)}` : 'AWAITING FIRST ENTRY'}</span>
       </div>
     </section>
 
-    <section class="route-section">
-      <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
-        <a href="/start-here" class="route-card accent-band">
-          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">First visit</Badge>
-          <strong>Start with the map</strong>
-          <span>Reading guide</span>
-        </a>
-      </Card>
-      <Card className="p-0 border-0 shadow-none rounded-none bg-transparent">
-        <a href="/blog" class="route-card">
-          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">Archive</Badge>
-          <strong>Open all records</strong>
-          <span>Browse posts</span>
-        </a>
-      </Card>
-    </section>
-    <section class="stats-section">
-      <div class="section-rail">
-        <span class="rail-node"></span>
-        <span class="axis-label">Visitor telemetry</span>
+    <!-- Section 2: Navigation -->
+    <section class="snap-section section-navigation" id="navigate" aria-labelledby="navigate-title">
+      <div class="nav-deco-top" aria-hidden="true">00.2</div>
+      <div class="nav-deco-side" aria-hidden="true">
+        <span>NAV</span>
+        <span>ナビ</span>
       </div>
-      <VisitorWidgets />
+      <div class="nav-accent-block" aria-hidden="true"></div>
+
+      <div class="nav-container">
+        <div class="nav-header">
+          <span class="axis-label">Navigate // 導航 // ナビゲート</span>
+          <h2 id="navigate-title">Every note is a way in.</h2>
+          <div class="nav-subtitle">不必按順序閱讀。選一個入口，開始漫遊。</div>
+        </div>
+
+        <div class="nav-grid">
+          <a href="/start-here" class="nav-card route-start" data-home-reveal="0">
+            <span class="nav-label">初訪入口 <span aria-hidden="true">↗</span></span>
+            <strong>Start with the map</strong>
+            <p>從閱讀地圖開始，找到你感興趣的方向。</p>
+            <small>Reading guide ／ 読書地図</small>
+          </a>
+
+          <a href="/blog" class="nav-card route-archive" data-home-reveal="60">
+            <span class="nav-label">文檔庫 <span aria-hidden="true">↗</span></span>
+            <strong>Open all records</strong>
+            <p>代碼、數學與哲學，所有思考在這裡交匯。</p>
+            <small>{String(posts.length).padStart(2, '0')} records ／ 全記録</small>
+          </a>
+
+          <div class="mode-card obs-frame" data-home-reveal="100">
+            <span class="axis-label">Current Mode // 現在信號</span>
+            <strong>Field Notes<br />野外記録</strong>
+            <p>Drafted in public, revised in motion, indexed for future wandering.</p>
+            <a href="/search" class="mode-search">尋找一個想法 <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        {latestPost && (
+          <a class="desk-note" href={`/blog/${latestPost.id}/`}>
+            <span class="obs-eyebrow">On the desk // 最近一筆</span>
+            <span class="desk-title">{latestPost.data.title}</span>
+            <time class="obs-stat" datetime={latestPost.data.pubDate.toISOString()}>{formatDate(latestPost.data.pubDate)}</time>
+            <span aria-hidden="true">↗</span>
+          </a>
+        )}
+      </div>
+    </section>
+
+    <!-- Section 3: Latest Posts -->
+    <section class="snap-section section-posts" id="dispatches" aria-label="最新文章">
+      <div class="posts-container">
+        <HomeRegistry posts={latestPosts} />
+      </div>
+    </section>
+
+    <section class="snap-section section-atlas" id="atlas" aria-labelledby="atlas-title">
+      <div class="atlas-container">
+        <ArchiveAtlas posts={posts} />
+        <a class="back-to-top" href="#home-top">Back to the beginning / 回到序章 <span aria-hidden="true">↑</span></a>
+      </div>
     </section>
   </main>
+  <HomeMotion />
 </Layout>
 
+
+
 <style>
+  /* ═══════════════════════════════════════════════════════════════════
+     Snap Scroll Container
+     ═══════════════════════════════════════════════════════════════════ */
   .home-page {
-    display: grid;
-    gap: var(--space-3xl);
+    position: relative;
+    min-height: 100%;
   }
 
-  .hero-panel {
+  .snap-section {
     position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 28rem);
-    min-height: min(620px, 72vh);
-    padding: clamp(1rem, 4vw, 3rem);
+    min-height: min(780px, 100svh);
+    scroll-margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    isolation: isolate;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Section 1: Hero
+     ═══════════════════════════════════════════════════════════════════ */
+  .section-hero {
     background:
-      linear-gradient(90deg, transparent 0 62%, var(--accent-lemon) 62% 75%, transparent 75%),
+      repeating-linear-gradient(90deg, transparent 0 calc(8.333% - 1px), var(--blueprint-grid) calc(8.333% - 1px) 8.333%),
+      repeating-linear-gradient(0deg, transparent 0 4.5rem, var(--blueprint-grid) 4.5rem calc(4.5rem + 1px)),
       var(--surface);
+    overflow: hidden;
   }
 
-  .hero-panel::after {
-    content: "BF";
+  .section-hero::before {
+    content: "";
     position: absolute;
-    right: 0.5rem;
-    bottom: -0.2rem;
-    color: var(--text-ghost);
-    font-family: var(--font-display);
-    font-size: clamp(9rem, 28vw, 28rem);
-    font-weight: 900;
-    line-height: 0.72;
-    letter-spacing: -0.09em;
+    inset: 15% -10% auto 50%;
+    height: 35%;
+    background: var(--blueprint-grid);
+    transform: rotate(-18deg);
     pointer-events: none;
+    z-index: 0;
   }
 
-  .hero-copy {
+  .hero-container {
     position: relative;
-    z-index: 1;
+    width: min(1360px, 92%);
+    min-height: 650px;
+    height: min(760px, 85svh);
     display: grid;
-    align-content: space-between;
-    gap: var(--space-xl);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: repeat(12, minmax(0, 1fr));
+    gap: var(--space-md);
   }
 
-  .hero-copy h1 {
-    max-width: 11ch;
-    font-size: var(--text-4xl);
-  }
-
-  .hero-copy p {
-    max-width: 42rem;
-    font-size: clamp(1rem, 2vw, 1.45rem);
-    line-height: 1.35;
-  }
-
-  .hero-card {
-    position: relative;
-    z-index: 1;
-    align-self: end;
-    padding: var(--space-lg);
-    border: 1px solid var(--border);
-    background: var(--accent-sky);
-    transform: rotate(-2deg);
-  }
-
-  .card-kicker {
-    color: #111;
+  .hero-kicker {
+    grid-column: 1 / 8;
+    grid-row: 1;
+    align-self: start;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--accent-lemon);
+    color: var(--accent-cream);
     font-family: var(--font-mono);
     font-size: 0.7rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
 
-  .hero-card strong {
-    display: block;
-    margin: 0.8rem 0;
-    color: #111;
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 4.5rem);
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.06em;
+  .red-slab,
+  .blue-slab {
+    display: grid;
+    place-items: center;
+    color: var(--accent-cream);
+    font-family: var(--font-slab);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
     text-transform: uppercase;
   }
 
-  .hero-card p {
-    color: #111;
+  .red-slab {
+    grid-column: 1 / 4;
+    grid-row: 2 / 5;
+    background: var(--accent-signal);
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    clip-path: polygon(0 0, 100% 0, 72% 100%, 0 84%);
   }
 
-  .route-section {
+  .blue-slab {
+    grid-column: 10 / 13;
+    grid-row: 1 / 4;
+    background: var(--surface-solid);
+    color: var(--accent-ice);
+    font-size: clamp(3.5rem, 10vw, 9rem);
+    writing-mode: vertical-rl;
+    clip-path: polygon(22% 0, 100% 0, 100% 100%, 0 76%);
+  }
+
+  .hero-title-block {
+    grid-column: 3 / 11;
+    grid-row: 3 / 10;
+    align-self: center;
+    padding: var(--space-xl);
+    background: var(--surface);
+    border: var(--frame) solid var(--border);
+    clip-path: polygon(0 0, calc(100% - 34px) 0, 100% 34px, 92% 100%, 0 100%);
+  }
+
+  .hero-title-block h1 {
+    max-width: 10ch;
+    overflow-wrap: break-word;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 7.7vw, 7rem);
+    line-height: 0.98;
+    font-weight: 600;
+  }
+
+  .manifesto-block {
+    grid-column: 8 / 13;
+    grid-row: 9 / 13;
+    align-self: start;
+    z-index: 2;
+    padding: 1.5rem;
+    background: var(--accent-cream);
+    border: 1px solid var(--border);
+    border-left: var(--frame-lg) solid var(--accent-iris);
+    color: var(--accent-lemon);
+  }
+
+  .manifesto-block .axis-label,
+  .manifesto-block .obs-stat {
+    color: var(--accent-lemon);
+  }
+
+  .manifesto-block p {
+    margin-top: var(--space-md);
+    font-family: var(--font-display);
+    color: var(--accent-lemon);
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  .manifesto-block .obs-stat { font-size: 0.65rem; font-style: normal; }
+  .manifesto-block .obs-stat b { color: var(--accent-lemon); }
+
+  .scroll-hint {
+    grid-column: 5 / 8;
+    grid-row: 12;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    justify-self: center;
+
+  }
+
+  .scroll-hint svg {
+    opacity: 0.6;
+  }
+
+
+  .hero-ghost {
+    position: absolute;
+    top: -12%;
+    right: -3%;
+    z-index: -1;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 700;
+    font-size: clamp(17rem, 38vw, 32rem);
+    line-height: 1;
+    color: var(--text-ghost);
+    pointer-events: none;
+
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Section 2: Navigation
+     ═══════════════════════════════════════════════════════════════════ */
+  .section-navigation {
+    background:
+      repeating-linear-gradient(90deg, transparent 0 calc(12.5% - 1px), var(--border-subtle) calc(12.5% - 1px) 12.5%),
+      var(--canvas);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .section-navigation::before {
+    content: "";
+    position: absolute;
+    inset: auto -5% 8% auto;
+    width: 45%;
+    height: 32%;
+    background: var(--blueprint-grid);
+    transform: rotate(8deg);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .nav-deco-top {
+    position: absolute;
+    top: 2rem;
+    right: 3rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-tertiary);
+    opacity: 0.6;
+    z-index: 1;
+  }
+
+  .nav-deco-side {
+    position: absolute;
+    left: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    writing-mode: vertical-rl;
+    color: var(--text-tertiary);
+    opacity: 0.5;
+    z-index: 1;
+  }
+
+  .nav-accent-block {
+    position: absolute;
+    top: 12%;
+    left: 6%;
+    width: 120px;
+    height: 160px;
+    background: var(--accent-iris);
+    opacity: 0.08;
+    clip-path: polygon(0 0, 88% 0, 100% 18%, 76% 100%, 0 100%);
+    z-index: 0;
+  }
+
+  .nav-container {
+    width: min(1360px, 92%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    z-index: 1;
+  }
+
+  .nav-header {
+    text-align: left;
+  }
+
+  .nav-subtitle {
+    margin-top: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .nav-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr 1fr 0.85fr;
     gap: var(--space-lg);
   }
 
-  .route-card {
-    min-height: 14rem;
-    padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
+  .nav-card {
+    position: relative;
     display: grid;
     align-content: space-between;
+    min-height: 21rem;
+    padding: var(--space-xl);
+    border: var(--frame) solid var(--border);
+    isolation: isolate;
+    overflow: hidden;
+    transition: transform var(--duration-base) var(--ease-editorial),
+                color var(--duration-fast) var(--ease-sharp),
+                border-color var(--duration-base) var(--ease-editorial);
   }
 
-  .route-card:hover {
-    transform: translate(-0.2rem, -0.2rem);
+  .nav-card::before {
+    content: "";
+    position: absolute;
+    inset: auto auto 0 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform var(--duration-base) var(--ease-editorial);
+    pointer-events: none;
   }
 
-  .route-card strong {
-    max-width: 10ch;
+  .nav-card::after {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.15;
+    transition: transform var(--duration-base) var(--ease-editorial),
+                opacity var(--duration-base) var(--ease-editorial);
+  }
+
+  .nav-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .route-start {
+    background: var(--accent-red);
+    color: var(--accent-cream);
+    clip-path: polygon(0 0, 100% 6%, 94% 100%, 0 100%);
+  }
+
+  .route-start::before {
+    background: var(--accent-iris);
+  }
+
+  .route-archive {
+    background: var(--surface);
+    clip-path: polygon(6% 0, 100% 0, 100% 94%, 0 100%);
+  }
+
+  .route-archive::before {
+    background: var(--accent-iris);
+  }
+
+  .nav-card:focus-visible {
+    transform: translateY(-3px);
+    color: var(--accent-cream);
+    border-color: var(--accent-iris);
+  }
+
+  .nav-card:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  .nav-card:focus-visible::after {
+    transform: scale(1.2) rotate(45deg);
+    opacity: 0.3;
+  }
+
+  .nav-label,
+  .nav-card small {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .nav-card strong {
+    display: block;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 7vw, 5rem);
-    font-weight: 900;
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    font-weight: 600;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .mode-card {
+    display: grid;
+    align-content: end;
+    gap: var(--space-md);
+    padding: var(--space-xl);
+    background: var(--accent-navy);
+    color: var(--accent-cream);
+    border: var(--frame) solid var(--border);
+    clip-path: polygon(0 8%, 100% 0, 100% 100%, 6% 100%);
+    position: relative;
+  }
+
+  .mode-card::before {
+    content: "//";
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-family: var(--font-mono);
+    font-size: 3rem;
+    font-weight: 700;
+    opacity: 0.1;
+  }
+
+  .mode-card .axis-label,
+  .mode-card p,
+  .mode-card strong {
+    color: var(--accent-cream);
+  }
+
+  .mode-card strong {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3vw, 3rem);
     line-height: 0.9;
     letter-spacing: -0.06em;
     text-transform: uppercase;
   }
 
-  .route-card span:last-child {
+  /* ═══════════════════════════════════════════════════════════════════
+     Section 3: Latest Posts
+     ═══════════════════════════════════════════════════════════════════ */
+  .section-posts {
+    background: var(--surface);
+    border-top: var(--frame-lg) solid var(--accent-blue);
+  }
+
+  .posts-container {
+    width: min(1360px, 92%);
+    padding: clamp(3rem, 6vw, 6rem) 0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Kinetic Title Animation
+     ═══════════════════════════════════════════════════════════════════ */
+  .kinetic .kw {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.09em;
+    margin-bottom: -0.09em;
+  }
+
+  .kinetic .kw > span {
+    display: inline-block;
+
+  }
+
+  .kw-accent > span {
+    font-style: italic;
+    color: var(--accent-iris);
+  }
+
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Parallax Layers
+     ═══════════════════════════════════════════════════════════════════ */
+
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Reduced Motion
+     ═══════════════════════════════════════════════════════════════════ */
+  @media (prefers-reduced-motion: reduce) {
+    .home-page {
+      scroll-behavior: auto;
+    }
+
+    .kinetic .kw > span {
+      animation: none;
+      transform: none;
+    }
+
+    .hero-ghost {
+      animation: none;
+    }
+
+    .scroll-hint {
+      animation: none;
+    }
+  }
+
+  /* ═══════════════════════════════════════════════════════════════════
+     Responsive
+     ═══════════════════════════════════════════════════════════════════ */
+  .home-index {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    min-height: 3rem;
+    padding: 0.5rem 4%;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--surface);
     font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+  }
+  .home-index a { display: flex; gap: 0.6rem; align-items: center; min-height: 32px; color: var(--text-tertiary); }
+  .home-index a:hover, .home-index a[aria-current] { color: var(--accent-iris); }
+  .home-index a[aria-current] { text-decoration: underline; text-underline-offset: 6px; }
+  .index-caption { color: var(--text-primary); }
+  .index-caption > span { margin-left: 1rem; color: var(--accent-iris); }
+  .index-edition { margin-left: auto; color: var(--text-tertiary); }
+  .index-edition > span { margin-left: 1rem; }
+  .section-hero { flex-direction: column; padding-top: 1.5rem; }
+  .hero-title-block h1::before { display: none; }
+  .hero-title-block .obs-eyebrow { margin-bottom: 1.25rem; }
+  .hero-actions { grid-column: 3 / 8; grid-row: 10 / 12; display: flex; align-self: center; align-items: center; flex-wrap: wrap; gap: 1rem 1.5rem; }
+  .hero-actions a { display: inline-flex; align-items: center; justify-content: space-between; gap: 1.5rem; min-height: 44px; padding: 0.7rem 1rem; font-family: var(--font-mono); font-size: 0.7rem; }
+  .hero-read { background: var(--surface-solid); color: var(--accent-cream); border: 1px solid var(--border); }
+  .hero-read:hover, .hero-read:focus-visible { color: var(--accent-ice); }
+  .hero-about { border-bottom: 1px solid var(--border-subtle); }
+  .hero-readout { grid-column: 1 / 3; grid-row: 6 / 12; align-self: center; display: grid; gap: 1rem; padding-right: 1rem; }
+  .hero-readout > div { border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.75rem; }
+  .hero-readout dt { font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.04em; color: var(--text-tertiary); }
+  .hero-readout dd { font-family: var(--font-slab); font-size: 2.5rem; font-weight: 600; line-height: 1.3; color: var(--accent-iris); }
+  .hero-colophon { width: 92%; max-width: 1360px; display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--border-subtle); padding-block: 1rem; font-family: var(--font-mono); font-size: 0.58rem; letter-spacing: 0.07em; color: var(--text-tertiary); }
+  .section-navigation { padding-block: 5rem; }
+  .nav-container { gap: 2.5rem; }
+  .nav-header h2 { margin-top: 1rem; font-size: clamp(2.5rem, 5.8vw, 5.5rem); line-height: 1.08; font-weight: 500; }
+  .nav-header h2::before { display: none; }
+  .nav-subtitle { font-style: normal; font-size: 0.95rem; margin-top: 1.25rem; }
+  .nav-card { padding: 2rem; gap: 1.5rem; }
+  .nav-label { display: flex; justify-content: space-between; }
+  .nav-label > span { font-size: 1.1rem; }
+  .nav-card p { color: inherit; font-size: 0.85rem; line-height: 1.85; max-width: 23em; }
+  .mode-card { clip-path: none; padding: 2rem; }
+  .mode-card strong { line-height: 1.1; letter-spacing: -0.02em; text-transform: none; }
+  .mode-card p { font-size: 0.85rem; line-height: 1.85; }
+  .mode-card .axis-label { color: var(--accent-ice); }
+  .mode-search { display: flex; justify-content: space-between; padding-top: 1rem; min-height: 44px; border-top: 1px solid var(--accent-ice); font-family: var(--font-mono); font-size: 0.7rem; }
+  .mode-search:hover, .mode-search:focus-visible { color: var(--accent-ice); }
+  .desk-note { display: flex; align-items: center; gap: 1.5rem; border-block: 1px solid var(--border-subtle); padding: 1.1rem 0; }
+  .desk-title { flex: 1; font-size: 1.1rem; }
+  .desk-note > :last-child { color: var(--accent-iris); }
+  .section-posts { min-height: 0; }
+  .section-atlas { background: var(--canvas); border-top: 1px solid var(--border-subtle); }
+  .atlas-container { width: min(1360px, 92%); padding-block: clamp(3rem, 6vw, 6rem) 2rem; }
+  .back-to-top { display: flex; justify-content: space-between; gap: 1rem; margin-top: 4rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle); color: var(--text-tertiary); font-family: var(--font-mono); font-size: 0.65rem; }
+  .back-to-top:hover { color: var(--accent-iris); }
+
+  @media (hover: hover) and (pointer: fine) {
+    .nav-card:hover { transform: translateY(-3px); color: var(--accent-cream); border-color: var(--accent-iris); }
+    .nav-card:hover::before { transform: scaleY(1); }
+    .nav-card:hover::after { transform: scale(1.2) rotate(45deg); opacity: 0.3; }
+  }
+  .nav-card:active { transform: scale(0.99); transition-duration: 0s; }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-card:hover, .nav-card:focus-visible, .nav-card:active { transform: none; }
   }
 
-  .accent-band .axis-label,
-  .accent-band span,
-  .accent-band strong {
-    color: #fffef8;
+  @media (max-width: 1100px) {
+    .hero-container { gap: 1rem; }
+    .hero-title-block { grid-column: 3 / 12; padding: 2rem; }
+    .hero-title-block h1 { font-size: clamp(4rem, 8vw, 6rem); }
+    .manifesto-block { grid-column: 8 / 13; padding: 1.5rem; }
+    .manifesto-block p { font-size: 1rem; }
+    .nav-grid { gap: 1rem; }
+    .nav-card, .mode-card { padding: 1.5rem; }
+    .nav-deco-side, .nav-accent-block { display: none; }
   }
 
-  @media (max-width: 900px) {
-    .hero-panel,
-    .route-section {
-      grid-template-columns: 1fr;
-    }
+  @media (max-width: 800px) {
+    .index-edition { display: none; }
+    .home-index { gap: 1.25rem; }
+    .snap-section { min-height: auto; }
+    .hero-container { height: auto; min-height: 0; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-template-rows: auto; gap: 1.5rem 1rem; padding-bottom: 1.5rem; }
+    .hero-kicker { grid-column: 1 / -1; grid-row: 1; padding: 0.65rem; font-size: 0.55rem; }
+    .red-slab { grid-column: 1 / 3; grid-row: 2; min-height: 7rem; font-size: 3.5rem; }
+    .blue-slab { grid-column: 5 / 7; grid-row: 2; min-height: 7rem; writing-mode: horizontal-tb; font-size: 3rem; }
+    .hero-title-block { grid-column: 1 / -1; grid-row: 3; padding: 1.5rem; }
+    .hero-title-block h1 { max-width: 12ch; font-size: clamp(3rem, 10vw, 5.5rem); }
+    .hero-title-block .obs-eyebrow { font-size: 0.55rem; }
+    .hero-actions { grid-column: 1 / -1; grid-row: 4; gap: 0.5rem 1rem; }
+    .manifesto-block { grid-column: 1 / -1; grid-row: 5; padding: 1.5rem; }
+    .manifesto-block p { max-width: 55ch; }
+    .hero-readout { grid-column: 1 / -1; grid-row: 6; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; }
+    .hero-readout dd { font-size: 2rem; }
+    .scroll-hint { grid-column: 1 / -1; grid-row: 7; flex-direction: row; animation: none; }
+    .hero-ghost { top: 3rem; right: 20%; font-size: 16rem; }
+    .hero-colophon { flex-wrap: wrap; }
+    .nav-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .nav-card { min-height: 19rem; clip-path: none; }
+    .nav-card strong { font-size: clamp(1.75rem, 4.5vw, 3rem); }
+    .mode-card { grid-column: 1 / -1; grid-template-columns: 1fr 1fr; align-items: end; gap: 1.5rem; }
+    .mode-card > .axis-label, .mode-search { grid-column: 1 / -1; }
+    .desk-note { flex-wrap: wrap; gap: 0.75rem; }
+    .desk-note .obs-eyebrow { width: 100%; }
+    .section-navigation { padding-block: 3rem; }
+    .nav-deco-top { display: none; }
+  }
 
-    .hero-panel {
-      min-height: auto;
-    }
+  @media (max-width: 480px) {
+    .home-index { justify-content: space-between; gap: 0.5rem; }
+    .home-index a { min-height: 36px; gap: 0.4rem; }
+    .index-caption { display: none; }
+    .nav-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .nav-card { min-height: 17rem; }
+    .nav-card strong { max-width: 10ch; font-size: 2.5rem; }
+    .mode-card { grid-template-columns: 1fr; }
+    .hero-readout dt { font-size: 0.5rem; }
+    .hero-actions a { gap: 0.75rem; padding-inline: 0.75rem; font-size: 0.65rem; }
+    .hero-colophon { font-size: 0.5rem; }
   }
 </style>

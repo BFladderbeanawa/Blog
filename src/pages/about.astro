@@ -1,43 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Card } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 ---
 
 <Layout title="About" description="About the author and this archive">
   <main class="page-shell about-page">
-    <Card className="about-hero editorial-frame rounded-none border-0 shadow-none">
+    <section class="about-hero editorial-frame">
+      <span class="obs-id">SEC.01 // PROFILE</span>
       <div>
-        <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">About / identity note</Badge>
+        <span class="obs-eyebrow">About / identity note</span>
         <h1>Hi, I am BF.</h1>
       </div>
       <p>
         I write as BFladderbean: a front-end developer, learner, and curious systems tinkerer. This archive collects notes about web development, mathematics, machine learning, philosophy, games, and anything else that asks for a place to land.
       </p>
-    </Card>
+    </section>
 
     <section class="about-grid">
-      <Card className="rounded-none border-0 shadow-none p-0 bg-transparent">
-        <article>
-          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">01 / workbench</Badge>
-          <h2>What I make</h2>
-          <p>I build web interfaces, study technical systems, and document the patterns I want future-me to find again.</p>
-        </article>
-      </Card>
-      <Card className="rounded-none border-0 shadow-none p-0 bg-transparent">
-        <article>
-          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">02 / play</Badge>
-          <h2>What I notice</h2>
-          <p>Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.</p>
-        </article>
-      </Card>
-      <Card className="rounded-none border-0 shadow-none p-0 bg-transparent">
-        <article>
-          <Badge variant="outline" className="axis-label rounded-none w-fit border-0 p-0">03 / why this exists</Badge>
-          <h2>Why the blog</h2>
-          <p>Because thinking becomes more useful when it has a shape: tags, routes, fragments, and enough friction to become memorable.</p>
-        </article>
-      </Card>
+      <article class="obs-frame obs-hover">
+        <span class="obs-eyebrow">NOTE.A</span>
+        <h2>What I make</h2>
+        <p>I build web interfaces, study technical systems, and document the patterns I want future-me to find again.</p>
+      </article>
+      <article class="obs-frame obs-hover">
+        <span class="obs-eyebrow">NOTE.B</span>
+        <h2>What I notice</h2>
+        <p>Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.</p>
+      </article>
+      <article class="obs-frame obs-hover">
+        <span class="obs-eyebrow">NOTE.C</span>
+        <h2>Why the blog</h2>
+        <p>Because thinking becomes more useful when it has a shape: tags, routes, fragments, and enough friction to become memorable.</p>
+      </article>
     </section>
   </main>
 </Layout>
@@ -53,14 +46,14 @@ import { Badge } from '@/components/ui/badge';
     grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 0.7fr);
     gap: var(--space-xl);
     padding: clamp(1.2rem, 4vw, 3rem);
-    background:
-      linear-gradient(90deg, transparent 0 58%, var(--accent-pink) 58% 72%, transparent 72%),
-      var(--surface);
+    background: var(--surface);
   }
 
   .about-hero h1 {
     margin-top: var(--space-xl);
+    font-family: var(--font-display);
     font-size: var(--text-3xl);
+    font-weight: 600;
   }
 
   .about-hero p {
@@ -77,14 +70,14 @@ import { Badge } from '@/components/ui/badge';
   .about-grid article {
     min-height: 17rem;
     padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
     display: grid;
     align-content: space-between;
   }
 
   .about-grid h2 {
+    font-family: var(--font-display);
     font-size: clamp(1.8rem, 4vw, 3.6rem);
+    font-weight: 600;
   }
 
   @media (max-width: 900px) {

@@ -5,8 +5,23 @@ import Footer from '../components/Footer.astro';
 import PageTransition from '../components/PageTransition.astro';
 import ThemeSwitcher from '../components/ThemeSwitcher.astro';
 import BackgroundParticles from '../components/BackgroundParticles.astro';
+import GridOverlay from '../components/GridOverlay.astro';
+import ScanLine from '../components/ScanLine.astro';
+import CursorReticle from '../components/CursorReticle.astro';
 import '../styles/tokens.css';
-import '../styles/globals.css';
+import '../styles/global.css';
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/500.css';
+import '@fontsource/playfair-display/600.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource/playfair-display/400-italic.css';
+import '@fontsource/playfair-display/500-italic.css';
+import '@fontsource/noto-serif-sc/400.css';
+import '@fontsource/noto-serif-sc/500.css';
+import '@fontsource/noto-serif-sc/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/700.css';
 
 interface Props {
   title?: string;
@@ -34,10 +49,9 @@ const { title = "BF's Digital Garden", description = 'Notes, experiments, and fi
         };
 
         const applyTheme = () => {
-          const theme = getTheme();
-          document.documentElement.setAttribute('data-theme', theme);
-          document.documentElement.classList.toggle('dark', theme === 'nord');
+          document.documentElement.setAttribute('data-theme', getTheme());
         };
+
         applyTheme();
         document.addEventListener('astro:after-swap', applyTheme);
       })();
@@ -65,13 +79,59 @@ const { title = "BF's Digital Garden", description = 'Notes, experiments, and fi
     <title>{title}</title>
   </head>
   <body>
+    <GridOverlay />
+    <ScanLine />
     <BackgroundParticles />
     <PageTransition />
+    <div class="scroll-cal" aria-hidden="true"><i></i><output class="scroll-readout">000%</output></div>
     <Header />
     <div id="scroll-container" class="scroll-container">
       <slot />
     </div>
     <ThemeSwitcher />
+    <CursorReticle />
     <Footer />
+    <script>
+      /* Scroll calibration rail + reveal observer.
+       The app shell scrolls inside #scroll-container (not window), so both
+       systems bind against that element and re-bind after view transitions. */
+      function bindScrollCal() {
+        const sc = document.getElementById('scroll-container');
+        const fill = document.querySelector('.scroll-cal i');
+        const out = document.querySelector('.scroll-readout');
+        if (!sc || !fill || !out) return;
+        const update = () => {
+          const max = sc.scrollHeight - sc.clientHeight;
+          const p = max > 0 ? Math.min(1, sc.scrollTop / max) : 0;
+          fill.style.transform = `scaleX(${p})`;
+          out.textContent = String(Math.round(p * 100)).padStart(3, '0') + '%';
+        };
+        sc.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+
+      function bindReveals() {
+        const root = document.getElementById('scroll-container');
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('revealed');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { root, threshold: 0.12 }
+        );
+        document.querySelectorAll('[data-reveal]:not(.revealed)').forEach((el) => io.observe(el));
+      }
+
+      document.addEventListener('astro:page-load', () => {
+        bindScrollCal();
+        bindReveals();
+      });
+      bindScrollCal();
+      bindReveals();
+    </script>
   </body>
 </html>

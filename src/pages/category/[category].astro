@@ -2,10 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import BlogNav from '../../components/BlogNav.astro';
 import PostCard from '../../components/PostCard.astro';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Card } from '@/components/ui/card';
 import { getCollection } from 'astro:content';
+
 export async function getStaticPaths() {
   const allPosts = await getCollection('blog');
   const uniqueCategories = [...new Set(allPosts.map((post) => post.data.category).flat().filter(Boolean))];
@@ -18,21 +16,29 @@ export async function getStaticPaths() {
 
 const { category } = Astro.params;
 const { posts } = Astro.props;
-const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const sortedPosts = posts.sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id)
+);
 ---
 
 <Layout title={`Category: ${category}`}>
   <main class="page-shell">
     <BlogNav currentCategory={category} />
     <section>
-      <Button variant="ghost" asChild className="p-0 h-auto back-link">
-        <a href="/category">Back to categories</a>
-      </Button>
-      <Card className="category-heading editorial-frame rounded-none border-0 shadow-none">
-        <span class="axis-label">Category route</span>
+      <a href="/category" class="back-link">Back to categories</a>
+      <div class="category-heading editorial-frame">
+        <span class="obs-id">ARCHIVE.CAT</span>
+        <span class="obs-eyebrow">Category route</span>
         <h1>{category}</h1>
-        <Badge variant="default" className="count-badge rounded-none">{posts.length} records</Badge>
-      </Card>
+        <span class="count-badge obs-stat"><b>{posts.length}</b> records</span>
+      </div>
+      <div class="registry-head" aria-hidden="true">
+        <span>REC</span>
+        <span>Date</span>
+        <span>Record</span>
+        <span>Category</span>
+        <span></span>
+      </div>
       <div class="post-grid">
         {sortedPosts.map((post) => <PostCard post={post} />)}
       </div>
@@ -88,9 +94,5 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
     border: 1px solid var(--border);
     background: var(--text-primary);
     color: var(--canvas);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
   }
 </style>

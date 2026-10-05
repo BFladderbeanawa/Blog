@@ -7,11 +7,27 @@ dist/
 # dependencies
 node_modules/
 
+# vite+ generated hook dispatcher and caches
+.vite-hooks/_/
+.vite-cache/
+.vite-cache-codex/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+
+# local dev server logs
+dev*.log
+
+# local agent / browser-automation artifacts
+.omo/
+.playwright-mcp/
+
+# agent skill mirror: absolute symlinks into .agents/skills, regenerated
+# by the skills CLI on every machine
+.claude/
 
 # environment variables
 .env

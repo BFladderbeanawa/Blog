@@ -1,0 +1,109 @@
+---
+/* CursorReticle — a surveyor's crosshair that trails the pointer.
+   Companion to the OS cursor (never replaces it). Iris ring expands and
+   the cross rotates 45deg over interactive elements. Disabled on touch
+   devices and under prefers-reduced-motion. */
+---
+
+<div class="reticle" aria-hidden="true">
+  <span class="reticle-ring"></span>
+  <span class="reticle-cross"></span>
+</div>
+
+<script>
+  function bootReticle() {
+    const el = document.querySelector('.reticle');
+    if (!el) return;
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    if (!window.__reticleBound) {
+      window.__reticleBound = true;
+      let mx = innerWidth / 2, my = innerHeight / 2, x = mx, y = my, seen = false;
+
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        if (!seen) { seen = true; document.querySelector('.reticle')?.classList.add('is-live'); }
+      }, { passive: true });
+
+      document.addEventListener('mouseover', (e) => {
+        const hit = e.target instanceof Element && !!e.target.closest('a, button, input, [role="button"], .tag-toggle-btn');
+        document.querySelector('.reticle')?.classList.toggle('is-active', hit);
+      }, { passive: true });
+
+      (function loop() {
+        x += (mx - x) * 0.16;
+        y += (my - y) * 0.16;
+        const cur = document.querySelector('.reticle');
+        if (cur) cur.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+        requestAnimationFrame(loop);
+      })();
+    }
+  }
+
+  document.addEventListener('astro:page-load', bootReticle);
+  bootReticle();
+</script>
+
+<style>
+  .reticle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20001;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity var(--duration-base) var(--ease-sharp);
+  }
+
+  .reticle.is-live {
+    opacity: 1;
+  }
+
+  .reticle-ring {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--accent-iris);
+    opacity: 0.75;
+    transition:
+      width var(--duration-fast) var(--ease-editorial),
+      height var(--duration-fast) var(--ease-editorial),
+      top var(--duration-fast) var(--ease-editorial),
+      left var(--duration-fast) var(--ease-editorial),
+      opacity var(--duration-fast) var(--ease-editorial);
+  }
+
+  .reticle-cross {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 10px;
+    height: 10px;
+    background:
+      linear-gradient(var(--accent-iris), var(--accent-iris)) center / 1px 100% no-repeat,
+      linear-gradient(var(--accent-iris), var(--accent-iris)) center / 100% 1px no-repeat;
+    transition: transform var(--duration-base) var(--ease-editorial);
+  }
+
+  .reticle.is-active .reticle-ring {
+    top: -17px;
+    left: -17px;
+    width: 34px;
+    height: 34px;
+    opacity: 1;
+  }
+
+  .reticle.is-active .reticle-cross {
+    transform: rotate(45deg) scale(1.25);
+  }
+
+  @media (pointer: coarse), (prefers-reduced-motion: reduce) {
+    .reticle {
+      display: none;
+    }
+  }
+</style>

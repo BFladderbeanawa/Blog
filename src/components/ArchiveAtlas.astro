@@ -1,0 +1,107 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import avatar from '../assets/avatar.png';
+
+interface Props { posts: CollectionEntry<'blog'>[]; }
+const { posts } = Astro.props;
+const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+const categories = [...new Set(posts.flatMap((post) => post.data.category ? [post.data.category] : []))];
+const topicNotes: Record<string, { symbol: string; subtitle: string; description: string }> = {
+  Study: { symbol: '∑', subtitle: '學習與思考', description: '從數學的推導到哲學的追問，為理解留下一條可以回溯的路。' },
+  Tech: { symbol: '</>', subtitle: '代碼與實驗', description: '拆開界面，記下構建的過程。在一次次實驗裡，讓想法成為可以使用的東西。' },
+};
+---
+
+<div class="atlas">
+  <header class="atlas-heading" data-home-reveal="0">
+    <span class="obs-eyebrow">Archive atlas // 知識地圖</span>
+    <h2 id="atlas-title">Follow a thread.</h2>
+    <p>從一個好奇的問題出發，找到下一個。</p>
+  </header>
+  <div class="atlas-grid">
+    <div class="topic-list">
+      {categories.map((category) => {
+        const records = posts.filter((post) => post.data.category === category);
+        const note = topicNotes[category] || { symbol: '§', subtitle: '主題記録', description: `沿著 ${category} 的線索，繼續閱讀。` };
+        return (
+          <a class="topic-row" href={`/category/${encodeURIComponent(category)}/`}>
+            <span class="topic-symbol" aria-hidden="true">{note.symbol}</span>
+            <div class="topic-copy">
+              <span class="axis-label">{note.subtitle} // {records.length.toString().padStart(2, '0')} records</span>
+              <h3>{category}</h3>
+              <p>{note.description}</p>
+            </div>
+            <span class="topic-arrow" aria-hidden="true">↗</span>
+          </a>
+        );
+      })}
+      <a class="all-topics" href="/category">瀏覽全部分類 <span aria-hidden="true">↗</span></a>
+    </div>
+    <aside class="thread-index obs-frame obs-frame--powered" data-home-reveal="60" aria-labelledby="thread-title">
+      <span class="obs-id">CROSS-REFERENCES</span>
+      <span class="axis-label">連結不同的想法</span>
+      <h3 id="thread-title">Small threads,<br />new connections.</h3>
+      <p>標籤是散落在筆記之間的路標。同一個問題，也許有另一種讀法。</p>
+      <div class="tag-links">
+        {tags.slice(0, 12).map((tag) => (
+          <a href={`/tags?tag=${encodeURIComponent(tag)}`}><span>#</span>{tag}</a>
+        ))}
+      </div>
+      <a class="all-tags" href="/tags">Explore the index <span aria-hidden="true">↗</span></a>
+    </aside>
+  </div>
+  <hr class="obs-ruler" />
+  <aside class="author-note" aria-label="关于作者">
+    <Image src={avatar} alt="BFladderbean 的头像" width={72} height={72} loading="lazy" />
+    <div class="author-copy">
+      <span class="axis-label">A note from the keeper // 站長手記</span>
+      <p>Hi, I'm BF. <span>在代碼、公式與日常之間，收集值得留下的片段。</span></p>
+    </div>
+    <a href="/about">認識記録的人 <span aria-hidden="true">↗</span></a>
+  </aside>
+</div>
+
+<style>
+  .atlas-heading h2 { margin-top: 1rem; font-size: clamp(2.5rem, 5.8vw, 5.5rem); font-weight: 500; line-height: 1.08; }
+  .atlas-heading h2::before { display: none; }
+  .atlas-heading > p { margin-top: 1.25rem; font-size: 0.95rem; }
+  .atlas-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); margin-top: 3rem; }
+  .topic-list { border-top: 2px solid var(--border); }
+  .topic-row { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 1.5rem; gap: 1.25rem; align-items: center; padding: 1.75rem 0.75rem; border-bottom: 1px solid var(--border-subtle); }
+  .topic-row:hover, .topic-row:focus-visible { background: var(--accent-wash); }
+  .topic-symbol { color: var(--accent-iris); font-family: var(--font-display); font-size: 4rem; line-height: 1; text-align: center; }
+  .topic-row:nth-child(even) .topic-symbol { font-family: var(--font-mono); font-size: 2rem; }
+  .topic-copy h3 { margin-block: 0.6rem; font-size: 2.5rem; font-weight: 500; }
+  .topic-copy p { max-width: 34em; font-size: 0.85rem; line-height: 1.85; }
+  .topic-arrow { color: var(--accent-iris); align-self: start; font-family: var(--font-mono); }
+  .all-topics, .all-tags { display: flex; justify-content: space-between; align-items: center; min-height: 44px; font-family: var(--font-mono); font-size: 0.72rem; }
+  .all-topics { padding: 1rem 0.75rem; }
+  .thread-index { align-self: start; padding: clamp(1.25rem, 3vw, 2.5rem); }
+  .thread-index h3 { margin-block: 1.25rem; font-size: clamp(1.75rem, 2.8vw, 2.75rem); line-height: 1.12; font-weight: 500; }
+  .thread-index > p { font-size: 0.85rem; line-height: 1.85; }
+  .tag-links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-block: 1.75rem; }
+  .tag-links a { display: inline-flex; gap: 0.35rem; align-items: center; min-height: 44px; padding: 0.4rem 0.7rem; border: 1px solid var(--border-subtle); font-family: var(--font-mono); font-size: 0.7rem; overflow-wrap: anywhere; }
+  .tag-links a span { color: var(--accent-iris); }
+  .tag-links a:hover, .tag-links a:focus-visible { background: var(--accent-wash); border-color: var(--accent-iris); }
+  .all-tags { border-top: 1px solid var(--border-subtle); padding-top: 0.75rem; }
+  .author-note { display: flex; align-items: center; gap: 1.5rem; }
+  .author-note img { flex: none; object-fit: cover; border: 1px solid var(--border-subtle); padding: 4px; }
+  .author-copy { flex: 1; }
+  .author-copy p { margin-top: 0.5rem; color: var(--text-primary); font-size: 1.1rem; }
+  .author-copy p span { margin-left: 0.5rem; color: var(--text-secondary); font-size: 0.85rem; }
+  .author-note > a { flex: none; padding-block: 0.75rem; border-bottom: 1px solid var(--accent-iris); font-size: 0.75rem; }
+  .author-note > a span { margin-left: 1rem; color: var(--accent-iris); }
+  @media (max-width: 800px) {
+    .atlas-grid { grid-template-columns: 1fr; }
+    .author-note { flex-wrap: wrap; }
+    .author-copy { min-width: min(100%, 14rem); }
+    .author-copy p span { display: block; margin: 0.5rem 0 0; }
+  }
+  @media (max-width: 480px) {
+    .topic-row { grid-template-columns: 2.75rem minmax(0, 1fr) 1rem; gap: 0.75rem; padding-inline: 0; }
+    .topic-symbol { font-size: 2.75rem; }
+    .topic-row:nth-child(even) .topic-symbol { font-size: 1.2rem; }
+    .topic-copy h3 { font-size: 2rem; }
+  }
+</style>

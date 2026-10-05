@@ -1,0 +1,161 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+}
+const { posts } = Astro.props;
+const categories = [...new Set(posts.flatMap((post) => post.data.category ? [post.data.category] : []))];
+---
+
+<section class="home-registry" aria-labelledby="dispatch-title" data-home-registry>
+  <header class="section-heading" data-home-reveal="0">
+    <div>
+      <span class="obs-eyebrow">Latest dispatches // 最新通信</span>
+      <h2 id="dispatch-title">Fresh from the desk.</h2>
+    </div>
+    <a class="archive-link" href="/blog">全部記録 <span aria-hidden="true">↗</span></a>
+  </header>
+  <p class="section-intro">一些正在生長的想法，一些值得再次翻開的筆記。</p>
+
+  <div class="registry-toolbar">
+    <div class="filters" role="group" aria-label="按分类筛选最新文章" hidden>
+      <button type="button" class="filter active" data-filter="" aria-pressed="true" aria-controls="home-records">All <span>{posts.length.toString().padStart(2, '0')}</span></button>
+      {categories.map((category) => (
+        <button type="button" class="filter" data-filter={category} aria-pressed="false" aria-controls="home-records">
+          {category} <span>{posts.filter((post) => post.data.category === category).length.toString().padStart(2, '0')}</span>
+        </button>
+      ))}
+    </div>
+    <span class="obs-stat" role="status" aria-live="polite" aria-atomic="true" data-result-count>{posts.length} records / 按發佈日期</span>
+  </div>
+  <div class="registry-head" aria-hidden="true">
+    <span>REC</span><span>Date</span><span>Record / 記録</span><span>Category</span><span>↗</span>
+  </div>
+  <div class="post-grid" id="home-records">
+    {posts.map((post) => (
+      <div class="record-entry" data-record-category={post.data.category || ''}>
+        <PostCard post={post} />
+      </div>
+    ))}
+  </div>
+  {posts.length === 0 && <p class="empty-note">第一份記録還在整理中，稍後再來看看。</p>}
+  <div class="registry-note">
+    <span class="axis-label">A growing collection, not a finished document.</span>
+    <span class="axis-label">持續整理中 <span class="note-square" aria-hidden="true"></span></span>
+  </div>
+</section>
+
+<script>
+  function bindHomeRegistry() {
+    const registry = document.querySelector<HTMLElement>('[data-home-registry]');
+    if (!registry || registry.dataset.bound) return;
+    registry.dataset.bound = 'true';
+    const filters = registry.querySelector<HTMLElement>('.filters');
+    if (filters) filters.hidden = false;
+    const buttons = registry.querySelectorAll<HTMLButtonElement>('[data-filter]');
+    const records = registry.querySelectorAll<HTMLElement>('[data-record-category]');
+    const count = registry.querySelector('[data-result-count]');
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const grid = registry.querySelector<HTMLElement>('#home-records');
+    const running = new Set<Animation>();
+    const stopAnimations = () => {
+      running.forEach((animation) => animation.cancel());
+      running.clear();
+    };
+    const play = (element: HTMLElement, frames: Keyframe[], delay = 0) => {
+      const animation = element.animate(frames, {
+        duration: 220, delay, easing: 'cubic-bezier(0.16, 1, 0.3, 1)', fill: 'backwards',
+      });
+      running.add(animation);
+      animation.finished.then(() => running.delete(animation), () => running.delete(animation));
+    };
+
+    // Reserve the full list's natural space so filtering doesn't move the next section.
+    let previousWidth = 0;
+    const reserveSpace = () => {
+      if (!grid) return;
+      const width = grid.getBoundingClientRect().width;
+      if (width === previousWidth) return;
+      previousWidth = width;
+      const hidden = [...records].map((record) => record.hidden);
+      records.forEach((record) => { record.hidden = false; });
+      grid.style.minHeight = '';
+      grid.style.minHeight = `${grid.getBoundingClientRect().height}px`;
+      records.forEach((record, index) => { record.hidden = hidden[index]; });
+    };
+    const resize = new ResizeObserver(reserveSpace);
+    if (grid) resize.observe(grid);
+    document.fonts.ready.then(() => {
+      if (!registry.isConnected) return;
+      previousWidth = 0;
+      reserveSpace();
+    });
+    const onReducedChange = () => { if (reduced.matches) stopAnimations(); };
+    reduced.addEventListener('change', onReducedChange);
+    document.addEventListener('astro:before-swap', () => {
+      stopAnimations();
+      resize.disconnect();
+      reduced.removeEventListener('change', onReducedChange);
+    }, { once: true });
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        if (button.getAttribute('aria-pressed') === 'true') return;
+        const category = button.dataset.filter || '';
+        // Capture visual positions before cancelling so rapid clicks retarget smoothly.
+        const positions = new Map([...records].filter((record) => !record.hidden).map((record) => [record, record.getBoundingClientRect().top]));
+        stopAnimations();
+        let visible = 0;
+        records.forEach((record) => {
+          record.hidden = Boolean(category && record.dataset.recordCategory !== category);
+          if (!record.hidden) visible++;
+        });
+        buttons.forEach((item) => {
+          item.classList.toggle('active', item === button);
+          item.setAttribute('aria-pressed', String(item === button));
+        });
+        if (count) count.textContent = `${visible} records / ${category || '全部分類'}`;
+        if (!reduced.matches) {
+          let arrival = 0;
+          records.forEach((record) => {
+            if (record.hidden) return;
+            const before = positions.get(record);
+            const distance = before === undefined ? 8 : before - record.getBoundingClientRect().top;
+            play(record, [
+              { opacity: before === undefined ? 0 : 1, transform: `translateY(${distance}px)` },
+              { opacity: 1, transform: 'translateY(0)' },
+            ], before === undefined ? arrival++ * 30 : 0);
+          });
+        }
+      });
+    });
+  }
+  bindHomeRegistry();
+  document.addEventListener('astro:page-load', bindHomeRegistry);
+</script>
+
+<style>
+  .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 2rem; }
+  h2 { margin-top: 1rem; font-size: clamp(2.5rem, 5.8vw, 5.5rem); font-weight: 500; line-height: 1.08; }
+  h2::before { display: none; }
+  .section-intro { margin-top: 1.25rem; font-size: 0.95rem; line-height: 1.85; }
+  .archive-link { flex: none; padding-block: 0.75rem; border-bottom: 1px solid var(--accent-iris); font-family: var(--font-mono); font-size: 0.75rem; }
+  .archive-link span { margin-left: 1.5rem; color: var(--accent-iris); }
+  .registry-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-block: 1rem; border-top: 1px solid var(--border-subtle); }
+  .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .filters[hidden], .record-entry[hidden] { display: none; }
+  .filter { display: inline-flex; align-items: center; gap: 1rem; min-height: 44px; padding: 0.5rem 1rem; border: 1px solid var(--border-subtle); background: var(--surface); color: var(--text-secondary); font-family: var(--font-mono); font-size: 0.72rem; }
+  .filter span { font-size: 0.6rem; }
+  .filter:hover { border-color: var(--accent-iris); color: var(--accent-iris); }
+  .filter.active { background: var(--surface-solid); color: var(--accent-cream); border-color: var(--border); }
+  .registry-note { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-top: 1.25rem; }
+  .note-square { display: inline-block; width: 6px; height: 6px; margin-left: 0.5rem; background: var(--accent-iris); }
+  .empty-note { padding-block: 2rem; }
+  @media (max-width: 600px) {
+    .section-heading { align-items: start; flex-direction: column; gap: 1rem; }
+    h2 { max-width: 12ch; }
+    .registry-toolbar { margin-top: 1.5rem; }
+  }
+</style>

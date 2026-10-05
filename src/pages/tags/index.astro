@@ -2,9 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import BlogNav from '../../components/BlogNav.astro';
 import PostCard from '../../components/PostCard.astro';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog');
@@ -21,23 +18,32 @@ const tagCounts = tags.reduce((acc, tag) => {
     <BlogNav />
     <section class="tag-explorer">
       <h1 class="page-title">Tag Filter</h1>
-      <Card className="tag-controls rounded-none border-0 shadow-none">
+      <div class="tag-controls obs-frame">
+        <span class="obs-id">FILTER.TAGS</span>
         <div class="tag-filter-header">
-          <span class="axis-label">Multi-select tags</span>
-          <Button id="clear-tags" variant="ghost" size="sm" className="clear-btn" style={{ display: 'none' }}>Clear</Button>
+          <span class="obs-eyebrow">Multi-select tags</span>
+          <button id="clear-tags" class="clear-btn" style="display: none;">Clear</button>
         </div>
         <div class="tag-cloud-selector">
           {tags.map((tag) => (
-            <Button variant="outline" size="sm" className="tag-toggle-btn" data-tag={tag} aria-pressed="false">
+            <button class="tag-toggle-btn" data-tag={tag} aria-pressed="false">
               <span class="tag-name">#{tag}</span>
-              <Badge variant="secondary" className="tag-count rounded-none">{tagCounts[tag]}</Badge>
-            </Button>
+              <span class="tag-count">{tagCounts[tag]}</span>
+            </button>
           ))}
         </div>
-      </Card>
+      </div>
 
-      <div class="results-header">
+      <div class="results-header obs-stat">
         <h2 id="results-count">All records</h2>
+      </div>
+
+      <div class="registry-head" aria-hidden="true">
+        <span>REC</span>
+        <span>Date</span>
+        <span>Record</span>
+        <span>Category</span>
+        <span></span>
       </div>
 
       <div class="post-grid" id="posts-grid">
@@ -136,8 +142,6 @@ const tagCounts = tags.reduce((acc, tag) => {
   .tag-controls {
     margin-bottom: var(--space-xl);
     padding: var(--space-lg);
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
   }
 
   .tag-filter-header {
@@ -178,21 +182,12 @@ const tagCounts = tags.reduce((acc, tag) => {
   .tag-toggle-btn:hover,
   .tag-toggle-btn.active,
   .clear-btn:hover {
-    background: var(--text-primary);
-    color: var(--canvas);
-  }
-
-  .tag-count {
-    opacity: 0.65;
+    background: var(--accent-iris);
+    color: var(--accent-cream);
   }
 
   .results-header h2 {
     margin-bottom: var(--space-lg);
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
   }
 
   #no-results {

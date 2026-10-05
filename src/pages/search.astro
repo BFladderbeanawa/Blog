@@ -1,22 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { Input } from '@/components/ui/input';
 ---
 
 <Layout title="Search" description="Search the blog">
   <main class="narrow-shell search-page">
-    <span class="axis-label">Search / live index</span>
+    <span class="obs-eyebrow">Search / live index</span>
     <h1>Search the archive</h1>
-    <div class="search-container">
-      <Input
-        type="text"
-        id="search-input"
-        placeholder="Type at least two characters..."
-        autofocus
-        className="search-input-field rounded-none h-auto p-4 font-display font-black text-[clamp(1.5rem,5vw,3rem)] tracking-[-0.05em] bg-[var(--surface)] text-[var(--text-primary)] border-[length:var(--frame)] border-[var(--border)] focus-visible:bg-[var(--accent-lemon)] focus-visible:text-[#111] focus-visible:ring-0 shadow-none"
-      />
-      <ul id="search-results"></ul>
+    <div class="search-container obs-frame obs-frame--powered">
+      <span class="obs-id">QUERY</span>
+      <input type="text" id="search-input" placeholder="Type at least two characters..." autofocus />
     </div>
+    <ul id="search-results"></ul>
   </main>
 </Layout>
 
@@ -51,19 +45,10 @@ import { Input } from '@/components/ui/input';
     );
 
     searchResults.innerHTML = filtered.map((post) => `
-      <li class="result-item">
-        <a href="/blog/${post.slug || post.id}/" class="result-link">
-          <div class="result-header">
-            ${post.category ? `<span class="result-badge">${post.category}</span>` : ''}
-            <span class="read-signal">Open report</span>
-          </div>
+      <li>
+        <a href="/blog/${post.slug}">
           <h3>${post.title}</h3>
           <p>${post.description}</p>
-          ${post.tags && post.tags.length > 0 ? `
-            <div class="result-tags">
-              ${post.tags.map((t) => `<span class="result-tag">#${t}</span>`).join('')}
-            </div>
-          ` : ''}
         </a>
       </li>
     `).join('');
@@ -76,102 +61,92 @@ import { Input } from '@/components/ui/input';
     font-size: var(--text-3xl);
   }
 
+  .search-container {
+    position: relative;
+    padding: var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+
   input {
     width: 100%;
     padding: 1rem;
-    border: var(--frame) solid var(--border);
+    border: none;
     border-radius: 0;
-    background: var(--surface);
+    background: transparent;
     color: var(--text-primary);
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 5vw, 3rem);
-    font-weight: 900;
-    letter-spacing: -0.05em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
     outline: none;
   }
 
   input:focus {
-    background: var(--accent-lemon);
-    color: #111;
+    color: var(--accent-iris);
   }
+</style>
 
+<style is:global>
+  /* Results are injected at runtime via innerHTML — scoped selectors
+     never match them, so these rules must be global. */
   ul {
     list-style: none;
     padding: 0;
     margin-top: var(--space-xl);
+    border-top: var(--frame) solid var(--border);
+  }
+
+  li a {
+    position: relative;
     display: grid;
-    gap: var(--space-md);
-  }
-
-  .result-item {
-    border: var(--frame) solid var(--border);
-    background: var(--surface);
-    transition: transform var(--duration-fast) var(--ease-editorial);
-  }
-
-  .result-item:hover {
-    transform: translate(-2px, -2px);
-  }
-
-  .result-link {
-    display: block;
-    padding: 1.25rem;
-  }
-
-  .result-header {
-    display: flex;
-    justify-content: space-between;
+    grid-template-columns: minmax(0, 1fr) 1.5rem;
+    gap: var(--space-sm);
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    padding: var(--space-md) var(--space-sm) var(--space-md) var(--space-md);
+    border-bottom: 1px solid var(--border-subtle);
+    transition: background-color var(--duration-fast) var(--ease-sharp);
   }
 
-  .result-badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.15rem 0.45rem;
-    border: 1px solid var(--border);
-    background: var(--canvas-inset);
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  li a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent-iris);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform var(--duration-base) var(--ease-editorial);
   }
 
-  .read-signal {
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  li a:hover,
+  li a:focus-visible {
+    background: var(--accent-wash);
   }
 
-  .result-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-    margin-top: 0.85rem;
+  li a:hover::before,
+  li a:focus-visible::before {
+    transform: scaleY(1);
   }
 
-  .result-tag {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.15rem 0.4rem;
-    border: 1px solid var(--border-subtle);
-    background: var(--canvas);
-    color: var(--text-tertiary);
-    font-family: var(--font-mono);
-    font-size: 0.65rem;
+  li a h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text-primary);
   }
 
-  h3 {
-    font-size: clamp(1.4rem, 3vw, 2.4rem);
-    margin: 0.25rem 0 0;
-  }
-
-  p {
-    margin-top: 0.35rem;
+  li a p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    overflow: hidden;
+    margin-top: 0.2rem;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
     color: var(--text-secondary);
   }
 </style>

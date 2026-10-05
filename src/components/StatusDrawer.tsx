@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react';
 import {
   Sheet,
   SheetTrigger,
@@ -6,51 +6,51 @@ import {
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from "./ui/sheet"
-import { Button } from "./ui/button"
-import { Separator } from "./ui/separator"
+} from './ui/sheet';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
 
 interface TelemetryData {
-  app: string
-  battery: string
-  wifi: string
-  city: string
-  model: string
+  app: string;
+  battery: string;
+  wifi: string;
+  city: string;
+  model: string;
 }
 
 export function StatusDrawer() {
   const [telemetry, setTelemetry] = React.useState<TelemetryData>({
-    app: "Loading...",
-    battery: "--",
-    wifi: "--",
-    city: "--",
-    model: "--",
-  })
+    app: 'Loading...',
+    battery: '--',
+    wifi: '--',
+    city: '--',
+    model: '--',
+  });
 
   React.useEffect(() => {
-    fetch("https://status-api.fannbryan.workers.dev/")
+    fetch('https://status-api.fannbryan.workers.dev/')
       .then((response) => {
-        if (!response.ok) throw new Error(`Request failed: ${response.status}`)
-        return response.json()
+        if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+        return response.json();
       })
       .then((data) => {
-        const batteryVal = data["battery "] || data.battery || "--"
-        const isConnected = data.wifi && data.wifi !== "Not Connected"
+        const batteryVal = data['battery '] || data.battery || '--';
+        const isConnected = data.wifi && data.wifi !== 'Not Connected';
         setTelemetry({
-          app: data.app || "Online",
-          battery: String(batteryVal).trim() + "%",
-          wifi: isConnected ? "Connected" : "Offline",
-          city: data.city || "--",
-          model: data.model || "--",
-        })
+          app: data.app || 'Online',
+          battery: String(batteryVal).trim() + '%',
+          wifi: isConnected ? 'Connected' : 'Offline',
+          city: data.city || '--',
+          model: data.model || '--',
+        });
       })
       .catch(() => {
         setTelemetry((prev) => ({
           ...prev,
-          app: "Offline",
-        }))
-      })
-  }, [])
+          app: 'Offline',
+        }));
+      });
+  }, []);
 
   return (
     <Sheet>
@@ -104,5 +104,5 @@ export function StatusDrawer() {
         </div>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

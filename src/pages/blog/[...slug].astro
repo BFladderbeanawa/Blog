@@ -12,8 +12,14 @@ export async function getStaticPaths() {
 
 const post = Astro.props;
 const { Content } = await render(post);
+
+/* Reading time: CJK glyphs read at ~400/min, Latin words at ~200/min. */
+const bodyText = post.body || '';
+const cjkCount = (bodyText.match(/[぀-ヿ一-鿿가-힯]/g) || []).length;
+const latinWords = (bodyText.replace(/[぀-ヿ一-鿿가-힯]/g, ' ').match(/[A-Za-z0-9]+/g) || []).length;
+const readingMinutes = Math.max(1, Math.round(cjkCount / 400 + latinWords / 200));
 ---
 
-<BlogPost {...post.data}>
+<BlogPost {...post.data} readingMinutes={readingMinutes}>
 	<Content />
 </BlogPost>
