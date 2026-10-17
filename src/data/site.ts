@@ -1,0 +1,34 @@
+export type ExternalLink = { name: string; href: string };
+export type Project = { name: string; description: string; href: string };
+export type Friend = { name: string; description: string; href: string };
+
+export const site = {
+  name: 'BFladderbean',
+  shortName: 'BF',
+  url: 'https://bfladderbean.me',
+  description: 'Notes on web development, mathematics, philosophy, and the process of learning.',
+  introduction:
+    'I write as BFladderbean: a front-end developer, learner, and curious systems tinkerer.',
+  about:
+    'I build web interfaces, study technical systems, and document the patterns I want future-me to find again.',
+  interests:
+    'Games, tools, diagrams, proofs, interaction details, and the strange emotional weather of learning hard things.',
+} as const;
+
+export const navigation = [
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
+  { name: 'Projects', href: '/projects' },
+  { name: 'Friend Links', href: '/friends' },
+  { name: 'All Posts', href: '/all' },
+] as const;
+
+export const socials: ExternalLink[] = [
+  { name: 'GitHub', href: 'https://github.com/BFladderbeanawa' },
+  { name: 'Bilibili', href: 'https://space.bilibili.com/499560971' },
+];
+// Add only confirmed public information. Missing accounts are not links.
+export const kaggleUrl: string | null = null;
+export const contactEmail: string | null = null;
+export const projects: Project[] = [];
+export const friends: Friend[] = [];

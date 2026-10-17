@@ -1,5 +1,8 @@
 # build output
 dist/
+.next/
+out/
+*.tsbuildinfo
 
 # generated types
 .astro/
@@ -29,9 +32,8 @@ dev*.log
 # by the skills CLI on every machine
 .claude/
 
-# environment variables
-.env
-.env.production
+.env*
+!.env.example
 
 # macOS-specific files
 .DS_Store
@@ -43,3 +45,9 @@ dev*.log
 .vite-cache/
 .vite-cache-codex/
 .vercel
+
+.vscode/
+.agents/
+.vite-hooks/
+.extract-design-system/
+docs/

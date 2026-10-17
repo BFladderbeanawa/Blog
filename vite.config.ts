@@ -1,46 +1,42 @@
-// Vite+ owns the JavaScript surface of this repo: Oxfmt and Oxlint run over
-// config, endpoint and tooling modules. Astro components are compiled by Astro
-// itself, so `.astro` is out of scope for both tools — Oxfmt does not parse SFCs
-// and linting the frontmatter needs the Astro compiler. `astro check` covers
-// those files instead.
-//
-// `vp dev` / `vp build` are intentionally unused: Astro owns the dev server and
-// the production build. Vite+ provides lint, format, test and task running
-// around them.
 import { defineConfig } from 'vite-plus';
+
+// Next.js owns serving and bundling. Invoke its package scripts with vp run.
+const ignorePatterns = [
+  '.next/**',
+  '.vercel/**',
+  '.astro/**',
+  '.agents/**',
+  '.claude/**',
+  '.codegraph/**',
+  '.extract-design-system/**',
+  '.omo/**',
+  '.playwright-mcp/**',
+  '.vite-hooks/**',
+  '.vite-cache/**',
+  '.vite-cache-codex/**',
+  'dist/**',
+  'node_modules/**',
+  'public/**',
+  'src/assets/**',
+  'src/content/**',
+  'next-env.d.ts',
+  'pnpm-lock.yaml',
+  'skills-lock.json',
+  'temp.txt',
+  'dev*.log',
+  '**/*.log',
+  '**/*.md',
+];
 
 export default defineConfig({
   fmt: {
     singleQuote: true,
-    // Prose and vendored skill definitions are left alone: the formatter
-    // would reflow blog posts and rewrite third-party markdown.
-    ignorePatterns: [
-      '.agents/**',
-      '.astro/**',
-      '.vite-cache/**',
-      '.vite-cache-codex/**',
-      'dist/**',
-      'node_modules/**',
-      'public/**',
-      'src/content/**',
-      '**/*.md',
-      '**/*.mdx',
-    ],
+    ignorePatterns,
   },
   lint: {
-    ignorePatterns: [
-      '.agents/**',
-      '.codegraph/**',
-      '.extract-design-system/**',
-      '.playwright-mcp/**',
-      '.vite-cache/**',
-      '.vite-cache-codex/**',
-      'dist/**',
-      'node_modules/**',
-      'public/**',
-    ],
+    ignorePatterns,
   },
   staged: {
-    '*.{js,cjs,mjs,ts,cts,mts}': 'vp check --fix',
+    '*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}': 'vp check --fix',
   },
 });

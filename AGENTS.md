@@ -1,27 +1,134 @@
-<!--VITE PLUS START-->
+# 网站重构约定与实施计划
 
-# Using Vite+, the Unified Toolchain for the Web
+## 状态与优先级
 
-This project is using Vite+, a unified toolchain built on top of Vite, Rolldown, Vitest, tsdown, Oxlint, Oxfmt, and Vite Task. Vite+ wraps runtime management, package management, and frontend tooling in a single global CLI called `vp`. Vite+ is distinct from Vite, and it invokes Vite through `vp dev` and `vp build`. Run `vp help` to print a list of commands and `vp <command> --help` for information about a specific command.
+- 本文件记录用户已确认的重构方向，是后续实现的项目约束；计划写入不代表迁移已经完成。
+- 核心目标是视觉与个人表达重构。先迁移技术栈，再改视觉和交互，不把更换框架视为性能收益证明。
+- 本次任务只写计划。后续收到实施指令再修改站点代码。
+- 后续用户明确决定优先于本文；改变范围时同步更新本文，避免新旧约定并存。
 
-Docs are local at `node_modules/vite-plus/docs` or online at https://viteplus.dev/guide/.
+## 固定范围
 
-## Built-in Commands vs Scripts
+### 技术与内容
 
-`vp <name>` runs a built-in command. `vp run <name>` runs a `package.json` script or a `vite.config.ts` task. Scripts cannot overwrite built-ins, so `vp dev` and `vp run dev` may do different things. Check `package.json` and `vite.config.ts` first, and run `vp run <name>` when the project defines a script or task with that name.
+- 从 Astro 迁移到 Next.js App Router + React + TypeScript，页面和组件使用 `.tsx`。
+- 文章继续使用仓库内 Markdown，不引入 MDX、CMS、数据库或在线编辑后台。
+- 保留全部旧文章及其引用图片、数学公式等内容资产；保留 frontmatter 中的信息，即使不再用于导航。
+- 项目、友链、联系方式和社媒通过本地类型化数据维护。
+- 界面文案以英文为主；文章保持原语言，不默认翻译，不建设双语路由或语言切换。
+- 继续部署 Vercel，文章和内容列表优先构建时生成，提交内容后重新部署；不预先强制纯静态导出。
+- Vite+ 负责工程检查与任务入口，Next.js 负责开发服务和构建。`vp run dev` / `vp run build` 调用 Next.js 脚本；`vp dev` / `vp build` 不是同义命令，不用 Vite 构建链替代 Next.js。
+- 类型检查必须覆盖 Next.js 生成类型与项目 TS/TSX；按实际配置验证，不能因存在 `vp check` 就宣称已有完整类型检查。
 
-## Tool Versions
+### 信息架构
 
-Run `vp toolchain` to show versions and relationships in the active Vite+
-release. Add a tool name to select part of the graph. For example, run
-`vp toolchain vite`. Use `--global` to ignore the local `vite-plus` package. Use
-`vp why <package>` to show the package-manager dependency graph.
+| 页面 | 目标路由 | 职责 |
+| --- | --- | --- |
+| Home | `/` | 个人开场 → 导航 → 近期文章 → 收尾 |
+| About | `/about` | 个人介绍 |
+| Contact | `/contact` | 联系方式与社媒入口，无发送表单 |
+| Projects | `/projects` | 项目展示 |
+| Friend Links | `/friends` | 友链 |
+| All Posts | `/all` | 完整文章索引 |
+| Post | `/posts/<slug>` | Markdown 正文阅读 |
 
-## Review Checklist
+- 五个主要导航入口为 About、Contact、Projects、Friend Links、All Posts；社媒为 GitHub、Bilibili、Kaggle。
+- 首页承担展示，独立页面承担完整内容；近期文章可分多个场景，数量由真实内容决定，不固定复制参考站的六屏。
+- 不保留搜索、分类、标签、阅读指引为独立功能，也不保留旧列表密度切换作为默认范围。
+- 旧状态抽屉、粒子、准星、扫描线、随机转场等外围功能不自动迁入新站。
 
-- [ ] Run `vp install` after pulling remote changes and before getting started.
-- [ ] Run `vp check` and `vp test` to format, lint, type check and test changes.
-- [ ] Check if there are `vite.config.ts` tasks or `package.json` scripts necessary for validation, run via `vp run <script>`.
-- [ ] If setup, runtime, or package-manager behavior looks wrong, run `vp env doctor` and include its output when asking for help.
+### 干净切换
 
-<!--VITE PLUS END-->
+- 用户最终选择不兼容旧入口，覆盖此前保护旧外链的要求：不建立旧路由别名、重定向或兼容层。
+- 文章内容迁移到新路径；被新信息架构取代的旧入口可以返回真实 404。新旧路径自然相同的页面按新实现提供。
+- 删除被替代的 Astro 页面、组件、脚本、配置和无用依赖；不维护双站，不将保留旧部署作为交付要求。
+- 删除前区分内容资产与旧实现，不能按文件扩展名或整个目录一刀切；与重构无关的用户文件不在删除范围内。
+
+## 视觉与交互约束
+
+### 视觉分工
+
+- 瑞士风格提供网格、对齐、字体层级和信息秩序；明日方舟第17章《相变临界》提供高对比与类酸性张力；Arcadia 提供页面组织和交互参考。
+- 高对比不局限于黑白：允许酸黄绿、深紫／蓝紫、近黑与亮白等大面积色面在不同场景对抗。具体色值、字体和比例通过打样确定。
+- 只做一套主题，不保留日夜切换、Modern/Nord 或两套配色系统。
+- 以切片、局部色散、强烈标题处理形成辨识度；避免把参考泛化为终端仪表或同时堆叠所有装饰。
+- 首页可激进；文章页保持稳定、清晰的正文排版，正文阅读不承担持续色散、闪动或频繁换色。
+- 设计本身是个人表达，不以普通博客模板或通用卡片界面替代已确认方向。
+
+### 翻屏与路由转场
+
+- 必须参考 https://arcadia.moe 的丝滑翻屏；通用淡入淡出不是等价交付。
+- 区分首页场景翻屏与跨路由跳转。首页参考原生滚动吸附、场景状态、背景及元素分层编排的协作；文章正文保持正常滚动。
+- 让输入、场景状态和动画职责分离；快速连续操作不能积压长动画队列，反向操作不能产生错乱或空白场景。
+- 路由切换保持链接语义、直接访问、刷新和浏览器前进／后退可用，不用视觉遮罩掩盖未完成的导航。
+- 动效需适配系统减少动态效果设置；保留内容和操作能力，简化空间运动与装饰。
+- 不提前指定全站统一动画时长；按参考实现、场景距离及真实运行表现确定节奏。
+
+### 自定义指针与设备范围
+
+- 必须参考 Arcadia 指针：位置直接跟手，可交互悬停、按压有形态反馈；不是延迟拖尾圆球。
+- 造型、色彩和混合方式服务本项目视觉，不照搬参考站所有颜色。
+- 指针层不接收点击，不妨碍文字选择、输入和键盘焦点；触屏与强制配色模式不启用，替代指针未就绪时保留原生指针。
+- 手机端正常使用不在交付与适配验收范围；这不等于已要求主动拦截手机访问，不默认复制参考站 MobileGate。
+
+## 参考源码与许可
+
+- 参考仓库：https://github.com/Arcadi4/blog 。选择性复用相关实现，不整站 Fork，不连带搬入 MDX、无关依赖、素材或个人内容。
+- 首页翻屏先读 `src/components/home/HomeSlideDeck.tsx` 及其 CSS；场景入场先读 `src/components/animations/SceneReveal.tsx`，持续元素另读 `ScenePersistentElement.tsx`；指针先读 `src/components/layout/CustomCursor.tsx`。
+- 已核实参考实现使用滚动吸附、可见比例观测和 `past / active / future` 状态；`SceneReveal` 使用 `motion/react`，默认入场 760ms、曲线 `[0.22, 1, 0.36, 1]`。这是源码参考值，不是本站已验收规格。
+- 复制或适配 MIT 代码及实质性片段时，在分发中保留原版权和许可声明，并记录复用来源；软件许可不自动覆盖游戏素材与第三方字体。
+- 第17章视觉锚点：https://ak.hypergryph.com/news/3046 ；章节标题画：https://media.prts.wiki/9/9f/%E7%AB%A0%E8%8A%82%E5%90%8D%E7%A7%B0_%E7%AC%AC%E5%8D%81%E4%B8%83%E7%AB%A0.png 。提取设计语言，不默认搬用游戏插画或标识。
+
+## 实施顺序与完成条件
+
+### 阶段一：技术迁移与内容打通
+
+1. 核对实际脚本、部署配置、文章 frontmatter、slug 生成方式和引用资产，建立旧内容到新文章路径的迁移清单；清单用于核对，不生成旧地址兼容层。
+2. 建立 Next.js App Router 与目标路由；服务端承担内容读取、生成和正文渲染，客户端边界留给交互，不将整站无差别改为客户端渲染。
+3. 建立 Markdown 管线，覆盖现有数学公式、标题锚点、代码块、列表、表格、引用、链接和图片。复用内容，不迁移 Astro 专有事件生命周期。
+4. 建立本地项目／友链／联系数据模型与五个导航页，迁入真实内容；视觉先保持可用，不同时混入新艺术方向。
+5. 接通 Vite+ 检查、Next.js 类型检查、开发、生产构建与 Vercel 部署流程；在后续 PR 中提供可运行证据。
+
+完成条件：目标路由均可访问，现有文章与引用资产逐项对上；实际启动站点并打开文章验证中文、公式、链接和图片；生产构建通过；退出的旧功能未被复刻为隐藏兼容层。
+
+### 阶段二：设计系统与静态页面
+
+1. 基于真实个人介绍与文章制作首页关键场景、文章页和导航页打样，确认色面对比、中文／英文字体角色、网格及信息密度。
+2. 建立单一语义 token 系统，覆盖色彩、字阶、间距、网格和动效参数；既有 `design.md` 中与旧站冲突的规则需在落地时更新，不建立并列权威。
+3. 完成全部目标页面的新视觉；使用统一语言表达项目、友链、联系信息、无内容状态与 404。
+
+完成条件：桌面实际页面截图可验证视觉分工；英文界面和原语言文章均可读；没有用虚构项目、友链或联系方式填满版面；只存在一套主题。
+
+### 阶段三：场景编排、转场与指针
+
+1. 先用真实首页场景完成双向翻屏，再加入场景内层次与背景衔接；选取必要参考代码，保留来源与许可。
+2. 独立完成跨路由转场和返回恢复，避免将首页场景控制器扩展成全站路由系统。
+3. 加入直接跟手的指针与交互状态，校验跨背景可见性、点击命中、选字和退出恢复。
+4. 在实际浏览器验证普通鼠标滚轮、触控板、键盘、连续输入、反向翻屏、缩放／窗口变化及减少动态效果模式。
+
+完成条件：录屏可对照参考的连续感与节奏；无翻屏跳白、状态错位、滚动锁死、导航阻塞、指针抢点击或失去原生回退。只报告实际观测的性能，不凭动画库或 CSS 属性宣称流畅。
+
+### 阶段四：切换与交付
+
+1. 删除已被替代的实现和依赖，移除 Astro 生命周期脚本及旧主题／旧功能残留；保留迁移后的文章、资产和授权说明。
+2. 更新 README、部署说明、CI 和已有设计文档，使安装、检查、内容发布和生产运行命令与实际一致。
+3. 校验站点元数据、分享信息、索引策略及真实 404，不能继续输出指向不存在资源的 sitemap 等声明。
+4. 执行构建与适用的既有检查，并启动生产产物进行桌面烟测：全部导航、文章、项目、友链、社媒、翻屏、指针和浏览器历史。
+
+完成条件：仅一套 Next.js 站点；无旧入口兼容层；无失联的内容资产或虚构数据；交付含实际执行的命令、页面证据与明确限制。手机端未验证不得宣称已适配。
+
+## 实施前需要的真实素材
+
+- GitHub、Bilibili 地址已存在于旧站代码，实施时读取复用；Kaggle 地址尚需用户提供。
+- 用户需提供最终个人介绍、公开联系方式、项目清单和友链清单；仓库中已有的真实内容可先复用。
+- 缺失内容采用明确、诚实的空状态，不编造项目、朋友、账号或邮箱；上线前由用户补齐或确认空状态。
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

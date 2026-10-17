@@ -1,21 +1,35 @@
-# pnpm root settings.
-#
-# The Vite+ docs recommend aliasing vite to @voidzero-dev/vite-plus-core
-# here. That is deliberately not done: Astro runs on its own Vite 6, and a
-# workspace-wide override would swap Astro's bundler out from under it.
-# Vite+ is only used for lint/format here, never for vp dev or vp build.
-#
-# Consequence: `pnpm install` reports an unmet `vite` peer from vitest.
-# vite-plus ships Vite as @voidzero-dev/vite-plus-core@1.0.0, whose version
-# falls outside vitest's ^6 || ^7 || ^8 range. It is advisory — nothing
-# resolves a second Vite at runtime.
-#
-# sharp is a direct dependency because Astro imports it at runtime and pnpm's
-# isolated layout does not expose astro's transitive copy.
-#
-# esbuild and sharp ship postinstall scripts that place their native binaries.
-# Everything else is disallowed by default; pnpm adds unknown build scripts here
-# with a placeholder when an install hits one.
+# Next.js supplies the application bundler; Vite+ only runs tasks and checks.
+# Permit the image optimizer's native dependency to install its binary.
 allowBuilds:
-  esbuild: true
   sharp: true
+  esbuild: true
+minimumReleaseAgeExclude:
+  - '@next/env@16.4.2'
+  - '@next/swc-darwin-arm64@16.4.2'
+  - '@next/swc-darwin-x64@16.4.2'
+  - '@next/swc-linux-arm64-gnu@16.4.2'
+  - '@next/swc-linux-arm64-musl@16.4.2'
+  - '@next/swc-linux-x64-gnu@16.4.2'
+  - '@next/swc-linux-x64-musl@16.4.2'
+  - '@next/swc-win32-arm64-msvc@16.4.2'
+  - '@next/swc-win32-x64-msvc@16.4.2'
+  - '@vitest/browser-preview@5.0.5'
+  - '@vitest/browser@5.0.5'
+  - '@vitest/mocker@5.0.5'
+  - '@vitest/pretty-format@5.0.5'
+  - '@vitest/snapshot@5.0.5'
+  - '@vitest/spy@5.0.5'
+  - '@vitest/ui@5.0.5'
+  - '@vitest/utils@5.0.5'
+  - '@voidzero-dev/vite-plus-core@1.3.0'
+  - '@voidzero-dev/vite-plus-darwin-arm64@1.3.0'
+  - '@voidzero-dev/vite-plus-darwin-x64@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-gnu@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-arm64-musl@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-x64-gnu@1.3.0'
+  - '@voidzero-dev/vite-plus-linux-x64-musl@1.3.0'
+  - '@voidzero-dev/vite-plus-win32-arm64-msvc@1.3.0'
+  - '@voidzero-dev/vite-plus-win32-x64-msvc@1.3.0'
+  - next@16.4.2
+  - vite-plus@1.3.0
+  - vitest@5.0.5
