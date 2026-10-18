@@ -28,7 +28,7 @@ export const socials: ExternalLink[] = [
   { name: 'Bilibili', href: 'https://space.bilibili.com/499560971' },
 ];
 // Add only confirmed public information. Missing accounts are not links.
-export const kaggleUrl: string | null = null;
-export const contactEmail: string | null = null;
+export const kaggleUrl: string | null = 'https://www.kaggle.com/bfladderbean';
+export const contactEmail: string | null = 'fannbryan@gmail.com';
 export const projects: Project[] = [];
 export const friends: Friend[] = [];

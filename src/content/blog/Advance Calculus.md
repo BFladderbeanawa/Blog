@@ -2,6 +2,7 @@
 title: "Calculus III"
 description: "Calculus III的内容笔记"
 pubDate: "2026-02-08"
+heroImage: "jsc2026e407303~orig.jpg"
 tags: ["Math", "Calculus"]
 category: "Study"
 ---

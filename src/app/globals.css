@@ -12,10 +12,12 @@
   --muted: #62625e;
   --line: #cecec6;
   --font-body: Arial, 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  --font-scene: var(--font-syne), 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
   --font-reading: 'Noto Serif SC', Georgia, serif;
   --gutter: clamp(24px, 5vw, 88px);
   --scene-top-inset: 88px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-panel: cubic-bezier(0.76, 0, 0.24, 1);
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
@@ -230,11 +232,11 @@ body:has(.home-deck) .site-footer {
   background: var(--violet);
   color: var(--paper);
 }
-.scene-2 {
+.home-scene:has(.writing) {
   background: var(--paper);
   color: var(--ink);
 }
-.scene-3 {
+.home-scene:has(.closing) {
   background: var(--ink);
   color: var(--acid);
 }
@@ -319,87 +321,39 @@ body:has(.home-deck) .site-footer {
   height: clamp(32px, 9svh, 88px);
   background: var(--acid);
 }
-@keyframes navigation-plane-expand {
-  from,
-  8% {
-    clip-path: inset(calc(50% - 40px) 8% calc(50% - 56px) 83%);
-    animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+/* The opening and navigation share one pinned canvas, and scene state owns the
+   choreography instead of scroll offset: the violet panel sweeps on its own
+   clock while the deck travels over it, so a gesture that snaps back to the
+   opening never rewinds a half-played sequence, and no part of the sequence
+   waits for scroll distance that has nothing left to show. The panel keeps
+   Arcadi4/blog's scene-state easing, cubic-bezier(.76, 0, .24, 1), on a sweep
+   that finishes just after the deck lands. The hero leaves a beat sooner and
+   returns a beat later, so it is never read against a half-covered canvas. */
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .home-deck[data-enhanced] .intro-background {
+    position: sticky;
+    top: 0;
+    margin-bottom: -100svh;
   }
-  68%,
-  to {
+  .home-deck[data-enhanced] .intro-sequence .scene-1 {
+    background: transparent;
+    overflow: visible;
+  }
+  .home-deck[data-enhanced] .opening-plane-violet {
+    transition: clip-path 620ms var(--ease-panel);
+  }
+  .home-deck[data-enhanced]:not([data-active='0']) .opening-plane-violet {
     clip-path: inset(0);
   }
-}
-@keyframes opening-copy-exit {
-  from {
-    transform: translateY(0);
-    visibility: visible;
-    animation-timing-function: var(--ease);
+  .home-deck[data-enhanced] .opening-composition {
+    transition:
+      transform 620ms var(--ease-panel) 240ms,
+      opacity 320ms var(--ease) 240ms;
   }
-  45% {
-    transform: translateY(-55svh);
-    visibility: hidden;
-  }
-  to {
-    transform: translateY(0);
-    visibility: hidden;
-  }
-}
-@keyframes navigation-content-enter {
-  from {
-    transform: translateY(-100svh);
+  .home-deck[data-enhanced]:not([data-active='0']) .opening-composition {
+    transform: translateY(-40svh);
     opacity: 0;
-    visibility: hidden;
-  }
-  58% {
-    transform: translateY(calc(-42svh + 16px));
-    opacity: 0;
-    visibility: hidden;
-  }
-  90% {
-    transform: translateY(-10svh);
-    opacity: 1;
-    visibility: visible;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-}
-@supports (animation-timeline: scroll()) {
-  @media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
-    .home-deck {
-      scroll-timeline: --home-scroll block;
-    }
-    .intro-background {
-      position: sticky;
-      top: 0;
-      margin-bottom: -100svh;
-    }
-    .intro-sequence .scene-1 {
-      background: transparent;
-      overflow: visible;
-    }
-    .opening-plane-violet,
-    .opening-composition,
-    .intro-sequence .explore {
-      animation: navigation-plane-expand linear both;
-      animation-timeline: --home-scroll;
-      animation-range: 0px 100svh;
-    }
-    .opening-composition {
-      animation-name: opening-copy-exit;
-    }
-    .intro-sequence .explore {
-      animation-name: navigation-content-enter;
-    }
-    .home-deck[data-enhanced] .intro-sequence .explore-heading,
-    .home-deck[data-enhanced] .intro-sequence .explore-links {
-      transform: none !important;
-      opacity: 1 !important;
-      transition: none;
-    }
+    transition-delay: 0ms;
   }
 }
 .explore {
@@ -407,13 +361,13 @@ body:has(.home-deck) .site-footer {
   grid-template-columns: 1fr 1.1fr;
   column-gap: 10vw;
   align-content: center;
+  align-items: center;
 }
 .explore-heading > p {
   font-size: 14px;
   margin-bottom: 32px;
 }
 .explore h2,
-.writing h2,
 .closing h2 {
   font-family: var(--font-syne), sans-serif;
   font-size: clamp(64px, 7.5vw, 118px);
@@ -432,66 +386,257 @@ body:has(.home-deck) .site-footer {
   padding: 14px 0;
   font-size: clamp(24px, 2.5vw, 42px);
   letter-spacing: -0.04em;
+  transition: border-color 180ms var(--ease);
 }
 .explore-links a:last-child {
   border-bottom: 1px solid currentColor;
+}
+.explore-links a:focus-visible {
+  border-color: var(--acid);
 }
 .explore-links svg {
   width: 26px;
   height: 26px;
 }
-.writing {
-  justify-content: center;
-  gap: 56px;
-}
-.writing-heading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 32px;
+/* Pointer-local offsets preserve the paper letterform as a readable core. */
+.explore-label {
   position: relative;
-  z-index: 3;
+  display: inline-block;
 }
-.writing h2 span {
-  color: var(--violet);
+.dispersion-glyph {
+  --split-x: 0px;
+  --split-y: 0px;
+  display: inline-block;
+  white-space: pre;
 }
-.home-posts {
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .dispersion-glyph {
+    text-shadow:
+      var(--split-x) var(--split-y) 0 var(--acid),
+      calc(var(--split-x) * -0.7) calc(var(--split-y) * -0.7) 0 var(--violet-dark);
+  }
+}
+/* One article owns one full scene as a Mondrian field: flat paper, acid, violet
+   and ink rectangles divided by heavy ink rules, with the photograph as the
+   right-hand plate. Cell sizes are viewport fractions rather than an inner
+   max-width, so the composition reaches every edge of an ultrawide canvas
+   instead of sitting inside a letterbox. */
+.scene-content.writing {
+  padding: 0;
+  justify-content: stretch;
+}
+.writing-composition {
+  --writing-rule: clamp(6px, 0.55vw, 12px);
   position: relative;
-  z-index: 3;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 32px;
+  flex: 1;
+  grid-template-columns: 24fr 46fr 30fr;
+  grid-template-rows: 28fr 42fr 30fr;
+  gap: var(--writing-rule);
+  min-height: 0;
+  padding: var(--writing-rule);
+  background: var(--ink);
+  font-family: var(--font-scene);
 }
-.home-post {
-  border-top: 2px solid var(--ink);
-  padding-top: 20px;
+.writing-composition
+  > :is(.writing-id, .writing-index, .writing-slab, .writing-note, .writing-meta) {
+  container-type: size;
+  min-width: 0;
+  min-height: 0;
+}
+.writing-id {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: flex-end;
+  padding: clamp(16px, 2.4vh, 34px) clamp(18px, 2vw, 44px);
+  background: var(--violet);
+  color: var(--paper);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+.writing-id p {
+  margin: 0;
+  font-size: clamp(24px, min(11cqw, 22cqh), 44px);
+  text-wrap: balance;
+}
+.writing-index {
+  grid-area: 2 / 1;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  min-height: 230px;
+  align-items: flex-start;
+  justify-content: center;
+  gap: clamp(4px, 0.8vh, 12px);
+  padding: 0 clamp(18px, 2vw, 44px);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-syne), sans-serif;
+  overflow: clip;
 }
-.home-post time {
-  font-size: 12px;
-  color: var(--muted);
+.writing-index strong {
+  font-size: clamp(56px, min(32cqw, 42cqh), 160px);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.07em;
 }
-.home-post h3 {
-  font-size: clamp(23px, 2vw, 32px);
-  line-height: 1.45;
-  letter-spacing: -0.03em;
-  margin: 20px 0 12px;
-  font-family: var(--font-syne), 'Microsoft YaHei', sans-serif;
+.writing-index span {
+  font-size: clamp(20px, min(8cqw, 12cqh), 32px);
+  white-space: nowrap;
 }
-.home-post p {
-  font-size: 14px;
-  color: var(--muted);
-  max-width: 28em;
-}
-.post-open {
-  font-size: 12px;
-  margin-top: auto;
-  padding-top: 24px;
+.writing-slab {
+  grid-area: 1 / 2 / 3 / 3;
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(16px, 2vw, 40px);
+  padding: clamp(20px, 3vh, 44px) clamp(22px, 2.4vw, 56px);
+  background: var(--acid);
+  color: var(--ink);
+}
+.writing-title {
+  margin: 0;
+  min-width: 0;
+  font: 700 clamp(40px, min(15cqw, 25cqh), 144px) / 1.06 var(--font-scene);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  transition: color 220ms var(--ease);
+}
+.writing-arrow {
+  flex: 0 0 auto;
+  padding-bottom: 6px;
+}
+.writing-arrow svg {
+  width: clamp(40px, 3.4vw, 64px);
+  stroke: currentColor;
+  stroke-width: 2.5;
+  transition: transform 260ms var(--ease);
+}
+.writing-note {
+  grid-area: 3 / 2;
+  display: flex;
+  align-items: center;
+  padding: clamp(18px, 2.4vh, 34px) clamp(22px, 2.4vw, 56px);
+  background: var(--paper);
+  color: var(--ink);
+}
+.writing-lede {
+  max-width: 44ch;
+  margin: 0;
+  font-size: clamp(22px, min(5.5cqw, 16cqh), 36px);
+  line-height: 1.5;
+}
+.writing-meta {
+  grid-area: 3 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 16px;
+  padding: clamp(18px, 2.4vh, 34px) clamp(18px, 2vw, 44px);
+  background: var(--ink);
+  color: var(--paper);
+  line-height: 1.4;
+}
+.writing-meta p {
+  margin: 0;
+  font-size: clamp(18px, min(7cqw, 16cqh), 26px);
+}
+.writing-meta time {
+  display: block;
+}
+.writing-meta .text-link {
+  position: relative;
+  z-index: 5;
+  align-self: flex-start;
+  font-size: clamp(22px, min(10cqw, 22cqh), 32px);
+  font-weight: 700;
+}
+.writing-visual {
+  grid-area: 1 / 3 / 4 / 4;
+  position: relative;
+  overflow: hidden;
+  background: var(--violet-dark);
+}
+.writing-visual img {
+  object-fit: cover;
+  transition: transform 720ms var(--ease);
+}
+/* The three writing scenes share one palette and one rule weight, not one
+   arrangement: each variant re-cuts the Mondrian field so consecutive articles
+   never read as a repeated template. */
+.writing[data-variant='1'] .writing-composition {
+  grid-template-columns: 34fr 36fr 30fr;
+  grid-template-rows: 34fr 36fr 30fr;
+}
+.writing[data-variant='1'] .writing-visual {
+  grid-area: 1 / 1 / 3 / 2;
+}
+.writing[data-variant='1'] .writing-slab {
+  grid-area: 1 / 2 / 3 / 3;
+}
+.writing[data-variant='1'] .writing-id {
+  grid-area: 1 / 3;
+  align-items: flex-start;
+}
+.writing[data-variant='1'] .writing-index {
+  grid-area: 2 / 3;
+}
+.writing[data-variant='1'] .writing-note {
+  grid-area: 3 / 1 / 4 / 3;
+}
+.writing[data-variant='1'] .writing-meta {
+  grid-area: 3 / 3;
+}
+.writing[data-variant='2'] .writing-composition {
+  grid-template-columns: 26fr 50fr 24fr;
+  grid-template-rows: 26fr 50fr 24fr;
+}
+.writing[data-variant='2'] .writing-slab {
+  grid-area: 1 / 1 / 2 / 3;
+}
+.writing[data-variant='2'] .writing-title {
+  font-size: clamp(40px, min(8cqw, 46cqh), 160px);
+}
+.writing[data-variant='2'] .writing-id {
+  grid-area: 1 / 3;
+}
+.writing[data-variant='2'] .writing-index {
+  grid-area: 2 / 1;
+}
+.writing[data-variant='2'] .writing-note {
+  grid-area: 2 / 2;
+}
+.writing[data-variant='2'] .writing-visual {
+  grid-area: 2 / 3 / 4 / 4;
+}
+.writing[data-variant='2'] .writing-meta {
+  grid-area: 3 / 1 / 4 / 3;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 24px;
+}
+/* One stretched target: the whole scene opens the article, while the All posts
+   link sits above it and keeps its own hit area. */
+.writing-feature {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+.writing-feature:focus-visible {
+  outline: 3px solid var(--violet);
+  outline-offset: -3px;
+}
+.writing:hover .writing-title,
+.writing:focus-within .writing-title {
+  color: var(--violet);
+}
+.writing:hover .writing-arrow svg,
+.writing:focus-within .writing-arrow svg {
+  transform: translateX(14px);
+}
+.writing:hover .writing-visual img {
+  transform: scale(1.02);
 }
 .closing > p {
   font-size: 14px;
@@ -578,29 +723,96 @@ body:has(.home-deck) .site-footer {
   opacity: 1;
 }
 /* Visibility state owns choreography, not scrolling or input. Readable without JS. */
+.home-deck[data-enhanced] .writing-composition {
+  transition: transform 680ms var(--ease);
+}
+.home-deck[data-enhanced] [data-state='future'] .writing-composition {
+  transform: translateY(48px);
+}
+/* In the lead article the violet field's contraction is the entry: the grid it
+   uncovers stays put, so the field travels in flush with the navigation's
+   violet instead of opening a paper seam between them. */
+.home-deck[data-enhanced] [data-state='future'] .writing-composition:has(> .writing-field) {
+  transform: none;
+}
+.home-deck[data-enhanced] [data-state='past'] .writing-composition {
+  transform: translateY(-28px);
+}
+/* The navigation reveal is sequenced against the panel sweep, not merely
+   delayed: at 620ms the panel reaches the link column at roughly 60% of the
+   expansion and the heading at roughly 80%, so neither block is ever read
+   against the paper canvas the panel is covering. The wait lives in the visible
+   states, so an exit starts at once and the panel uncovers the link column and
+   the heading in the same order it covered them. */
 .home-deck[data-enhanced] .explore-heading,
-.home-deck[data-enhanced] .writing-heading {
+.home-deck[data-enhanced] .explore-links {
   transition:
-    transform 760ms var(--ease),
-    opacity 380ms;
+    transform 480ms var(--ease),
+    opacity 260ms var(--ease);
+}
+.home-deck[data-enhanced] .explore-heading {
+  transition-delay: 540ms;
+}
+.home-deck[data-enhanced] .explore-links {
+  transition-delay: 420ms;
 }
 .home-deck[data-enhanced] [data-state='future'] .explore-heading,
-.home-deck[data-enhanced] [data-state='future'] .writing-heading {
-  transform: translateY(48px);
+.home-deck[data-enhanced] [data-state='future'] .explore-links {
   opacity: 0;
 }
-.home-deck[data-enhanced] [data-state='past'] .explore-heading,
-.home-deck[data-enhanced] [data-state='past'] .writing-heading {
-  transform: translateY(-28px);
-  opacity: 1;
+.home-deck[data-enhanced] [data-state='future'] .explore-heading {
+  transform: translateY(48px);
+  transition-delay: 0ms;
 }
-.home-deck[data-enhanced] .explore-links,
-.home-deck[data-enhanced] .home-posts {
-  transition: transform 900ms var(--ease);
-}
-.home-deck[data-enhanced] [data-state='future'] .explore-links,
-.home-deck[data-enhanced] [data-state='future'] .home-posts {
+.home-deck[data-enhanced] [data-state='future'] .explore-links {
   transform: translateY(72px);
+  transition-delay: 60ms;
+}
+.home-deck[data-enhanced] [data-state='past'] .explore-heading {
+  transform: translateY(-28px);
+}
+/* The heading and the link column leave as one block, the way they arrive. */
+.home-deck[data-enhanced] [data-state='past'] .explore-links {
+  transform: translateY(-28px);
+}
+/* The navigation's violet is one field, not two screens: the field covering the
+   navigation arrives with the first article and tightens into that article's
+   top-left cell, the cell that names the section. The field is a grid item of
+   the article's own Mondrian field, so its resting rectangle is the cell's
+   rectangle exactly and no measurement of the ink rules is duplicated here;
+   a transform is what lets the same box start out as the whole scene. The
+   label cell stays above the field so the section name reads the whole way in,
+   and takes no pointer events of its own, so the stretched link keeps the whole
+   scene clickable. */
+.writing-field {
+  display: none;
+}
+.writing-composition:has(> .writing-field) .writing-id {
+  position: relative;
+  z-index: 7;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .home-deck[data-enhanced] .writing-field {
+    display: block;
+    position: relative;
+    z-index: 6;
+    grid-area: 1 / 1;
+    background: var(--violet);
+    pointer-events: none;
+    transform-origin: 0 0;
+    transition: transform 620ms var(--ease-panel);
+  }
+  /* A flat field reads the same scaled as resized, so the transition stays on
+     the compositor instead of re-laying out the grid every frame. The factors
+     are the scene-to-cell ratios of the 24fr / 28fr lead cell plus the share
+     the ink rules take at desktop widths, rounded up so the scene's own clip
+     trims a few percent of overscan; a start sized to the scene keeps the whole
+     curve on canvas rather than spending its first half off-screen. */
+  .home-deck[data-enhanced] [data-state='future'] .writing-field {
+    transform: translate(calc(-1 * var(--writing-rule)), calc(-1 * var(--writing-rule)))
+      scale(4.4, 4);
+  }
 }
 /* Quiet editorial routes. */
 .page-shell {
@@ -939,7 +1151,7 @@ body:has(.home-deck) .site-footer {
 }
 @media (hover: hover) and (pointer: fine) {
   .explore-links a:hover {
-    color: var(--acid);
+    border-color: var(--acid);
   }
   .home-post:hover h3,
   .post-row:hover .post-title {
@@ -991,7 +1203,8 @@ body:has(.home-deck) .site-footer {
   .scene-content {
     padding-right: calc(var(--gutter) + 80px);
   }
-  .scene-content.opening {
+  .scene-content.opening,
+  .scene-content.writing {
     padding-right: 0;
   }
 }
@@ -1003,15 +1216,8 @@ body:has(.home-deck) .site-footer {
     column-gap: 6vw;
     grid-template-columns: 1fr 1fr;
   }
-  .explore h2,
-  .writing h2 {
+  .explore h2 {
     font-size: 8vw;
-  }
-  .home-posts {
-    gap: 20px;
-  }
-  .writing {
-    gap: 40px;
   }
   .site-footer > span:nth-child(2) {
     display: none;
@@ -1062,8 +1268,7 @@ body:has(.home-deck) .site-footer {
     justify-content: center;
     gap: 36px;
   }
-  .explore h2,
-  .writing h2 {
+  .explore h2 {
     font-size: 13vw;
   }
   .explore-heading > p {
@@ -1073,38 +1278,62 @@ body:has(.home-deck) .site-footer {
     font-size: 24px;
     padding: 10px 0;
   }
-  .writing-heading {
-    align-items: start;
-    gap: 20px;
+  .scene-content.writing {
+    padding: 0;
   }
-  .writing-heading > .text-link {
-    font-size: 12px;
-    white-space: nowrap;
-    margin-top: 12px;
-  }
-  .writing {
-    gap: 32px;
-  }
-  .home-posts {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  .home-post {
-    min-height: 0;
-    padding-top: 10px;
-  }
-  .home-post time {
-    font-size: 11px;
-  }
-  .home-post h3 {
-    font-size: 22px;
-    margin: 6px 0;
-  }
-  .home-post p {
-    font-size: 12px;
-  }
-  .post-open {
+  /* The narrow layout stacks the field's cells, so there is no top-left cell
+     for the violet to tighten into. */
+  .home-deck[data-enhanced] .writing-field {
     display: none;
+  }
+  .writing-composition {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    background: var(--ink);
+  }
+  .writing-composition
+    > :is(.writing-id, .writing-index, .writing-slab, .writing-note, .writing-meta) {
+    container-type: inline-size;
+  }
+  .writing-id,
+  .writing-index,
+  .writing-slab,
+  .writing-note,
+  .writing-visual {
+    flex: 0 0 auto;
+    gap: 12px;
+  }
+  .writing-id {
+    padding: 14px 24px;
+  }
+  .writing-index {
+    padding: 20px 24px;
+    justify-content: flex-start;
+    order: 1;
+  }
+  .writing-index strong {
+    font-size: clamp(84px, 14vw, 150px);
+  }
+  .writing-slab {
+    padding: 24px;
+    order: 2;
+  }
+  .writing-note {
+    padding: 24px;
+    order: 3;
+  }
+  .writing-meta {
+    padding: 24px;
+    order: 4;
+  }
+  .writing-visual {
+    min-height: 32svh;
+    order: 5;
+  }
+  .writing-title {
+    font-size: clamp(30px, 9vw, 64px);
   }
   .closing h2 {
     font-size: 17vw;
@@ -1178,9 +1407,8 @@ body:has(.home-deck) .site-footer {
     scroll-snap-type: y proximity;
   }
   .home-deck[data-enhanced] .explore-heading,
-  .home-deck[data-enhanced] .writing-heading,
   .home-deck[data-enhanced] .explore-links,
-  .home-deck[data-enhanced] .home-posts {
+  .home-deck[data-enhanced] .writing-composition {
     transform: none !important;
     opacity: 1 !important;
     transition: none;
@@ -1208,6 +1436,10 @@ body:has(.home-deck) .site-footer {
   .home-post,
   .explore-links a {
     border-color: CanvasText;
+  }
+  .dispersion-glyph {
+    text-shadow: none;
+    transform: none;
   }
 }
 .post-list {

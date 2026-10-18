@@ -22,6 +22,7 @@ export type Post = {
   description: string;
   pubDate: string;
   updatedDate?: string;
+  heroImage?: string;
   content: string;
   frontmatter: Record<string, unknown>;
 };
@@ -101,6 +102,10 @@ function parsePost(filename: string, source: string): Post {
     frontmatter.updatedDate === undefined
       ? undefined
       : dateString(frontmatter.updatedDate, 'updatedDate', filename);
+  const heroImage =
+    frontmatter.heroImage === undefined
+      ? undefined
+      : requiredString(frontmatter, 'heroImage', filename);
 
   if (
     frontmatter.tags !== undefined &&
@@ -108,10 +113,8 @@ function parsePost(filename: string, source: string): Post {
   ) {
     invalidFrontmatter(filename, 'tags must be an array of strings');
   }
-  for (const field of ['category', 'heroImage']) {
-    if (frontmatter[field] !== undefined && typeof frontmatter[field] !== 'string') {
-      invalidFrontmatter(filename, `${field} must be a string`);
-    }
+  if (frontmatter.category !== undefined && typeof frontmatter.category !== 'string') {
+    invalidFrontmatter(filename, 'category must be a string');
   }
 
   return {
@@ -120,6 +123,7 @@ function parsePost(filename: string, source: string): Post {
     description,
     pubDate,
     ...(updatedDate === undefined ? {} : { updatedDate }),
+    ...(heroImage === undefined ? {} : { heroImage }),
     content: parsed.content,
     frontmatter,
   };

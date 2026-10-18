@@ -2,6 +2,8 @@
 
 // Scene state/visibility and detented-wheel detection adapted from Arcadi4/blog.
 // Copyright (c) 2026 4rcadia; MIT notice in THIRD_PARTY_NOTICES.md.
+// Scene selection uses native smooth scrolling, and the intro choreography is
+// driven by scene state in CSS rather than by scroll offset.
 import { Children, useEffect, useRef, useState, type ReactNode } from 'react';
 
 export function HomeDeck({ children, labels }: { children: ReactNode; labels: readonly string[] }) {
@@ -18,38 +20,12 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const sceneTop = (index: number) => scenes[index].offsetTop;
     const storageKey = 'bf-home-scene';
-    let scrollFrame = 0;
-    const cancelScroll = () => {
-      window.cancelAnimationFrame(scrollFrame);
-      scrollFrame = 0;
-      deck.style.removeProperty('scroll-snap-type');
-    };
     const select = (index: number) => {
-      cancelScroll();
       targetRef.current = Math.max(0, Math.min(scenes.length - 1, index));
-      const destination = sceneTop(targetRef.current);
-      const start = deck.scrollTop;
-      if (
-        reduced.matches ||
-        Math.max(start, destination) > sceneTop(1) + 1 ||
-        !CSS.supports('animation-timeline: scroll()') ||
-        window.matchMedia('(forced-colors: active)').matches
-      ) {
-        deck.scrollTo({ top: destination, behavior: reduced.matches ? 'instant' : 'smooth' });
-        return;
-      }
-      if (start === destination) return;
-      deck.style.scrollSnapType = 'none';
-      const duration = 620 * Math.min(1, Math.abs(destination - start) / deck.clientHeight);
-      const started = performance.now();
-      const animate = (now: number) => {
-        const progress = Math.min((now - started) / duration, 1);
-        const eased = 1 - (1 - progress) ** 3;
-        deck.scrollTo({ top: start + (destination - start) * eased, behavior: 'instant' });
-        if (progress < 1) scrollFrame = window.requestAnimationFrame(animate);
-        else cancelScroll();
-      };
-      scrollFrame = window.requestAnimationFrame(animate);
+      deck.scrollTo({
+        top: sceneTop(targetRef.current),
+        behavior: reduced.matches ? 'instant' : 'smooth',
+      });
     };
     selectRef.current = select;
     let saved = 0;
@@ -67,6 +43,9 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
           : 0;
     deck.scrollTo({ top: sceneTop(restored), behavior: 'instant' });
     targetRef.current = restored;
+    // Publish the restored scene before the enhancement flag, so a reload never
+    // renders the restored scene's content as an un-revealed future scene.
+    setActive(restored);
     let visibleScene = restored;
     const visibility = new Map<Element, number>();
     const observer = new IntersectionObserver(
@@ -91,12 +70,10 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
     const wheel = (event: WheelEvent) => {
       const detent = Math.abs((event as WheelEvent & { wheelDeltaY?: number }).wheelDeltaY ?? 0);
       if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      // Trackpad gestures stay native; discrete wheels retarget the current
-      // scene movement without queuing another animation.
-      if (event.deltaMode === WheelEvent.DOM_DELTA_PIXEL && (detent < 120 || detent % 120 !== 0)) {
-        cancelScroll();
+      // Trackpad gestures stay native; a discrete wheel notch moves one scene,
+      // and an in-flight scroll is retargeted by the browser from where it is.
+      if (event.deltaMode === WheelEvent.DOM_DELTA_PIXEL && (detent < 120 || detent % 120 !== 0))
         return;
-      }
       const visible = scenes.findIndex(
         (scene, index) => sceneTop(index) + scene.offsetHeight > deck.scrollTop + 1,
       );
@@ -106,7 +83,6 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
       select(targetRef.current + Math.sign(event.deltaY));
     };
     const settled = () => {
-      if (scrollFrame) return;
       const midpoint = deck.scrollTop + deck.clientHeight / 2;
       targetRef.current = Math.max(
         0,
@@ -168,29 +144,23 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
     let deckHeight = deck.clientHeight;
     const resize = new ResizeObserver(() => {
       if (deck.clientWidth === deckWidth && deck.clientHeight === deckHeight) return;
-      if (!scrollFrame) targetRef.current = visibleScene;
+      targetRef.current = visibleScene;
       deckWidth = deck.clientWidth;
       deckHeight = deck.clientHeight;
-      cancelScroll();
       deck.scrollTo({ top: sceneTop(targetRef.current), behavior: 'instant' });
     });
     resize.observe(deck);
     deck.addEventListener('wheel', wheel, { passive: false });
     deck.addEventListener('scrollend', settled);
     deck.addEventListener('click', fragment);
-    deck.addEventListener('touchstart', cancelScroll, { passive: true });
-    reduced.addEventListener('change', cancelScroll);
     window.addEventListener('keydown', keydown);
     deck.dataset.enhanced = 'true';
     return () => {
-      cancelScroll();
       observer.disconnect();
       resize.disconnect();
       deck.removeEventListener('wheel', wheel);
       deck.removeEventListener('scrollend', settled);
       deck.removeEventListener('click', fragment);
-      deck.removeEventListener('touchstart', cancelScroll);
-      reduced.removeEventListener('change', cancelScroll);
       window.removeEventListener('keydown', keydown);
     };
   }, []);

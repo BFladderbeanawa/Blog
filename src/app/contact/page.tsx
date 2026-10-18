@@ -3,7 +3,7 @@ import { contactEmail, kaggleUrl, socials } from '@/data/site';
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Find BFladderbean on GitHub and Bilibili.',
+  description: 'Find BFladderbean on GitHub, Bilibili, and Kaggle, or get in touch by email.',
   alternates: { canonical: '/contact' },
 };
 export default function Contact() {
@@ -28,7 +28,9 @@ export default function Contact() {
         ))}
         {kaggleUrl ? (
           <a href={kaggleUrl} target="_blank" rel="noopener noreferrer">
-            Kaggle<span className="sr-only"> (opens in a new tab)</span>
+            <span>Kaggle</span>
+            <span aria-hidden="true">↗</span>
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
         ) : (
           <div className="unpublished">
@@ -37,7 +39,10 @@ export default function Contact() {
           </div>
         )}
         {contactEmail ? (
-          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          <a href={`mailto:${contactEmail}`}>
+            <span>Email</span>
+            <span aria-hidden="true">↗</span>
+          </a>
         ) : (
           <div className="unpublished">
             <span>Email</span>

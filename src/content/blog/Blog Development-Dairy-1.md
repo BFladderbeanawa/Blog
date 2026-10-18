@@ -2,6 +2,7 @@
 title: "Blog开发日记 1"
 description: "这是这个Blog的第一篇开发日记"
 pubDate: "2026-02-08"
+heroImage: "KSC-20261013-PH-SPX01_0007~orig.jpg"
 tags: ["blogging", "coding"]
 category: "Tech"
 ---

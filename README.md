@@ -71,7 +71,8 @@ This is a clean cutover, not a dual-framework site. Retired `/blog`, `/search`, 
    title: "Article title"
    description: "A short, accurate summary."
    pubDate: "2026-10-16"
-   # Optional: updatedDate, heroImage, category, tags, and other metadata
+   heroImage: "KSC-20261013-PH-SPX01_0007~orig.jpg" # Optional cover from src/assets/
+   # Optional: updatedDate, category, tags, and other metadata
    ---
    ```
 
@@ -79,13 +80,15 @@ This is a clean cutover, not a dual-framework site. Retired `/blog`, `/search`, 
 4. Put new directly linked images in `public/`, for example `public/images/example.png`, and reference `/images/example.png`. Preserve existing article assets and source references when editing old posts.
 5. Run the comprehensive check and production build, review the article in the running site, then commit and deploy. Publishing or updating content requires a new build/deployment.
 
+The homepage features the three newest articles, one per scroll-snap scene. `heroImage` may be an image filename under `src/assets/` (as above), or a root-relative path such as `/images/example.png` for an image under `public/`. Omit it to show the article description instead. Cover images are decorative and cropped to fill the reserved area; keep important subjects away from the crop edges. This field currently supplies homepage covers, not article-page headers.
+
 The Markdown pipeline supports GFM tables/lists, code highlighting, heading anchors, and KaTeX math. Raw HTML is not enabled. Keep article source as Markdown rather than JSX. Existing frontmatter is preserved even when it does not appear in the interface.
 
 The preserved articles map to `/posts/advance-calculus`, `/posts/blog-development-dairy-1`, and `/posts/pre-socratic-philosophy`. Original content and asset files remain in the repository; local migration notes under `docs/` are not published.
 
 ## Personal data and honest empty states
 
-Edit `src/data/site.ts` rather than embedding accounts or project details in page components. GitHub and Bilibili use confirmed links from the previous implementation. The Kaggle URL and public email are unset; projects and friend links are empty typed collections. Their pages present explicit empty states instead of invented people, projects, accounts, or addresses. Add only confirmed information to those fields and collections. Update `site.url` if deploying on another canonical domain; site metadata, sitemap, and robots use that value.
+Edit `src/data/site.ts` rather than embedding accounts or project details in page components. GitHub and Bilibili use confirmed links from the previous implementation; Kaggle and the public email use user-confirmed details. The home closing scene and Contact page include all four destinations, display the email link as “Email”, and use the configured address only as its `mailto:` destination. Projects and friend links are empty typed collections. Their pages present explicit empty states instead of invented people or projects. Add only confirmed information to those fields and collections. Update `site.url` if deploying on another canonical domain; site metadata, sitemap, and robots use that value.
 
 Noto Serif SC is packaged locally for Chinese reading. The display face uses the existing Syne files in `public/fonts/Syne`; no remote font service is required.
 
