@@ -814,6 +814,49 @@ body:has(.home-deck) .site-footer {
       scale(4.4, 4);
   }
 }
+/* Consecutive articles are one field re-cut, not three screens. While the deck
+   travels through the writing sequence, each article is held on the canvas by
+   a counter-translation on its own scene's view timeline, so the deck's travel
+   never shows; only the current article is drawn, and useWritingMorph.ts
+   scales its plates out of the previous cut when it changes. The sequence
+   clips the held articles, so the deck uncovers the first one on entry and the
+   closing scene covers the last one on exit. Articles stay in normal flow, so
+   wheel, trackpad and focus still scroll the deck. --writing-morph tells the
+   script the field is held; narrow stacked layouts and browsers without
+   scroll-driven animations keep ordinary travelling scenes. */
+@keyframes writing-hold {
+  from {
+    transform: translateY(-100svh);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) and (width > 700px) {
+  @supports (animation-timeline: view()) {
+    .home-deck[data-enhanced] .writing-sequence {
+      --writing-morph: on;
+      overflow: clip;
+    }
+    .home-deck[data-enhanced] .writing-sequence > .home-scene {
+      overflow: visible;
+      view-timeline: --writing-scene block;
+    }
+    .home-deck[data-enhanced] .writing-sequence .scene-content.writing {
+      animation: writing-hold linear both;
+      animation-timeline: --writing-scene;
+      animation-range: cover;
+    }
+    .home-deck[data-enhanced] .writing-sequence > :not([data-current]) .scene-content.writing {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .home-deck[data-enhanced] .writing-sequence .writing-composition {
+      transform: none;
+      transition: none;
+    }
+  }
+}
 /* Quiet editorial routes. */
 .page-shell {
   max-width: 1440px;

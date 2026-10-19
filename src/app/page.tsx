@@ -23,6 +23,7 @@ export default async function Home() {
   );
   return (
     <HomeDeck
+      articleCount={recentPosts.length}
       labels={[
         'Opening',
         'Explore',

@@ -5,12 +5,29 @@
 // Scene selection uses native smooth scrolling, and the intro choreography is
 // driven by scene state in CSS rather than by scroll offset.
 import { Children, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useWritingMorph, writingHeld } from './useWritingMorph';
 
-export function HomeDeck({ children, labels }: { children: ReactNode; labels: readonly string[] }) {
+// The two intro scenes come first, then `articleCount` writing scenes.
+const FIRST_ARTICLE = 2;
+
+export function HomeDeck({
+  children,
+  labels,
+  articleCount,
+}: {
+  children: ReactNode;
+  labels: readonly string[];
+  articleCount: number;
+}) {
   const slides = Children.toArray(children);
   const deckRef = useRef<HTMLElement>(null);
   const targetRef = useRef(0);
   const [active, setActive] = useState(0);
+  const sequenceRef = useRef<HTMLDivElement>(null);
+  // The article the held writing field shows: the active one, or the nearest
+  // one while the deck is outside the sequence, so entry and exit uncover it.
+  const currentArticle = Math.min(Math.max(active - FIRST_ARTICLE, 0), articleCount - 1);
+  useWritingMorph(sequenceRef, currentArticle);
   const selectRef = useRef<(index: number) => void>(() => {});
 
   useEffect(() => {
@@ -140,6 +157,20 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
       window.history.pushState(null, '', link.hash);
       select(1);
     };
+    // A held article is already on the canvas, so focus would not scroll the
+    // deck to its scene; tabbing into one selects that scene instead. Chrome's
+    // own focus scroll lands after focusin and cancels a smooth scroll, and the
+    // held sequence never draws the deck's travel anyway, so jump instantly and
+    // let the morph carry the change.
+    const focusin = (event: FocusEvent) => {
+      const sequence = sequenceRef.current;
+      if (!sequence || !(event.target instanceof Element) || !writingHeld(sequence)) return;
+      const scene = event.target.closest<HTMLElement>('.writing-sequence > [data-home-scene]');
+      const index = scene ? scenes.indexOf(scene) : -1;
+      if (index < 0) return;
+      targetRef.current = index;
+      requestAnimationFrame(() => deck.scrollTo({ top: sceneTop(index), behavior: 'instant' }));
+    };
     let deckWidth = deck.clientWidth;
     let deckHeight = deck.clientHeight;
     const resize = new ResizeObserver(() => {
@@ -153,6 +184,7 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
     deck.addEventListener('wheel', wheel, { passive: false });
     deck.addEventListener('scrollend', settled);
     deck.addEventListener('click', fragment);
+    deck.addEventListener('focusin', focusin);
     window.addEventListener('keydown', keydown);
     deck.dataset.enhanced = 'true';
     return () => {
@@ -161,6 +193,7 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
       deck.removeEventListener('wheel', wheel);
       deck.removeEventListener('scrollend', settled);
       deck.removeEventListener('click', fragment);
+      deck.removeEventListener('focusin', focusin);
       window.removeEventListener('keydown', keydown);
     };
   }, []);
@@ -173,6 +206,7 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
       data-home-scene
       data-scene-index={index}
       data-state={index === active ? 'active' : index < active ? 'past' : 'future'}
+      data-current={index - FIRST_ARTICLE === currentArticle ? '' : undefined}
       aria-label={labels[index]}
     >
       {slide}
@@ -198,7 +232,12 @@ export function HomeDeck({ children, labels }: { children: ReactNode; labels: re
         </div>
         {scenes.slice(0, 2)}
       </div>
-      {scenes.slice(2)}
+      {articleCount > 0 ? (
+        <div className="writing-sequence" ref={sequenceRef}>
+          {scenes.slice(FIRST_ARTICLE, FIRST_ARTICLE + articleCount)}
+        </div>
+      ) : null}
+      {scenes.slice(FIRST_ARTICLE + articleCount)}
       <nav className="scene-picker" aria-label="Choose homepage scene">
         {labels.map((label, index) => (
           <button
