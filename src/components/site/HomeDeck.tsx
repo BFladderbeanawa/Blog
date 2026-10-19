@@ -5,7 +5,7 @@
 // Scene selection uses native smooth scrolling, and the intro choreography is
 // driven by scene state in CSS rather than by scroll offset.
 import { Children, useEffect, useRef, useState, type ReactNode } from 'react';
-import { useWritingMorph, writingHeld } from './useWritingMorph';
+import { useClosingCut, useWritingMorph, writingHeld } from './useWritingMorph';
 
 // The two intro scenes come first, then `articleCount` writing scenes.
 const FIRST_ARTICLE = 2;
@@ -28,6 +28,7 @@ export function HomeDeck({
   // one while the deck is outside the sequence, so entry and exit uncover it.
   const currentArticle = Math.min(Math.max(active - FIRST_ARTICLE, 0), articleCount - 1);
   useWritingMorph(sequenceRef, currentArticle);
+  useClosingCut(sequenceRef);
   const selectRef = useRef<(index: number) => void>(() => {});
 
   useEffect(() => {
@@ -157,11 +158,11 @@ export function HomeDeck({
       window.history.pushState(null, '', link.hash);
       select(1);
     };
-    // A held article is already on the canvas, so focus would not scroll the
-    // deck to its scene; tabbing into one selects that scene instead. Chrome's
-    // own focus scroll lands after focusin and cancels a smooth scroll, and the
-    // held sequence never draws the deck's travel anyway, so jump instantly and
-    // let the morph carry the change.
+    // A held scene is already on the canvas, so focus would not scroll the deck
+    // to it; tabbing into one selects that scene instead. Chrome's own focus
+    // scroll lands after focusin and cancels a smooth scroll, and the held
+    // sequence never draws the deck's travel anyway, so jump instantly and let
+    // scene state carry the change.
     const focusin = (event: FocusEvent) => {
       const sequence = sequenceRef.current;
       if (!sequence || !(event.target instanceof Element) || !writingHeld(sequence)) return;
@@ -232,12 +233,15 @@ export function HomeDeck({
         </div>
         {scenes.slice(0, 2)}
       </div>
+      {/* The closing scene is held with the articles, so its arrival is drawn by
+          scene state rather than by the deck's travel. */}
       {articleCount > 0 ? (
         <div className="writing-sequence" ref={sequenceRef}>
-          {scenes.slice(FIRST_ARTICLE, FIRST_ARTICLE + articleCount)}
+          {scenes.slice(FIRST_ARTICLE)}
         </div>
-      ) : null}
-      {scenes.slice(FIRST_ARTICLE + articleCount)}
+      ) : (
+        scenes.slice(FIRST_ARTICLE)
+      )}
       <nav className="scene-picker" aria-label="Choose homepage scene">
         {labels.map((label, index) => (
           <button

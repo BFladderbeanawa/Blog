@@ -4,7 +4,7 @@
 // of the entering article starts on the rectangle the same plate occupies on
 // screen, then scales and travels into its own cut (FLIP). The deck's scene
 // state decides which article is current; this module only animates the change.
-import { useLayoutEffect, useRef, type RefObject } from 'react';
+import { useEffect, useLayoutEffect, useRef, type RefObject } from 'react';
 
 // Every variant is cut into the same six plates, and a plate keeps its role and
 // color across cuts, so plates pair by role.
@@ -123,4 +123,41 @@ export function useWritingMorph(sequenceRef: RefObject<HTMLElement | null>, curr
       if (owned.get(leaving) === held) stop(leaving);
     };
   });
+}
+
+/**
+ * Publishes the last article's ink plate as the closing scene's starting cut
+ * (`--closing-cut`, an inset() argument), so scene CSS can grow the closing out
+ * of that plate. Both scenes are held on the same canvas origin, and layout
+ * offsets ignore the hold and morph transforms, so no animation skews the cut.
+ */
+export function useClosingCut(sequenceRef: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const sequence = sequenceRef.current;
+    const closing = sequence?.querySelector<HTMLElement>('.scene-content.closing');
+    const articles = sequence?.querySelectorAll<HTMLElement>('.scene-content.writing');
+    const last = articles?.[articles.length - 1];
+    const plate = last?.querySelector<HTMLElement>('.writing-meta');
+    if (!closing || !last || !plate) return;
+    const measure = () => {
+      let left = 0;
+      let top = 0;
+      for (let node: Element | null = plate; node && node !== last;) {
+        if (!(node instanceof HTMLElement)) return;
+        left += node.offsetLeft;
+        top += node.offsetTop;
+        node = node.offsetParent;
+      }
+      const right = closing.offsetWidth - left - plate.offsetWidth;
+      const bottom = closing.offsetHeight - top - plate.offsetHeight;
+      closing.style.setProperty('--closing-cut', `${top}px ${right}px ${bottom}px ${left}px`);
+    };
+    const resize = new ResizeObserver(measure);
+    resize.observe(plate);
+    resize.observe(closing);
+    return () => {
+      resize.disconnect();
+      closing.style.removeProperty('--closing-cut');
+    };
+  }, [sequenceRef]);
 }

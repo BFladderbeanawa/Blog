@@ -35,3 +35,9 @@ SOFTWARE.
 Syne font files under `public/fonts/Syne` predate this migration. Syne is distributed under the SIL Open Font License 1.1; see `public/fonts/Syne/OFL.txt`. Noto Serif SC is installed through `@fontsource/noto-serif-sc`, which includes its license. KaTeX supplies its own fonts and MIT license through the installed package.
 
 Existing `src/assets` and `public/art` files are retained, not relicensed by the Arcadia software license. Their presence does not grant a new license to third-party artwork. No Arknights chapter artwork, game logo, or reference-site personal content is newly distributed by this implementation.
+
+## Georges Seurat — La Grande Jatte
+
+`public/la-grande-jatte.webp` is a cropped, compressed reproduction of Georges Seurat's *A Sunday on La Grande Jatte — 1884* (1884–86), Art Institute of Chicago, Helen Birch Bartlett Memorial Collection. `public/la-grande-jatte-static.webp` is this site's point-sampled derivative for the no-JavaScript background. The interactive canvas samples the same reproduction; its rendering and pointer interaction are original implementation.
+
+Source: [Wikimedia Commons / Google Art Project reproduction](https://commons.wikimedia.org/wiki/File:Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_--_1884_-_Google_Art_Project.jpg). The source identifies the painting and faithful reproduction as public domain, including in the United States. The [museum's artwork record](https://api.artic.edu/api/v1/artworks/27992?fields=id,title,is_public_domain) independently marks the work as public domain. This attribution does not apply to the site's other images.

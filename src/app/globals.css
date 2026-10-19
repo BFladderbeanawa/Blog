@@ -638,11 +638,24 @@ body:has(.home-deck) .site-footer {
 .writing:hover .writing-visual img {
   transform: scale(1.02);
 }
-.closing > p {
-  font-size: 14px;
+.closing {
+  isolation: isolate;
+  background: var(--ink);
+}
+.closing-landscape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  background: url('/la-grande-jatte-static.webp') center / cover no-repeat;
+}
+.closing-landscape[data-ready] {
+  background: none;
 }
 .closing h2 {
-  font-size: clamp(96px, 12vw, 190px);
+  font-size: clamp(80px, 10vw, 160px);
   margin: auto 0;
   position: relative;
   z-index: 3;
@@ -650,18 +663,8 @@ body:has(.home-deck) .site-footer {
 .closing-bottom {
   position: relative;
   z-index: 3;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10vw;
-}
-.closing-bottom > p {
-  max-width: 36em;
-  font-size: 16px;
-  color: var(--paper);
-}
-.closing-bottom .text-link {
-  display: inline-block;
-  margin-top: 20px;
+  width: clamp(280px, 30vw, 420px);
+  margin-top: 40px;
 }
 .closing-socials {
   display: flex;
@@ -680,6 +683,13 @@ body:has(.home-deck) .site-footer {
   padding-top: 40px;
   font-size: 12px;
   color: var(--paper);
+  position: relative;
+  z-index: 3;
+}
+@media (forced-colors: active) {
+  .closing-landscape {
+    display: none;
+  }
 }
 .scene-picker {
   position: fixed;
@@ -819,10 +829,11 @@ body:has(.home-deck) .site-footer {
    a counter-translation on its own scene's view timeline, so the deck's travel
    never shows; only the current article is drawn, and useWritingMorph.ts
    scales its plates out of the previous cut when it changes. The sequence
-   clips the held articles, so the deck uncovers the first one on entry and the
-   closing scene covers the last one on exit. Articles stay in normal flow, so
-   wheel, trackpad and focus still scroll the deck. --writing-morph tells the
-   script the field is held; narrow stacked layouts and browsers without
+   clips the held articles, so the deck uncovers the first one on entry. The
+   closing scene is held on the same canvas and grows out of the last
+   article's ink plate (see below). Articles stay in normal flow, so wheel,
+   trackpad and focus still scroll the deck. --writing-morph tells the script
+   the field is held; narrow stacked layouts and browsers without
    scroll-driven animations keep ordinary travelling scenes. */
 @keyframes writing-hold {
   from {
@@ -842,7 +853,7 @@ body:has(.home-deck) .site-footer {
       overflow: visible;
       view-timeline: --writing-scene block;
     }
-    .home-deck[data-enhanced] .writing-sequence .scene-content.writing {
+    .home-deck[data-enhanced] .writing-sequence .scene-content:is(.writing, .closing) {
       animation: writing-hold linear both;
       animation-timeline: --writing-scene;
       animation-range: cover;
@@ -854,6 +865,60 @@ body:has(.home-deck) .site-footer {
     .home-deck[data-enhanced] .writing-sequence .writing-composition {
       transform: none;
       transition: none;
+    }
+    /* The closing's ink is the last article's ink plate grown to the canvas:
+       a clip from that plate's rectangle (--closing-cut, measured by
+       useClosingCut) to full bleed on the 620ms panel curve, the reverse of
+       the navigation's violet tightening into the lead article. The plate is
+       flat ink while it grows; the landscape surfaces once it has covered most
+       of the field, and the heading and links settle after it. Leaving shrinks
+       the ink back into the plate and keeps the scene drawn until it lands, so
+       a reversal mid-sweep retargets the same transition instead of popping. */
+    .home-deck[data-enhanced] .writing-sequence > .home-scene:has(> .closing) {
+      background: transparent;
+    }
+    .home-deck[data-enhanced] .writing-sequence .scene-content.closing {
+      clip-path: inset(0);
+      transition:
+        clip-path 620ms var(--ease-panel),
+        opacity 0s;
+    }
+    .home-deck[data-enhanced] .writing-sequence [data-state='future'] > .closing {
+      clip-path: inset(var(--closing-cut, 0));
+      opacity: 0;
+      pointer-events: none;
+      transition:
+        clip-path 620ms var(--ease-panel),
+        opacity 0s 620ms;
+    }
+    .home-deck[data-enhanced]
+      .writing-sequence
+      .closing
+      > :is(.closing-landscape, h2, .closing-bottom, small) {
+      transition:
+        transform 480ms var(--ease),
+        opacity 420ms var(--ease);
+    }
+    .home-deck[data-enhanced] .writing-sequence .closing > .closing-landscape {
+      transition-delay: 360ms;
+    }
+    .home-deck[data-enhanced] .writing-sequence .closing > h2 {
+      transition-delay: 460ms;
+    }
+    .home-deck[data-enhanced] .writing-sequence .closing > :is(.closing-bottom, small) {
+      transition-delay: 540ms;
+    }
+    .home-deck[data-enhanced] .writing-sequence [data-state='future'] > .closing > * {
+      opacity: 0;
+      transition-duration: 200ms;
+      transition-delay: 0ms;
+    }
+    .home-deck[data-enhanced]
+      .writing-sequence
+      [data-state='future']
+      > .closing
+      > :is(h2, .closing-bottom, small) {
+      transform: translateY(48px);
     }
   }
 }
@@ -1382,11 +1447,7 @@ body:has(.home-deck) .site-footer {
     font-size: 17vw;
   }
   .closing-bottom {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-  .closing-bottom > p {
-    font-size: 14px;
+    width: min(100%, 360px);
   }
   .closing-socials a {
     font-size: 24px;

@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { ExploreLinks } from '@/components/site/ExploreLinks';
 import { HomeDeck } from '@/components/site/HomeDeck';
+import { PointillistLandscape } from '@/components/site/PointillistLandscape';
 import { RouteLink } from '@/components/site/Navigation';
-import { contactEmail, kaggleUrl, site, socials } from '@/data/site';
+import { contactEmail, kaggleUrl, socials } from '@/data/site';
 import { getPosts } from '@/lib/posts';
 
 export const metadata: Metadata = { alternates: { canonical: '/' } };
@@ -128,20 +129,13 @@ export default async function Home() {
         </article>
       ))}
       <div className="scene-content closing">
-        <p>Beyond the page</p>
+        <PointillistLandscape />
         <h2>
           Keep
           <br />
           in touch.
         </h2>
         <div className="closing-bottom">
-          <p>
-            {site.introduction}
-            <br />
-            <RouteLink href="/contact" className="text-link">
-              Contact & social links
-            </RouteLink>
-          </p>
           <div className="closing-socials">
             {socials.map((link) => (
               <a key={link.name} href={link.href} target="_blank" rel="noopener noreferrer">
