@@ -8,7 +8,7 @@ export const site = {
   url: 'https://bfladderbean.me',
   description: 'Notes on web development, mathematics, philosophy, and the process of learning.',
   introduction:
-    'I write as BFladderbean: a front-end developer, learner, and curious systems tinkerer.',
+    'I can be called as BFladderbean, with a lot of alias, I guess. \"BF\" is one of the most common ones. A hobbyist of graphic design and web development, and a researcher of machine learning.',
   about:
     'I build web interfaces, study technical systems, and document the patterns I want future-me to find again.',
   interests:

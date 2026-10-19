@@ -110,21 +110,26 @@ export function ExploreLinks() {
   }, []);
 
   return (
-    <nav className="explore-links" aria-label="Explore the archive" ref={list}>
-      {navigation.map((link) => (
-        <RouteLink href={link.href} key={link.href} aria-label={link.name}>
-          <span className="explore-label" aria-hidden="true">
-            {Array.from(link.name).map((character, index) => (
-              <span className="dispersion-glyph" key={`${character}-${index}`}>
-                {character}
+    <nav className="explore-links" aria-label="Primary navigation" ref={list}>
+      <h2 className="explore-title">Navigation</h2>
+      <ul>
+        {navigation.map((link) => (
+          <li key={link.href}>
+            <RouteLink href={link.href} aria-label={link.name}>
+              <span className="explore-label" aria-hidden="true">
+                {Array.from(link.name).map((character, index) => (
+                  <span className="dispersion-glyph" key={`${character}-${index}`}>
+                    {character}
+                  </span>
+                ))}
               </span>
-            ))}
-          </span>
-          <svg viewBox="0 0 32 32" aria-hidden="true">
-            <path d="M6 26 26 6M6 6h20v20" />
-          </svg>
-        </RouteLink>
-      ))}
+              <svg viewBox="0 0 32 32" aria-hidden="true">
+                <path d="M6 26 26 6M6 6h20v20" />
+              </svg>
+            </RouteLink>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 }

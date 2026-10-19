@@ -19,12 +19,16 @@ export function CustomCursor() {
     let y = 0;
     let hasPosition = false;
     let inside = false;
+    let dragTarget: Element | null = null;
     const hide = () => {
       document.documentElement.classList.remove('cursor-ready');
       node.dataset.visible = 'false';
       node.dataset.pressed = 'false';
       node.dataset.interactive = 'false';
       node.dataset.text = 'false';
+      node.dataset.draggable = 'false';
+      node.dataset.dragging = 'false';
+      dragTarget = null;
     };
     const refresh = () => {
       if (
@@ -49,6 +53,10 @@ export function CustomCursor() {
       }
       node.dataset.interactive = String(Boolean(target?.closest(interactiveSelector)));
       node.dataset.text = String(Boolean(target?.closest('.prose, input, textarea')));
+      node.dataset.draggable = String(
+        Boolean(dragTarget || target.closest('[data-cursor="drag"]')),
+      );
+      node.dataset.dragging = String(Boolean(dragTarget));
       node.dataset.visible = 'true';
       document.documentElement.classList.add('cursor-ready');
     };
@@ -73,11 +81,15 @@ export function CustomCursor() {
     const press = (event: PointerEvent) => {
       move(event);
       if (event.button === 0 && node.dataset.visible === 'true') {
+        dragTarget = (event.target as Element | null)?.closest('[data-cursor="drag"]') ?? null;
         node.dataset.pressed = 'true';
+        refresh();
       }
     };
     const release = () => {
+      dragTarget = null;
       node.dataset.pressed = 'false';
+      refresh();
     };
     refreshCursor.current = () => {
       release();

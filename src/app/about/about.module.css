@@ -1,0 +1,634 @@
+.room {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: 80px clamp(24px, 5%, 72px) 120px;
+  overflow: clip;
+}
+
+.room :is(section, section > div, figure) {
+  min-width: 0;
+}
+
+.thread {
+  position: absolute;
+  z-index: -1;
+  inset: 60px 0 0;
+  width: 100%;
+  height: calc(100% - 60px);
+  color: var(--violet);
+  pointer-events: none;
+}
+
+.thread path {
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+.hello {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+  padding-bottom: 104px;
+}
+
+.greeting {
+  position: relative;
+  z-index: 1;
+  padding-top: 30px;
+  container-type: inline-size;
+}
+
+.name {
+  display: inline-block;
+  margin-bottom: 28px;
+  padding: 3px 12px;
+  background: var(--acid);
+  font-size: 21px;
+  transform: rotate(-5deg);
+}
+
+.greeting h1 {
+  font-family: var(--font-syne), sans-serif;
+  font-size: clamp(40px, 12cqw, 88px);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.075em;
+}
+
+.welcome {
+  max-width: 330px;
+  margin: 32px 0 0 9%;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.welcome p + p {
+  margin-top: 12px;
+}
+
+.sideNote {
+  display: flex;
+  position: relative;
+  max-width: 235px;
+  width: fit-content;
+  align-items: center;
+  gap: 18px;
+  margin: 44px 0 0 15%;
+  color: var(--violet);
+  font-size: 16px;
+  transform: rotate(-4deg);
+}
+
+.sideNote:hover > span:first-child,
+.sideNote:focus-visible > span:first-child {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.downArrow {
+  flex: none;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.geometry {
+  display: block;
+  width: clamp(160px, 30cqw, 220px);
+  height: auto;
+  margin: 24px 0 0 38%;
+  filter: brightness(0);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.oc {
+  position: relative;
+  margin: 0;
+  padding-top: 18px;
+}
+
+.oc::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 86%;
+  aspect-ratio: 1;
+  top: 38px;
+  right: -20px;
+  border-radius: 50%;
+  background: var(--violet);
+}
+
+.ocFrame {
+  transform: rotate(4deg);
+  clip-path: polygon(8% 0, 100% 0, 100% 91%, 88% 100%, 0 100%, 0 7%);
+  background: white;
+}
+
+.ocFrame img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.oc figcaption {
+  position: relative;
+  width: 75%;
+  margin: 24px 0 0 12%;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.ocTitle {
+  display: block;
+  width: fit-content;
+  margin-bottom: 10px;
+  padding: 0 8px;
+  background: var(--acid);
+  color: var(--ink);
+  font-family: var(--font-syne), sans-serif;
+  font-size: 26px;
+  font-weight: 700;
+  transform: rotate(-4deg);
+}
+
+.marginNote {
+  position: absolute;
+  left: 0;
+  bottom: 32px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.research {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9%;
+  padding: 30px 4% 88px;
+}
+
+.research h2,
+.play h2,
+.goodbye h2 {
+  font-family: var(--font-syne), sans-serif;
+  font-weight: 700;
+  font-size: clamp(44px, 4.9vw, 70px);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.researchIntro {
+  max-width: 265px;
+  margin-top: 24px;
+  font-size: 19px;
+}
+
+.researchBody {
+  max-width: 440px;
+  padding-top: 64px;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.researchBody p + p {
+  margin-top: 24px;
+}
+
+.researchAside {
+  color: var(--violet);
+}
+
+.equation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  margin: 72px 0 0 12%;
+  font-family: var(--font-syne), sans-serif;
+  font-size: clamp(25px, 2.7vw, 38px);
+  letter-spacing: -0.04em;
+  line-height: 1.35;
+  transform: rotate(-7deg);
+}
+
+.notEqual {
+  color: var(--violet);
+  font-size: 92px;
+  line-height: 1.1;
+}
+
+.equationNote {
+  max-width: 210px;
+  margin: 35px 0 0 24%;
+  font-size: 14px;
+  color: var(--muted);
+  transform: rotate(-7deg);
+}
+
+.researchMore {
+  margin-top: 32px;
+  font-size: 16px;
+}
+
+.researchMore summary {
+  padding: 10px 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+.researchMore summary:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 6px;
+}
+
+.researchMore summary:hover {
+  color: var(--violet);
+}
+
+.researchMoreContent {
+  overflow: hidden;
+}
+
+.researchMoreBody {
+  padding-top: 20px;
+}
+
+.play {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  padding: 56px 0 64px;
+  scroll-margin-top: 40px;
+}
+
+.playHeading {
+  grid-column: 2 / 12;
+  margin-bottom: 16px;
+}
+
+.playHeading p {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.play h3 {
+  font-family: var(--font-syne), sans-serif;
+  font-size: clamp(26px, 3vw, 42px);
+  line-height: 1.1;
+  letter-spacing: -0.045em;
+  font-weight: 700;
+}
+
+.play p {
+  max-width: 320px;
+  text-wrap: pretty;
+}
+
+.play h3 + p {
+  margin-top: 16px;
+}
+
+.designFragment {
+  grid-column: 2 / 6;
+  grid-row: 2;
+  margin-top: 8px;
+  transform: rotate(-5deg);
+}
+
+.typePlay {
+  display: block;
+  width: fit-content;
+  padding: 0 18px 10px;
+  margin-bottom: 24px;
+  background: var(--acid);
+  font-family: var(--font-syne), sans-serif;
+  font-size: clamp(100px, 13vw, 180px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.09em;
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 84% 100%, 0 100%);
+}
+
+.gamesFragment {
+  grid-column: 8 / 13;
+  grid-row: 2;
+  margin-top: 16px;
+  padding-top: 40px;
+  transform: rotate(4deg);
+}
+
+.gameArt {
+  display: block;
+  width: 128px;
+  height: auto;
+  margin-bottom: 20px;
+  transform: rotate(-12deg);
+}
+
+.gamesFragment h3 {
+  color: var(--violet);
+}
+
+.gamesFragment p + p {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.routerFragment {
+  grid-column: 2 / 6;
+  grid-row: 3;
+  margin-top: 8px;
+  padding-left: 12px;
+}
+
+.networkArt {
+  display: block;
+  width: 140px;
+  height: auto;
+  margin: 0 0 20px 24px;
+  transform: rotate(-8deg);
+}
+
+.minecraftFragment {
+  grid-column: 8 / 13;
+  grid-row: 3;
+  position: relative;
+  padding-top: 120px;
+  transform: rotate(-3deg);
+}
+
+.pickArt {
+  position: absolute;
+  top: 0;
+  left: 60px;
+  width: 110px;
+  height: auto;
+}
+
+.chatFragment {
+  grid-column: 5 / 11;
+  grid-row: 4;
+  margin-top: 24px;
+  padding: 24px 0 0 32px;
+  border-left: 2px solid var(--violet);
+  transform: rotate(3deg);
+}
+
+.blogFragment {
+  grid-column: 2 / 7;
+  grid-row: 5;
+  margin-top: 8px;
+  font-size: 18px;
+}
+
+.inlineLink {
+  display: inline-block;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+
+.inlineLink:hover {
+  color: var(--violet);
+  text-decoration-thickness: 2px;
+}
+
+.goodbye {
+  position: relative;
+  padding: 72px 0 24px 9%;
+}
+
+.goodbye > p {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.goodbye h2 {
+  max-width: 800px;
+}
+
+.goodbye > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  margin-top: 32px;
+  font-size: 17px;
+}
+
+@media (max-width: 1000px) {
+  .room {
+    padding-top: 48px;
+  }
+
+  .welcome {
+    margin-left: 0;
+    font-size: 17px;
+  }
+
+  .research {
+    padding-right: 0;
+    padding-left: 0;
+    gap: 6%;
+  }
+
+  .researchBody {
+    font-size: 17px;
+  }
+
+  .equation {
+    margin-left: 0;
+  }
+
+  .play {
+    column-gap: 16px;
+  }
+}
+
+@media (max-width: 760px) {
+  .room {
+    padding-top: 32px;
+    padding-bottom: 72px;
+  }
+
+  .thread {
+    opacity: 0.35;
+  }
+
+  .hello {
+    grid-template-columns: 1fr;
+    gap: 50px;
+    padding-bottom: 120px;
+  }
+
+  .greeting {
+    padding-top: 0;
+  }
+
+  .greeting h1 {
+    font-size: clamp(36px, 12cqw, 88px);
+  }
+
+  .welcome {
+    max-width: 380px;
+    margin-top: 28px;
+  }
+
+  .sideNote {
+    margin: 28px 0 0 10%;
+  }
+
+  .oc {
+    width: 88%;
+    max-width: 440px;
+    justify-self: center;
+  }
+
+  .oc::before {
+    right: -12px;
+  }
+
+  .oc figcaption {
+    width: 90%;
+    margin-left: 5%;
+  }
+
+  .marginNote {
+    bottom: 30px;
+  }
+
+  .research {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding-bottom: 40px;
+  }
+
+  .research h2,
+  .play h2,
+  .goodbye h2 {
+    font-size: clamp(38px, 8vw, 60px);
+  }
+
+  .researchIntro {
+    max-width: 330px;
+  }
+
+  .equation {
+    margin: 40px auto 0;
+  }
+
+  .equationNote {
+    margin: 24px auto 0;
+  }
+
+  .researchBody {
+    max-width: 100%;
+    padding-top: 16px;
+  }
+
+  .play {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px 24px;
+    padding-bottom: 40px;
+  }
+
+  .playHeading {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .designFragment,
+  .routerFragment,
+  .blogFragment {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin: 0 0 0 5%;
+  }
+
+  .gamesFragment,
+  .minecraftFragment,
+  .chatFragment {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    margin: 0 4% 0 16%;
+    padding-top: 0;
+  }
+
+  .minecraftFragment {
+    padding-top: 120px;
+  }
+
+  .chatFragment {
+    padding: 12px 0 12px 24px;
+  }
+
+  .play h3 {
+    font-size: 32px;
+  }
+
+  .typePlay {
+    font-size: 120px;
+  }
+
+  .goodbye {
+    padding: 80px 0 0;
+  }
+}
+
+/* Entering About from another route: the violet thread draws first, then the
+   copy is revealed only as the reader brings each block into view. Direct
+   loads and reloads never receive the root entry state, so the page is fully
+   readable without waiting for an animation. */
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  :global(html[data-about-entry]) .room [data-about-reveal] {
+    transition:
+      opacity 620ms var(--ease) var(--about-reveal-delay, 0ms),
+      translate 620ms var(--ease) var(--about-reveal-delay, 0ms);
+  }
+
+  :global(html[data-about-entry]) .room [data-about-reveal]:not([data-revealed]) {
+    opacity: 0;
+    translate: 0 18px;
+  }
+
+  /* The violet disc behind the OC belongs to the illustration, so it follows
+     the frame's reveal instead of appearing ahead of it. */
+  :global(html[data-about-entry]) .room .oc::before {
+    transition: opacity 620ms var(--ease);
+  }
+
+  :global(html[data-about-entry]) .room .oc:has(.ocFrame:not([data-revealed]))::before {
+    opacity: 0;
+  }
+
+  :global(html[data-about-entry='drawing']) .thread path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  :global(html[data-about-entry='reveal']) .thread path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .thread,
+  .oc::before {
+    display: none;
+  }
+
+  .ocFrame {
+    clip-path: none;
+  }
+}

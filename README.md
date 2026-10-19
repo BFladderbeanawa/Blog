@@ -80,9 +80,13 @@ This is a clean cutover, not a dual-framework site. Retired `/blog`, `/search`, 
 4. Put new directly linked images in `public/`, for example `public/images/example.png`, and reference `/images/example.png`. Preserve existing article assets and source references when editing old posts.
 5. Run the comprehensive check and production build, review the article in the running site, then commit and deploy. Publishing or updating content requires a new build/deployment.
 
-The homepage features the three newest articles, one per scroll-snap scene. `heroImage` may be an image filename under `src/assets/` (as above), or a root-relative path such as `/images/example.png` for an image under `public/`. Omit it to show the article description instead. Cover images are decorative and cropped to fill the reserved area; keep important subjects away from the crop edges. This field currently supplies homepage covers, not article-page headers.
+The homepage features the three newest articles, one per scroll-snap scene. `heroImage` may be an image filename under `src/assets/` (as above), or a root-relative path such as `/images/example.png` for an image under `public/`. Omit it to show the article description instead. Cover images are decorative and cropped to fill the reserved area; keep important subjects away from the crop edges. The same field supplies article-page hero images before the Markdown body.
 
 The Markdown pipeline supports GFM tables/lists, code highlighting, heading anchors, and KaTeX math. Raw HTML is not enabled. Keep article source as Markdown rather than JSX. Existing frontmatter is preserved even when it does not appear in the interface.
+
+Desktop articles with `h2`/`h3` headings have a compact side drum. Drag anywhere in the contents area, including its label and blank space: pull upward for later headings and downward for earlier headings. Dragging and wheel input only browse the contents; neither changes the article position or URL. Release snaps the drum to a row and preserves that preview. Click a heading to position the article with smooth scrolling; ordinary article scrolling resumes contents tracking. The active-section marker follows the article rather than the preview. The custom cursor shows a vertical grab affordance and a held state, then resets on release, cancellation, or loss of focus. Reduced-motion mode uses a flat list and immediate click positioning; mouse dragging still works. Articles without headings omit the contents area.
+
+Article pages replace the viewport scrollbar with a right-edge reading rail after the client indicator initializes. Its hollow circle follows progress from the article opening to the end of its scrollable content, with a `ΔH=50%`-style label and difference blending for automatic contrast. Drag the circle to scrub the article directly; arrow keys, Page Up/Down, Home, and End also work when it has keyboard focus. Wheel and normal page keyboard scrolling remain native. Nested code-block scrollbars are unchanged; forced-colors mode restores the native viewport scrollbar. Leaving the article restores the normal scrollbar.
 
 The preserved articles map to `/posts/advance-calculus`, `/posts/blog-development-dairy-1`, and `/posts/pre-socratic-philosophy`. Original content and asset files remain in the repository; local migration notes under `docs/` are not published.
 
@@ -101,6 +105,10 @@ For a self-hosted production process, run `pnpm exec vp run build` followed by `
 ## Desktop scope and accessibility
 
 Desktop is the design and interaction acceptance target. Home scene scrolling is separate from ordinary article scrolling; links support direct navigation and browser history. Reduced-motion preferences simplify motion, and the custom pointer is limited to suitable mouse/hover devices with a native fallback. This scope does not claim mobile optimization or mobile acceptance, and it does not block mobile visitors.
+
+The drag pointer uses a solid dot with vertical arrows instead of a hollow square; its center is approximately 18px on hover and 15px while held.
+
+The home closing scene's social links use pointer-relative parallax: labels travel up to 10px horizontally / 3px vertically, while arrows travel up to 18px / 5px. Rules and link hit areas stay fixed. Leaving, scrolling, resizing, or losing focus resets the offsets; reduced-motion, coarse-pointer, and forced-colors modes keep the links static.
 
 Selective reference-code reuse is documented in `THIRD_PARTY_NOTICES.md`; original content, public assets, and font files remain separate from that software reference license.
 

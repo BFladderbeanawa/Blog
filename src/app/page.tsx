@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import { ClosingSocials } from '@/components/site/ClosingSocials';
 import { ExploreLinks } from '@/components/site/ExploreLinks';
 import { HomeDeck } from '@/components/site/HomeDeck';
 import { PointillistLandscape } from '@/components/site/PointillistLandscape';
@@ -63,12 +64,6 @@ export default async function Home() {
         </div>
       </div>
       <div className="scene-content explore">
-        <div className="explore-heading">
-          <h2>
-            Choose
-            <br />a direction.
-          </h2>
-        </div>
         <ExploreLinks />
       </div>
       {recentPosts.map((post, index) => (
@@ -134,28 +129,34 @@ export default async function Home() {
           in touch.
         </h2>
         <div className="closing-bottom">
-          <div className="closing-socials">
+          <ClosingSocials>
             {socials.map((link) => (
               <a key={link.name} href={link.href} target="_blank" rel="noopener noreferrer">
-                {link.name}
-                <span aria-hidden="true">↗</span>
+                <span className="closing-social-label">{link.name}</span>
+                <span className="closing-social-arrow" aria-hidden="true">
+                  ↗
+                </span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ))}
             {kaggleUrl ? (
               <a href={kaggleUrl} target="_blank" rel="noopener noreferrer">
-                Kaggle
-                <span aria-hidden="true">↗</span>
+                <span className="closing-social-label">Kaggle</span>
+                <span className="closing-social-arrow" aria-hidden="true">
+                  ↗
+                </span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ) : null}
             {contactEmail ? (
               <a href={`mailto:${contactEmail}`}>
-                Email
-                <span aria-hidden="true">↗</span>
+                <span className="closing-social-label">Email</span>
+                <span className="closing-social-arrow" aria-hidden="true">
+                  ↗
+                </span>
               </a>
             ) : null}
-          </div>
+          </ClosingSocials>
         </div>
         <small>BFladderbean © {new Date().getFullYear()}</small>
       </div>
