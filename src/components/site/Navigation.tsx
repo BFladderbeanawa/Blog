@@ -357,7 +357,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       {children}
       {curtain?.kind === 'roll' ? (
         <div
-          className="route-roll"
+          className="route-roll group pointer-events-auto fixed inset-0 z-[9000] data-[stage=leave]:pointer-events-none"
           data-stage={curtain.stage}
           style={rollStyle}
           onTransitionEnd={rollSettled}
@@ -365,7 +365,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         >
           {rollBands.map((band) => (
             <span
-              className="route-roll-band"
+              className="route-roll-band absolute inset-x-0 top-[calc(var(--band)*100%/var(--roll-bands))] h-[calc(100%/var(--roll-bands)_+_2px)] origin-left scale-x-0 bg-[linear-gradient(90deg,var(--color-violet)_0%,var(--color-paper)_100%)] transition-transform duration-(--roll-duration) ease-[cubic-bezier(0.77,0,0.175,1)] delay-[calc(var(--band)*var(--roll-enter-stagger))] will-change-transform group-data-[stage=cover]:scale-x-100 group-data-[stage=leave]:origin-right group-data-[stage=leave]:scale-x-0 group-data-[stage=leave]:delay-[calc((var(--roll-bands)_-_1_-_var(--band))*var(--roll-exit-stagger))]"
               data-band={band}
               key={band}
               style={{ '--band': band } as CSSProperties}
@@ -375,17 +375,20 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       ) : null}
       {curtain?.kind === 'article' ? (
         <div
-          className="article-curtain"
+          className="article-curtain group pointer-events-auto fixed inset-0 z-[9000] translate-x-0 overflow-hidden transition-transform duration-[520ms] ease-[cubic-bezier(0.3,0.7,0.2,1)] will-change-[transform,filter] data-[stage=leave]:-translate-x-full data-[stage=leave]:animate-[article-curtain-whoosh_520ms_linear_both]"
           data-stage={curtain.stage}
           onTransitionEnd={curtainSettled}
           aria-hidden="true"
         >
           <span
-            className="article-curtain-plate"
+            className="article-curtain-plate absolute block origin-top-left bg-violet transition-transform duration-[620ms] ease-panel will-change-transform [transform:translate(0,0)_scale(1)] group-data-[stage=cover]:[transform:translate(var(--curtain-shift-x),var(--curtain-shift-y))_scale(var(--curtain-scale-x),var(--curtain-scale-y))] group-data-[stage=leave]:[transform:translate(var(--curtain-shift-x),var(--curtain-shift-y))_scale(var(--curtain-scale-x),var(--curtain-scale-y))]"
             style={curtain.plateStyle}
             onTransitionEnd={plateSettled}
           />
-          <span className="article-curtain-title" style={curtain.titleStyle}>
+          <span
+            className="article-curtain-title absolute block m-0 text-center font-scene text-paper [overflow-wrap:anywhere] [text-wrap:balance] transition-transform duration-[620ms] ease-panel will-change-transform [transform:translate(0,0)] group-data-[stage=cover]:[transform:translate(var(--title-shift-x),var(--title-shift-y))] group-data-[stage=leave]:[transform:translate(var(--title-shift-x),var(--title-shift-y))]"
+            style={curtain.titleStyle}
+          >
             {curtain.title}
           </span>
         </div>

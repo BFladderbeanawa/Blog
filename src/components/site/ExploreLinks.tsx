@@ -110,20 +110,33 @@ export function ExploreLinks() {
   }, []);
 
   return (
-    <nav className="explore-links" aria-label="Primary navigation" ref={list}>
-      <h2 className="explore-title">Navigation</h2>
-      <ul>
+    <nav
+      className="explore-links relative z-[3] grid w-full grid-cols-[1fr_1.1fr] items-center gap-x-[10vw] max-md:grid-cols-2 max-md:gap-x-[6vw] max-xs:grid-cols-1 max-xs:gap-y-7"
+      aria-label="Primary navigation"
+      ref={list}
+    >
+      <h2 className="explore-title font-scene text-[clamp(48px,5.5vw,88px)] leading-[1.02] tracking-[-0.055em] max-xs:text-[clamp(40px,12vw,64px)]">
+        Navigation
+      </h2>
+      <ul className="m-0 list-none p-0">
         {navigation.map((link) => (
           <li key={link.href}>
-            <RouteLink href={link.href} aria-label={link.name}>
-              <span className="explore-label" aria-hidden="true">
+            <RouteLink
+              className="flex items-center justify-between border-t border-current py-[clamp(12px,1.7vh,20px)] font-scene text-[clamp(30px,3.2vw,46px)] leading-[1.05] font-bold tracking-[-0.045em] transition-[border-color,color] duration-[180ms] ease-smooth hover:border-acid focus-visible:border-acid [li:last-child_&]:border-b max-xs:py-3 max-xs:text-[28px]"
+              href={link.href}
+              aria-label={link.name}
+            >
+              <span className="explore-label relative inline-block" aria-hidden="true">
                 {Array.from(link.name).map((character, index) => (
-                  <span className="dispersion-glyph" key={`${character}-${index}`}>
+                  <span
+                    className="dispersion-glyph inline-block whitespace-pre [--split-x:0px] [--split-y:0px]"
+                    key={`${character}-${index}`}
+                  >
                     {character}
                   </span>
                 ))}
               </span>
-              <svg viewBox="0 0 32 32" aria-hidden="true">
+              <svg className="h-[26px] w-[26px]" viewBox="0 0 32 32" aria-hidden="true">
                 <path d="M6 26 26 6M6 6h20v20" />
               </svg>
             </RouteLink>

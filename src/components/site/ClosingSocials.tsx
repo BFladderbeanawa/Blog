@@ -78,7 +78,7 @@ export function ClosingSocials({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="closing-socials" ref={list}>
+    <div className="closing-socials flex flex-col justify-end" ref={list}>
       {children}
     </div>
   );

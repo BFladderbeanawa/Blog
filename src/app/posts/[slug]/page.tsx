@@ -6,6 +6,7 @@ import { ReadingProgress } from '@/components/site/ReadingProgress';
 import { notFound } from 'next/navigation';
 import { getPost, getPosts, renderPost } from '@/lib/posts';
 import { site } from '@/data/site';
+import { pageShell, textLink } from '@/lib/ui';
 
 export const dynamicParams = false;
 
@@ -65,16 +66,26 @@ export default async function PostPage({ params }: PostPageProps) {
     : undefined;
 
   return (
-    <main className="page-shell" id="main-content">
+    <main className={pageShell} id="main-content">
       <ReadingProgress key={post.slug} />
-      <div className={`post-layout${headings.length ? '' : ' post-layout-single'}`}>
+      <div
+        className={
+          headings.length
+            ? 'post-layout grid grid-cols-[200px_minmax(0,1000px)] items-start justify-center gap-x-[clamp(32px,4vw,72px)] max-lg:block'
+            : 'post-layout post-layout-single block'
+        }
+      >
         {headings.length > 0 ? <TableOfContents headings={headings} /> : null}
-        <article className="post-article">
-          <header className="post-header">
-            <RouteLink className="text-link" href="/all">
+        <article className="post-article min-w-0">
+          <header
+            className={`post-header mx-auto mt-6 max-w-[1000px] ${
+              hero ? 'mb-10 max-xs:mb-6' : 'mb-20 max-xs:mb-12'
+            }`}
+          >
+            <RouteLink className={textLink} href="/all">
               All posts
             </RouteLink>
-            <p className="post-meta">
+            <p className="post-meta mt-8 flex flex-wrap gap-5 text-[13px] text-muted">
               Published{' '}
               <time dateTime={post.pubDate}>{dateFormatter.format(new Date(post.pubDate))}</time>
               {post.updatedDate ? (
@@ -87,16 +98,26 @@ export default async function PostPage({ params }: PostPageProps) {
                 </>
               ) : null}
             </p>
-            <h1 className="page-heading" lang={language}>
+            <h1
+              className="mt-8 mb-8 font-scene text-[clamp(44px,6vw,88px)] leading-[1.2] tracking-[-0.035em] max-xs:text-[40px]"
+              lang={language}
+            >
               {post.title}
             </h1>
-            <p className="page-intro" lang={language}>
+            <p className="max-w-[36em] text-xl text-muted" lang={language}>
               {post.description}
             </p>
           </header>
           {hero ? (
-            <figure className="post-hero">
-              <Image src={hero} alt="" fill sizes="(max-width: 1080px) 100vw, 1000px" preload />
+            <figure className="post-hero relative mx-auto mb-20 aspect-video max-w-[1000px] overflow-hidden bg-violet-dark max-xs:mb-14 max-xs:aspect-[4/3]">
+              <Image
+                className="object-cover"
+                src={hero}
+                alt=""
+                fill
+                sizes="(max-width: 1080px) 100vw, 1000px"
+                preload
+              />
             </figure>
           ) : null}
           <div className="prose" lang={language} dangerouslySetInnerHTML={{ __html: html }} />

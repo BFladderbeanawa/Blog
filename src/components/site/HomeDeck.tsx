@@ -201,36 +201,50 @@ export function HomeDeck({
     };
   }, []);
 
-  const scenes = slides.map((slide, index) => (
-    <section
-      id={`scene-${index}`}
-      className={`home-scene scene-${index}`}
-      key={labels[index]}
-      data-home-scene
-      data-scene-index={index}
-      data-state={index === active ? 'active' : index < active ? 'past' : 'future'}
-      data-current={index - FIRST_ARTICLE === currentArticle ? '' : undefined}
-      aria-label={labels[index]}
-    >
-      {slide}
-    </section>
-  ));
+  const scenes = slides.map((slide, index) => {
+    const closing = index === slides.length - 1;
+    const surface =
+      index === 0
+        ? 'bg-transparent text-ink'
+        : index === 1
+          ? 'bg-violet text-paper'
+          : closing
+            ? 'bg-ink text-acid'
+            : 'bg-paper text-ink';
+    return (
+      <section
+        id={`scene-${index}`}
+        className={`home-scene scene-${index} relative min-h-svh snap-start snap-always overflow-clip ${surface}`}
+        key={labels[index]}
+        data-home-scene
+        data-scene-index={index}
+        data-state={index === active ? 'active' : index < active ? 'past' : 'future'}
+        data-current={index - FIRST_ARTICLE === currentArticle ? '' : undefined}
+        aria-label={labels[index]}
+      >
+        {slide}
+      </section>
+    );
+  });
 
   return (
     <main
       ref={deckRef}
       id="main-content"
-      className="home-deck"
+      className="home-deck relative isolate h-svh snap-y snap-mandatory scroll-smooth overflow-x-clip overflow-y-auto overscroll-y-contain bg-acid [scrollbar-width:none] [&::-webkit-scrollbar]:hidden motion-reduce:scroll-auto motion-reduce:snap-proximity"
       data-active={active}
       aria-label="Homepage scenes"
       tabIndex={-1}
     >
-      <div className="intro-sequence">
-        <div className="intro-background" aria-hidden="true">
-          <div className="opening-colorfield">
-            <span className="opening-plane opening-plane-acid" />
-            <span className="opening-plane opening-plane-violet" />
-            <span className="opening-plane opening-plane-base" />
+      <div className="intro-sequence relative bg-paper">
+        <div
+          className="intro-background pointer-events-none absolute top-0 h-svh w-full bg-paper"
+          aria-hidden="true"
+        >
+          <div className="opening-colorfield pointer-events-none absolute inset-0">
+            <span className="opening-plane opening-plane-acid absolute top-0 right-0 h-[calc(50%-40px)] w-[17vw] bg-acid max-xs:h-40 max-xs:w-[10vw]" />
+            <span className="opening-plane opening-plane-violet absolute inset-0 z-[2] bg-violet [clip-path:inset(calc(50%-40px)_8%_calc(50%-56px)_83%)] max-xs:top-40 max-xs:right-auto max-xs:bottom-auto max-xs:left-0 max-xs:h-8 max-xs:w-[5vw] max-xs:[clip-path:none]" />
+            <span className="opening-plane opening-plane-base absolute bottom-0 left-0 h-[clamp(32px,9svh,88px)] w-[24vw] bg-acid max-xs:h-6" />
           </div>
         </div>
         {scenes.slice(0, 2)}
@@ -244,17 +258,23 @@ export function HomeDeck({
       ) : (
         scenes.slice(FIRST_ARTICLE)
       )}
-      <nav className="scene-picker" aria-label="Choose homepage scene">
+      <nav
+        className="scene-picker fixed top-1/2 right-[22px] z-20 -translate-y-1/2 text-paper mix-blend-difference max-xs:right-2"
+        aria-label="Choose homepage scene"
+      >
         {labels.map((label, index) => (
           <button
             type="button"
             key={label}
+            className="group relative flex h-10 w-10 items-center justify-end border-0 bg-transparent p-2"
             onClick={() => selectRef.current(index)}
             aria-current={index === active ? 'step' : undefined}
             aria-label={`${index + 1}: ${label}`}
           >
-            <span className="scene-tick" />
-            <span className="scene-picker-label">{label}</span>
+            <span className="scene-tick h-0.5 w-3 origin-right bg-current transition-transform duration-[180ms] ease-smooth group-aria-[current=step]:scale-x-200" />
+            <span className="scene-picker-label absolute right-11 text-[11px] whitespace-nowrap opacity-0 transition-opacity duration-[140ms] group-hover:opacity-100 group-focus-visible:opacity-100 max-xs:hidden">
+              {label}
+            </span>
           </button>
         ))}
       </nav>

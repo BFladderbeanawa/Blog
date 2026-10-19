@@ -138,8 +138,12 @@ export function CustomCursor() {
     return () => window.cancelAnimationFrame(frame);
   }, [pathname]);
   return (
-    <div ref={cursor} className="custom-cursor" aria-hidden="true">
-      <span />
+    <div
+      ref={cursor}
+      className="custom-cursor group pointer-events-none fixed top-0 left-0 z-[10000] -mt-[22px] -ml-[22px] h-11 w-11 text-white opacity-0 mix-blend-difference data-[visible=true]:opacity-100 forced-colors:hidden"
+      aria-hidden="true"
+    >
+      <span className="absolute top-[11px] left-[11px] h-[22px] w-[22px] rotate-45 scale-[0.55] border-2 border-current bg-current transition-[transform,background-color,border-radius] duration-[180ms] ease-smooth group-data-[interactive=true]:rotate-0 group-data-[interactive=true]:scale-[1.4] group-data-[interactive=true]:rounded-full group-data-[interactive=true]:bg-transparent [[data-text='true']:not([data-interactive='true'])_&]:rotate-0 [[data-text='true']:not([data-interactive='true'])_&]:scale-x-[0.12] [[data-text='true']:not([data-interactive='true'])_&]:scale-y-[1.1] [[data-text='true']:not([data-interactive='true'])_&]:rounded-none [[data-pressed='true']_&]:rotate-0 [[data-pressed='true']_&]:scale-x-[0.45] [[data-pressed='true']_&]:scale-y-[1.2] [[data-pressed='true']_&]:rounded-none [[data-pressed='true']_&]:duration-0 [[data-draggable='true']_&]:rotate-0 [[data-draggable='true']_&]:scale-80 [[data-draggable='true']_&]:rounded-full [[data-draggable='true']_&]:bg-current [[data-dragging='true']_&]:rotate-0 [[data-dragging='true']_&]:scale-70 [[data-dragging='true']_&]:rounded-full [[data-dragging='true']_&]:bg-current [[data-dragging='true']_&]:duration-0 [[data-draggable='true']_&]:before:absolute [[data-draggable='true']_&]:before:top-[-10px] [[data-draggable='true']_&]:before:left-[5px] [[data-draggable='true']_&]:before:h-2 [[data-draggable='true']_&]:before:w-2 [[data-draggable='true']_&]:before:rotate-45 [[data-draggable='true']_&]:before:border-t-2 [[data-draggable='true']_&]:before:border-l-2 [[data-draggable='true']_&]:before:border-current [[data-draggable='true']_&]:before:content-[''] [[data-draggable='true']_&]:after:absolute [[data-draggable='true']_&]:after:bottom-[-10px] [[data-draggable='true']_&]:after:left-[5px] [[data-draggable='true']_&]:after:h-2 [[data-draggable='true']_&]:after:w-2 [[data-draggable='true']_&]:after:rotate-[225deg] [[data-draggable='true']_&]:after:border-t-2 [[data-draggable='true']_&]:after:border-l-2 [[data-draggable='true']_&]:after:border-current [[data-draggable='true']_&]:after:content-[''] motion-reduce:transition-none" />
     </div>
   );
 }

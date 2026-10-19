@@ -125,9 +125,12 @@ export function ReadingProgress() {
   }, []);
 
   return (
-    <div className="reading-progress" ref={railRef}>
+    <div
+      className="reading-progress pointer-events-none fixed top-[18vh] right-6 bottom-[12vh] z-20 w-px text-white opacity-0 mix-blend-difference in-[.reading-progress-ready]:opacity-100 before:absolute before:inset-0 before:bg-current before:opacity-25 before:content-[''] forced-colors:hidden"
+      ref={railRef}
+    >
       <span
-        className="reading-progress-marker"
+        className="reading-progress-marker pointer-events-auto absolute top-[var(--reading-progress,0%)] left-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 cursor-grab touch-none select-none before:absolute before:inset-2.5 before:rounded-full before:border before:border-current before:content-[''] data-[dragging=true]:cursor-grabbing focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-solid"
         ref={markerRef}
         role="slider"
         tabIndex={0}
@@ -138,7 +141,11 @@ export function ReadingProgress() {
         aria-valuenow={0}
         data-cursor="drag"
       >
-        <span className="reading-progress-label" data-progress-label aria-hidden="true">
+        <span
+          className="reading-progress-label pointer-events-none absolute top-1/2 right-9 -translate-y-1/2 font-mono text-[10px] leading-none tabular-nums whitespace-nowrap text-current"
+          data-progress-label
+          aria-hidden="true"
+        >
           ΔH=0%
         </span>
       </span>

@@ -12,19 +12,19 @@ The homepage has no global header or separate wordmark; the opening's @BFladderb
 
 ## Tokens
 
-| Semantic role | CSS token | Value |
+| Semantic role | Tailwind theme token | Value |
 |---|---|---|
-| Reading / opening canvas | `--paper` | `#f5f5ef` |
-| Text / closing canvas | `--ink` | `#17171a` |
-| Edge planes / closing type | `--acid` | `#d9f542` |
-| Navigation canvas / personal-information emphasis | `--violet` | `#4930bc` |
-| Deep violet | `--violet-dark` | `#27165e` |
-| Secondary reading text | `--muted` | `#62625e` |
-| Editorial divider | `--line` | `#cecec6` |
+| Reading / opening canvas | `--color-paper` | `#f5f5ef` |
+| Text / closing canvas | `--color-ink` | `#17171a` |
+| Edge planes / closing type | `--color-acid` | `#d9f542` |
+| Navigation canvas / personal-information emphasis | `--color-violet` | `#4930bc` |
+| Deep violet | `--color-violet-dark` | `#27165e` |
+| Secondary reading text | `--color-muted` | `#62625e` |
+| Editorial divider | `--color-line` | `#cecec6` |
 
 These are scene roles in one theme, not selectable palettes. Color never carries scene state alone: the elongated scene tick and `aria-current` provide independent indicators.
 
-Motion tokens stay equally small: `--ease` (`cubic-bezier(0.22, 1, 0.36, 1)`) for content reveals and `--ease-panel` (`cubic-bezier(0.76, 0, 0.24, 1)`) for the intro panel sweep. Durations are named at their site of use — 620ms for that sweep and the violet handoff into the first article, 680ms for scene content settling, 520ms for the title color wipe, section-label darkening and cover zoom, 180ms for cover pointer settling, 480ms or shorter for the navigation blocks sequenced against the sweep.
+Motion tokens stay equally small: `--ease-smooth` (`cubic-bezier(0.22, 1, 0.36, 1)`) for content reveals and `--ease-panel` (`cubic-bezier(0.76, 0, 0.24, 1)`) for the intro panel sweep. Utilities reference them as `ease-smooth` and `ease-panel`; animation code that reads computed custom properties still uses the root aliases `--ease` and `--ease-panel`. Durations are named at their site of use — 620ms for that sweep and the violet handoff into the first article, 680ms for scene content settling, 520ms for the title color wipe, section-label darkening and cover zoom, 180ms for cover pointer settling, 480ms or shorter for the navigation blocks sequenced against the sweep.
 
 ## Type and grid
 

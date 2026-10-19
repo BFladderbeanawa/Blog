@@ -10,14 +10,19 @@ export function SiteHeader() {
   if (pathname === '/') return null;
 
   return (
-    <header className="site-header">
-      <div className="site-header-inner">
-        <RouteLink className="site-header-home" href="/" aria-label={`${site.name} home`}>
+    <header className="site-header border-b border-line">
+      <div className="site-header-inner mx-auto flex min-h-[88px] max-w-[1440px] flex-wrap items-center justify-between gap-x-10 gap-y-2 px-(--gutter) py-4">
+        <RouteLink
+          className="site-header-home inline-flex min-h-11 items-center font-scene text-xl font-extrabold tracking-[-0.04em] hover:text-violet hover:underline"
+          href="/"
+          aria-label={`${site.name} home`}
+        >
           {site.name}
         </RouteLink>
-        <nav aria-label="Primary navigation">
+        <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Primary navigation">
           {navigation.map((link) => (
             <RouteLink
+              className="inline-flex min-h-11 items-center text-sm decoration-2 underline-offset-8 hover:text-violet hover:underline aria-[current]:text-violet aria-[current]:underline"
               key={link.href}
               href={link.href}
               aria-current={

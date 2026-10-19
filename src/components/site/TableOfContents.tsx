@@ -238,16 +238,18 @@ export function TableOfContents({ headings }: { headings: PostHeading[] }) {
 
   return (
     <nav
-      className="post-toc"
+      className="post-toc sticky top-8 w-[180px] cursor-grab pt-6 select-none data-[dragging=true]:cursor-grabbing [&[data-dragging=true]_*]:cursor-grabbing max-lg:hidden"
       aria-label="Contents"
       data-cursor="drag"
       data-dragging={dragging}
       onPointerDown={handlePointerDown}
       onDragStart={(event) => event.preventDefault()}
     >
-      <p className="post-toc-label">Contents</p>
+      <p className="post-toc-label border-b border-line pb-2.5 font-scene text-[10px] font-bold tracking-[0.18em] text-muted uppercase">
+        Contents
+      </p>
       <div
-        className="post-toc-drum"
+        className="post-toc-drum relative mt-3 h-[216px] cursor-grab [mask-image:linear-gradient(to_bottom,transparent,#000_16%,#000_84%,transparent)] [perspective:900px] [perspective-origin:50%_50%] motion-reduce:h-auto motion-reduce:max-h-[60svh] motion-reduce:overflow-y-auto motion-reduce:overscroll-contain motion-reduce:[mask-image:none] motion-reduce:[perspective:none] motion-reduce:[scrollbar-color:var(--color-line)_transparent] motion-reduce:[scrollbar-width:thin]"
         ref={drumRef}
         style={
           {
@@ -256,13 +258,13 @@ export function TableOfContents({ headings }: { headings: PostHeading[] }) {
           } as CSSProperties
         }
       >
-        <ol className="post-toc-wheel">
+        <ol className="post-toc-wheel absolute inset-0 m-0 list-none p-0 [transform-style:preserve-3d] motion-reduce:static motion-reduce:[transform-style:flat]">
           {headings.map((heading, index) => {
             const offset = index - position;
             const distance = Math.abs(offset);
             return (
               <li
-                className="post-toc-item"
+                className="post-toc-item absolute top-1/2 left-0 w-full origin-center [backface-visibility:hidden] [transform:translateY(-50%)_rotateX(calc(var(--offset)*var(--step-angle)))_translateZ(var(--step-radius))] transition-opacity duration-[120ms] ease-linear motion-reduce:static motion-reduce:pointer-events-auto! motion-reduce:opacity-100! motion-reduce:[transform:none]! motion-reduce:[&+&]:mt-1"
                 data-level={heading.level}
                 key={heading.id}
                 style={
@@ -275,7 +277,7 @@ export function TableOfContents({ headings }: { headings: PostHeading[] }) {
                 }
               >
                 <a
-                  className="post-toc-link"
+                  className="post-toc-link group grid cursor-[inherit] grid-cols-[22px_minmax(0,1fr)] items-baseline gap-1.5 py-[3px] text-xs leading-[1.35] text-muted transition-colors duration-[160ms] ease-smooth [-webkit-user-drag:none] hover:text-ink aria-[current=location]:text-ink [[data-level='3']_&]:text-[11px]"
                   data-heading-id={heading.id}
                   href={`#${heading.id}`}
                   title={heading.text}
@@ -283,10 +285,13 @@ export function TableOfContents({ headings }: { headings: PostHeading[] }) {
                   aria-current={index === activeIndex ? 'location' : undefined}
                   onClick={(event) => handleClick(event, index)}
                 >
-                  <span className="post-toc-number" aria-hidden="true">
+                  <span
+                    className="post-toc-number font-scene text-[9px] tracking-[0.04em] tabular-nums opacity-55 group-aria-[current=location]:text-violet group-aria-[current=location]:opacity-100"
+                    aria-hidden="true"
+                  >
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className="post-toc-text">{heading.text}</span>
+                  <span className="post-toc-text line-clamp-2 overflow-hidden">{heading.text}</span>
                 </a>
               </li>
             );

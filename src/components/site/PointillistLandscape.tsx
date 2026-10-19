@@ -264,5 +264,11 @@ export function PointillistLandscape() {
     };
   }, []);
 
-  return <canvas className="closing-landscape" ref={canvasRef} aria-hidden="true" />;
+  return (
+    <canvas
+      className="closing-landscape pointer-events-none absolute inset-0 -z-[1] h-full w-full bg-[url('/la-grande-jatte-static.webp')] bg-cover bg-center data-[ready]:bg-none"
+      ref={canvasRef}
+      aria-hidden="true"
+    />
+  );
 }

@@ -61,6 +61,13 @@ vite.config.ts           Vite+ checks and staged-file configuration
 
 This is a clean cutover, not a dual-framework site. Retired `/blog`, `/search`, `/tags`, `/category`, and `/start-here` entry points have no aliases or redirects. Unknown routes return a real 404. Category/tag metadata remains in the article source but is not a separate navigation feature. There is one theme, no density toggle, and no retired status drawer, particle layer, or random transition system.
 
+## Styling
+
+- Tailwind CSS v4 runs through `@tailwindcss/postcss`; `src/app/globals.css` starts with `@import 'tailwindcss'`.
+- Colors, fonts, easings, and responsive breakpoints live in the `@theme` block and are used as utilities (`bg-paper`, `font-scene`, `ease-panel`, `max-xs:`).
+- Page and component layout, typography, spacing, and visual state are utility classes in the TSX. Semantic hooks such as `home-deck`, `writing-*`, `prose`, and `post-article` stay in the markup because scripts and generated Markdown select them.
+- `globals.css` keeps only the base defaults, generated Markdown/syntax styles, and selectors that cannot be attached to markup: pseudo-elements, view-transition pseudos, scroll-driven keyframes, `:has`/attribute choreography, and reduced-motion or forced-colors fallbacks.
+
 ## Publishing articles
 
 1. Add a UTF-8 `.md` file directly under `src/content/blog/`.

@@ -36,22 +36,33 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={syne.variable}>
-      <body>
+    <html lang="en" className={`${syne.variable} scroll-pt-6 bg-paper text-ink`}>
+      <body className="font-body text-base leading-[1.55] selection:bg-violet selection:text-paper">
         <NavigationProvider>
-          <a className="skip-link" href="#main-content">
+          <a
+            className="fixed -top-[100px] left-6 z-[10001] bg-ink px-5 py-3 text-paper focus:top-4"
+            href="#main-content"
+          >
             Skip to content
           </a>
-          <div className="route-surface">
+          <div className="min-h-[calc(100svh-178px)]">
             <SiteHeader />
             {children}
           </div>
-          <footer className="site-footer">
-            <RouteLink href="/">BFladderbean</RouteLink>
+          <footer className="site-footer mx-(--gutter) flex items-center justify-between gap-6 border-t border-line py-8 text-xs text-muted max-md:[&>span:nth-child(2)]:hidden max-xs:flex-wrap max-xs:text-[11px]">
+            <RouteLink href="/" className="font-scene font-bold text-ink hover:text-violet">
+              BFladderbean
+            </RouteLink>
             <span>A personal archive. Always in progress.</span>
-            <div>
+            <div className="flex gap-6">
               {socials.map((link) => (
-                <a href={link.href} key={link.name} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="hover:text-violet"
+                  href={link.href}
+                  key={link.name}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   {link.name}
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
