@@ -1,56 +1,56 @@
 ---
-title: "前苏格拉底哲学"
-description: "对米利都学派，赫拉克利特，巴门尼德，毕达哥拉斯和德谟克里特的简要总结"
+title: "Pre-Socratic Philosophy"
+description: "A brief summary of the Milesian school, Heraclitus, Parmenides, Pythagoras and Democritus"
 pubDate: "2026-02-08"
 heroImage: "PIA04217~orig.jpg"
 tags: ["Philosophy"]
 category: "Study"
 ---
 
-## 哲学的诞生
+## The Birth of Philosophy
 
-当人类第一次用逻辑而非神话来解释自然现象，哲学便诞生了。(Mythos -> Logos)
+Philosophy was born when humans first explained natural phenomena through logic instead of myth. (Mythos -> Logos)
 
-## 米利都学派：还原论的萌芽
+## The Milesian School: The Seeds of Reductionism
 
-讨论的问题：是否存在永恒不变的“一”？
+The question: is there an eternal, unchanging "One"?
 
-### 泰勒斯：世界的本质是水
+### Thales: The Essence of the World Is Water
 
-核心论点：如果世界是可理解的，它必须被还原为一种单一的质料（还原论的核心思想，这里泰勒斯说这种质料是水）
+Core claim: if the world is intelligible, it must be reducible to a single substance (the central idea of reductionism; for Thales, that substance is water).
 
-### 阿那克西美尼：世界的本质是火
+### Anaximenes: The Essence of the World Is Fire
 
-对泰勒斯的反驳：如何产生“水”的对立面“火”？
+The objection to Thales: how could water give rise to its opposite, fire?
 
-### 阿那克西曼德：无限定者
+### Anaximander: The Boundless
 
-结论：本原必须是无限定的，即无特定形状/边界
+Conclusion: the first principle must be unbounded, with no particular shape or limit.
 
-## 赫拉克利特 vs 巴门尼德
+## Heraclitus vs Parmenides
 
-### 赫拉克利特：流变哲学与逻各斯
+### Heraclitus: The Philosophy of Flux and the Logos
 
-- 万物皆流：宇宙是“过程”，没有永恒存在，只有永恒生成
-- 对立统一：斗争是万物之父。上升的路是下降的路，没有体会过痛苦就不知道何为快乐。
-- 逻各斯：变化遵循的内在秩序或比例
+- Everything flows: the cosmos is a process. Nothing exists eternally; there is only eternal becoming.
+- Unity of opposites: strife is the father of all things. The way up is the way down; without knowing pain, you cannot know what joy is.
+- Logos: the inner order or proportion that change follows.
 
-### 巴门尼德：存在的绝对静止
+### Parmenides: The Absolute Stillness of Being
 
-变是感官幻觉。存在永恒，单一。唯理性通真理。如何证明？
+Change is an illusion of the senses. Being is eternal and one. Only reason leads to truth. How can this be proven?
 
-因为存在者存在，不存在者不存在，又因为变是存在到不存在，所以变在逻辑上是不可能的。
+What is, is; what is not, is not. Change means passing from being into non-being, so change is logically impossible.
 
-## 毕达哥拉斯：形式本原
+## Pythagoras: Form as the First Principle
 
-宇宙的本质是比例与和谐
+The essence of the cosmos is proportion and harmony.
 
-对立表：二元对立的雏形
+The table of opposites: an early form of binary opposition.
 
-厌恶身体，崇尚纯粹理性
+Contempt for the body; reverence for pure reason.
 
-## 德谟克里特：原子论与唯物主义
+## Democritus: Atomism and Materialism
 
-原子与虚空：不可分割的微粒在虚空中碰撞，结合成世界
+Atoms and the void: indivisible particles collide in the void and combine to form the world.
 
-唯物主义：灵魂也是原子构成的。上帝不存在，也没有所谓“目的论”。
+Materialism: the soul is also made of atoms. God does not exist, and there is no such thing as teleology.

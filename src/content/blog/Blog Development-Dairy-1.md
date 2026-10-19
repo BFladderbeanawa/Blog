@@ -1,22 +1,22 @@
 ---
-title: "Blog开发日记 1"
-description: "这是这个Blog的第一篇开发日记"
+title: "Blog Dev Diary 1"
+description: "The first development diary entry for this blog"
 pubDate: "2026-02-08"
 heroImage: "KSC-20261013-PH-SPX01_0007~orig.jpg"
 tags: ["blogging", "coding"]
 category: "Tech"
 ---
 
-欢迎来到我的博客！这个文章用于简单介绍一下开发的心路历程。
+Welcome to my blog! This post is a quick look at how building it went.
 
-其实本blog的技术栈并不复杂，无非astro的堆砌而已，可以去仓库自己看。而且众所周知Gemini3 Pro的前端已经很强了，所以真正的问题其实只有怎么做得足够好看且和别人不一样。（我真的看够了扁平化了）
+Honestly, the tech stack behind this blog isn't complicated. It's just a pile of Astro; you can check the repo yourself. And as everyone knows, Gemini 3 Pro is already really good at frontend work, so the only real problem was how to make it look good enough and different from everyone else's. (I'm truly sick of flat design.)
 
-我解决这个问题的办法其实很简单，无非就是让Gemini生成多几个设计风格。最终我还是决定顺从自己的审美，选择了Modernist的风格。（黑夜模式其实用的是Nord Forest）
+My solution was pretty simple: have Gemini generate a few more design styles. In the end I went with my own taste and picked a Modernist style. (Dark mode actually uses Nord Forest.)
 
-不过实际上标准的modernist会很单调而且很像国内的一些党政机关的网站风格，很呆板也不算特别好看。所以在此基础上我做了非常多的动效+极淡化处理了边框。然后往背景塞了这个比较标准的彩蛋，就显得没这么单调了。
+That said, standard Modernism gets monotonous and looks a lot like some Chinese government agency websites: stiff and not especially pretty. So on top of it I added a lot of motion and faded the borders way down. Then I tucked a fairly standard easter egg into the background, and it doesn't feel so monotonous anymore.
 
-到我写这个blog为止我也没想好怎么塞一个友链墙进去，希望我后续能有什么好点子。
+As of writing this, I still haven't figured out how to fit a friend-links wall in. Hopefully I'll come up with a good idea later.
 
-比较有意思的是左下角的BF's status其实真的是我的个人状态，原理是苹果的Shortcuts+Automation，然后用cf的kv dataset实现的（假装自己是无后端），安卓想操作的话可以去看可莉姆船长的视频。神秘视奸小方框来了，大家快跑口牙！
+The fun part is that the "BF's status" box in the bottom-left corner really is my personal status. It runs on Apple Shortcuts + Automation and is stored in Cloudflare KV (pretending to be backend-free). If you want to do the same on Android, check out Captain Kelimu's video. The mysterious stalker box has arrived, everybody run!
 
-一开始选定astro是因为看了灯火橘的视频，觉得astro写的好帅啊。~~然后发现是因为人家技术力高写得很帅~~
+I originally picked Astro after watching Denghuoju's videos and thinking Astro sites looked so cool. ~~Then I realized they looked cool because the author is just really skilled.~~

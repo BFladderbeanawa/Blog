@@ -454,6 +454,9 @@ body:has(.home-deck) .site-footer {
   font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.025em;
+  transition:
+    background-color 520ms var(--ease),
+    color 520ms var(--ease);
 }
 .writing-id p {
   margin: 0;
@@ -472,6 +475,7 @@ body:has(.home-deck) .site-footer {
   color: var(--ink);
   font-family: var(--font-syne), sans-serif;
   overflow: clip;
+  transition: opacity 520ms var(--ease);
 }
 .writing-index strong {
   font-size: clamp(56px, min(32cqw, 42cqh), 160px);
@@ -483,34 +487,76 @@ body:has(.home-deck) .site-footer {
   font-size: clamp(20px, min(8cqw, 12cqh), 32px);
   white-space: nowrap;
 }
+/* Hover wipes a solid violet plate across the acid title cell. The title and
+   arrow use the same sweep value in slab coordinates, so their paper/ink swap
+   happens exactly under the wipe edge instead of splitting a word ahead of it.
+   No intermediate hue is painted: both sides stay on the two palette colors. */
+@property --sweep {
+  syntax: '<percentage>';
+  inherits: true;
+  initial-value: 0%;
+}
 .writing-slab {
+  --slab-pad-x: clamp(22px, 2.4vw, 56px);
+  /* Resolved by descendants against this container: the plate's border-box width. */
+  --slab-w: calc(100cqw + 2 * var(--slab-pad-x));
+  --arrow-w: clamp(40px, 3.4vw, 64px);
+  --sweep: 0%;
   grid-area: 1 / 2 / 3 / 3;
+  position: relative;
+  z-index: 4;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: clamp(16px, 2vw, 40px);
-  padding: clamp(20px, 3vh, 44px) clamp(22px, 2.4vw, 56px);
+  padding: clamp(20px, 3vh, 44px) var(--slab-pad-x);
   background: var(--acid);
   color: var(--ink);
+  text-decoration: none;
+  transition: --sweep 520ms var(--ease);
+}
+/* The solid overlay grows from the left edge; clipping the overlay instead of
+   blending a gradient keeps every intermediate frame on palette colors. */
+.writing-slab::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--violet);
+  clip-path: inset(0 calc(100% - var(--sweep)) 0 0);
+  pointer-events: none;
+}
+.writing-title,
+.writing-arrow {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(90deg, var(--paper) 0 var(--sweep), var(--ink) var(--sweep) 100%)
+    calc(-1 * var(--ox)) 0 / var(--slab-w) 100% no-repeat;
+  transition:
+    background-position 520ms var(--ease),
+    translate 520ms var(--ease);
 }
 .writing-title {
+  --ox: var(--slab-pad-x);
+  display: block;
   margin: 0;
   min-width: 0;
   font: 700 clamp(40px, min(15cqw, 25cqh), 144px) / 1.06 var(--font-scene);
   letter-spacing: -0.035em;
   text-wrap: balance;
   overflow-wrap: anywhere;
-  transition: color 220ms var(--ease);
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
 }
 .writing-arrow {
+  --ox: calc(var(--slab-pad-x) + 100cqw - var(--arrow-w));
   flex: 0 0 auto;
-  padding-bottom: 6px;
-}
-.writing-arrow svg {
-  width: clamp(40px, 3.4vw, 64px);
-  stroke: currentColor;
-  stroke-width: 2.5;
-  transition: transform 260ms var(--ease);
+  width: var(--arrow-w);
+  aspect-ratio: 1;
+  margin-bottom: 6px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48' fill='none' stroke='%23000' stroke-width='2.5'%3E%3Cpath d='M4 24h40M28 8l16 16-16 16'/%3E%3C/svg%3E")
+    center / contain no-repeat;
 }
 .writing-note {
   grid-area: 3 / 2;
@@ -519,6 +565,7 @@ body:has(.home-deck) .site-footer {
   padding: clamp(18px, 2.4vh, 34px) clamp(22px, 2.4vw, 56px);
   background: var(--paper);
   color: var(--ink);
+  transition: opacity 520ms var(--ease);
 }
 .writing-lede {
   max-width: 44ch;
@@ -536,6 +583,7 @@ body:has(.home-deck) .site-footer {
   background: var(--ink);
   color: var(--paper);
   line-height: 1.4;
+  transition: opacity 520ms var(--ease);
 }
 .writing-meta p {
   margin: 0;
@@ -556,10 +604,13 @@ body:has(.home-deck) .site-footer {
   position: relative;
   overflow: hidden;
   background: var(--violet-dark);
+  transition: opacity 520ms var(--ease);
 }
 .writing-visual img {
   object-fit: cover;
-  transition: transform 720ms var(--ease);
+  transition:
+    translate 180ms var(--ease),
+    transform 520ms var(--ease);
 }
 /* The three writing scenes share one palette and one rule weight, not one
    arrangement: each variant re-cuts the Mondrian field so consecutive articles
@@ -623,20 +674,26 @@ body:has(.home-deck) .site-footer {
   inset: 0;
   z-index: 3;
 }
-.writing-feature:focus-visible {
-  outline: 3px solid var(--violet);
-  outline-offset: -3px;
+.writing-slab:focus-visible {
+  outline: 3px solid var(--paper);
+  outline-offset: -6px;
 }
-.writing:hover .writing-title,
-.writing:focus-within .writing-title {
-  color: var(--violet);
+.writing-slab:is(:hover, :focus-visible) {
+  --sweep: 100%;
 }
-.writing:hover .writing-arrow svg,
-.writing:focus-within .writing-arrow svg {
-  transform: translateX(14px);
+.writing-composition:has(> .writing-slab:is(:hover, :focus-visible)) .writing-id {
+  background-color: color-mix(in oklab, var(--violet) 40%, var(--violet-dark));
 }
-.writing:hover .writing-visual img {
-  transform: scale(1.02);
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .writing-slab:is(:hover, :focus-visible) .writing-arrow {
+    translate: 14px 0;
+    background-position: calc(-1 * var(--ox) - 14px) 0;
+  }
+  .writing-visual[data-cover-hover] img {
+    translate: clamp(-14px, calc(var(--cover-x, 0) * 3%), 14px)
+      clamp(-14px, calc(var(--cover-y, 0) * 3%), 14px);
+    transform: scale(1.08);
+  }
 }
 .closing {
   isolation: isolate;
@@ -689,6 +746,20 @@ body:has(.home-deck) .site-footer {
 @media (forced-colors: active) {
   .closing-landscape {
     display: none;
+  }
+  .writing-slab {
+    background-image: none;
+  }
+  .writing-slab::before {
+    display: none;
+  }
+  .writing-title {
+    background: none;
+    color: inherit;
+  }
+  .writing-arrow {
+    forced-color-adjust: none;
+    background: LinkText;
   }
 }
 .scene-picker {
@@ -1307,6 +1378,79 @@ body:has(.home-deck) .site-footer {
 ::view-transition-group(root) {
   animation-duration: 480ms;
 }
+/* Opening a lead article is a two-beat handoff, not a root cross-fade. The
+   violet title slab grows from its own rectangle to full bleed while the title
+   it carries travels to the center; once the article route has committed, the
+   whole violet field slides left and uncovers the page. The plate and title are
+   measured before navigation; a flat plate is scaled rather than resized, so
+   the expansion stays on the compositor. The overlay owns its own clock and
+   skips the root snapshot, so the route never waits on a visual layer. The
+   exit carries velocity: a fast-out curve over 520ms, with a short blur pulse
+   proportional to that speed so the plate smears as it leaves the canvas. */
+.article-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  overflow: hidden;
+  pointer-events: auto;
+  transform: translateX(0);
+  transition: transform 520ms cubic-bezier(0.3, 0.7, 0.2, 1);
+  will-change: transform, filter;
+}
+.article-curtain[data-stage='leave'] {
+  transform: translateX(-100%);
+  animation: article-curtain-whoosh 520ms linear both;
+}
+@keyframes article-curtain-whoosh {
+  0% {
+    filter: blur(0);
+  }
+  30% {
+    filter: blur(11px);
+  }
+  72% {
+    filter: blur(3px);
+  }
+  100% {
+    filter: blur(0);
+  }
+}
+.article-curtain-plate {
+  position: absolute;
+  display: block;
+  background: var(--violet);
+  transform-origin: 0 0;
+  transform: translate(0, 0) scale(1);
+  transition: transform 620ms var(--ease-panel);
+  will-change: transform;
+}
+.article-curtain[data-stage='cover'] .article-curtain-plate,
+.article-curtain[data-stage='leave'] .article-curtain-plate {
+  transform: translate(var(--curtain-shift-x), var(--curtain-shift-y))
+    scale(var(--curtain-scale-x), var(--curtain-scale-y));
+}
+.article-curtain-title {
+  position: absolute;
+  display: block;
+  margin: 0;
+  color: var(--paper);
+  font-family: var(--font-scene);
+  text-align: center;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+  transform: translate(0, 0);
+  transition: transform 620ms var(--ease-panel);
+  will-change: transform;
+}
+.article-curtain[data-stage='cover'] .article-curtain-title,
+.article-curtain[data-stage='leave'] .article-curtain-title {
+  transform: translate(var(--title-shift-x), var(--title-shift-y));
+}
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .article-curtain {
+    display: none;
+  }
+}
 @media (min-width: 1700px) {
   .scene-content {
     padding-right: calc(var(--gutter) + 80px);
@@ -1425,6 +1569,7 @@ body:has(.home-deck) .site-footer {
     font-size: clamp(84px, 14vw, 150px);
   }
   .writing-slab {
+    --slab-pad-x: 24px;
     padding: 24px;
     order: 2;
   }
@@ -1515,6 +1660,16 @@ body:has(.home-deck) .site-footer {
   .home-deck[data-enhanced] .writing-composition {
     transform: none !important;
     opacity: 1 !important;
+    transition: none;
+  }
+  .writing-slab,
+  .writing-title,
+  .writing-arrow,
+  .writing-id,
+  .writing-index,
+  .writing-note,
+  .writing-meta,
+  .writing-visual {
     transition: none;
   }
   .custom-cursor > span {

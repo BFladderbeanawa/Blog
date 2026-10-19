@@ -6,6 +6,7 @@
 // driven by scene state in CSS rather than by scroll offset.
 import { Children, useEffect, useRef, useState, type ReactNode } from 'react';
 import { useClosingCut, useWritingMorph, writingHeld } from './useWritingMorph';
+import { useWritingCover } from './useWritingCover';
 
 // The two intro scenes come first, then `articleCount` writing scenes.
 const FIRST_ARTICLE = 2;
@@ -29,6 +30,7 @@ export function HomeDeck({
   const currentArticle = Math.min(Math.max(active - FIRST_ARTICLE, 0), articleCount - 1);
   useWritingMorph(sequenceRef, currentArticle);
   useClosingCut(sequenceRef);
+  useWritingCover(sequenceRef, active);
   const selectRef = useRef<(index: number) => void>(() => {});
 
   useEffect(() => {

@@ -81,20 +81,17 @@ export default async function Home() {
               <strong>{String(index + 1).padStart(2, '0')}</strong>
               <span>/ {String(recentPosts.length).padStart(2, '0')}</span>
             </div>
-            <div className="writing-slab">
-              <h2 className="writing-title" lang="zh-CN">
-                {post.title}
-              </h2>
-              <span className="writing-arrow" aria-hidden="true">
-                <svg viewBox="0 0 48 48" fill="none">
-                  <path d="M4 24h40M28 8l16 16-16 16" />
-                </svg>
-              </span>
-            </div>
+            <RouteLink
+              className="writing-slab"
+              href={`/posts/${post.slug}`}
+              aria-label={`Read ${post.title}`}
+            >
+              <h2 className="writing-title">{post.title}</h2>
+              {/* Drawn by a CSS mask so it shares the title's sweep paint. */}
+              <span className="writing-arrow" aria-hidden="true" />
+            </RouteLink>
             <div className="writing-note">
-              <p className="writing-lede" lang="zh-CN">
-                {post.description}
-              </p>
+              <p className="writing-lede">{post.description}</p>
             </div>
             <div className="writing-meta">
               <p>
@@ -123,7 +120,8 @@ export default async function Home() {
             <RouteLink
               href={`/posts/${post.slug}`}
               className="writing-feature"
-              aria-label={`Read ${post.title}`}
+              tabIndex={-1}
+              aria-hidden="true"
             />
           </div>
         </article>
