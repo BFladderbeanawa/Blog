@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import { contactEmail, kaggleUrl, socials } from '@/data/site';
 import { AnatomyStudy } from './AnatomyStudy';
+import { CompassRoutes } from './CompassRoutes';
 
 export const metadata: Metadata = {
   title: 'Contact',
@@ -82,7 +83,7 @@ export default function Contact() {
         <AnatomyStudy />
       </div>
 
-      <ul className="contact-routes" aria-label="Find me elsewhere">
+      <CompassRoutes>
         {routes.map((route, index) => (
           <li
             className="contact-route"
@@ -107,7 +108,7 @@ export default function Contact() {
             )}
           </li>
         ))}
-      </ul>
+      </CompassRoutes>
     </main>
   );
 }

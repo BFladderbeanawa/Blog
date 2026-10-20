@@ -220,6 +220,22 @@ body:has(.home-deck) .site-footer {
   stroke-dasharray: 3 12;
 }
 
+/* The construction circle turns about its own centre (viewBox 972,720) toward the
+   engaged link. Attraction overshoots slightly and settles like a pulled needle;
+   release drifts back on a longer, plain ease-out. */
+@media (prefers-reduced-motion: no-preference) {
+  .contact-compass {
+    transform-box: view-box;
+    transform-origin: 972px 720px;
+    transform: rotate(var(--compass-turn, 0deg));
+    transition: transform 1100ms var(--ease);
+  }
+
+  .contact-stage[data-compass] .contact-compass {
+    transition: transform 720ms cubic-bezier(0.34, 1.45, 0.5, 1);
+  }
+}
+
 .contact-type-stack {
   position: absolute;
   z-index: 1;

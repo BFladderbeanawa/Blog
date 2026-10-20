@@ -1,15 +1,18 @@
 export function AnatomyStudy() {
   return (
     <svg className="contact-study" viewBox="0 0 1920 1280" aria-hidden="true">
-      <g className="contact-construction">
-        <circle cx="972" cy="720" r="382" />
-      </g>
-      <g className="contact-measurements">
-        <path d="M 702 426 L 688 412 M 1242 426 L 1256 412 M 702 1014 L 688 1028 M 1242 1014 L 1256 1028" />
-        <circle cx="972" cy="338" r="5" />
-        <circle cx="1354" cy="720" r="5" />
-        <circle cx="972" cy="1102" r="5" />
-        <circle cx="590" cy="720" r="5" />
+      {/* Circle and its four poles turn together; the top pole is the needle. */}
+      <g className="contact-compass">
+        <g className="contact-construction">
+          <circle cx="972" cy="720" r="382" />
+        </g>
+        <g className="contact-measurements">
+          <path d="M 702 426 L 688 412 M 1242 426 L 1256 412 M 702 1014 L 688 1028 M 1242 1014 L 1256 1028" />
+          <circle cx="972" cy="338" r="5" />
+          <circle cx="1354" cy="720" r="5" />
+          <circle cx="972" cy="1102" r="5" />
+          <circle cx="590" cy="720" r="5" />
+        </g>
       </g>
       <g className="contact-skeleton">
         <path className="contact-bone-axis" d="M 70 968 L 539 886 M 1860 210 L 1331 452" />
