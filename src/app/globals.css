@@ -303,11 +303,32 @@ body:has(.home-deck) .site-footer {
   line-height: 1.1;
   letter-spacing: -0.055em;
   pointer-events: auto;
+  /* The acid plate wipes in from the side where the rule meets the label. */
+  background: linear-gradient(var(--acid), var(--acid)) no-repeat;
+  background-position: right center;
+  background-size: 0% 100%;
+}
+
+.contact-route[data-side='right'] .contact-link {
+  background-position: left center;
 }
 
 .contact-link:hover,
 .contact-link:focus-visible {
-  background: var(--acid);
+  background-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .contact-link {
+    transition: background-size 320ms var(--ease);
+  }
+}
+
+@media (forced-colors: active) {
+  .contact-link:hover,
+  .contact-link:focus-visible {
+    text-decoration: underline;
+  }
 }
 
 .contact-link-unavailable {
