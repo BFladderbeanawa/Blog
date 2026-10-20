@@ -1,70 +1,113 @@
+import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { contactEmail, kaggleUrl, socials } from '@/data/site';
-import { pageEyebrow, pageIntro, pageShell, pageTitle } from '@/lib/ui';
+import { AnatomyStudy } from './AnatomyStudy';
 
 export const metadata: Metadata = {
   title: 'Contact',
   description: 'Find BFladderbean on GitHub, Bilibili, and Kaggle, or get in touch by email.',
   alternates: { canonical: '/contact' },
 };
+
+// Echo depth from the central heading; depth sets only color, never size.
+const echoDepths = [4, 3, 2, 1];
+// Links share the Contact row grid: left rows sit above the low left arm, right rows below the high right arm.
+const routeSlots = [
+  { side: 'left', row: -1 },
+  { side: 'left', row: 0 },
+  { side: 'right', row: 0 },
+  { side: 'right', row: 1 },
+] as const;
+
 export default function Contact() {
+  const routes = [
+    ...socials.map((link) => ({ name: link.name, href: link.href, external: true, note: null })),
+    {
+      name: 'Kaggle',
+      href: kaggleUrl,
+      external: true,
+      note: kaggleUrl ? null : 'Account not published',
+    },
+    {
+      name: 'Email',
+      href: contactEmail ? `mailto:${contactEmail}` : null,
+      external: false,
+      note: contactEmail ? null : 'No public email address',
+    },
+  ];
+
   return (
-    <main id="main-content" className={pageShell}>
-      <div className="page-heading mb-12">
-        <p className={pageEyebrow}>Contact</p>
-        <h1 className={pageTitle}>
-          Find me
-          <br />
-          elsewhere.
-        </h1>
-      </div>
-      <p className={`${pageIntro} mb-16`}>The places where I share code and spend time.</p>
-      <div className="contact-links ml-auto max-w-[900px]">
-        {socials.map((link) => (
-          <a
-            className="flex items-center justify-between gap-8 border-t border-line py-6 font-scene text-[clamp(32px,4vw,56px)] font-bold hover:text-violet"
-            key={link.name}
-            href={link.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>{link.name}</span>
-            <span aria-hidden="true">↗</span>
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
+    <main id="main-content" className="contact-stage" aria-labelledby="contact-heading">
+      <div className="contact-canvas">
+        <div className="contact-field" aria-hidden="true" />
+        <div className="contact-type-stack">
+          {echoDepths.map((depth) => (
+            <span
+              className="contact-echo"
+              data-depth={depth}
+              style={{ '--from': depth } as CSSProperties}
+              key={`above-${depth}`}
+              aria-hidden="true"
+            >
+              Contact
+            </span>
+          ))}
+          <h1 id="contact-heading">Contact</h1>
+          {echoDepths.toReversed().map((depth) => (
+            <span
+              className="contact-echo"
+              data-depth={depth}
+              style={{ '--from': -depth } as CSSProperties}
+              key={`below-${depth}`}
+              aria-hidden="true"
+            >
+              Contact
+            </span>
+          ))}
+        </div>
+        {/* One cutout, two clipped layers so each arm can enter on its own path. */}
+        {(['left', 'right'] as const).map((hand) => (
+          <Image
+            className="contact-hands"
+            data-hand={hand}
+            src="/contact-hands-violet-cutout.webp"
+            alt=""
+            fill
+            sizes="100vw"
+            preload
+            key={hand}
+          />
         ))}
-        {kaggleUrl ? (
-          <a
-            className="flex items-center justify-between gap-8 border-t border-line py-6 font-scene text-[clamp(32px,4vw,56px)] font-bold hover:text-violet"
-            href={kaggleUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span>Kaggle</span>
-            <span aria-hidden="true">↗</span>
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        ) : (
-          <div className="flex items-center justify-between gap-8 border-t border-line py-6 text-sm text-muted max-xs:items-baseline max-xs:gap-4 [&>span:first-child]:text-[22px] [&>span:first-child]:text-ink max-xs:[&>span:last-child]:text-right">
-            <span>Kaggle</span>
-            <span>Account not published</span>
-          </div>
-        )}
-        {contactEmail ? (
-          <a
-            className="flex items-center justify-between gap-8 border-t border-line py-6 font-scene text-[clamp(32px,4vw,56px)] font-bold hover:text-violet"
-            href={`mailto:${contactEmail}`}
-          >
-            <span>Email</span>
-            <span aria-hidden="true">↗</span>
-          </a>
-        ) : (
-          <div className="flex items-center justify-between gap-8 border-t border-line py-6 text-sm text-muted max-xs:items-baseline max-xs:gap-4 [&>span:first-child]:text-[22px] [&>span:first-child]:text-ink max-xs:[&>span:last-child]:text-right">
-            <span>Email</span>
-            <span>No public email address</span>
-          </div>
-        )}
+        <AnatomyStudy />
       </div>
+
+      <ul className="contact-routes" aria-label="Find me elsewhere">
+        {routes.map((route, index) => (
+          <li
+            className="contact-route"
+            data-side={routeSlots[index].side}
+            style={{ '--row': routeSlots[index].row } as CSSProperties}
+            key={route.name}
+          >
+            {route.href ? (
+              <a
+                className="contact-link"
+                href={route.href}
+                {...(route.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              >
+                {route.name}
+                {route.external ? <span className="sr-only"> (opens in a new tab)</span> : null}
+              </a>
+            ) : (
+              <span className="contact-link contact-link-unavailable">
+                {route.name}
+                <span className="contact-link-note">{route.note}</span>
+              </span>
+            )}
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

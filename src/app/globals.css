@@ -127,6 +127,423 @@ body:has(.home-deck) .site-footer {
   display: none;
 }
 
+/* Contact: a violet anatomical plate, with one proportional coordinate system.
+   The stage spans header to footer; the 3:2 canvas is zoomed around the fingertip
+   point so its nine visible rows fill that band on tall viewports and crop the sides. */
+.contact-stage {
+  /* Natural nine-row height is 54.81% of the canvas width; above that, fill the
+     viewport between header and footer. The canvas width then becomes
+     100cqh / 0.5481 = 182.449cqh. */
+  --contact-frame: max(calc(100svh - 180px), min(54.81vw, 986.58px));
+  position: relative;
+  height: var(--contact-frame);
+  max-width: 1800px;
+  margin-inline: auto;
+  container-type: size;
+  overflow: clip;
+}
+
+.contact-canvas {
+  --contact-forest: var(--violet-dark);
+  --contact-acid: #ded5f2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  /* Nine rows are 82.215% of the 3:2 canvas height: 100cqh / 0.82215. */
+  height: 121.633cqh;
+  aspect-ratio: 3 / 2;
+  container-type: inline-size;
+  /* The fingertip point (56.25%) sits at the centre of the visible nine-row band. */
+  translate: -50% -56.25%;
+  isolation: isolate;
+  background: var(--paper);
+  color: var(--contact-forest);
+  overflow: clip;
+}
+
+.contact-field {
+  position: absolute;
+  top: 56.25%;
+  left: 50.625%;
+  width: 48%;
+  height: 54.6875%;
+  transform: translate(-50%, -50%);
+  background: var(--contact-acid);
+}
+
+.contact-hands {
+  z-index: 2;
+  pointer-events: none;
+  user-select: none;
+}
+
+.contact-study {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: var(--contact-forest);
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.contact-construction {
+  stroke: #537444;
+  stroke-width: 2;
+  stroke-dasharray: 8 14;
+  opacity: 0.6;
+}
+
+.contact-skeleton {
+  stroke: var(--acid);
+  stroke-width: 3.2;
+}
+
+.contact-bone-axis {
+  stroke-dasharray: 18 12;
+}
+
+.contact-measurements {
+  stroke: #537444;
+  stroke-width: 2;
+  opacity: 0.7;
+}
+
+.contact-measurements circle {
+  fill: #537444;
+  stroke: none;
+}
+
+.contact-reach-gap {
+  stroke-dasharray: 3 12;
+}
+
+.contact-type-stack {
+  position: absolute;
+  z-index: 1;
+  top: 56.25%;
+  left: 50.625%;
+  display: grid;
+  transform: translate(-50%, -50%);
+  color: var(--contact-forest);
+  font-size: 5.8cqw;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.065em;
+  text-align: center;
+  pointer-events: none;
+}
+
+.contact-type-stack > * {
+  font: inherit;
+}
+
+.contact-echo[data-depth='1'] {
+  color: color-mix(in srgb, var(--contact-forest) 38%, var(--contact-acid));
+}
+
+.contact-echo[data-depth='2'] {
+  color: color-mix(in srgb, var(--contact-forest) 22%, var(--contact-acid));
+}
+
+.contact-echo[data-depth='3'] {
+  color: color-mix(in srgb, var(--contact-forest) 13%, var(--contact-acid));
+}
+
+.contact-echo[data-depth='4'] {
+  color: color-mix(in srgb, var(--contact-forest) 8%, var(--contact-acid));
+}
+
+/* Links live on the stage, not the cropped canvas, so their text never leaves
+   the viewport. Each sits on a Contact row and reaches the plate edge with one rule. */
+.contact-routes {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  pointer-events: none;
+}
+
+.contact-route {
+  --contact-row: 11.111cqh;
+  position: absolute;
+  top: calc(50% + var(--row) * var(--contact-row));
+  display: flex;
+  align-items: center;
+  gap: 2.189cqh;
+  transform: translateY(-50%);
+}
+
+/* Plate edges in stage coordinates: 48% of the 182.449cqh canvas, offset by its
+   50.625% centre. Constants below are half the plate width and the centre shift. */
+.contact-route[data-side='left'] {
+  right: calc(50% + 42.647cqh);
+  left: 5cqw;
+}
+
+.contact-route[data-side='right'] {
+  right: 5cqw;
+  left: calc(50% + 44.928cqh);
+  flex-direction: row-reverse;
+}
+
+.contact-route::after {
+  flex: 1;
+  height: max(2px, 0.292cqh);
+  background: var(--acid);
+  content: '';
+}
+
+.contact-link {
+  flex: none;
+  padding: 0.547cqh 0.73cqh;
+  font-size: 5.838cqh;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  pointer-events: auto;
+}
+
+.contact-link:hover,
+.contact-link:focus-visible {
+  background: var(--acid);
+}
+
+.contact-link-unavailable {
+  color: var(--muted);
+}
+
+.contact-link-note {
+  display: block;
+  font-size: 2.007cqh;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* The two arm layers share one cutout; the split runs through the empty gap
+   between the fingertips (47.1% and 53.9% of the canvas width). */
+.contact-hands[data-hand='left'] {
+  clip-path: inset(0 49.5% 0 0);
+}
+
+.contact-hands[data-hand='right'] {
+  clip-path: inset(0 0 0 50.5%);
+}
+
+/* Entry: Contact unfolds from its centre row, the arms reach in along their
+   diagonals, links slide in from opposite edges, then the anatomy glitches on.
+   The violet plate is never animated. */
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .contact-type-stack h1 {
+    animation: contact-row-open 360ms var(--ease-panel) both;
+  }
+
+  .contact-echo {
+    animation: contact-echo-unfold 900ms var(--ease-panel) 180ms both;
+  }
+
+  .contact-hands {
+    animation: contact-hand-in 1200ms var(--ease) 280ms both;
+  }
+
+  .contact-hands[data-hand='left'] {
+    --hand-from: -42% 22%;
+  }
+
+  .contact-hands[data-hand='right'] {
+    --hand-from: 42% -22%;
+  }
+
+  .contact-route {
+    animation: contact-route-in 720ms var(--ease) both;
+  }
+
+  .contact-route[data-side='left'] {
+    --route-from: -60cqh;
+  }
+
+  .contact-route[data-side='right'] {
+    --route-from: 60cqh;
+  }
+
+  /* Rows nearest their entry edge arrive first. */
+  .contact-route:nth-child(1),
+  .contact-route:nth-child(4) {
+    animation-delay: 640ms;
+  }
+
+  .contact-route:nth-child(2),
+  .contact-route:nth-child(3) {
+    animation-delay: 760ms;
+  }
+
+  /* Starts once both arms have settled (280ms + 1200ms). */
+  .contact-study {
+    animation: contact-study-glitch 620ms steps(1, end) 1480ms both;
+  }
+}
+
+@keyframes contact-row-open {
+  from {
+    clip-path: inset(50% 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+/* --from is the echo's signed row distance from the heading. */
+@keyframes contact-echo-unfold {
+  from {
+    opacity: 0;
+    translate: 0 calc(var(--from) * 1.05em);
+  }
+
+  40% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes contact-hand-in {
+  from {
+    translate: var(--hand-from);
+  }
+
+  to {
+    translate: 0 0;
+  }
+}
+
+@keyframes contact-route-in {
+  from {
+    opacity: 0;
+    translate: 0 var(--route-from);
+  }
+
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Hard cuts between keyframes: horizontal slices flash with a small offset and a
+   violet/green split, then the full study locks in place. */
+@keyframes contact-study-glitch {
+  0% {
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+    clip-path: inset(30% 0 54% 0);
+    translate: 0.8% 0;
+    filter: drop-shadow(-0.25cqw 0 0 var(--violet-dark)) drop-shadow(0.25cqw 0 0 #537444);
+  }
+
+  16% {
+    opacity: 0;
+  }
+
+  26% {
+    opacity: 1;
+    clip-path: inset(56% 0 20% 0);
+    translate: -0.6% 0;
+    filter: drop-shadow(0.25cqw 0 0 var(--violet-dark)) drop-shadow(-0.25cqw 0 0 #537444);
+  }
+
+  36% {
+    opacity: 1;
+    clip-path: inset(8% 0 66% 0);
+    translate: 0.4% 0;
+  }
+
+  46% {
+    opacity: 0.35;
+    clip-path: inset(0);
+    translate: 0 0;
+    filter: none;
+  }
+
+  58% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    translate: -0.25% 0;
+    filter: drop-shadow(-0.15cqw 0 0 var(--violet-dark)) drop-shadow(0.15cqw 0 0 #537444);
+  }
+
+  70% {
+    opacity: 0.7;
+    translate: 0 0;
+    filter: none;
+  }
+
+  100% {
+    opacity: 1;
+    clip-path: inset(0);
+    translate: 0 0;
+    filter: none;
+  }
+}
+
+/* Portrait: keep the width-driven plate centred rather than zooming into a crop;
+   the stage still fills the viewport, so the footer stays at the bottom. */
+@media (max-aspect-ratio: 1 / 1) {
+  .contact-canvas {
+    width: 100%;
+    height: auto;
+  }
+
+  .contact-route {
+    --contact-row: 6.09cqw;
+    gap: 1.2cqw;
+  }
+
+  .contact-route[data-side='left'] {
+    right: calc(50% + 23.375cqw);
+  }
+
+  .contact-route[data-side='right'] {
+    left: calc(50% + 24.625cqw);
+  }
+
+  .contact-route::after {
+    height: max(2px, 0.16cqw);
+  }
+
+  .contact-link {
+    padding: 0.3cqw 0.4cqw;
+    font-size: 3.2cqw;
+  }
+
+  .contact-link-note {
+    font-size: 1.1cqw;
+  }
+}
+
+@media (forced-colors: active) {
+  .contact-hands,
+  .contact-field,
+  .contact-study,
+  .contact-echo {
+    display: none;
+  }
+
+  .contact-type-stack {
+    color: CanvasText;
+  }
+
+  .contact-route::after {
+    background: CanvasText;
+  }
+}
+
 @layer components {
   /* Generated Markdown cannot carry utility classes, so the article body keeps
      a component layer whose declarations come from Tailwind utilities. */
@@ -530,30 +947,9 @@ body:has(.home-deck) .site-footer {
   }
 }
 
-/* Route entry states are applied to <html> by NavigationProvider. */
-html[data-route-curtain] main.page-shell {
-  opacity: 0;
-}
-
-html[data-route-entry] main.page-shell {
-  animation: page-entry 480ms var(--ease) both;
-}
-
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {
-  .route-roll {
-    display: none;
-  }
-
   .article-curtain {
     display: none;
-  }
-
-  html[data-route-curtain] main.page-shell {
-    opacity: 1;
-  }
-
-  html[data-route-entry] main.page-shell {
-    animation: none;
   }
 }
 
@@ -637,33 +1033,10 @@ html[data-route-entry] main.page-shell {
 
 @keyframes route-in {
   from {
-    transform: translateY(7vh);
-    clip-path: inset(7% 0 0);
+    clip-path: inset(0 0 0 100%);
   }
 
   to {
-    transform: translateY(0);
-    clip-path: inset(0);
-  }
-}
-
-@keyframes route-out {
-  to {
-    transform: translateY(-3vh);
-    opacity: 0.25;
-  }
-}
-
-@keyframes page-entry {
-  from {
-    opacity: 0;
-    transform: translateY(7vh);
-    clip-path: inset(7% 0 0);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
     clip-path: inset(0);
   }
 }
@@ -687,15 +1060,16 @@ html[data-route-entry] main.page-shell {
 }
 
 ::view-transition-old(root) {
-  animation: route-out 280ms var(--ease) both;
+  animation: none;
 }
 
 ::view-transition-new(root) {
-  animation: route-in 480ms var(--ease) both;
+  animation: route-in 480ms var(--ease-panel) both;
+  mix-blend-mode: normal;
 }
 
 ::view-transition-group(root) {
-  animation-duration: 480ms;
+  animation: none;
 }
 
 .custom-cursor {
@@ -712,13 +1086,6 @@ html[data-route-entry] main.page-shell {
 
 ::view-transition-new(site-cursor) {
   animation: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-  }
 }
 
 /* Registers the sweep so the title's plate can transition as a percentage. */

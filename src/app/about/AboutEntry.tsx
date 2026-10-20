@@ -1,18 +1,11 @@
 'use client';
 
 import { useEffect } from 'react';
-import { afterRouteCurtain } from '@/components/site/Navigation';
+import { afterRouteTransition } from '@/components/site/Navigation';
 
-// Only the opening part of the thread is on screen at entry; how much of it
-// depends on the viewport height. The draw covers that on-screen span in the
-// same time on every screen. Dash offset advances in SVG units, which the
-// unevenly stretched SVG (preserveAspectRatio="none") maps to uneven screen
-// distances, so the keyframes are spaced by on-screen arc length instead: the
-// pen eases in, then holds one speed until it leaves the viewport. Any
-// deceleration would park the tip on the edge; acceleration reads as a lurch.
-const DRAW_DURATION = 1400;
-// Share of the draw spent accelerating; the rest runs at constant speed.
-const DRAW_EASE_IN = 0.3;
+// Map normalized progress to on-screen arc length so the draw's easing stays
+// consistent across viewport sizes and the SVG's uneven scaling.
+const DRAW_DURATION = 850;
 const DRAW_KEYFRAMES = 48;
 // Run the tip a little past the bottom edge so it clears the viewport mid-stroke.
 const DRAW_OVERSHOOT = 0.06;
@@ -20,15 +13,9 @@ const DRAW_SAMPLES = 360;
 const REVEAL_STAGGER = 90;
 const MAX_REVEAL_DELAY = 360;
 
-/** Share of the distance covered at time `t` (0–1): ease-in, then constant speed. */
-function penProgress(t: number) {
-  const speed = 1 / (1 - DRAW_EASE_IN / 2);
-  return t < DRAW_EASE_IN ? (speed * t * t) / (2 * DRAW_EASE_IN) : speed * (t - DRAW_EASE_IN / 2);
-}
-
 /**
  * Dash-offset keyframes that draw the path from its start to just below the
- * viewport, spaced so the tip moves at an even on-screen speed.
+ * viewport, spaced by on-screen arc length; animation timing owns the easing.
  */
 function drawKeyframes(path: SVGPathElement): Keyframe[] {
   const matrix = path.getScreenCTM();
@@ -52,7 +39,7 @@ function drawKeyframes(path: SVGPathElement): Keyframe[] {
   let segment = 1;
   for (let k = 0; k <= DRAW_KEYFRAMES; k++) {
     const t = k / DRAW_KEYFRAMES;
-    const target = total * penProgress(t);
+    const target = total * t;
     while (segment < distances.length - 1 && distances[segment] < target) segment++;
     const from = distances[segment - 1];
     const span = distances[segment] - from;
@@ -253,20 +240,18 @@ export function AboutEntry() {
     } else if (!thread) {
       revealText();
     } else {
-      // Offset 1 → (1 - drawn fraction): the tip travels from the start of the
-      // line to just past the viewport edge. Revealing text switches CSS to
-      // offset 0, which fills in the off-screen remainder where no one can see
-      // it jump. Arriving under the home page's roll, the draw starts once the
-      // page is uncovered, so the span is measured against the settled layout.
-      const cancelWait = afterRouteCurtain(() => {
+      // Draw the thread while the copy appears, after the route snapshot clears.
+      // The animation holds the on-screen dash offset; CSS fills the off-screen
+      // remainder when it finishes.
+      const cancelWait = afterRouteTransition(() => {
         draw = thread.animate(drawKeyframes(thread), {
           duration: DRAW_DURATION,
-          easing: 'linear',
+          easing: 'ease-in-out',
           fill: 'forwards',
         });
+        revealText();
         draw.finished.then(
           () => {
-            revealText();
             draw?.cancel();
           },
           () => {},

@@ -14,7 +14,6 @@ import {
   type ReactNode,
   type TransitionEvent,
 } from 'react';
-import { navigation } from '@/data/site';
 
 const NavigationContext = createContext<((href: string) => void) | null>(null);
 
@@ -29,63 +28,24 @@ function isAboutRoute(href: string) {
 type CurtainStage = 'enter' | 'cover' | 'leave';
 
 type ArticleCurtain = {
-  kind: 'article';
   title: string;
   target: string;
   plateStyle: CSSProperties;
   titleStyle: CSSProperties;
 };
 
-// Leaving the home page for a first-level page rolls the old page away band by
-// band before the route commits; the page's own entrance plays once uncovered.
-type RollCurtain = { kind: 'roll'; target: string };
+type Curtain = ArticleCurtain & { stage: CurtainStage };
 
-type Curtain = (ArticleCurtain | RollCurtain) & { stage: CurtainStage };
+const ROUTE_TRANSITION_FINISHED = 'route-transition-finished';
 
-// deploy.re's route curtain: eight bands, 340ms each, entering top-down 28ms
-// apart and leaving bottom-up 20ms apart.
-const ROLL_BANDS = 8;
-const ROLL_DURATION = 340;
-const ROLL_ENTER_STAGGER = 28;
-const ROLL_EXIT_STAGGER = 20;
-const ROLL_COVER_MS = ROLL_DURATION + (ROLL_BANDS - 1) * ROLL_ENTER_STAGGER;
-const ROLL_LEAVE_MS = ROLL_DURATION + (ROLL_BANDS - 1) * ROLL_EXIT_STAGGER;
-const rollBands = Array.from({ length: ROLL_BANDS }, (_, index) => index);
-const rollStyle = {
-  '--roll-bands': String(ROLL_BANDS),
-  '--roll-duration': `${ROLL_DURATION}ms`,
-  '--roll-enter-stagger': `${ROLL_ENTER_STAGGER}ms`,
-  '--roll-exit-stagger': `${ROLL_EXIT_STAGGER}ms`,
-} as CSSProperties;
-const firstLevelRoutes = new Set<string>(navigation.map((link) => link.href));
-
-function shouldRoll(href: string) {
-  if (window.location.pathname !== '/') return false;
-  let path: string;
-  try {
-    path = new URL(href, window.location.href).pathname;
-  } catch {
-    return false;
-  }
-  return (
-    firstLevelRoutes.has(path) &&
-    !window.matchMedia('(prefers-reduced-motion: reduce), (forced-colors: active)').matches
-  );
-}
-
-const ROUTE_CURTAIN_LIFTED = 'route-curtain-lifted';
-
-/**
- * Runs `start` once no route curtain covers the page, so a page's entrance
- * plays after the roll rather than under it. Returns a cancel.
- */
-export function afterRouteCurtain(start: () => void) {
-  if (!document.documentElement.hasAttribute('data-route-curtain')) {
+/** Starts a page's own entrance after the shared route snapshot is released. */
+export function afterRouteTransition(start: () => void) {
+  if (!document.documentElement.hasAttribute('data-route-transition')) {
     start();
     return () => {};
   }
-  window.addEventListener(ROUTE_CURTAIN_LIFTED, start, { once: true });
-  return () => window.removeEventListener(ROUTE_CURTAIN_LIFTED, start);
+  window.addEventListener(ROUTE_TRANSITION_FINISHED, start, { once: true });
+  return () => window.removeEventListener(ROUTE_TRANSITION_FINISHED, start);
 }
 
 // A writing scene's violet plate and its title, measured before the route
@@ -115,7 +75,6 @@ function measureArticleCurtain(href: string): ArticleCurtain | null {
   const viewportHeight = window.innerHeight;
   const font = window.getComputedStyle(title);
   return {
-    kind: 'article',
     title: title.textContent?.trim() ?? '',
     target: href,
     plateStyle: {
@@ -213,12 +172,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
   // transitionend is the normal clock; this timer keeps a missed event from
   // holding the reader on a covered canvas.
-  const kind = curtain?.kind;
   useEffect(() => {
     if (curtain?.stage !== 'cover') return;
-    const timer = window.setTimeout(finishCover, kind === 'roll' ? ROLL_COVER_MS + 200 : 700);
+    const timer = window.setTimeout(finishCover, 700);
     return () => window.clearTimeout(timer);
-  }, [curtain?.stage, kind, finishCover]);
+  }, [curtain?.stage, finishCover]);
 
   // A failed, cancelled or superseded route must not strand the cover either.
   const active = curtain !== null;
@@ -230,31 +188,6 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     }, 4000);
     return () => window.clearTimeout(timer);
   }, [active, finishCover]);
-
-  // The incoming page mounts under the roll with its entrance held (CSS keys on
-  // data-route-curtain); once the last band clears, each page plays its own.
-  const rolling = kind === 'roll';
-  useEffect(() => {
-    if (rolling) return;
-    const root = document.documentElement;
-    if (!root.hasAttribute('data-route-curtain')) return;
-    root.removeAttribute('data-route-curtain');
-    if (document.querySelector('main.page-shell')) root.dataset.routeEntry = '';
-    window.dispatchEvent(new Event(ROUTE_CURTAIN_LIFTED));
-  }, [rolling]);
-
-  useEffect(() => {
-    const settle = (event: AnimationEvent) => {
-      if (event.animationName === 'page-entry')
-        document.documentElement.removeAttribute('data-route-entry');
-    };
-    document.addEventListener('animationend', settle);
-    document.addEventListener('animationcancel', settle);
-    return () => {
-      document.removeEventListener('animationend', settle);
-      document.removeEventListener('animationcancel', settle);
-    };
-  }, []);
 
   // The exit waits for both the covered canvas and the committed article, so
   // a slow route never uncovers the old page and a quick one never clips the
@@ -268,14 +201,11 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (curtain?.stage !== 'leave') return;
-    const timer = window.setTimeout(
-      () => setCurtain(null),
-      kind === 'roll' ? ROLL_LEAVE_MS + 200 : 700,
-    );
+    const timer = window.setTimeout(() => setCurtain(null), 700);
     return () => window.clearTimeout(timer);
-  }, [curtain?.stage, kind]);
+  }, [curtain?.stage]);
 
-  function beginCurtain(next: ArticleCurtain | RollCurtain) {
+  function beginCurtain(next: ArticleCurtain) {
     arrived.current = false;
     covered.current = false;
     started.current = false;
@@ -290,21 +220,8 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     if (curtain && curtain.stage !== 'leave') return;
     pending.current?.();
     current.current?.skipTransition();
-    if (shouldRoll(href)) {
-      const root = document.documentElement;
-      // About's copy stays hidden under the roll; its thread draws once uncovered.
-      if (isAboutRoute(href)) root.dataset.aboutEntry = 'drawing';
-      root.dataset.routeCurtain = '';
-      beginCurtain({ kind: 'roll', target: href });
-      return;
-    }
-    if (isAboutRoute(href) && window.location.pathname !== '/about') {
-      // About owns its entrance: the thread draws on an otherwise quiet page
-      // instead of arriving behind the generic root crossfade.
+    if (isAboutRoute(href) && window.location.pathname !== '/about')
       document.documentElement.dataset.aboutEntry = 'drawing';
-      router.push(href);
-      return;
-    }
     const handoff = measureArticleCurtain(href);
     if (handoff) {
       beginCurtain(handoff);
@@ -312,12 +229,13 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     }
     if (
       !document.startViewTransition ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      window.matchMedia('(prefers-reduced-motion: reduce), (forced-colors: active)').matches
     ) {
       router.push(href);
       return;
     }
-    current.current = document.startViewTransition(
+    document.documentElement.dataset.routeTransition = '';
+    const transition = document.startViewTransition(
       () =>
         new Promise<void>((resolve) => {
           // Navigation starts immediately. A failed/cancelled route must never hold a snapshot.
@@ -329,7 +247,14 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
           router.push(href);
         }),
     );
-    void current.current.finished.catch(() => {});
+    current.current = transition;
+    const finish = () => {
+      if (current.current !== transition) return;
+      current.current = null;
+      document.documentElement.removeAttribute('data-route-transition');
+      window.dispatchEvent(new Event(ROUTE_TRANSITION_FINISHED));
+    };
+    void transition.finished.then(finish, finish);
   }
 
   const plateSettled = (event: TransitionEvent<HTMLSpanElement>) => {
@@ -343,37 +268,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     )
       setCurtain(null);
   };
-  // The last band to enter closes the cover; the top band, last to leave,
-  // uncovers the page.
-  const rollSettled = (event: TransitionEvent<HTMLDivElement>) => {
-    if (event.propertyName !== 'transform' || !(event.target instanceof HTMLElement)) return;
-    const band = Number(event.target.dataset.band);
-    if (curtain?.stage === 'cover' && band === ROLL_BANDS - 1) finishCover();
-    else if (curtain?.stage === 'leave' && band === 0) setCurtain(null);
-  };
-
   return (
     <NavigationContext value={navigate}>
       {children}
-      {curtain?.kind === 'roll' ? (
-        <div
-          className="route-roll group pointer-events-auto fixed inset-0 z-[9000] data-[stage=leave]:pointer-events-none"
-          data-stage={curtain.stage}
-          style={rollStyle}
-          onTransitionEnd={rollSettled}
-          aria-hidden="true"
-        >
-          {rollBands.map((band) => (
-            <span
-              className="route-roll-band absolute inset-x-0 top-[calc(var(--band)*100%/var(--roll-bands))] h-[calc(100%/var(--roll-bands)_+_2px)] origin-left scale-x-0 bg-[linear-gradient(90deg,var(--color-violet)_0%,var(--color-paper)_100%)] transition-transform duration-(--roll-duration) ease-[cubic-bezier(0.77,0,0.175,1)] delay-[calc(var(--band)*var(--roll-enter-stagger))] will-change-transform group-data-[stage=cover]:scale-x-100 group-data-[stage=leave]:origin-right group-data-[stage=leave]:scale-x-0 group-data-[stage=leave]:delay-[calc((var(--roll-bands)_-_1_-_var(--band))*var(--roll-exit-stagger))]"
-              data-band={band}
-              key={band}
-              style={{ '--band': band } as CSSProperties}
-            />
-          ))}
-        </div>
-      ) : null}
-      {curtain?.kind === 'article' ? (
+      {curtain ? (
         <div
           className="article-curtain group pointer-events-auto fixed inset-0 z-[9000] translate-x-0 overflow-hidden transition-transform duration-[520ms] ease-[cubic-bezier(0.3,0.7,0.2,1)] will-change-[transform,filter] data-[stage=leave]:-translate-x-full data-[stage=leave]:animate-[article-curtain-whoosh_520ms_linear_both]"
           data-stage={curtain.stage}

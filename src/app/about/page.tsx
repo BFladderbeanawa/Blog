@@ -48,7 +48,7 @@ export default function About() {
       >
         <div className="greeting relative z-[1] pt-[30px] [container-type:inline-size] max-sm:pt-0">
           <p
-            className="name mb-7 inline-block -rotate-3 bg-acid px-3 py-[3px] text-[21px]"
+            className="name mb-7 inline-block -rotate-3 bg-acid px-3 py-[3px] text-[21px] font-semibold"
             data-about-reveal
           >
             Hi, I’m BF.
@@ -157,16 +157,6 @@ export default function About() {
           <p className="equationNote mt-6 max-w-[230px] text-sm text-muted" data-about-reveal>
             Unfortunately, the model didn’t get the memo.
           </p>
-          <div
-            className="mt-10 flex max-w-[300px] flex-wrap items-center gap-x-3 gap-y-2 border-y border-violet/30 py-3 text-sm text-violet"
-            data-about-reveal
-          >
-            <span>Guess</span>
-            <span aria-hidden="true">↗</span>
-            <span>Experiment</span>
-            <span aria-hidden="true">↘</span>
-            <span>Try again</span>
-          </div>
         </div>
 
         <div className="researchBody col-[7/12] row-start-2 mt-[128px] max-w-[460px] origin-top-left rotate-1 text-[18px] leading-[1.8] [&_p+p]:mt-6 max-md:mt-[112px] max-md:text-[17px] max-sm:col-auto max-sm:row-auto max-sm:mt-0 max-sm:max-w-full">

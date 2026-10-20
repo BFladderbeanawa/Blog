@@ -65,3 +65,9 @@ ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 The existing `src/assets/illustration.png` depicts the site owner's OC. Its use on About does not imply the owner drew the image or grant visitors redistribution rights.
+
+## User-supplied Contact reference
+
+Photograph: **Sebastian Dumitru / Unsplash**, [photo 36g19a7ivrs](https://unsplash.com/photos/36g19a7ivrs). The user supplied the original `sebastian-dumitru-36g19a7ivrs-unsplash.jpg`, retained as `src/assets/contact-hands-unsplash.jpg` (5184 × 3456), and identified it as the Unsplash source. `public/contact-hands-violet-cutout.webp` is this site's resized violet-duotone RGBA cutout, replacing the multiply-blended derivative so hands occlude underlying text. It replaces the screenshot cutout and mistakenly supplied `header.png` as the active source. The source is covered by the [Unsplash License](https://unsplash.com/license), not this repository's software license; photographer/source attribution follows the user-provided filename and source statement. Direct source-page fetching returned HTTP 401 during implementation.
+
+`src/app/contact/AnatomyStudy.tsx` contains original stylized anatomical linework and geometric construction, not a medical diagram or a reproduction of Leonardo's drawings. Arknights' *The Masses' Travels* informs the classical/anatomical/geometric juxtaposition only; no event art or logo is distributed. References: [official event announcement](https://ak.hypergryph.com/news/3062.html) and [UI recording](https://www.bilibili.com/video/BV1WFkwBJEhR).
