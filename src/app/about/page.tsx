@@ -3,8 +3,8 @@ import Image from 'next/image';
 import antenna from '@/assets/about/satellite-antenna.svg';
 import controller from '@/assets/about/video-game.svg';
 import pick from '@/assets/about/pick.svg';
+import saddle from '@/assets/about/saddle.svg';
 import illustration from '@/assets/illustration.png';
-import geometry from '@/assets/ui/Group 150.svg';
 import { RouteLink } from '@/components/site/Navigation';
 import { AboutEntry } from './AboutEntry';
 import { EasedDetails } from './EasedDetails';
@@ -35,7 +35,7 @@ export default function About() {
         aria-hidden="true"
       >
         <path
-          className="[stroke-width:1.5] [vector-effect:non-scaling-stroke]"
+          className="[stroke-width:1.25] [vector-effect:non-scaling-stroke]"
           data-about-thread
           pathLength={1}
           d="M 30 350 C 180 100, 650 40, 1030 230 S 1230 700, 760 760 S 80 750, 130 1050 S 700 1400, 1020 1280 C 1340 1150, 1260 900, 1110 1060 S 910 1640, 570 1740 S -80 1770, 120 2050 S 1160 2020, 1090 2400 S 680 2640, 740 2800"
@@ -48,13 +48,13 @@ export default function About() {
       >
         <div className="greeting relative z-[1] pt-[30px] [container-type:inline-size] max-sm:pt-0">
           <p
-            className="name mb-7 inline-block bg-acid px-3 py-[3px] text-[21px] -rotate-[5deg]"
+            className="name mb-7 inline-block -rotate-3 bg-acid px-3 py-[3px] text-[21px]"
             data-about-reveal
           >
             Hi, I’m BF.
           </p>
           <h1
-            className="font-scene text-[clamp(40px,12cqw,88px)] leading-[0.96] font-extrabold tracking-[-0.075em] max-sm:text-[clamp(36px,12cqw,88px)]"
+            className="origin-left -rotate-2 font-scene text-[clamp(40px,12cqw,88px)] leading-[0.96] font-extrabold tracking-[-0.075em] max-sm:text-[clamp(36px,12cqw,88px)]"
             id="about-heading"
             data-about-reveal
           >
@@ -63,7 +63,7 @@ export default function About() {
             undefined.
           </h1>
           <div
-            className="welcome mt-8 ml-[9%] max-w-[330px] text-[18px] leading-[1.7] [&_p+p]:mt-3 max-md:ml-0 max-md:text-[17px] max-sm:mt-7 max-sm:max-w-[380px]"
+            className="welcome mt-8 ml-[9%] max-w-[330px] origin-top-left rotate-[1.5deg] text-[18px] leading-[1.7] [&_p+p]:mt-3 max-md:ml-0 max-md:text-[17px] max-sm:mt-7 max-sm:max-w-[380px]"
             data-about-reveal
           >
             <p>BFladderbean works too.</p>
@@ -74,7 +74,7 @@ export default function About() {
           </div>
           <div data-about-reveal>
             <SectionJump
-              className="sideNote relative mt-11 ml-[15%] flex w-fit max-w-[235px] items-center gap-[18px] text-base text-violet -rotate-[4deg] hover:[&>span:first-child]:underline hover:[&>span:first-child]:underline-offset-4 focus-visible:[&>span:first-child]:underline focus-visible:[&>span:first-child]:underline-offset-4 max-sm:mt-7 max-sm:ml-[10%]"
+              className="sideNote relative mt-11 ml-[15%] flex w-fit max-w-[235px] origin-left -rotate-3 items-center gap-[18px] text-base text-violet hover:[&>span:first-child]:underline hover:[&>span:first-child]:underline-offset-4 focus-visible:[&>span:first-child]:underline focus-visible:[&>span:first-child]:underline-offset-4 max-sm:mt-7 max-sm:ml-[10%]"
               sectionId="off-the-clock"
             >
               <span>There’s more to life than the research bit.</span>
@@ -83,19 +83,20 @@ export default function About() {
               </span>
             </SectionJump>
           </div>
-          <Image
-            src={geometry}
-            alt=""
-            width={220}
-            height={220}
-            className="geometry mt-6 ml-[38%] block h-auto w-[clamp(160px,30cqw,220px)] rotate-[12deg] brightness-0 pointer-events-none"
-            data-about-reveal
-          />
+          <div className="mt-7 ml-[5%] w-[min(92%,440px)]" data-about-reveal>
+            <Image
+              src={saddle}
+              alt="A wireframe saddle surface, z = x squared minus y squared, with its two central parabolic sections emphasized."
+              width={480}
+              height={310}
+              className="block h-auto w-full"
+            />
+          </div>
         </div>
 
-        <figure className="oc relative m-0 pt-[18px] before:absolute before:top-[38px] before:-right-5 before:-z-[1] before:aspect-square before:w-[86%] before:rounded-full before:bg-violet before:content-[''] max-sm:w-[88%] max-sm:max-w-[440px] max-sm:justify-self-center max-sm:before:-right-3">
+        <figure className="oc relative m-0 pt-[18px] before:absolute before:inset-x-3 before:top-[38px] before:bottom-[100px] before:-z-[1] before:translate-x-5 before:rotate-[-3deg] before:bg-violet before:content-[''] max-sm:w-[88%] max-sm:max-w-[440px] max-sm:justify-self-center max-sm:before:translate-x-3">
           <div
-            className="ocFrame rotate-[4deg] bg-white [clip-path:polygon(8%_0,100%_0,100%_91%,88%_100%,0_100%,0_7%)]"
+            className="ocFrame relative rotate-2 border border-ink/15 bg-white p-3 before:absolute before:-top-3 before:left-[36%] before:z-[1] before:h-7 before:w-[30%] before:-rotate-6 before:bg-acid/90 before:content-['']"
             data-about-reveal
           >
             <Image
@@ -107,10 +108,10 @@ export default function About() {
             />
           </div>
           <figcaption
-            className="relative mt-6 ml-[12%] w-3/4 text-[15px] leading-[1.65] max-sm:ml-[5%] max-sm:w-[90%]"
+            className="relative mt-6 ml-[12%] w-3/4 origin-top-left -rotate-2 text-[15px] leading-[1.65] max-sm:ml-[5%] max-sm:w-[90%]"
             data-about-reveal
           >
-            <span className="ocTitle mb-2.5 block w-fit bg-acid px-2 font-scene text-[26px] font-bold text-ink -rotate-[4deg]">
+            <span className="ocTitle mb-2.5 block w-fit bg-acid px-2 font-scene text-[26px] font-bold text-ink">
               Meet my OC.
             </span>
             <span>
@@ -119,21 +120,15 @@ export default function About() {
             </span>
           </figcaption>
         </figure>
-        <p
-          className="marginNote absolute bottom-8 left-0 text-sm text-muted max-sm:bottom-[30px]"
-          data-about-reveal
-        >
-          Still figuring things out. That’s allowed.
-        </p>
       </section>
 
       <section
-        className="research relative grid grid-cols-2 gap-[9%] px-[4%] pt-[30px] pb-[88px] max-md:gap-[6%] max-md:px-0 max-sm:grid-cols-1 max-sm:gap-8 max-sm:pb-10"
+        className="research relative grid grid-cols-12 gap-x-6 pt-16 pb-[120px] max-md:gap-x-4 max-sm:grid-cols-1 max-sm:gap-y-10 max-sm:pt-10 max-sm:pb-16"
         aria-labelledby="research-heading"
       >
-        <div>
+        <div className="researchHeading col-[2/12] origin-left -rotate-2 max-sm:col-auto">
           <h2
-            className="font-scene text-[clamp(44px,4.9vw,70px)] leading-[1.04] font-bold tracking-[-0.055em] text-balance max-sm:text-[clamp(38px,8vw,60px)]"
+            className="max-w-[900px] font-scene text-[clamp(44px,5.6vw,80px)] leading-[1.02] font-bold tracking-[-0.055em] max-sm:text-[clamp(38px,8vw,60px)]"
             id="research-heading"
             data-about-reveal
           >
@@ -141,34 +136,40 @@ export default function About() {
             <br />
             the unknown.
           </h2>
-          <p
-            className="researchIntro mt-6 max-w-[265px] text-[19px] max-sm:max-w-[330px]"
-            data-about-reveal
-          >
+          <p className="researchIntro mt-6 max-w-[390px] text-[19px]" data-about-reveal>
             That’s the bit of machine learning that gets me.
           </p>
+        </div>
+        <div className="researchEquation col-[2/6] row-start-2 mt-12 ml-[6%] origin-top-left -rotate-3 max-sm:col-auto max-sm:row-auto max-sm:mt-0">
           <div
-            className="equation mt-[72px] ml-[12%] flex w-fit flex-col items-center font-scene text-[clamp(25px,2.7vw,38px)] leading-[1.35] tracking-[-0.04em] -rotate-[7deg] max-md:ml-0 max-sm:mx-auto max-sm:mt-10"
+            className="equation flex w-fit flex-col items-start font-scene text-[clamp(25px,2.7vw,38px)] leading-[1.35] tracking-[-0.04em]"
             data-about-reveal
           >
             <span>a good idea</span>
             <span
-              className="notEqual text-[92px] leading-[1.1] text-violet"
+              className="notEqual my-2 text-[80px] leading-none text-violet"
               aria-label="does not equal"
             >
               ≠
             </span>
             <span>a better result</span>
           </div>
-          <p
-            className="equationNote mt-[35px] ml-[24%] max-w-[210px] text-sm text-muted -rotate-[7deg] max-sm:mx-auto max-sm:mt-6"
-            data-about-reveal
-          >
+          <p className="equationNote mt-6 max-w-[230px] text-sm text-muted" data-about-reveal>
             Unfortunately, the model didn’t get the memo.
           </p>
+          <div
+            className="mt-10 flex max-w-[300px] flex-wrap items-center gap-x-3 gap-y-2 border-y border-violet/30 py-3 text-sm text-violet"
+            data-about-reveal
+          >
+            <span>Guess</span>
+            <span aria-hidden="true">↗</span>
+            <span>Experiment</span>
+            <span aria-hidden="true">↘</span>
+            <span>Try again</span>
+          </div>
         </div>
 
-        <div className="researchBody max-w-[440px] pt-16 text-[18px] leading-[1.8] [&_p+p]:mt-6 max-md:text-[17px] max-sm:max-w-full max-sm:pt-4">
+        <div className="researchBody col-[7/12] row-start-2 mt-[128px] max-w-[460px] origin-top-left rotate-1 text-[18px] leading-[1.8] [&_p+p]:mt-6 max-md:mt-[112px] max-md:text-[17px] max-sm:col-auto max-sm:row-auto max-sm:mt-0 max-sm:max-w-full">
           <p data-about-reveal>
             You build on things you don’t fully understand. Make a guess, run an experiment, take
             something out, try again. Little by little, you find out what holds up.
@@ -216,7 +217,7 @@ export default function About() {
         className="play relative grid scroll-mt-10 grid-cols-12 items-start gap-6 px-0 pt-14 pb-16 max-md:gap-x-4 max-sm:grid-cols-2 max-sm:gap-x-6 max-sm:gap-y-16 max-sm:pb-10"
         aria-labelledby="play-heading"
       >
-        <div className="playHeading col-[2/12] mb-4 max-sm:col-[1/-1] max-sm:mb-0">
+        <div className="playHeading col-[2/12] mb-4 origin-left rotate-2 max-sm:col-[1/-1] max-sm:mb-0">
           <h2
             className="font-scene text-[clamp(44px,4.9vw,70px)] leading-[1.04] font-bold tracking-[-0.055em] text-balance max-sm:text-[clamp(38px,8vw,60px)]"
             id="play-heading"
@@ -231,14 +232,20 @@ export default function About() {
           </p>
         </div>
 
-        <div className="designFragment col-[2/6] row-start-2 mt-2 -rotate-[5deg] max-sm:col-[1/-1] max-sm:row-auto max-sm:ml-[5%]">
+        <div className="designFragment col-[2/6] row-start-2 mt-2 origin-top-left -rotate-3 max-sm:col-[1/-1] max-sm:row-auto max-sm:ml-[5%]">
           <span
-            className="typePlay mb-6 block w-fit bg-acid px-[18px] pb-2.5 font-scene text-[clamp(100px,13vw,180px)] leading-none font-extrabold tracking-[-0.09em] [clip-path:polygon(0_0,100%_0,100%_80%,84%_100%,0_100%)] max-sm:text-[120px]"
+            className="typePlay relative mb-6 block w-fit border border-violet/30 bg-acid px-6 py-3 font-scene text-[clamp(100px,13vw,180px)] leading-none font-extrabold tracking-[-0.09em] before:absolute before:inset-x-[-14px] before:top-1/2 before:border-t before:border-violet/30 before:content-[''] after:absolute after:inset-y-[-14px] after:left-1/2 after:border-l after:border-violet/30 after:content-[''] max-sm:text-[120px]"
             aria-hidden="true"
             data-about-reveal
           >
             Aa
           </span>
+          <div className="mb-6 flex h-3 w-[156px]" aria-hidden="true" data-about-reveal>
+            <span className="flex-1 bg-ink" />
+            <span className="flex-1 bg-violet" />
+            <span className="flex-1 bg-acid" />
+            <span className="flex-1 border border-line bg-paper" />
+          </div>
           <h3
             className="font-scene text-[clamp(26px,3vw,42px)] leading-[1.1] font-bold tracking-[-0.045em] max-sm:text-[32px]"
             data-about-reveal
@@ -250,9 +257,9 @@ export default function About() {
           </p>
         </div>
 
-        <div className="gamesFragment col-[8/13] row-start-2 mt-4 rotate-[4deg] pt-10 [&_h3+p]:mt-4 [&_p+p]:mt-2 [&_p+p]:text-sm [&_p+p]:text-muted max-sm:col-[1/-1] max-sm:row-auto max-sm:mr-[4%] max-sm:ml-[16%] max-sm:mt-0 max-sm:pt-0">
+        <div className="gamesFragment col-[8/13] row-start-2 mt-16 origin-top-left rotate-3 pt-10 [&_h3+p]:mt-4 [&_p+p]:mt-2 [&_p+p]:text-sm [&_p+p]:text-muted max-sm:col-[1/-1] max-sm:row-auto max-sm:mr-[4%] max-sm:ml-[16%] max-sm:mt-0 max-sm:pt-0">
           <Image
-            className="gameArt mb-5 block h-auto w-32 -rotate-[12deg]"
+            className="gameArt mb-6 block h-auto w-[128px] rounded-[30%_45%_25%_40%] bg-acid/60 p-3"
             src={controller}
             alt=""
             width={128}
@@ -260,7 +267,7 @@ export default function About() {
             data-about-reveal
           />
           <h3
-            className="font-scene text-[clamp(26px,3vw,42px)] leading-[1.1] font-bold tracking-[-0.045em] text-violet max-sm:text-[32px]"
+            className="font-scene text-[clamp(26px,3vw,42px)] leading-[1.1] font-bold tracking-[-0.045em] text-ink max-sm:text-[32px]"
             data-about-reveal
           >
             Some obscure
@@ -275,9 +282,9 @@ export default function About() {
           </p>
         </div>
 
-        <div className="routerFragment col-[2/6] row-start-3 mt-2 pl-3 max-sm:col-[1/-1] max-sm:row-auto max-sm:ml-[5%]">
+        <div className="routerFragment col-[2/6] row-start-3 mt-2 ml-[8%] origin-top-left -rotate-[1.5deg] pt-10 max-sm:col-[1/-1] max-sm:row-auto max-sm:ml-[5%]">
           <Image
-            className="networkArt mb-5 ml-6 block h-auto w-[140px] -rotate-[8deg]"
+            className="networkArt mb-6 block h-auto w-[128px] border-b-2 border-violet bg-[radial-gradient(var(--color-violet)_1px,transparent_1px)] bg-size-[12px_12px] p-3"
             src={antenna}
             alt=""
             width={140}
@@ -295,9 +302,9 @@ export default function About() {
           </p>
         </div>
 
-        <div className="minecraftFragment col-[8/13] row-start-3 relative pt-[120px] -rotate-[3deg] max-sm:col-[1/-1] max-sm:row-auto max-sm:mr-[4%] max-sm:ml-[16%] max-sm:pt-[120px]">
+        <div className="minecraftFragment col-[8/13] row-start-3 relative mt-12 origin-top-left -rotate-2 pt-[120px] max-sm:col-[1/-1] max-sm:row-auto max-sm:mr-[4%] max-sm:ml-[16%] max-sm:mt-0 max-sm:pt-[120px]">
           <Image
-            className="pickArt absolute top-0 left-[60px] h-auto w-[110px]"
+            className="pickArt absolute top-0 left-0 h-auto w-[112px] border-r-[12px] border-b-[12px] border-acid bg-violet/5 p-2"
             src={pick}
             alt=""
             width={110}
@@ -317,7 +324,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="chatFragment col-[5/11] row-start-4 mt-6 rotate-[3deg] border-l-2 border-violet pt-6 pl-8 max-sm:col-[1/-1] max-sm:row-auto max-sm:mr-[4%] max-sm:ml-[16%] max-sm:mt-0 max-sm:py-3 max-sm:pl-6">
+        <div className="chatFragment col-[5/11] row-start-4 mt-6 origin-top-left rotate-3 pt-6 pl-8 max-sm:col-[1/-1] max-sm:row-auto max-sm:mr-[4%] max-sm:ml-[16%] max-sm:mt-0 max-sm:py-3 max-sm:pl-6">
           <h3
             className="font-scene text-[clamp(26px,3vw,42px)] leading-[1.1] font-bold tracking-[-0.045em] max-sm:text-[32px]"
             data-about-reveal
@@ -333,7 +340,7 @@ export default function About() {
           </p>
         </div>
 
-        <div className="blogFragment col-[2/7] row-start-5 mt-2 text-[18px] max-sm:col-[1/-1] max-sm:row-auto max-sm:ml-[5%]">
+        <div className="blogFragment col-[2/7] row-start-5 mt-8 origin-left -rotate-2 border border-line bg-[repeating-linear-gradient(transparent,transparent_31px,var(--color-line)_31px,var(--color-line)_32px)] px-7 pt-6 pb-10 text-[18px] shadow-[8px_8px_0_var(--color-acid)] max-sm:col-[1/-1] max-sm:row-auto max-sm:ml-[5%]">
           <p className="max-w-[320px] text-pretty" data-about-reveal>
             Sometimes I write things down.
           </p>
@@ -344,7 +351,7 @@ export default function About() {
       </section>
 
       <section
-        className="goodbye relative pt-[72px] pr-0 pb-6 pl-[9%] max-sm:px-0 max-sm:pt-20 max-sm:pb-0"
+        className="goodbye relative origin-left -rotate-2 pt-[72px] pr-0 pb-6 pl-[9%] max-sm:px-0 max-sm:pt-20 max-sm:pb-0"
         aria-labelledby="goodbye-heading"
       >
         <p className="mb-5 text-[18px]" data-about-reveal>
@@ -355,7 +362,9 @@ export default function About() {
           id="goodbye-heading"
           data-about-reveal
         >
-          Not the whole picture.
+          <span className="bg-[linear-gradient(transparent_72%,var(--color-acid)_72%)]">
+            Not the whole picture.
+          </span>
         </h2>
         <div className="mt-8 flex flex-wrap gap-x-10 gap-y-4 text-[17px]" data-about-reveal>
           <span>I’m leaving some room.</span>

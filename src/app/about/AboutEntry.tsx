@@ -63,7 +63,136 @@ function drawKeyframes(path: SVGPathElement): Keyframe[] {
   return keyframes;
 }
 
+/** Natural cubic interpolation minimizes bending across the whole thread. */
+function interpolateThread(points: readonly (readonly [number, number])[]) {
+  const count = points.length;
+  const spans = points
+    .slice(1)
+    .map((point, i) => Math.hypot(point[0] - points[i][0], point[1] - points[i][1]));
+  const diagonal = new Float64Array(count);
+  const curvatureX = new Float64Array(count);
+  const curvatureY = new Float64Array(count);
+
+  // Solve the shared tridiagonal system for both coordinate second derivatives.
+  // Natural endpoints have zero curvature; each internal join shares position,
+  // tangent and curvature, rather than blending independently bent segments.
+  for (let i = 1; i < count - 1; i++) {
+    const left = spans[i - 1];
+    const right = spans[i];
+    const factor = i === 1 ? 0 : left / diagonal[i - 1];
+    diagonal[i] = 2 * (left + right) - factor * left;
+    curvatureX[i] =
+      6 * ((points[i + 1][0] - points[i][0]) / right - (points[i][0] - points[i - 1][0]) / left) -
+      factor * curvatureX[i - 1];
+    curvatureY[i] =
+      6 * ((points[i + 1][1] - points[i][1]) / right - (points[i][1] - points[i - 1][1]) / left) -
+      factor * curvatureY[i - 1];
+  }
+  for (let i = count - 2; i > 0; i--) {
+    curvatureX[i] = (curvatureX[i] - spans[i] * curvatureX[i + 1]) / diagonal[i];
+    curvatureY[i] = (curvatureY[i] - spans[i] * curvatureY[i + 1]) / diagonal[i];
+  }
+
+  let d = `M ${points[0][0]} ${points[0][1]}`;
+  for (let i = 0; i < count - 1; i++) {
+    const span = spans[i];
+    const samples = Math.max(2, Math.ceil(span / 3));
+    for (let sample = 1; sample <= samples; sample++) {
+      const b = sample / samples;
+      const a = 1 - b;
+      const left = ((a * a * a - a) * span * span) / 6;
+      const right = ((b * b * b - b) * span * span) / 6;
+      const x =
+        a * points[i][0] + b * points[i + 1][0] + left * curvatureX[i] + right * curvatureX[i + 1];
+      const y =
+        a * points[i][1] + b * points[i + 1][1] + left * curvatureY[i] + right * curvatureY[i + 1];
+      d += ` L ${x.toFixed(3)} ${y.toFixed(3)}`;
+    }
+  }
+  return d;
+}
+
 export function AboutEntry() {
+  useEffect(() => {
+    const page = document.querySelector<HTMLElement>('[data-about-page]');
+    const thread = page?.querySelector<SVGPathElement>('[data-about-thread]');
+    const svg = thread?.ownerSVGElement;
+    if (!page || !thread || !svg) return;
+
+    // Anchor the continuous thread to the actual layout, not a stretched page
+    // illustration. Fonts, window changes and the disclosure all change its turns.
+    const layoutThread = () => {
+      const origin = svg.getBoundingClientRect();
+      const bounds = (selector: string) => {
+        const element = page.querySelector(selector)!;
+        const box = element.getBoundingClientRect();
+        return {
+          x: box.left - origin.left,
+          y: box.top - origin.top,
+          right: box.right - origin.left,
+          bottom: box.bottom - origin.top,
+        };
+      };
+      const heading = bounds('.researchHeading');
+      const equation = bounds('.equationNote');
+      const body = bounds('.researchBody');
+      const play = bounds('.playHeading');
+      const design = bounds('.designFragment');
+      const games = bounds('.gamesFragment');
+      const router = bounds('.routerFragment');
+      const minecraft = bounds('.minecraftFragment');
+      const chat = bounds('.chatFragment');
+      const blog = bounds('.blogFragment');
+      const goodbye = bounds('.goodbye');
+      const width = origin.width;
+      // A tilted, open ellipse gives the return one sustained outward turn.
+      // Equal angular anchors avoid the flat spots of individually placed bends.
+      const loopScale = Math.min(1, (width - games.x - 24) / 390);
+      const loop: [number, number][] = [];
+      for (let i = 0; i <= 12; i++) {
+        const angle = 2.65 - (4.9 * i) / 12;
+        const along = 260 * Math.cos(angle) * loopScale;
+        const across = 100 * Math.sin(angle) * loopScale;
+        loop.push([
+          games.x + 170 + along * 0.55 + across * 0.835,
+          games.y + 230 - along * 0.835 + across * 0.55,
+        ]);
+      }
+      svg.setAttribute('viewBox', `0 0 ${width} ${origin.height}`);
+      thread.setAttribute(
+        'd',
+        interpolateThread([
+          [30, 350],
+          [width * 0.4, 100],
+          [width * 0.82, 230],
+          [width * 0.85, heading.y - 320],
+          [width * 0.68, heading.y - 150],
+          [width * 0.32, heading.y - 60],
+          [heading.x - 70, heading.y + 150],
+          [heading.x + 20, equation.bottom + 70],
+          [body.x + 100, body.y - 80],
+          [body.right + 90, body.y + 10],
+          [body.right + 70, body.bottom + 40],
+          [play.x + 180, play.y - 70],
+          [play.x - 35, play.bottom + 30],
+          [design.x + 40, design.bottom + 60],
+          ...loop,
+          [(router.right + minecraft.x) / 2, Math.max(router.bottom, minecraft.bottom) + 32],
+          [chat.x - 80, chat.bottom - 60],
+          [blog.x - 40, blog.y - 20],
+          [goodbye.x + 30, goodbye.y - 20],
+          [goodbye.x + 90, goodbye.y + 190],
+          [width * 0.55, origin.height + 120],
+        ]),
+      );
+    };
+
+    layoutThread();
+    const observer = new ResizeObserver(layoutThread);
+    observer.observe(page);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const root = document.documentElement;
     const mode = root.dataset.aboutEntry;

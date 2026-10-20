@@ -30,7 +30,7 @@ SOFTWARE.
 
 ## Fonts and content assets
 
-Syne font files under `public/fonts/Syne` predate this migration. Syne is distributed under the SIL Open Font License 1.1; see `public/fonts/Syne/OFL.txt`. Noto Serif SC is installed through `@fontsource/noto-serif-sc`, which includes its license. KaTeX supplies its own fonts and MIT license through the installed package.
+Syne font files under `public/fonts/Syne` predate this migration. Syne is distributed under the SIL Open Font License 1.1; see `public/fonts/Syne/OFL.txt`. It supplies the site's UI, display and prose typography. KaTeX supplies its own fonts and MIT license through the installed package.
 
 Existing `src/assets` and `public/art` files are retained, not relicensed by the Arcadia software license. Their presence does not grant a new license to third-party artwork. No Arknights chapter artwork, game logo, or reference-site personal content is newly distributed by this implementation.
 
@@ -40,34 +40,28 @@ Existing `src/assets` and `public/art` files are retained, not relicensed by the
 
 Source: [Wikimedia Commons / Google Art Project reproduction](https://commons.wikimedia.org/wiki/File:Georges_Seurat_-_A_Sunday_on_La_Grande_Jatte_--_1884_-_Google_Art_Project.jpg). The source identifies the painting and faithful reproduction as public domain, including in the United States. The [museum's artwork record](https://api.artic.edu/api/v1/artworks/27992?fields=id,title,is_public_domain) independently marks the work as public domain. This attribution does not apply to the site's other images.
 
-## Microsoft Fluent Emoji
+## Lucide Icons
 
-The About page uses the unmodified Flat SVG illustrations **Satellite antenna**, **Video game**, and **Pick** from [Microsoft Fluent Emoji](https://github.com/microsoft/fluentui-emoji), stored under `src/assets/about/`. They are decorative illustrations, not product logos or screenshots. Sources:
+The About page uses **Gamepad 2**, **Router**, and **Pickaxe** from [Lucide](https://lucide.dev/), stored under `src/assets/about/`. SVG paths are unchanged; stroke color is set to the site's violet (`#4930bc`) and stroke width to `1.25` for the shared line-art treatment. The saddle-surface SVG is original mathematical linework, not a Lucide icon. Sources:
 
-- https://github.com/microsoft/fluentui-emoji/blob/main/assets/Satellite%20antenna/Flat/satellite_antenna_flat.svg
-- https://github.com/microsoft/fluentui-emoji/blob/main/assets/Video%20game/Flat/video_game_flat.svg
-- https://github.com/microsoft/fluentui-emoji/blob/main/assets/Pick/Flat/pick_flat.svg
+- https://github.com/lucide-icons/lucide/blob/main/icons/gamepad-2.svg
+- https://github.com/lucide-icons/lucide/blob/main/icons/router.svg
+- https://github.com/lucide-icons/lucide/blob/main/icons/pickaxe.svg
 
-MIT License
+ISC License
 
-Copyright (c) Microsoft Corporation.
+Copyright (c) 2026 Lucide Icons and Contributors
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 The existing `src/assets/illustration.png` depicts the site owner's OC. Its use on About does not imply the owner drew the image or grant visitors redistribution rights.

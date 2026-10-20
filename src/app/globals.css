@@ -1,11 +1,5 @@
 @import 'tailwindcss';
 
-@font-face {
-  font-family: SyneFallback;
-  src: local('Arial');
-  size-adjust: 105%;
-}
-
 @theme {
   --color-paper: #f5f5ef;
   --color-ink: #17171a;
@@ -16,9 +10,9 @@
   --color-line: #cecec6;
   --color-code: #e6e6dd;
 
-  --font-body: Arial, 'Microsoft YaHei', 'PingFang SC', sans-serif;
-  --font-scene: var(--font-syne), 'Microsoft YaHei', 'PingFang SC', 'Noto Sans SC', sans-serif;
-  --font-reading: 'Noto Serif SC', Georgia, serif;
+  --font-body: var(--font-syne), sans-serif;
+  --font-scene: var(--font-syne), sans-serif;
+  --font-reading: var(--font-syne), sans-serif;
   --font-mono: Consolas, 'Courier New', monospace;
 
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
@@ -568,10 +562,6 @@ html[data-route-entry] main.page-shell {
   .thread,
   .oc::before {
     display: none;
-  }
-
-  .ocFrame {
-    clip-path: none;
   }
 
   .opening-colorfield {

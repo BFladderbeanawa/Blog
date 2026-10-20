@@ -13,7 +13,6 @@
     "fmt": "vp fmt"
   },
   "dependencies": {
-    "@fontsource/noto-serif-sc": "^5.3.1",
     "gray-matter": "^4.0.3",
     "katex": "^0.16.22",
     "next": "^16.4.2",

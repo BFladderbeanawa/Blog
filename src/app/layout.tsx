@@ -5,13 +5,13 @@ import { NavigationProvider, RouteLink } from '@/components/site/Navigation';
 import { SiteHeader } from '@/components/site/SiteHeader';
 import { site, socials } from '@/data/site';
 import 'katex/dist/katex.min.css';
-import '@fontsource/noto-serif-sc/400.css';
-import '@fontsource/noto-serif-sc/600.css';
 import './globals.css';
 
 const syne = localFont({
   src: [
     { path: '../../public/fonts/Syne/Syne-Regular.ttf', weight: '400' },
+    { path: '../../public/fonts/Syne/Syne-Medium.ttf', weight: '500' },
+    { path: '../../public/fonts/Syne/Syne-SemiBold.ttf', weight: '600' },
     { path: '../../public/fonts/Syne/Syne-Bold.ttf', weight: '700' },
     { path: '../../public/fonts/Syne/Syne-ExtraBold.ttf', weight: '800' },
   ],
