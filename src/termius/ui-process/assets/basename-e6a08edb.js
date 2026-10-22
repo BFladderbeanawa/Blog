@@ -1,0 +1,2 @@
+const e="Return filename portion of pathname",n="basename",t=[{name:"string",description:"String to operate on (typically filenames)",template:["filepaths"],isVariadic:!0}],a=[{description:"Treat every argument as a string",name:"-a"},{description:"Suffix to remove from string",name:"-s",args:[{name:"suffix"}]}],s={description:e,name:n,args:t,options:a};export{t as args,s as default,e as description,n as name,a as options};
+//# sourceMappingURL=basename-e6a08edb.js.map

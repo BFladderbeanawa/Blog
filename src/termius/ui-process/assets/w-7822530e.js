@@ -1,0 +1,2 @@
+const e="Display who is logged in and what they are doing",s="w",t=[{name:"user",isVariadic:!0,isOptional:!0}],i=[{description:"Suppress the heading",name:"-h"},{description:"Output is sorted by idle time",name:"-i"}],n={optionsMustPrecedeArguments:!0},r={description:e,name:s,args:t,options:i,parserDirectives:n};export{t as args,r as default,e as description,s as name,i as options,n as parserDirectives};
+//# sourceMappingURL=w-7822530e.js.map

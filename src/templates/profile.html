@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="profile-page-hero">
+    <div class="profile-hero-background" aria-hidden="true">
+        <span class="profile-hero-glow glow-primary"></span>
+        <span class="profile-hero-glow glow-secondary"></span>
+        <span class="profile-hero-glow glow-tertiary"></span>
+        <span class="profile-hero-grid"></span>
+    </div>
+    <div class="profile-hero-inner">
+        <div class="profile-hero-main" data-profile-animate>
+            <div class="profile-avatar-stack">
+                <span class="profile-avatar-glow" aria-hidden="true"></span>
+                <span class="profile-avatar-ring" aria-hidden="true"></span>
+                <div class="profile-avatar" aria-hidden="true">{{ user.username[0]|upper }}</div>
+            </div>
+            <div class="profile-hero-content">
+                <span class="profile-badge">
+                    <span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span>
+                    NekoCTF · Explorer
+                </span>
+                <h1>{{ user.username }}</h1>
+                <p class="profile-hero-subtitle">
+                    {% if is_self %}
+                        欢迎回到喵星作战室，这里记录着你一路的灵感与突破。
+                    {% else %}
+                        这是 {{ user.username }} 在 NekoCTF 的冒险日志，见证每一次灵光乍现。
+                    {% endif %}
+                </p>
+                <div class="profile-meta-chips">
+                    {% if profile_stats.rank %}
+                        <span class="profile-chip highlight">
+                            <span class="material-symbols-outlined" aria-hidden="true">military_tech</span>
+                            排行榜第 {{ profile_stats.rank }} 位
+                        </span>
+                    {% else %}
+                        <span class="profile-chip muted">
+                            <span class="material-symbols-outlined" aria-hidden="true">hide_source</span>
+                            尚未登上排行榜
+                        </span>
+                    {% endif %}
+                    {% if is_self %}
+                        <span class="profile-chip subtle">
+                            <span class="material-symbols-outlined" aria-hidden="true">mail</span>
+                            登录邮箱 · {{ user.email }}
+                        </span>
+                    {% endif %}
+                    {% if profile_stats.total_submissions %}
+                        <span class="profile-chip subtle">
+                            <span class="material-symbols-outlined" aria-hidden="true">change_history</span>
+                            累计提交 {{ profile_stats.total_submissions }} 次
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="profile-hero-actions md3-btn-group">
+                    <a class="md3-btn md3-btn--primary" href="{{ url_for('public.challenges') }}">
+                        <span class="material-symbols-outlined" aria-hidden="true">rocket_launch</span>
+                        {%- if is_self -%}继续挑战{%- else -%}查看挑战列表{%- endif -%}
+                    </a>
+                    <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.leaderboard') }}">
+                        <span class="material-symbols-outlined" aria-hidden="true">leaderboard</span>
+                        查看排行榜
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="profile-hero-stats" data-profile-animate>
+            <article class="profile-stat-card primary">
+                <span class="label">总积分</span>
+                <span class="value">{{ profile_stats.score }}</span>
+                <span class="note">来自有效解题</span>
+            </article>
+            <article class="profile-stat-card">
+                <span class="label">解题数</span>
+                <span class="value">{{ profile_stats.solves }}</span>
+                <span class="note">累计正确提交</span>
+            </article>
+            <article class="profile-stat-card">
+                <span class="label">提交成功率</span>
+                <span class="value">
+                    {% if profile_stats.accuracy_percentage is not none %}
+                        {{ profile_stats.accuracy_percentage }}%
+                    {% else %}
+                        --
+                    {% endif %}
+                </span>
+                <span class="note">总提交 {{ profile_stats.total_submissions }} 次</span>
+            </article>
+            <article class="profile-stat-card">
+                <span class="label">最近提交</span>
+                <span class="value">
+                    {% if profile_stats.last_submit %}
+                        {{ profile_stats.last_submit.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        --
+                    {% endif %}
+                </span>
+                <span class="note">
+                    {% if profile_stats.last_submit %}
+                        {{ profile_stats.last_submit.strftime('%H:%M') }}
+                    {% elif profile_stats.first_solve %}
+                        首次解题 {{ profile_stats.first_solve.strftime('%Y-%m-%d') }}
+                    {% else %}
+                        尚无记录
+                    {% endif %}
+                </span>
+            </article>
+        </div>
+    </div>
+</section>
+
+{% set avg_score = (profile_stats.score / profile_stats.solves)|round(1) if profile_stats.solves else None %}
+
+<section class="content-section profile-section profile-overview">
+    <div class="section-heading" data-profile-animate>
+        <h2>成长指标</h2>
+        <p>透视你的竞技轨迹，快速定位发力方向。</p>
+    </div>
+    <div class="profile-insight-grid">
+        <article class="profile-insight-card accent" data-profile-animate>
+            <h3>平均每题得分</h3>
+            <p class="insight-value">{{ avg_score if avg_score is not none else '--' }}</p>
+            <p class="insight-note">总积分 {{ profile_stats.score }} · 解题 {{ profile_stats.solves }} 次</p>
+        </article>
+        <article class="profile-insight-card" data-profile-animate>
+            <h3>提交效率</h3>
+            <p class="insight-value">
+                {% if profile_stats.accuracy_percentage is not none %}
+                    {{ profile_stats.accuracy_percentage }}%
+                {% else %}
+                    --
+                {% endif %}
+            </p>
+            <p class="insight-note">累计提交 {{ profile_stats.total_submissions }} 次</p>
+        </article>
+        <article class="profile-insight-card subtle" data-profile-animate>
+            <h3>旅程节点</h3>
+            <ul class="insight-list">
+                <li>
+                    <span class="insight-label">首次解题</span>
+                    <span class="insight-data">
+                        {% if profile_stats.first_solve %}
+                            {{ profile_stats.first_solve.strftime('%Y-%m-%d') }}
+                        {% else %}
+                            --
+                        {% endif %}
+                    </span>
+                </li>
+                <li>
+                    <span class="insight-label">最近提交</span>
+                    <span class="insight-data">
+                        {% if profile_stats.last_submit %}
+                            {{ profile_stats.last_submit.strftime('%Y-%m-%d %H:%M') }}
+                        {% else %}
+                            --
+                        {% endif %}
+                    </span>
+                </li>
+            </ul>
+        </article>
+    </div>
+</section>
+
+<section class="content-section profile-section">
+    <div class="section-heading" data-profile-animate>
+        <h2>战术面板</h2>
+        <p>了解不同赛题方向的掌握程度，锁定下一个突破点。</p>
+    </div>
+    {% if category_breakdown %}
+        {% set sorted_categories = category_breakdown | sort(attribute='count', reverse=True) %}
+        {% set top_category = sorted_categories[0] %}
+        <div class="profile-category-highlight" data-profile-animate>
+            <div class="profile-category-highlight-body">
+                <span class="profile-category-kicker">当前最擅长</span>
+                <h3>{{ top_category.category }}</h3>
+                <p>{{ top_category.count }} 道题已掌握 · 完成度 {{ top_category.percentage|round(1) }}%</p>
+            </div>
+            <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.challenges') }}">
+                <span class="material-symbols-outlined" aria-hidden="true">category</span>
+                在该分类继续深入
+            </a>
+        </div>
+        <div class="profile-category-grid">
+            {% for item in sorted_categories %}
+                <article class="profile-category-card" data-profile-animate>
+                    <h3>{{ item.category }}</h3>
+                    <p class="category-count">{{ item.count }} 题</p>
+                    <div class="category-progress" role="img" aria-label="{{ item.category }} 完成度 {{ item.percentage|round(1) }}%">
+                        <span class="category-progress-bar" style="--progress-scale: {{ (item.percentage / 100)|round(3) }}"></span>
+                    </div>
+                    <p class="category-note">完成度 {{ item.percentage|round(1) }}%</p>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state" data-profile-animate>
+            <p>喵～暂时还没有完成的赛题分类，去解锁第一血吧！</p>
+        </div>
+    {% endif %}
+</section>
+
+<section class="content-section profile-section">
+    <div class="section-heading" data-profile-animate>
+        <h2>已解挑战</h2>
+        <p>收藏每一次「恍然大喵」的瞬间，点击可回顾题目详情。</p>
+    </div>
+    {% if solved_challenges %}
+        <div class="profile-solved-grid">
+            {% for challenge in solved_challenges[:8] %}
+                <article class="profile-solved-card" data-profile-animate>
+                    <div class="solved-card-head">
+                        <span class="solved-category">{{ challenge.category }}</span>
+                        <span class="difficulty-badge difficulty-{{ challenge.difficulty | lower | replace(' ', '-') }}">{{ challenge.difficulty }}</span>
+                    </div>
+                    <h3>{{ challenge.title }}</h3>
+                    <p class="solved-meta">
+                        <span>{{ challenge.points }} 分</span>
+                        {% if challenge.stage_progress %}
+                            {% set progress = challenge.stage_progress %}
+                            <span>
+                                {% if progress.is_complete %}
+                                    所有 {{ progress.total }} 阶段已完成
+                                {% else %}
+                                    已解锁 {{ progress.solved }}/{{ progress.total }} 阶段
+                                {% endif %}
+                            </span>
+                        {% endif %}
+                        {% if challenge.solved_at %}
+                            <span>最近完成 {{ challenge.solved_at.strftime('%Y-%m-%d %H:%M') }}</span>
+                        {% endif %}
+                    </p>
+                    <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.challenge_detail', challenge_id=challenge.id) }}">
+                        <span class="material-symbols-outlined" aria-hidden="true">open_in_new</span>
+                        回顾题目
+                    </a>
+                </article>
+            {% endfor %}
+        </div>
+        {% if solved_challenges|length > 8 %}
+            <p class="profile-more-note" data-profile-animate>共 {{ profile_stats.solves }} 道题全部阶段已完成，继续保持喵！</p>
+        {% endif %}
+    {% else %}
+        <div class="profile-empty-cta" data-profile-animate>
+            <p>还没有拿下任何题目喵，先从 Easy 难度热身一下吧！</p>
+            <a class="md3-btn md3-btn--primary" href="{{ url_for('public.challenges') }}">
+                <span class="material-symbols-outlined" aria-hidden="true">flag</span>
+                去解锁第一道题
+            </a>
+        </div>
+    {% endif %}
+</section>
+
+<section class="content-section profile-section">
+    <div class="section-heading" data-profile-animate>
+        <h2>最近活动</h2>
+        <p>回顾最新的提交记录，追踪灵感迸发的时刻。</p>
+    </div>
+    {% if recent_activity %}
+        <ol class="profile-activity-timeline">
+            {% for activity in recent_activity %}
+                <li class="profile-activity-item {{ 'success' if activity.is_correct else 'attempt' }}" data-profile-animate>
+                    <div class="activity-time">
+                        {{ activity.submitted_at.strftime('%Y-%m-%d %H:%M') }}
+                    </div>
+                    <div class="activity-body">
+                        <h3>
+                            <a href="{{ url_for('public.challenge_detail', challenge_id=activity.challenge_id) }}">{{ activity.title }}</a>
+                        </h3>
+                        <p class="activity-meta">
+                            <span>{{ activity.category }}</span>
+                            <span>{{ activity.points }} 分</span>
+                            <span class="status {{ 'solved' if activity.is_correct else 'unsolved' }}">
+                                {{ '成功' if activity.is_correct else '尝试' }}
+                            </span>
+                        </p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <div class="profile-empty-cta" data-profile-animate>
+            <p>目前还没有提交记录喵，快去挑战一道题目试试看！</p>
+            <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.challenges') }}">
+                <span class="material-symbols-outlined" aria-hidden="true">bolt</span>
+                挑一题尝试提交
+            </a>
+        </div>
+    {% endif %}
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('[data-profile-animate]');
+
+    if (!animatedElements.length) {
+        return;
+    }
+
+    window.requestAnimationFrame(() => {
+        document.body.classList.add('profile-animate-ready');
+    });
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -10% 0px'
+    });
+
+    animatedElements.forEach((element) => {
+        observer.observe(element);
+    });
+});
+</script>
+{% endblock %}

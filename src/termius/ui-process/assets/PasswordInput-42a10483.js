@@ -1,0 +1,2 @@
+import{bn as t,oQ as r,k$ as a,z2 as l,r as i,m3 as n}from"./reconnectSaga-e33541d6.js";function d({visible:o,onToggle:s}){return t(r,{"aria-label":"Toggle password visibility",onClick:s,tabIndex:-1,children:o?t(a,{style:{color:"var(--light-grey-3)"}}):t(l,{style:{color:"var(--light-grey-3)"}})})}const u=o=>{const[s,e]=i.useState(!1);return t(n,{...o,type:s?"text":"password",endAdornment:t(d,{visible:s,onToggle:()=>e(!s)})})};export{u as P};
+//# sourceMappingURL=PasswordInput-42a10483.js.map

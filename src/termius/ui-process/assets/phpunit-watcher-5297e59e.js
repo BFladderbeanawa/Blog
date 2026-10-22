@@ -1,0 +1,2 @@
+const e="Automatically rerun PHPUnit tests when source code changes",t="phpunit-watcher",s=[{description:"This will run the tests and rerun them whenever a file in the app, src or tests directory is modified",name:"watch",options:[{description:"Watch a specific test",name:"--filter",args:[{name:"filter"}]}]}],n={description:e,name:t,subcommands:s};export{n as default,e as description,t as name,s as subcommands};
+//# sourceMappingURL=phpunit-watcher-5297e59e.js.map
