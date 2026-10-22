@@ -97,6 +97,12 @@
       "skillPath": "skills/mcp-builder/SKILL.md",
       "computedHash": "6498a736a8dc5c645047c8a875b8ea7417e2ad97146f005200e50d20a9337ada"
     },
+    "media-use": {
+      "source": "heygen-com/hyperframes",
+      "sourceType": "github",
+      "skillPath": "skills/media-use/SKILL.md",
+      "computedHash": "3f892d62e9abe64575cf34eb76d5cd80309c18e5ab40e3b6f6f5c7d884d03d18"
+    },
     "pdf": {
       "source": "anthropics/skills",
       "sourceType": "github",
