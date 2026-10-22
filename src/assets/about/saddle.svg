@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="480" height="310" viewBox="0 0 480 310" fill="none">
-  <g stroke="#4930bc" stroke-linecap="round">
+  <g stroke="#c92a72" stroke-linecap="round">
     <path d="M 240.00 80.00 Q 341.40 254.46 442.80 145.00" stroke-width="1.2" opacity="0.5" />
     <path d="M 219.72 60.95 Q 321.12 235.41 422.52 125.95" stroke-width="0.8" opacity="0.5" />
     <path d="M 199.44 47.57 Q 300.84 222.03 402.24 112.57" stroke-width="0.8" opacity="0.5" />
@@ -23,5 +23,5 @@
     <path d="M 422.52 164.05 Q 321.12 54.59 219.72 229.05" stroke-width="0.8" opacity="0.5" />
     <path d="M 442.80 145.00 Q 341.40 35.54 240.00 210.00" stroke-width="1.2" opacity="0.5" />
   </g>
-  <text x="240" y="290" text-anchor="middle" fill="#4930bc" font-family="Georgia,serif" font-style="italic" font-size="18">z = x² − y²</text>
+  <text x="240" y="290" text-anchor="middle" fill="#c92a72" font-family="Georgia,serif" font-style="italic" font-size="18">z = x² − y²</text>
 </svg>

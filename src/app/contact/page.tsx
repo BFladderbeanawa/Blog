@@ -72,7 +72,7 @@ export default function Contact() {
           <Image
             className="contact-hands"
             data-hand={hand}
-            src="/contact-hands-violet-cutout.webp"
+            src="/contact-hands-navy-cutout.webp"
             alt=""
             fill
             sizes="100vw"

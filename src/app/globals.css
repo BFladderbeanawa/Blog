@@ -1,14 +1,16 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-paper: #f5f5ef;
-  --color-ink: #17171a;
-  --color-acid: #d9f542;
-  --color-violet: #4930bc;
-  --color-violet-dark: #27165e;
-  --color-muted: #62625e;
-  --color-line: #cecec6;
-  --color-code: #e6e6dd;
+  /* Trial palette sampled from the All Posts portrait: line-art navy, sky cyan,
+     flower rose. Token names still carry the previous acid/violet roles. */
+  --color-paper: #faf7f5;
+  --color-ink: #1f1d4f;
+  --color-acid: #6fd8f2;
+  --color-violet: #c92a72;
+  --color-violet-dark: #2e2a78;
+  --color-muted: #5f5d78;
+  --color-line: #ddd6e4;
+  --color-code: #f3e9f0;
 
   --font-body: var(--font-syne), sans-serif;
   --font-scene: var(--font-syne), sans-serif;
@@ -127,7 +129,7 @@ body:has(.home-deck) .site-footer {
   display: none;
 }
 
-/* Contact: a violet anatomical plate, with one proportional coordinate system.
+/* Contact: an anatomical plate, with one proportional coordinate system.
    The stage spans header to footer; the 3:2 canvas is zoomed around the fingertip
    point so its nine visible rows fill that band on tall viewports and crop the sides. */
 .contact-stage {
@@ -144,8 +146,10 @@ body:has(.home-deck) .site-footer {
 }
 
 .contact-canvas {
-  --contact-forest: var(--violet-dark);
-  --contact-acid: #ded5f2;
+  --contact-forest: var(--ink);
+  --contact-acid: #fde4f0;
+  /* Construction circle, poles and glitch fringe of the anatomy study. */
+  --contact-guide: var(--violet);
   position: absolute;
   top: 50%;
   left: 50%;
@@ -190,7 +194,7 @@ body:has(.home-deck) .site-footer {
 }
 
 .contact-construction {
-  stroke: #537444;
+  stroke: var(--contact-guide);
   stroke-width: 2;
   stroke-dasharray: 8 14;
   opacity: 0.6;
@@ -206,13 +210,13 @@ body:has(.home-deck) .site-footer {
 }
 
 .contact-measurements {
-  stroke: #537444;
+  stroke: var(--contact-guide);
   stroke-width: 2;
   opacity: 0.7;
 }
 
 .contact-measurements circle {
-  fill: #537444;
+  fill: var(--contact-guide);
   stroke: none;
 }
 
@@ -256,20 +260,23 @@ body:has(.home-deck) .site-footer {
   font: inherit;
 }
 
+/* Echo rows fade from rose into the blush plate. Mixing the navy core instead
+   reads as grey once diluted, so the echoes take the accent hue; oklab keeps
+   the steps saturated rather than drifting through muddy sRGB midpoints. */
 .contact-echo[data-depth='1'] {
-  color: color-mix(in srgb, var(--contact-forest) 38%, var(--contact-acid));
+  color: color-mix(in oklab, var(--violet) 72%, var(--contact-acid));
 }
 
 .contact-echo[data-depth='2'] {
-  color: color-mix(in srgb, var(--contact-forest) 22%, var(--contact-acid));
+  color: color-mix(in oklab, var(--violet) 48%, var(--contact-acid));
 }
 
 .contact-echo[data-depth='3'] {
-  color: color-mix(in srgb, var(--contact-forest) 13%, var(--contact-acid));
+  color: color-mix(in oklab, var(--violet) 30%, var(--contact-acid));
 }
 
 .contact-echo[data-depth='4'] {
-  color: color-mix(in srgb, var(--contact-forest) 8%, var(--contact-acid));
+  color: color-mix(in oklab, var(--violet) 17%, var(--contact-acid));
 }
 
 /* Links live on the stage, not the cropped canvas, so their text never leaves
@@ -306,6 +313,7 @@ body:has(.home-deck) .site-footer {
 
 .contact-route::after {
   flex: 1;
+  min-width: 6cqh;
   height: max(2px, 0.292cqh);
   background: var(--acid);
   content: '';
@@ -314,7 +322,10 @@ body:has(.home-deck) .site-footer {
 .contact-link {
   flex: none;
   padding: 0.547cqh 0.73cqh;
-  font-size: 5.838cqh;
+  /* Tall stages zoom the plate wider than the side margins can follow; shrink the
+     labels so the widest one (3.6em) plus padding, gap and a 6cqh rule still fits
+     between the stage edge and the plate (45cqw − 44.928cqh on the tighter side). */
+  font-size: min(5.838cqh, (45cqw - 54.577cqh) / 3.6);
   font-weight: 600;
   line-height: 1.1;
   letter-spacing: -0.055em;
@@ -370,7 +381,7 @@ body:has(.home-deck) .site-footer {
 
 /* Entry: Contact unfolds from its centre row, the arms reach in along their
    diagonals, links slide in from opposite edges, then the anatomy glitches on.
-   The violet plate is never animated. */
+   The plate is never animated. */
 @media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
   .contact-type-stack h1 {
     animation: contact-row-open 360ms var(--ease-panel) both;
@@ -471,7 +482,7 @@ body:has(.home-deck) .site-footer {
 }
 
 /* Hard cuts between keyframes: horizontal slices flash with a small offset and a
-   violet/green split, then the full study locks in place. */
+   violet/guide-colour split, then the full study locks in place. */
 @keyframes contact-study-glitch {
   0% {
     opacity: 0;
@@ -481,7 +492,7 @@ body:has(.home-deck) .site-footer {
     opacity: 1;
     clip-path: inset(30% 0 54% 0);
     translate: 0.8% 0;
-    filter: drop-shadow(-0.25cqw 0 0 var(--violet-dark)) drop-shadow(0.25cqw 0 0 #537444);
+    filter: drop-shadow(-0.25cqw 0 0 var(--violet-dark)) drop-shadow(0.25cqw 0 0 var(--contact-guide));
   }
 
   16% {
@@ -492,7 +503,7 @@ body:has(.home-deck) .site-footer {
     opacity: 1;
     clip-path: inset(56% 0 20% 0);
     translate: -0.6% 0;
-    filter: drop-shadow(0.25cqw 0 0 var(--violet-dark)) drop-shadow(-0.25cqw 0 0 #537444);
+    filter: drop-shadow(0.25cqw 0 0 var(--violet-dark)) drop-shadow(-0.25cqw 0 0 var(--contact-guide));
   }
 
   36% {
@@ -512,7 +523,7 @@ body:has(.home-deck) .site-footer {
     opacity: 1;
     clip-path: inset(0 0 0 0);
     translate: -0.25% 0;
-    filter: drop-shadow(-0.15cqw 0 0 var(--violet-dark)) drop-shadow(0.15cqw 0 0 #537444);
+    filter: drop-shadow(-0.15cqw 0 0 var(--violet-dark)) drop-shadow(0.15cqw 0 0 var(--contact-guide));
   }
 
   70% {
@@ -693,12 +704,12 @@ body:has(.home-deck) .site-footer {
   .hljs-keyword,
   .hljs-selector-tag,
   .hljs-literal {
-    color: #d9f542;
+    color: var(--acid);
   }
 
   .hljs-string,
   .hljs-attr {
-    color: #c4b5ff;
+    color: #f7a8cf;
   }
 
   .hljs-comment {
@@ -1130,4 +1141,420 @@ body:has(.home-deck) .site-footer {
   syntax: '<percentage>';
   inherits: true;
   initial-value: 0%;
+}
+
+/* All Posts: colour-block poster. Four flat planes, the lockup and the portrait
+   panel; the panel insets are shared so the blocks can lock to its edges.
+   Blush and pink are sampled from the portrait's flowers. */
+.all-page {
+  --all-blush: #fde4f0;
+  --all-pink: #f674ae;
+}
+
+.all-hero {
+  --panel-top: 4%;
+  --panel-right: var(--gutter);
+  --panel-bottom: 3%;
+  --panel-left: 44%;
+  position: relative;
+  height: clamp(620px, calc(100svh - 89px), 1040px);
+  max-width: 1800px;
+  margin-inline: auto;
+  isolation: isolate;
+  overflow: clip;
+}
+
+.all-block {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Cuts through the middle of ALL, so the lockup sits half on paper, half on blush. */
+.all-block-blush {
+  top: 42%;
+  bottom: 0;
+  left: 0;
+  width: 52%;
+  background: var(--all-blush);
+}
+
+/* Behind the panel, offset up and right: reads as an L-shaped sky frame. */
+.all-block-sky {
+  top: 0;
+  right: 0;
+  bottom: 36%;
+  left: calc(var(--panel-left) + 12%);
+  background: var(--acid);
+}
+
+/* Laid over the panel's lower-left corner. */
+.all-block-pink {
+  z-index: 3;
+  bottom: 9%;
+  left: calc(var(--panel-left) - 5%);
+  width: 13%;
+  height: 20%;
+  background: var(--all-pink);
+}
+
+/* Small dark counterweight in the empty upper-left field. */
+.all-block-band {
+  top: 10%;
+  left: var(--gutter);
+  width: 7%;
+  aspect-ratio: 1;
+  background: var(--ink);
+}
+
+.all-title {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: var(--gutter);
+  display: grid;
+  margin: 0;
+  translate: 0 -50%;
+  color: var(--ink);
+  font-size: min(16vw, 25svh);
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.075em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* POSTS steps right so the two rows read as staggered blocks, not a label. */
+.all-title-posts {
+  margin-left: 0.18em;
+  color: var(--violet);
+}
+
+.all-portrait {
+  position: absolute;
+  z-index: 2;
+  inset: var(--panel-top) var(--panel-right) var(--panel-bottom) var(--panel-left);
+  user-select: none;
+}
+
+/* Anchored to the top edge so the ears and hair flowers stay in frame. */
+.all-portrait-image {
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+/* Each slice is the full portrait clipped to one band and pushed sideways; the
+   colour fringe reuses the portrait's own red/cyan misregistration. */
+.all-portrait-slice {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(var(--slice-top) 0 var(--slice-bottom) 0);
+  translate: var(--slice-shift) 0;
+  filter: drop-shadow(-4px 0 0 rgb(230 40 80 / 0.6)) drop-shadow(4px 0 0 rgb(64 210 245 / 0.7));
+}
+
+.all-scroll {
+  position: absolute;
+  z-index: 4;
+  bottom: 9%;
+  left: var(--gutter);
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.4em;
+  font-size: clamp(18px, 1.9vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.all-scroll svg {
+  width: 1.1em;
+  height: 1.1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+.all-scroll:hover,
+.all-scroll:focus-visible {
+  color: var(--violet);
+}
+
+/* Entry: the planes wipe in first, title rows rise out of their baselines, the panel
+   is cut open from its left edge, slices snap off-register, the acid block lands last. */
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .all-block {
+    animation: all-block-wipe 720ms var(--ease-panel) both;
+  }
+
+  .all-block-sky {
+    animation-name: all-block-drop;
+    animation-delay: 80ms;
+  }
+
+  .all-block-band {
+    animation-delay: 160ms;
+  }
+
+  .all-block-pink {
+    animation-name: all-block-drop;
+    animation-delay: 820ms;
+  }
+
+  .all-title-row {
+    animation: all-row-rise 720ms var(--ease) 180ms both;
+  }
+
+  .all-title-posts {
+    animation-delay: 270ms;
+  }
+
+  .all-portrait {
+    animation: all-panel-open 860ms var(--ease-panel) 240ms both;
+  }
+
+  .all-portrait-slice {
+    animation: all-slice-snap 520ms steps(1, end) 980ms both;
+  }
+
+  .all-scroll {
+    animation: all-fade 520ms var(--ease) 980ms both;
+  }
+}
+
+@keyframes all-block-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes all-block-drop {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes all-row-rise {
+  from {
+    clip-path: inset(0 0 100% 0);
+    translate: 0 0.4em;
+  }
+
+  to {
+    clip-path: inset(0 0 -10% 0);
+    translate: 0 0;
+  }
+}
+
+@keyframes all-panel-open {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@keyframes all-slice-snap {
+  0% {
+    translate: 0 0;
+  }
+
+  30% {
+    translate: calc(var(--slice-shift) * -2) 0;
+  }
+
+  60% {
+    translate: calc(var(--slice-shift) * 1.6) 0;
+  }
+
+  100% {
+    translate: var(--slice-shift) 0;
+  }
+}
+
+@keyframes all-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .all-portrait-slice {
+    display: none;
+  }
+}
+
+/* Index: one numbered row per post on the same gutter as the hero. */
+.all-index {
+  max-width: 1800px;
+  margin-inline: auto;
+  padding: clamp(64px, 9vw, 140px) var(--gutter) 100px;
+}
+
+.all-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--ink);
+}
+
+.all-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5.5rem 9rem minmax(0, 1fr) 3rem;
+  gap: clamp(16px, 2.4vw, 40px);
+  align-items: baseline;
+  padding-block: clamp(28px, 3vw, 44px);
+  border-top: 1px solid var(--ink);
+}
+
+.all-row-number {
+  color: var(--violet);
+  font-size: clamp(28px, 3vw, 48px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.all-row-date {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.all-row-title {
+  font-size: clamp(26px, 3.2vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -0.045em;
+}
+
+/* The link covers the whole row; the sky plate sweeps in under the title. */
+.all-row-link {
+  background: linear-gradient(var(--acid), var(--acid)) no-repeat left 88% / 0% 0.42em;
+}
+
+.all-row-link::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.all-row:hover .all-row-link,
+.all-row-link:focus-visible {
+  background-size: 100% 0.42em;
+}
+
+.all-row-description {
+  max-width: 46em;
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.all-row-arrow {
+  width: 100%;
+  align-self: center;
+  stroke-width: 2.5;
+  translate: -12px 0;
+  opacity: 0;
+}
+
+.all-row:hover .all-row-arrow,
+.all-row:focus-within .all-row-arrow {
+  translate: 0 0;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .all-row-link {
+    transition: background-size 360ms var(--ease);
+  }
+
+  .all-row-arrow {
+    transition:
+      translate 360ms var(--ease),
+      opacity 360ms var(--ease);
+  }
+}
+
+@media (forced-colors: active) {
+  .all-row:hover .all-row-link,
+  .all-row-link:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+.all-empty {
+  padding-block: 64px;
+  border-block: 1px solid var(--ink);
+  color: var(--muted);
+  font-size: clamp(20px, 2.3vw, 30px);
+}
+
+@media (width <= 700px) {
+  .all-hero {
+    --panel-top: 40%;
+    --panel-left: var(--gutter);
+    --panel-bottom: 14%;
+  }
+
+  .all-title {
+    top: 22%;
+    font-size: 21vw;
+  }
+
+  .all-block-blush {
+    top: 10%;
+    bottom: 62%;
+    width: 78%;
+  }
+
+  .all-block-sky {
+    top: 34%;
+    bottom: 10%;
+    left: 32%;
+  }
+
+  .all-block-pink {
+    bottom: 9%;
+    left: var(--gutter);
+    width: 26%;
+    height: 9%;
+  }
+
+  .all-block-band {
+    display: none;
+  }
+
+  .all-scroll {
+    bottom: 1%;
+  }
+
+  .all-row {
+    grid-template-columns: 3rem minmax(0, 1fr);
+  }
+
+  .all-row-date {
+    grid-column: 2;
+  }
+
+  .all-row-body {
+    grid-column: 2;
+  }
+
+  .all-row-arrow {
+    display: none;
+  }
 }
