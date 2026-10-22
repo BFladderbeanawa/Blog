@@ -23,6 +23,7 @@ export type Post = {
   pubDate: string;
   updatedDate?: string;
   heroImage?: string;
+  tags: string[];
   content: string;
   frontmatter: Record<string, unknown>;
 };
@@ -164,6 +165,7 @@ function parsePost(filename: string, source: string): Post {
     pubDate,
     ...(updatedDate === undefined ? {} : { updatedDate }),
     ...(heroImage === undefined ? {} : { heroImage }),
+    tags: (frontmatter.tags as string[] | undefined) ?? [],
     content: parsed.content,
     frontmatter,
   };

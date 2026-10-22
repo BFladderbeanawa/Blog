@@ -1,7 +1,8 @@
 import type { CSSProperties } from 'react';
 import type { Metadata } from 'next';
 import Image from 'next/image';
-import { RouteLink } from '@/components/site/Navigation';
+import { AllPostsIndex, type IndexPost } from '@/components/site/AllPostsIndex';
+import { AllPostsPager } from '@/components/site/AllPostsPager';
 import { getPosts } from '@/lib/posts';
 
 export const metadata: Metadata = {
@@ -26,10 +27,28 @@ const slices = [
 
 export default async function AllPostsPage() {
   const posts = await getPosts();
+  const indexPosts: IndexPost[] = await Promise.all(
+    posts.map(async (post, index) => ({
+      slug: post.slug,
+      number: String(posts.length - index).padStart(2, '0'),
+      title: post.title,
+      description: post.description,
+      pubDate: post.pubDate,
+      date: dateFormatter.format(new Date(post.pubDate)),
+      tags: post.tags,
+      // Each Markdown file selects its image at runtime; a static import cannot select it.
+      cover: post.heroImage
+        ? post.heroImage.startsWith('/')
+          ? post.heroImage
+          : (await import(`@/assets/${post.heroImage}`)).default
+        : undefined,
+    })),
+  );
 
   return (
     <main id="main-content" className="all-page" aria-labelledby="all-heading">
-      <section className="all-hero">
+      <AllPostsPager />
+      <section className="all-hero" data-all-page>
         <span className="all-block all-block-blush" aria-hidden="true" />
         <span className="all-block all-block-sky" aria-hidden="true" />
 
@@ -59,7 +78,13 @@ export default async function AllPostsPage() {
               }
               key={slice.top}
             >
-              <Image className="all-portrait-image" src="/all-posts-hero.webp" alt="" fill sizes="55vw" />
+              <Image
+                className="all-portrait-image"
+                src="/all-posts-hero.webp"
+                alt=""
+                fill
+                sizes="55vw"
+              />
             </div>
           ))}
         </div>
@@ -75,35 +100,7 @@ export default async function AllPostsPage() {
         </a>
       </section>
 
-      <section id="archive-index" className="all-index" aria-label="Posts">
-        {posts.length === 0 ? (
-          <p className="all-empty">Nothing published yet.</p>
-        ) : (
-          <ol className="all-list">
-            {posts.map((post, index) => (
-              <li className="all-row" key={post.slug}>
-                <span className="all-row-number" aria-hidden="true">
-                  {String(posts.length - index).padStart(2, '0')}
-                </span>
-                <time className="all-row-date" dateTime={post.pubDate}>
-                  {dateFormatter.format(new Date(post.pubDate))}
-                </time>
-                <div className="all-row-body">
-                  <h2 className="all-row-title">
-                    <RouteLink className="all-row-link" href={`/posts/${post.slug}`}>
-                      {post.title}
-                    </RouteLink>
-                  </h2>
-                  <p className="all-row-description">{post.description}</p>
-                </div>
-                <svg className="all-row-arrow" viewBox="0 0 48 48" aria-hidden="true">
-                  <path d="M4 24h40M28 8l16 16-16 16" />
-                </svg>
-              </li>
-            ))}
-          </ol>
-        )}
-      </section>
+      <AllPostsIndex posts={indexPosts} />
     </main>
   );
 }

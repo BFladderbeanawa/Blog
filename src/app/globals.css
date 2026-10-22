@@ -1120,6 +1120,26 @@ body:has(.home-deck) .site-footer {
   animation: none;
 }
 
+html[data-route-transition='push']::view-transition-old(root) {
+  animation: route-push-out 640ms var(--ease-panel) both;
+}
+
+html[data-route-transition='push']::view-transition-new(root) {
+  animation: route-push-in 640ms var(--ease-panel) both;
+}
+
+@keyframes route-push-out {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes route-push-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+
 .custom-cursor {
   view-transition-name: site-cursor;
 }
@@ -1151,13 +1171,43 @@ body:has(.home-deck) .site-footer {
   --all-pink: #f674ae;
 }
 
+/* Two pages, like the homepage deck: header + hero, then index + footer.
+   Native mandatory snapping turns one wheel notch or key press into a page
+   turn, while an index taller than the viewport still scrolls freely inside. */
+html:has(.all-page) {
+  scroll-padding-top: 0;
+  scroll-snap-type: y mandatory;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.all-page) {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:has(.all-page) {
+    scroll-snap-type: y proximity;
+  }
+}
+
+body:has(.all-page) .site-header,
+.all-index {
+  scroll-snap-align: start;
+}
+
+body:has(.all-page) .site-footer {
+  scroll-snap-align: end;
+}
+
 .all-hero {
   --panel-top: 4%;
   --panel-right: var(--gutter);
   --panel-bottom: 3%;
   --panel-left: 44%;
   position: relative;
-  height: clamp(620px, calc(100svh - 89px), 1040px);
+  /* Fills the first page below the 89px header. */
+  height: max(620px, calc(100svh - 89px));
   max-width: 1800px;
   margin-inline: auto;
   isolation: isolate;
@@ -1281,45 +1331,47 @@ body:has(.home-deck) .site-footer {
   color: var(--violet);
 }
 
-/* Entry: the planes wipe in first, title rows rise out of their baselines, the panel
-   is cut open from its left edge, slices snap off-register, the acid block lands last. */
+/* Entry: a single burst before the page turns to the index, not something to
+   read. Planes wipe in, title rows rise, the panel is cut open, slices snap
+   off-register and the pink block lands last; everything settles by ~1s. */
 @media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
   .all-block {
-    animation: all-block-wipe 720ms var(--ease-panel) both;
+    animation: all-block-wipe 480ms var(--ease-panel) both;
   }
 
   .all-block-sky {
     animation-name: all-block-drop;
-    animation-delay: 80ms;
+    animation-delay: 40ms;
   }
 
   .all-block-band {
-    animation-delay: 160ms;
+    animation-delay: 80ms;
   }
 
   .all-block-pink {
     animation-name: all-block-drop;
-    animation-delay: 820ms;
+    animation-duration: 360ms;
+    animation-delay: 560ms;
   }
 
   .all-title-row {
-    animation: all-row-rise 720ms var(--ease) 180ms both;
+    animation: all-row-rise 480ms var(--ease) 100ms both;
   }
 
   .all-title-posts {
-    animation-delay: 270ms;
+    animation-delay: 160ms;
   }
 
   .all-portrait {
-    animation: all-panel-open 860ms var(--ease-panel) 240ms both;
+    animation: all-panel-open 560ms var(--ease-panel) 120ms both;
   }
 
   .all-portrait-slice {
-    animation: all-slice-snap 520ms steps(1, end) 980ms both;
+    animation: all-slice-snap 320ms steps(1, end) 600ms both;
   }
 
   .all-scroll {
-    animation: all-fade 520ms var(--ease) 980ms both;
+    animation: all-fade 320ms var(--ease) 600ms both;
   }
 }
 
@@ -1395,28 +1447,125 @@ body:has(.home-deck) .site-footer {
   }
 }
 
-/* Index: one numbered row per post on the same gutter as the hero. */
+/* Index: the second page repeats the hero's poster language at reading scale.
+   TAGS and INDEX are the two lockups (ink and rose, like ALL / POSTS), a blush
+   plane and a small ink square echo the hero's blocks, and the preview panel
+   carries the pink corner and off-register fringe of the portrait.
+   Fills the second page above the 81px footer, so its snap point meets the page end. */
 .all-index {
+  position: relative;
+  display: grid;
+  min-height: calc(100svh - 81px);
   max-width: 1800px;
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
   margin-inline: auto;
-  padding: clamp(64px, 9vw, 140px) var(--gutter) 100px;
+  padding: clamp(56px, 7vw, 120px) var(--gutter) clamp(40px, 4vw, 72px);
+  isolation: isolate;
+  overflow: clip;
+}
+
+.all-index-block {
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Runs off the right edge behind INDEX, half above the rule like the hero's blush cut. */
+.all-index-blush {
+  top: clamp(150px, 17vw, 260px);
+  right: 0;
+  width: 38%;
+  height: clamp(90px, 9vw, 150px);
+  background: var(--all-blush);
+}
+
+.all-index-band {
+  top: clamp(56px, 7vw, 120px);
+  right: var(--gutter);
+  width: clamp(28px, 3vw, 52px);
+  aspect-ratio: 1;
+  background: var(--ink);
+}
+
+.all-tags-title,
+.all-index-title {
+  margin: 0;
+  font-weight: 800;
+  line-height: 0.84;
+  letter-spacing: -0.075em;
+  text-transform: uppercase;
+}
+
+.all-tags-title {
+  color: var(--ink);
+  font-size: clamp(48px, 6.4vw, 112px);
+}
+
+.all-tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px clamp(16px, 2vw, 32px);
+  margin: clamp(16px, 1.6vw, 28px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.all-tag {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: linear-gradient(var(--acid), var(--acid)) no-repeat left 82% / 0% 0.38em;
+  color: var(--ink);
+  font: inherit;
+  font-size: clamp(16px, 1.4vw, 22px);
+  letter-spacing: -0.02em;
+  cursor: pointer;
+}
+
+.all-tag:hover,
+.all-tag:focus-visible {
+  background-size: 100% 0.38em;
+}
+
+.all-tag[aria-pressed='true'] {
+  color: var(--violet);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.22em;
+}
+
+/* Right-aligned on a full-width rule; the list and preview hang from it. */
+.all-index-title {
+  margin-top: clamp(28px, 3.6vw, 64px);
+  padding-bottom: 0.08em;
+  border-bottom: 1px solid var(--ink);
+  color: var(--violet);
+  font-size: clamp(56px, 7.4vw, 128px);
+  text-align: right;
+}
+
+.all-index-body {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 1.25fr);
+  gap: clamp(32px, 8vw, 160px);
+  align-items: start;
 }
 
 .all-list {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-bottom: 1px solid var(--ink);
 }
 
 .all-row {
   position: relative;
   display: grid;
-  grid-template-columns: 5.5rem 9rem minmax(0, 1fr) 3rem;
-  gap: clamp(16px, 2.4vw, 40px);
-  align-items: baseline;
-  padding-block: clamp(28px, 3vw, 44px);
-  border-top: 1px solid var(--ink);
+  grid-template-columns: clamp(56px, 5.5vw, 96px) minmax(0, 1fr) 3rem;
+  gap: clamp(12px, 1.6vw, 28px);
+  align-items: center;
+  padding-block: clamp(22px, 2.4vw, 40px);
+  border-bottom: 1px solid var(--ink);
 }
 
 .all-row-number {
@@ -1428,15 +1577,9 @@ body:has(.home-deck) .site-footer {
   font-variant-numeric: tabular-nums;
 }
 
-.all-row-date {
-  color: var(--muted);
-  font-size: 13px;
-  font-variant-numeric: tabular-nums;
-}
-
 .all-row-title {
-  font-size: clamp(26px, 3.2vw, 52px);
-  line-height: 1.12;
+  font-size: clamp(26px, 3vw, 48px);
+  line-height: 1.08;
   letter-spacing: -0.045em;
 }
 
@@ -1458,49 +1601,150 @@ body:has(.home-deck) .site-footer {
 
 .all-row-description {
   max-width: 46em;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.all-row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
   margin-top: 12px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.all-row-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.all-row-tag {
+  padding: 2px 8px;
+  border: 1px solid var(--ink);
+  color: var(--ink);
 }
 
 .all-row-arrow {
   width: 100%;
-  align-self: center;
+  fill: none;
+  stroke: currentColor;
   stroke-width: 2.5;
   translate: -12px 0;
-  opacity: 0;
+  opacity: 0.35;
 }
 
 .all-row:hover .all-row-arrow,
 .all-row:focus-within .all-row-arrow {
   translate: 0 0;
+  color: var(--violet);
   opacity: 1;
 }
 
+/* Follows the hovered or focused row; sticks while a long list scrolls past. */
+.all-preview {
+  position: sticky;
+  top: clamp(24px, 3vw, 48px);
+  aspect-ratio: 16 / 9;
+  margin-top: clamp(16px, 1.6vw, 24px);
+  background: var(--line);
+}
+
+.all-preview::after {
+  position: absolute;
+  bottom: -12%;
+  left: -8%;
+  width: 22%;
+  height: 34%;
+  background: var(--all-pink);
+  content: '';
+}
+
+.all-preview-image {
+  object-fit: cover;
+}
+
+.all-preview-number {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  bottom: 0;
+  translate: 0 55%;
+  color: var(--ink);
+  font-size: clamp(36px, 4vw, 72px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
 @media (prefers-reduced-motion: no-preference) {
-  .all-row-link {
+  .all-row-link,
+  .all-tag {
     transition: background-size 360ms var(--ease);
   }
 
   .all-row-arrow {
     transition:
       translate 360ms var(--ease),
-      opacity 360ms var(--ease);
+      opacity 360ms var(--ease),
+      color 360ms var(--ease);
+  }
+}
+
+/* Each new cover is cut open from the left and lands with the portrait's fringe. */
+@media (prefers-reduced-motion: no-preference) and (forced-colors: none) {
+  .all-preview-image {
+    animation: all-preview-cut 520ms var(--ease-panel) both;
+  }
+}
+
+@keyframes all-preview-cut {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    filter: drop-shadow(-6px 0 0 rgb(230 40 80 / 0.6)) drop-shadow(6px 0 0 rgb(64 210 245 / 0.7));
+  }
+
+  70% {
+    clip-path: inset(0);
+    filter: drop-shadow(-6px 0 0 rgb(230 40 80 / 0.6)) drop-shadow(6px 0 0 rgb(64 210 245 / 0.7));
+  }
+
+  100% {
+    clip-path: inset(0);
+    filter: none;
   }
 }
 
 @media (forced-colors: active) {
   .all-row:hover .all-row-link,
-  .all-row-link:focus-visible {
+  .all-row-link:focus-visible,
+  .all-tag:hover,
+  .all-tag:focus-visible {
     text-decoration: underline;
   }
 }
 
 .all-empty {
   padding-block: 64px;
-  border-block: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
   color: var(--muted);
   font-size: clamp(20px, 2.3vw, 30px);
+}
+
+@media (width <= 1000px) {
+  .all-index-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .all-preview {
+    display: none;
+  }
 }
 
 @media (width <= 700px) {
@@ -1546,15 +1790,11 @@ body:has(.home-deck) .site-footer {
     grid-template-columns: 3rem minmax(0, 1fr);
   }
 
-  .all-row-date {
-    grid-column: 2;
-  }
-
-  .all-row-body {
-    grid-column: 2;
-  }
-
   .all-row-arrow {
     display: none;
+  }
+
+  .all-index-blush {
+    width: 60%;
   }
 }

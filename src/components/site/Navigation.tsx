@@ -234,7 +234,10 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
       router.push(href);
       return;
     }
-    document.documentElement.dataset.routeTransition = '';
+    // From the All Posts index an article arrives as the next page to the
+    // right: both snapshots travel left together instead of the default wipe.
+    document.documentElement.dataset.routeTransition =
+      pathname === '/all' && href.startsWith('/posts/') ? 'push' : '';
     const transition = document.startViewTransition(
       () =>
         new Promise<void>((resolve) => {
