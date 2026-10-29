@@ -3,7 +3,7 @@ title: "Blog Dev Diary 1"
 description: "The first development diary entry for this blog"
 pubDate: "2026-02-08"
 heroImage: "KSC-20261013-PH-SPX01_0007~orig.jpg"
-tags: ["blogging", "coding"]
+tags: ["Blogging", "Coding"]
 category: "Tech"
 ---
 
