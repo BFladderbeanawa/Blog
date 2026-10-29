@@ -27,7 +27,7 @@ Faced with vague requirements, the model took the path of least resistance and p
 
 Now the user experience. Look at the navigation bar:
 
-[Figure 1: The navigation menu and its hover behavior]
+![Figure 1: The navigation menu and its hover behavior](./media/image.png)
 
 Three navigation items, 画廊 (Gallery), 卡组构筑 (Deck Building) and 官文 (Official News), open a submenu on hover. The trigger is 82px wide. The submenu is 240px wide and centered under it, so reaching an item near the menu's edge means crossing a trapezoid-shaped area that belongs to neither. Well-built menus handle this by extending the hover area across that zone, or with a "safe triangle" (the trick Amazon's mega-menu made famous) that keeps the menu open while the cursor heads toward it. This menu does neither. Worse, there's a 4px strip between the bottom of the trigger and the top of the submenu that isn't part of the hover area at all. Move the cursor straight down toward the first item and the submenu starts fading out while you cross that strip. By the time you get there, it's gone.
 
