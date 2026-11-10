@@ -1,0 +1,2 @@
+const e="Write arguments to the standard output",n="echo",t=[{name:"string",isVariadic:!0,optionsCanBreakVariadicArg:!1}],s=[{description:"Do not print the trailing newline character",name:"-n"},{description:"Interpret escape sequences",name:"-e"},{description:"Disable escape sequences",name:"-E"}],a={description:e,name:n,args:t,options:s};export{t as args,a as default,e as description,n as name,s as options};
+//# sourceMappingURL=echo-871594b2.js.map

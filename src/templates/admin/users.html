@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header admin-page-header">
+	<div class="admin-page-title">
+		<div class="admin-page-title-content">
+			<span class="page-kicker">
+				<span class="material-symbols-outlined">group</span>
+				<span>后台用户管理</span>
+			</span>
+			<h1>战队与管理员</h1>
+			<div class="admin-toolbar">
+				<a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_challenges') }}">
+					<span class="material-symbols-outlined">flag</span>
+					<span>题目总览</span>
+				</a>
+				<a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.site_content') }}">
+					<span class="material-symbols-outlined">dashboard</span>
+					<span>站点内容</span>
+				</a>
+				<a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.logout') }}">
+					<span class="material-symbols-outlined">logout</span>
+					<span>退出登录</span>
+				</a>
+			</div>
+			<p>在这里快速审阅战队信息，调整积分或权限，必要时重置密码喵～</p>
+		</div>
+		<div class="admin-page-actions">
+			<div class="admin-highlight">
+				<div class="highlight-header">
+					<p class="highlight-label">用户统计</p>
+					<p class="highlight-value">{{ "%02d"|format(summary.total_users) }}</p>
+				</div>
+				<div class="highlight-stats">
+					<div class="stat-item">
+						<span class="stat-number">{{ summary.admin_count }}</span>
+						<span class="stat-text">管理员账号</span>
+					</div>
+					<div class="stat-divider"></div>
+					<div class="admin-mini-stats">
+						<span class="mini-stat-item"><span class="dot online"></span>{{ summary.active_count }} 有积分</span>
+						<span class="mini-stat-item"><span class="dot bonus"></span>{{ summary.bonus_count }} 启用加分</span>
+					</div>
+				</div>
+				<p class="highlight-note">积分变化会即时影响排行榜与首页展示</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="admin-section">
+	<div class="admin-content-card">
+		<div class="admin-card-header">
+			<div class="admin-card-header-content">
+				<h2>用户列表</h2>
+				<p>查看战队资料，手动调整积分，或执行敏捷的权限操作。</p>
+			</div>
+		</div>
+
+		<div class="admin-table-container">
+			<table class="admin-table admin-table--users">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>队伍 / 用户名</th>
+						<th>邮箱</th>
+						<th>邮箱验证</th>
+						<th>权限</th>
+						<th>积分（基础 / 总计）</th>
+						<th>额外加分</th>
+						<th>解题数</th>
+						<th>最近提交</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for user in users %}
+					<tr>
+						<td><span class="admin-table-id">#{{ "%03d"|format(user.id) }}</span></td>
+						<td><span class="admin-table-title">{{ user.username }}</span></td>
+						<td>{{ user.email }}</td>
+						<td>
+							<span class="status-chip {{ 'online' if user.email_verified else 'draft' }}">
+								{{ '已验证' if user.email_verified else '未验证' }}
+							</span>
+						</td>
+						<td>
+							<span class="status-chip {{ 'online' if user.is_admin else 'draft' }}">
+								{{ '管理员' if user.is_admin else '选手' }}
+							</span>
+						</td>
+						<td>
+							<span class="score-summary">
+								<strong>{{ user.awarded_points }}</strong>
+								<span class="score-delimiter">/</span>
+								<span>{{ user.total_points }}</span>
+							</span>
+						</td>
+						<td>{{ user.bonus_points }}</td>
+						<td>{{ user.solve_count }}</td>
+						<td>{{ user.last_submit.strftime('%Y-%m-%d %H:%M') if user.last_submit else '--' }}</td>
+						<td class="admin-table-actions">
+							<a href="{{ url_for('admin.edit_user', user_id=user.id) }}" class="md3-btn md3-btn--tertiary">
+								<span class="material-symbols-outlined">edit</span>
+								<span>编辑</span>
+							</a>
+							<form method="post" action="{{ url_for('admin.delete_user', user_id=user.id) }}" onsubmit="return confirm('确定要删除该用户喵？');">
+								<button type="submit" class="md3-btn md3-btn--danger">
+									<span class="material-symbols-outlined">delete</span>
+									<span>删除</span>
+								</button>
+							</form>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="10" class="admin-table-empty">
+							<div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+								<span class="material-symbols-outlined" style="font-size: 3rem; opacity: 0.3;">groups</span>
+								<p>暂无注册用户，快去邀请朋友加入喵～</p>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</section>
+{% endblock %}

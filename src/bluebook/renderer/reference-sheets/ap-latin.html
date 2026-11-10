@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en-US">
+
+  <head>
+    <title>AP Latin</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="apricot.main.css" rel="stylesheet" />
+    <script src="prevent-right-click.js"></script>
+    <script src="apricot.main.js"></script>
+    <script src="keyboard-close.js"></script>
+    <link rel="stylesheet" type="text/css" href="/fonts/NotoSerif.css" />
+    <link rel="stylesheet" type="text/css" href="/fonts/CourierPrime.css" />
+    <link rel="stylesheet" type="text/css" href="tts.css" />
+
+    <style>
+      /**
+        * This approach with html and body is to accommodate older versions of
+        * iOS 15.4-15.8.1 not being able to use scrollTo on the <html> tag in the iFrame.
+      */
+      html {
+        height: 100%;
+        overflow: hidden;
+      }
+
+      body {
+        /* Safari fix, noted above */
+        height: 100%;
+        overflow: auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main id="reference-sheet" role="main">
+      <div id="reference-sheet-accordion" class="cb-accordion" data-cb-apricot="accordion">
+        <!-- Controllers -->
+        <div class="cb-accordion-controls cb-white-bg">
+          <div class="cb-accordion-buttons">
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-expand cb-blue5-color">
+              Expand All
+            </button>
+            <button type="button" class="cb-btn cb-btn-greyscale cb-accordion-collapse cb-blue5-color">
+              Collapse All
+            </button>
+          </div>
+        </div>
+
+        <!-- list items container -->
+        <div class="cb-accordion-panels">
+          <!-- list item -->
+          <div class="cb-accordion-container">
+            <!-- header -->
+            <a href="#" class="cb-accordion-heading cb-white-bg">
+              <div class="cb-accordion-heading-title">
+                <span> Scansion Instructions </span>
+                <div class="cb-accordion-icon">
+                  <span class="line top"></span>
+                  <span class="line bottom"></span>
+                </div>
+              </div>
+            </a>
+            <!-- open content -->
+            <div class="cb-accordion-panel cb-gray1-gradient-top transition cb-in" role="region">
+              <div class="Rectangle"></div>
+              <!-- content -->
+              <div class="cb-accordion-panel-content cb-gray5-bg cb-border-bottom cb-no-padding">
+                <div class="row cb-padding-left-24 cb-padding-right-24 cb-padding-top-24">
+                  <div class="col-sm-12 col-md-6">
+                    <div class="cb-margin-bottom-24">
+                      For the question that asks you to indicate scansion, you may do so using one of the following
+                      methods:
+                    </div>
+                    <ol class="cb-padding-left-24">
+                      <li>
+                        <div class="row cb-padding-left-16 cb-margin-bottom-8">
+                          Type out the metrical units. You may use “S” alone for spondee and “D” alone for “dactyl.”
+                        </div>
+                        <div class="row cb-padding-left-16 cb-margin-bottom-24">
+                          <div class="col cb-padding-right-16">E.g.:</div>
+                          <div class="col cb-no-padding">
+                            <div>dactyl-spondee-dactyl… </div> 
+                            <div>D-S-D…</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row cb-padding-left-16 cb-margin-bottom-8">
+                          Type a hyphen (“-”) to indicate a long syllable. Type a “u” or “v” to indicate a short
+                          syllable.
+                        </div>
+                        <div class="row cb-padding-left-16 cb-margin-bottom-24">
+                          <div class="col cb-padding-right-16">E.g.:</div>
+                          <div class="col cb-no-padding">- u u - - - u u…</div>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="row cb-padding-left-16 cb-margin-bottom-8">
+                          Type an “L” to indicate a long syllable. Type an “S” to indicate a short syllable.
+                        </div>
+                        <div class="row cb-padding-left-16 cb-margin-bottom-24">
+                          <div class="col cb-padding-right-16">E.g.:</div>
+                          <div class="col cb-no-padding">LSSLLLSS…</div>
+                        </div>
+                      </li>
+                    </ol>
+                      <div class="cb-margin-bottom-24">
+                        You do not need to type out the Latin line. If you choose to type out the Latin line, syllable
+                        markings do not need to align with the corresponding syllable. You do not need to indicate
+                        elisions, if applicable. You do not need to indicate metrical feet (e.g., - u u | - - | - uu…).
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <style>
+      /* Font */
+      main#reference-sheet {
+        font-family: "notoSerif", "noto-serif", "Noto Serif";
+        background-color: #f0f0f0;
+        font-size: 15px;
+      }
+
+      main#reference-sheet .cb-table {
+        vertical-align: middle;
+      }
+
+      main#reference-sheet h3 {
+        font-size: 15px;
+        font-family: "notoSerif", "noto-serif", "Noto Serif" !important;
+        line-height: 1.5em;
+      }
+
+
+      /* End Font */
+      main#reference-sheet .cb-accordion.chrome-os-scroll {
+        min-width: 1000px;
+        overflow-x: scroll;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-controls {
+        font-size: 15px;
+        margin: 0;
+        padding: 16px 24px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-heading {
+        background-color: #ffffff;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-panel .cb-accordion-panel-content {
+        padding: 0px 16px;
+      }
+
+      main#reference-sheet .cb-accordion .cb-accordion-panels .cb-accordion-container .cb-accordion-panel.cb-in {
+        overflow-y: hidden;
+        height: fit-content !important;
+      }
+    </style>
+    <!-- activate accordion -->
+    <script type="text/javascript" id="apricot-setup-scripts">
+      try {
+        // for A11Y
+        window.cb.apricot.CBInputMethod()
+
+        const utils = cb.apricot.CBUtils;
+
+        if (/(CrOS)/.test(navigator.userAgent)) {
+          document.getElementById("reference-sheet-accordion").classList.add("chrome-os-scroll");
+        }
+
+        const customA11yScrollbar = elem => {
+          let resizeTimeout = null;
+          let tbl = null;
+          const init = () => {
+            elem.customScroll = "cb";
+
+            tbl = elem.querySelector("table");
+            adjustScrollBar();
+            window.addEventListener("resize", resizeThrottler, false);
+          };
+
+          const adjustScrollBar = () => {
+            tbl = elem.querySelector("table");
+            const pw = utils.outerWidth(elem);
+
+            const tw = utils.outerWidth(tbl);
+
+            if (tw > pw) {
+              if (
+                elem.customScrollAccordion === undefined ||
+                elem.customScrollAccordion === "open"
+              ) {
+                utils.attr(elem, "role", "region");
+                utils.attr(elem, "aria-label", "scrolling table");
+                utils.attr(elem, "tabindex", "0");
+                utils.attr(elem, "aria-hidden", "false");
+              }
+            } else {
+              utils.removeAttr(elem, "tabindex");
+              utils.removeAttr(elem, "aria-hidden");
+              utils.removeAttr(elem, "aria-label");
+              utils.removeAttr(elem, "role");
+            }
+          };
+
+          const resizeThrottler = () => {
+            if (!resizeTimeout) {
+              resizeTimeout = setTimeout(function () {
+                resizeTimeout = null;
+                adjustScrollBar();
+              }, 500);
+            }
+          };
+
+          if (elem.customScroll !== "cb") {
+            init();
+          }
+
+          return {
+            adjustScrollBar: adjustScrollBar
+          };
+        };
+        // initialize custom accesible scroll
+        document.querySelectorAll(".ap-custom-scroll").forEach(node => {
+          customA11yScrollbar(node);
+        });
+
+        const panelStateHasChanged = panel => {
+          if (panel) {
+            if (utils.hasClass(panel, "cb-in")) {
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll(".ap-custom-scroll").forEach(node => {
+                const scrollObj = customA11yScrollbar(node);
+                node.customScrollAccordion = "open";
+                scrollObj.adjustScrollBar();
+              });
+            } else {
+              // call ap-custom-scroll adjustScrollBar
+              panel.querySelectorAll(".ap-custom-scroll").forEach(node => {
+                node.customScrollAccordion = "closed";
+              });
+            }
+          }
+        };
+
+        try {
+          const responsiveUpdate = () => {
+            // on zoom event, if the accordionian is open, adjust the scrollbar
+            document.querySelectorAll(".ap-custom-scroll").forEach(node => {
+              const scrollObj = customA11yScrollbar(node);
+              if (node.customScrollAccordion === "open") {
+                scrollObj.adjustScrollBar();
+              }
+            });
+          };
+          var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutationRecord) {
+              responsiveUpdate();
+            });
+          });
+
+          var target = document.getElementsByTagName("html");
+          observer.observe(target[0], { attributes: true, attributeFilter: ["style"] });
+          responsiveUpdate();
+        } catch (e) {
+          console.log("Reference Sheet Error: ", e);
+        }
+
+        try {
+          cb.apricot.CBAccordion({
+            elem: document.querySelector("#reference-sheet-accordion.cb-accordion"),
+            callBack: panelStateHasChanged,
+            extendFocusableElements: [".MathJax"]
+          });
+        } catch (e) {
+          console.log("Reference Sheet Error: ", e);
+        }
+      } catch (e) {
+        console.log("Reference Sheet Error: ", e);
+      }
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,2 @@
+import{bg as n,bn as o,bW as r}from"./reconnectSaga-e33541d6.js";function i(t){const{className:e,children:s}=t,{classes:a}=c();return o("div",{className:r(e,a.settingsTabContent),children:s})}const c=n()({settingsTabContent:{"--tab-content-color":"var(--light-grey-6)",height:"100%",width:"100%",overflow:"auto",background:"var(--tab-content-color)",".termius-dark-theme &":{"--tab-content-color":"var(--dark-grey-2)"}}});export{i as S};
+//# sourceMappingURL=SettingsTabContent-3aa4d4a9.js.map

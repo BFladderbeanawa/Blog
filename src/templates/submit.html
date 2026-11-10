@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-header submission-page-header">
+    <div class="submission-page-title">
+        <div class="submission-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">upload_file</span>
+                <span>NekoCTF 2025 · 题目投稿</span>
+            </span>
+            <h1>分享你的原创题目</h1>
+            <p>欢迎向 NekoCTF 提交你的创意挑战，与全球猫耳黑客分享知识与灵感喵～</p>
+        </div>
+        <div class="submission-page-actions">
+            <div class="submission-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">投稿优势</p>
+                    <p class="highlight-value">共创赛事</p>
+                </div>
+                <div class="highlight-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">3-5</span>
+                        <span class="stat-text">审核周期（天）</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="submission-mini-stats">
+                        <span class="mini-stat-item"><span class="dot online"></span>全分类题型</span>
+                        <span class="mini-stat-item"><span class="dot bonus"></span>官方署名</span>
+                    </div>
+                </div>
+                <p class="highlight-note">优质题目将获得赛事鸣谢与社区推广。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="content-section">
+    <div class="submission-layout">
+        <div class="submission-form-card">
+            <header class="submission-form-header">
+                <h2>在线投稿</h2>
+                <p>填写核心信息后提交，我们会在初审后通过邮箱与您确认细节并安排复现喵～</p>
+            </header>
+
+            <form method="post" class="submission-form" novalidate>
+                <div class="submission-form-grid">
+                    <div class="form-field">
+                        <label for="team_name">团队 / 作者名称</label>
+                        <input type="text" id="team_name" name="team_name" placeholder="如：Neko Rangers" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="contact_email">联系邮箱</label>
+                        <input type="email" id="contact_email" name="contact_email" placeholder="your@example.com" required>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <label for="message">题目详情</label>
+                    <textarea id="message" name="message" rows="10" placeholder="请描述题目背景、考点、flag 校验方式、部署需求等信息" required></textarea>
+                    <small class="form-helper">建议附上参考 writeup、环境说明、提示思路等附件链接，方便评审快速复现。</small>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="md3-btn md3-btn--primary">
+                        <span class="material-symbols-outlined">outgoing_mail</span>
+                        <span>提交投稿</span>
+                    </button>
+                    <a class="md3-btn md3-btn--secondary" href="{{ mailto_link }}">
+                        <span class="material-symbols-outlined">mail</span>
+                        <span>改用邮件</span>
+                    </a>
+                </div>
+                <p class="submission-feedback">遇到问题？直接发送邮件至 <a href="{{ mailto_link }}">{{ organizer_email }}</a>，我们会第一时间回复喵～</p>
+            </form>
+        </div>
+
+        <aside class="submission-sidebar">
+            <div class="submission-sidebar-card">
+                <h3>审核流程</h3>
+                <ul class="submission-steps">
+                    <li><span class="step-title">初审</span><span class="step-desc">评估题目完整度与安全性</span></li>
+                    <li><span class="step-title">复现</span><span class="step-desc">部署环境并验证 flag 与提示</span></li>
+                    <li><span class="step-title">反馈</span><span class="step-desc">与作者沟通改进建议或补充材料</span></li>
+                    <li><span class="step-title">上线</span><span class="step-desc">确认赛程安排与署名方式</span></li>
+                </ul>
+            </div>
+            <div class="submission-sidebar-card">
+                <h3>投稿小贴士</h3>
+                <ul class="submission-tips">
+                    <li><span class="material-symbols-outlined">task_alt</span>附带一份参考解题思路或验证脚本</li>
+                    <li><span class="material-symbols-outlined">task_alt</span>标注题目所需的资源、时长与环境限制</li>
+                    <li><span class="material-symbols-outlined">task_alt</span>欢迎提供多阶段 flag 与提示设计方案</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</section>
+
+<section class="content-section submission-guidelines-section">
+    <div class="submission-guidelines-wrapper">
+        <div class="guidelines-header">
+            <h2>优秀投稿参考标准</h2>
+            <p>高质量的题目往往具备清晰的教学价值、稳定的复现路径与令人印象深刻的故事线。以下要点可作为参考喵～</p>
+        </div>
+        <div class="guidelines-grid">
+        <article class="guideline-card">
+            <span class="guideline-icon material-symbols-outlined">architecture</span>
+            <h3>完整的环境说明</h3>
+            <p>附上部署脚本、端口说明、镜像或数据样例，让评审能够快速复现题目运行环境。</p>
+        </article>
+        <article class="guideline-card">
+            <span class="guideline-icon material-symbols-outlined">lightbulb</span>
+            <h3>独特的创意亮点</h3>
+            <p>展示题目背后的灵感与考察重点，帮助我们理解题目在竞赛中的定位与价值。</p>
+        </article>
+        <article class="guideline-card">
+            <span class="guideline-icon material-symbols-outlined">tips_and_updates</span>
+            <h3>贴心的提示规划</h3>
+            <p>准备 1-2 条提示或渐进式提示方案，照顾不同水平的选手，保证体验舒适。</p>
+        </article>
+    </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.submission-form-card, .submission-sidebar-card');
+    cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(18px)';
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, 150 + index * 120);
+    });
+});
+</script>
+{% endblock %}

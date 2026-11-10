@@ -1,0 +1,293 @@
+/* ====================================
+   MD3 Expressive - Enhanced Animations
+   ==================================== */
+
+/* Staggered Fade In Animation for Lists */
+.md3-category-grid .md3-category-card,
+.md3-updates-grid .md3-update-card,
+.md3-leaderboard-preview__item {
+    opacity: 0;
+    animation: staggerFadeIn 0.6s var(--md3-easing-emphasized) forwards;
+}
+
+.md3-category-grid .md3-category-card:nth-child(1),
+.md3-updates-grid .md3-update-card:nth-child(1),
+.md3-leaderboard-preview__item:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.md3-category-grid .md3-category-card:nth-child(2),
+.md3-updates-grid .md3-update-card:nth-child(2),
+.md3-leaderboard-preview__item:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.md3-category-grid .md3-category-card:nth-child(3),
+.md3-updates-grid .md3-update-card:nth-child(3),
+.md3-leaderboard-preview__item:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.md3-category-grid .md3-category-card:nth-child(4),
+.md3-updates-grid .md3-update-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.md3-category-grid .md3-category-card:nth-child(5),
+.md3-updates-grid .md3-update-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.md3-category-grid .md3-category-card:nth-child(6),
+.md3-updates-grid .md3-update-card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+
+@keyframes staggerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Particle Background Effect */
+.md3-hero__particles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.md3-hero__particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--md3-primary);
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float-particle 20s linear infinite;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.3;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Hover Ripple Effect */
+.md3-card--interactive,
+.md3-btn,
+.md3-category-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.md3-card--interactive::after,
+.md3-btn::after,
+.md3-category-card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(249, 168, 212, 0.3) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width var(--md3-duration-long2) var(--md3-easing-emphasized),
+                height var(--md3-duration-long2) var(--md3-easing-emphasized);
+    pointer-events: none;
+}
+
+.md3-card--interactive:hover::after,
+.md3-btn:hover::after,
+.md3-category-card:hover::after {
+    width: 300%;
+    height: 300%;
+}
+
+/* Shimmer Effect for Loading */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.md3-shimmer {
+    background: linear-gradient(
+        90deg,
+        var(--md3-surface-container) 0%,
+        var(--md3-surface-container-high) 50%,
+        var(--md3-surface-container) 100%
+    );
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* Glow Pulse Animation */
+@keyframes glow-pulse {
+    0%, 100% {
+        box-shadow: var(--md3-shadow-2), 0 0 20px rgba(249, 168, 212, 0.3);
+    }
+    50% {
+        box-shadow: var(--md3-shadow-3), 0 0 40px rgba(249, 168, 212, 0.6);
+    }
+}
+
+.md3-glow-pulse {
+    animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* Removed bounce animation - keeping only rotation and scale from sections.css */
+
+/* Gradient Animation for Text */
+@keyframes gradient-shift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.md3-gradient-text {
+    background: linear-gradient(
+        90deg,
+        var(--md3-primary),
+        var(--md3-secondary),
+        var(--md3-tertiary),
+        var(--md3-primary)
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradient-shift 5s ease-in-out infinite;
+}
+
+/* Scale on Hover */
+.md3-scale-hover {
+    transition: transform var(--md3-duration-medium2) var(--md3-easing-emphasized);
+}
+
+.md3-scale-hover:hover {
+    transform: scale(1.05);
+}
+
+/* Rotate on Hover */
+.md3-rotate-hover {
+    transition: transform var(--md3-duration-medium2) var(--md3-easing-emphasized);
+}
+
+.md3-rotate-hover:hover {
+    transform: rotate(5deg);
+}
+
+/* Slide In Animations */
+.md3-slide-in-left {
+    animation: slideInLeft 0.6s var(--md3-easing-emphasized);
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.md3-slide-in-right {
+    animation: slideInRight 0.6s var(--md3-easing-emphasized);
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Zoom In Animation */
+.md3-zoom-in {
+    animation: zoomIn 0.5s var(--md3-easing-emphasized);
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Delay Classes for Staggered Animations */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
+.delay-700 { animation-delay: 0.7s; }
+.delay-800 { animation-delay: 0.8s; }
+
+/* Infinite Animations */
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Smooth Transitions for State Changes */
+.md3-transition-all {
+    transition: all var(--md3-duration-medium2) var(--md3-easing-standard);
+}
+
+.md3-transition-fast {
+    transition: all var(--md3-duration-short4) var(--md3-easing-standard);
+}
+
+.md3-transition-slow {
+    transition: all var(--md3-duration-long2) var(--md3-easing-emphasized);
+}

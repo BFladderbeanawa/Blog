@@ -1,0 +1,566 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Site Content Management Page Header -->
+<section class="page-header admin-page-header">
+    <div class="admin-page-title">
+        <div class="admin-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">web</span>
+                <span>Neko 控制台 · Site Studio</span>
+            </span>
+            <h1>首页与站点内容管理</h1>
+            <div class="admin-toolbar">
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_challenges') }}">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>返回题库中心</span>
+                </a>
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.logout') }}">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>退出登录</span>
+                </a>
+            </div>
+            <p>分区管理活动信息、动态公告、数据高光以及题目分类，让修改流程更顺手。</p>
+        </div>
+        <div class="admin-page-actions">
+            <div class="admin-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">站点内容</p>
+                    <p class="highlight-value">管理中心</p>
+                </div>
+                <div class="admin-mini-stats">
+                    <div class="mini-stat-item">
+                        <span class="dot online"></span>
+                        <span>{{ announcements|length }} 条公告</span>
+                    </div>
+                    <div class="mini-stat-item">
+                        <span class="dot online"></span>
+                        <span>{{ highlight_cards|length }} 个数据高光</span>
+                    </div>
+                    <div class="mini-stat-item">
+                        <span class="dot draft"></span>
+                        <span>{{ categories|length }} 个分类</span>
+                    </div>
+                </div>
+                <p class="highlight-note">实时同步至站点首页展示</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="admin-site-layout">
+    <nav class="admin-site-nav">
+        <h2>快速导航</h2>
+        <ul>
+            <li><a href="#event-settings">活动卡片</a></li>
+            <li><a href="#home-copy">首页文案</a></li>
+            <li><a href="#home-announcements">公告动态</a></li>
+            <li><a href="#home-highlights">数据高光</a></li>
+            <li><a href="#home-taxonomy">题目分类</a></li>
+        </ul>
+    </nav>
+
+    <div class="admin-site-panels">
+        <section id="event-settings" class="admin-site-panel">
+            <header class="panel-header">
+                <h2>活动卡片</h2>
+                <p>更新首页首屏活动信息与行动按钮，确保选手第一眼就能看到重点。</p>
+            </header>
+            <form method="post" class="admin-form-grid">
+                <input type="hidden" name="form_type" value="event_update">
+                <div class="form-field">
+                    <label for="event-title">活动标题</label>
+                    <input type="text" id="event-title" name="title" value="{{ event.title }}" required>
+                </div>
+                <div class="form-field">
+                    <label for="event-date">时间范围</label>
+                    <input type="text" id="event-date" name="date_range" value="{{ event.date_range }}" required>
+                </div>
+                <div class="form-field">
+                    <label for="event-location">举办形式 / 地点</label>
+                    <input type="text" id="event-location" name="location" value="{{ event.location }}" required>
+                </div>
+                <div class="form-field">
+                    <label for="event-cta-label">按钮文案</label>
+                    <input type="text" id="event-cta-label" name="cta_label" value="{{ event.cta_label }}" required>
+                </div>
+                <div class="form-field">
+                    <label for="event-cta-link">按钮链接</label>
+                    <input type="text" id="event-cta-link" name="cta_link" value="{{ event.cta_link }}" required>
+                </div>
+                <div class="form-field full">
+                    <label for="event-cta-note">补充说明</label>
+                    <textarea id="event-cta-note" name="cta_note" rows="2" placeholder="可选">{{ event.cta_note or "" }}</textarea>
+                </div>
+                <div class="form-actions full">
+                    <button type="submit" class="md3-btn">
+                        <span class="material-symbols-outlined">save</span>
+                        <span>保存活动信息</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="home-copy" class="admin-site-panel">
+            <header class="panel-header">
+                <h2>首页文案</h2>
+                <p>集中管理排行榜占位昵称、页脚文案与底部联系方式。</p>
+            </header>
+            <form method="post" class="admin-form-grid">
+                <input type="hidden" name="form_type" value="settings_update">
+                <div class="form-field">
+                    <label for="placeholder-primary">排行榜占位（首位）</label>
+                    <input type="text" id="placeholder-primary" name="leaderboard_placeholder_primary" value="{{ settings.leaderboard_placeholder_primary }}" required>
+                </div>
+                <div class="form-field">
+                    <label for="placeholder-secondary">排行榜占位（次位）</label>
+                    <input type="text" id="placeholder-secondary" name="leaderboard_placeholder_secondary" value="{{ settings.leaderboard_placeholder_secondary }}" required>
+                </div>
+                <div class="form-field full">
+                    <label for="leaderboard-tagline">排行榜页脚文案</label>
+                    <textarea id="leaderboard-tagline" name="leaderboard_tagline" rows="2" required>{{ settings.leaderboard_tagline }}</textarea>
+                </div>
+                <div class="form-field">
+                    <label for="contact-email">合作联络邮箱</label>
+                    <input type="email" id="contact-email" name="contact_email" value="{{ settings.contact_email }}" required>
+                </div>
+                <div class="form-actions full">
+                    <button type="submit" class="md3-btn">
+                        <span class="material-symbols-outlined">save</span>
+                        <span>保存文案设置</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <section id="home-announcements" class="admin-site-panel">
+            <header class="panel-header">
+                <h2>公告动态</h2>
+                <p>创建或调整首页「最新动态」，用于发布活动公告、投稿提醒等消息。</p>
+            </header>
+
+            <details class="admin-accordion">
+                <summary>
+                    <span class="accordion-title">新增公告</span>
+                    <span class="accordion-note">快速发布一条新的首页动态</span>
+                </summary>
+                <form method="post" class="admin-form-grid">
+                    <input type="hidden" name="form_type" value="announcement_create">
+                    <div class="form-field">
+                        <label for="announcement-title">标题</label>
+                        <input type="text" id="announcement-title" name="title" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="announcement-category">分类标签</label>
+                        <input type="text" id="announcement-category" name="category" placeholder="公告 / 投稿 / 活动" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="announcement-date">展示日期</label>
+                        <input type="text" id="announcement-date" name="display_date" placeholder="2025.09.18" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="announcement-order">显示优先级</label>
+                        <input type="number" id="announcement-order" name="display_order" value="10">
+                    </div>
+                    <div class="form-field inline">
+                        <label class="switch" for="announcement-visible">
+                            <input type="checkbox" id="announcement-visible" name="is_visible" checked>
+                            <span class="switch-label">立即上线</span>
+                        </label>
+                    </div>
+                    <div class="form-field full">
+                        <label for="announcement-description">描述</label>
+                        <textarea id="announcement-description" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-actions full">
+                        <button type="submit" class="md3-btn">
+                            <span class="material-symbols-outlined">publish</span>
+                            <span>发布动态</span>
+                        </button>
+                    </div>
+                </form>
+            </details>
+
+            {% if announcements %}
+                <div class="accordion-list">
+                    {% for item in announcements %}
+                    <details class="admin-accordion">
+                        <summary>
+                            <div class="summary-main">
+                                <strong>{{ item.title }}</strong>
+                                <span class="summary-meta">{{ item.display_date }} · {{ item.category }}</span>
+                            </div>
+                            <span class="status-pill {{ 'online' if item.is_visible else 'draft' }}">{{ '展示中' if item.is_visible else '隐藏' }}</span>
+                        </summary>
+                        <div class="accordion-body">
+                            <form method="post" class="admin-form-grid stacked-form">
+                                <input type="hidden" name="form_type" value="announcement_update">
+                                <input type="hidden" name="announcement_id" value="{{ item.id }}">
+                                <div class="form-field">
+                                    <label>标题</label>
+                                    <input type="text" name="title" value="{{ item.title }}" required>
+                                </div>
+                                <div class="form-field">
+                                    <label>分类标签</label>
+                                    <input type="text" name="category" value="{{ item.category }}" required>
+                                </div>
+                                <div class="form-field">
+                                    <label>展示日期</label>
+                                    <input type="text" name="display_date" value="{{ item.display_date }}" required>
+                                </div>
+                                <div class="form-field">
+                                    <label>显示优先级</label>
+                                    <input type="number" name="display_order" value="{{ item.display_order }}">
+                                </div>
+                                <div class="form-field inline">
+                                    <label class="switch">
+                                        <input type="checkbox" name="is_visible" {% if item.is_visible %}checked{% endif %}>
+                                        <span class="switch-label">在首页展示</span>
+                                    </label>
+                                </div>
+                                <div class="form-field full">
+                                    <label>描述</label>
+                                    <textarea name="description" rows="3" required>{{ item.description }}</textarea>
+                                </div>
+                                <div class="form-actions full">
+                                    <button type="submit" class="md3-btn md3-btn--secondary">
+                                        <span class="material-symbols-outlined">save</span>
+                                        <span>保存修改</span>
+                                    </button>
+                                </div>
+                            </form>
+                            <form method="post" class="admin-inline-delete" onsubmit="return confirm('确定删除这条公告吗喵？');">
+                                <input type="hidden" name="form_type" value="announcement_delete">
+                                <input type="hidden" name="announcement_id" value="{{ item.id }}">
+                                <button type="submit" class="md3-btn md3-btn--danger">
+                                    <span class="material-symbols-outlined">delete</span>
+                                    <span>删除公告</span>
+                                </button>
+                            </form>
+                        </div>
+                    </details>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="admin-card subtle">
+                    <p class="empty-text">暂无公告，快来为选手推送最新情报喵～</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <section id="home-highlights" class="admin-site-panel">
+            <header class="panel-header">
+                <h2>数据高光</h2>
+                <p>以卡片形式展示赛事核心数据，突出规模与热度。</p>
+            </header>
+
+            <details class="admin-accordion">
+                <summary>
+                    <span class="accordion-title">新增数据高光</span>
+                    <span class="accordion-note">选择指标并配置说明文字</span>
+                </summary>
+                <form method="post" class="admin-form-grid">
+                    <input type="hidden" name="form_type" value="highlight_create">
+                    <div class="form-field">
+                        <label for="highlight-label">标题</label>
+                        <input type="text" id="highlight-label" name="label" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="highlight-metric">数据来源</label>
+                        <select id="highlight-metric" name="metric_key" required>
+                            {% for value, label in metric_choices %}
+                                <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="highlight-order">显示顺序</label>
+                        <input type="number" id="highlight-order" name="display_order" value="10">
+                    </div>
+                    <div class="form-field inline">
+                        <label class="switch" for="highlight-visible">
+                            <input type="checkbox" id="highlight-visible" name="is_visible" checked>
+                            <span class="switch-label">展示在首页</span>
+                        </label>
+                    </div>
+                    <div class="form-field full">
+                        <label for="highlight-note">辅助说明</label>
+                        <textarea id="highlight-note" name="note" rows="2" required></textarea>
+                    </div>
+                    <div class="form-actions full">
+                        <button type="submit" class="md3-btn">
+                            <span class="material-symbols-outlined">add</span>
+                            <span>添加数据高光</span>
+                        </button>
+                    </div>
+                </form>
+            </details>
+
+            {% if highlight_cards %}
+                <div class="accordion-list">
+                    {% for card in highlight_cards %}
+                    <details class="admin-accordion">
+                        <summary>
+                            <div class="summary-main">
+                                <strong>{{ card.label }}</strong>
+                                <span class="summary-meta">数据来源：{{ metric_label_map.get(card.metric_key, card.metric_key) }}</span>
+                            </div>
+                            <span class="status-pill {{ 'online' if card.is_visible else 'draft' }}">{{ '展示中' if card.is_visible else '隐藏' }}</span>
+                        </summary>
+                        <div class="accordion-body">
+                            <form method="post" class="admin-form-grid stacked-form">
+                                <input type="hidden" name="form_type" value="highlight_update">
+                                <input type="hidden" name="highlight_id" value="{{ card.id }}">
+                                <div class="form-field">
+                                    <label>标题</label>
+                                    <input type="text" name="label" value="{{ card.label }}" required>
+                                </div>
+                                <div class="form-field">
+                                    <label>数据来源</label>
+                                    <select name="metric_key" required>
+                                        {% for value, label in metric_choices %}
+                                            <option value="{{ value }}" {% if card.metric_key == value %}selected{% endif %}>{{ label }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-field">
+                                    <label>显示顺序</label>
+                                    <input type="number" name="display_order" value="{{ card.display_order }}">
+                                </div>
+                                <div class="form-field inline">
+                                    <label class="switch">
+                                        <input type="checkbox" name="is_visible" {% if card.is_visible %}checked{% endif %}>
+                                        <span class="switch-label">展示在首页</span>
+                                    </label>
+                                </div>
+                                <div class="form-field full">
+                                    <label>辅助说明</label>
+                                    <textarea name="note" rows="2" required>{{ card.note }}</textarea>
+                                </div>
+                                <div class="form-actions full">
+                                    <button type="submit" class="md3-btn md3-btn--secondary">
+                                        <span class="material-symbols-outlined">save</span>
+                                        <span>保存修改</span>
+                                    </button>
+                                </div>
+                            </form>
+                            <form method="post" class="admin-inline-delete" onsubmit="return confirm('确定删除这条数据高光吗喵？');">
+                                <input type="hidden" name="form_type" value="highlight_delete">
+                                <input type="hidden" name="highlight_id" value="{{ card.id }}">
+                                <button type="submit" class="md3-btn md3-btn--danger">
+                                    <span class="material-symbols-outlined">delete</span>
+                                    <span>删除高光</span>
+                                </button>
+                            </form>
+                        </div>
+                    </details>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="admin-card subtle">
+                    <p class="empty-text">暂无数据高光，建议至少保留 3-4 个卡片凸显赛事规模。</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <section id="home-taxonomy" class="admin-site-panel">
+            <header class="panel-header">
+                <h2>题目分类与难度</h2>
+                <p>维护赛题分类与难度梯度，确保出题与积分体系一致。</p>
+            </header>
+
+            <div class="taxonomy-grid">
+                <div class="taxonomy-column">
+                    <h3>题目分类</h3>
+                    <details class="admin-accordion">
+                        <summary>
+                            <span class="accordion-title">新增分类</span>
+                            <span class="accordion-note">添加新的赛题赛道或专题</span>
+                        </summary>
+                        <form method="post" class="admin-form-grid">
+                            <input type="hidden" name="form_type" value="category_create">
+                            <div class="form-field">
+                                <label for="category-value">标识（保存值）</label>
+                                <input type="text" id="category-value" name="value" placeholder="Web / Pwn" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="category-label">展示名称</label>
+                                <input type="text" id="category-label" name="label" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="category-order">显示优先级</label>
+                                <input type="number" id="category-order" name="display_order" value="100">
+                            </div>
+                            <div class="form-field inline">
+                                <label class="switch" for="category-active">
+                                    <input type="checkbox" id="category-active" name="is_active" checked>
+                                    <span class="switch-label">对外可选</span>
+                                </label>
+                            </div>
+                            <div class="form-field full">
+                                <label for="category-description">概述（可选）</label>
+                                <textarea id="category-description" name="description" rows="2"></textarea>
+                            </div>
+                            <div class="form-actions full">
+                                <button type="submit" class="md3-btn">
+                                    <span class="material-symbols-outlined">add</span>
+                                    <span>添加分类</span>
+                                </button>
+                            </div>
+                        </form>
+                    </details>
+
+                    {% if categories %}
+                        <div class="accordion-list">
+                            {% for category in categories %}
+                            <details class="admin-accordion">
+                                <summary>
+                                    <div class="summary-main">
+                                        <strong>{{ category.label }}</strong>
+                                        <span class="summary-meta">标识：{{ category.value }}</span>
+                                    </div>
+                                    <span class="status-pill {{ 'online' if category.is_active else 'draft' }}">{{ '对外可选' if category.is_active else '隐藏' }}</span>
+                                </summary>
+                                <div class="accordion-body">
+                                    <form method="post" class="admin-form-grid">
+                                        <input type="hidden" name="form_type" value="category_update">
+                                        <input type="hidden" name="category_id" value="{{ category.id }}">
+                                        <div class="form-field">
+                                            <label>标识</label>
+                                            <input type="text" name="value" value="{{ category.value }}" required>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>展示名称</label>
+                                            <input type="text" name="label" value="{{ category.label }}" required>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>显示优先级</label>
+                                            <input type="number" name="display_order" value="{{ category.display_order }}">
+                                        </div>
+                                        <div class="form-field inline">
+                                            <label class="switch">
+                                                <input type="checkbox" name="is_active" {% if category.is_active %}checked{% endif %}>
+                                                <span class="switch-label">对外可选</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-field full">
+                                            <label>概述</label>
+                                            <textarea name="description" rows="2">{{ category.description or "" }}</textarea>
+                                        </div>
+                                        <div class="form-actions full">
+                                            <button type="submit" class="md3-btn md3-btn--secondary">
+                                                <span class="material-symbols-outlined">save</span>
+                                                <span>保存分类</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </details>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="admin-card subtle">
+                            <p class="empty-text">暂无分类数据，建议至少保留核心赛道。</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="taxonomy-column">
+                    <h3>难度梯度</h3>
+                    <details class="admin-accordion">
+                        <summary>
+                            <span class="accordion-title">新增难度</span>
+                            <span class="accordion-note">维护积分曲线与解题体验</span>
+                        </summary>
+                        <form method="post" class="admin-form-grid">
+                            <input type="hidden" name="form_type" value="difficulty_create">
+                            <div class="form-field">
+                                <label for="difficulty-value">标识（保存值）</label>
+                                <input type="text" id="difficulty-value" name="value" placeholder="Easy / Medium" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="difficulty-label">展示名称</label>
+                                <input type="text" id="difficulty-label" name="label" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="difficulty-order">显示优先级</label>
+                                <input type="number" id="difficulty-order" name="display_order" value="10">
+                            </div>
+                            <div class="form-field inline">
+                                <label class="switch" for="difficulty-active">
+                                    <input type="checkbox" id="difficulty-active" name="is_active" checked>
+                                    <span class="switch-label">对外可选</span>
+                                </label>
+                            </div>
+                            <div class="form-field full">
+                                <label for="difficulty-description">说明（可选）</label>
+                                <textarea id="difficulty-description" name="description" rows="2"></textarea>
+                            </div>
+                            <div class="form-actions full">
+                                <button type="submit" class="md3-btn">
+                                    <span class="material-symbols-outlined">add</span>
+                                    <span>添加难度</span>
+                                </button>
+                            </div>
+                        </form>
+                    </details>
+
+                    {% if difficulties %}
+                        <div class="accordion-list">
+                            {% for difficulty in difficulties %}
+                            <details class="admin-accordion">
+                                <summary>
+                                    <div class="summary-main">
+                                        <strong>{{ difficulty.label }}</strong>
+                                        <span class="summary-meta">标识：{{ difficulty.value }}</span>
+                                    </div>
+                                    <span class="status-pill {{ 'online' if difficulty.is_active else 'draft' }}">{{ '对外可选' if difficulty.is_active else '隐藏' }}</span>
+                                </summary>
+                                <div class="accordion-body">
+                                    <form method="post" class="admin-form-grid">
+                                        <input type="hidden" name="form_type" value="difficulty_update">
+                                        <input type="hidden" name="difficulty_id" value="{{ difficulty.id }}">
+                                        <div class="form-field">
+                                            <label>标识</label>
+                                            <input type="text" name="value" value="{{ difficulty.value }}" required>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>展示名称</label>
+                                            <input type="text" name="label" value="{{ difficulty.label }}" required>
+                                        </div>
+                                        <div class="form-field">
+                                            <label>显示优先级</label>
+                                            <input type="number" name="display_order" value="{{ difficulty.display_order }}">
+                                        </div>
+                                        <div class="form-field inline">
+                                            <label class="switch">
+                                                <input type="checkbox" name="is_active" {% if difficulty.is_active %}checked{% endif %}>
+                                                <span class="switch-label">对外可选</span>
+                                            </label>
+                                        </div>
+                                        <div class="form-field full">
+                                            <label>说明</label>
+                                            <textarea name="description" rows="2">{{ difficulty.description or "" }}</textarea>
+                                        </div>
+                                        <div class="form-actions full">
+                                            <button type="submit" class="md3-btn md3-btn--secondary">
+                                                <span class="material-symbols-outlined">save</span>
+                                                <span>保存难度</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </details>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="admin-card subtle">
+                            <p class="empty-text">暂无难度等级，建议设置至少 3-5 个梯度。</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}

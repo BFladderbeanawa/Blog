@@ -1,0 +1,2 @@
+const n="Set or print name of current host system",o="hostname",t=[{name:"hostname",description:"The hostname to use for this machine"}],e=[{description:"Include domain information in the printed name",name:"-f"},{description:"Trim off any domain information from the printed name",name:"-s"},{description:"Only print domain information",name:"-d"}],i={description:n,name:o,args:t,options:e};export{t as args,i as default,n as description,o as name,e as options};
+//# sourceMappingURL=hostname-670ce2b4.js.map

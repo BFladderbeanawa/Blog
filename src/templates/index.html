@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% set latest_news = news_items[0] if news_items else None %}
+
+<!-- Hero Section -->
+<section class="md3-hero" aria-label="NekoCTF 首屏介绍">
+    <!-- Animated Background -->
+    <div class="md3-hero__background" aria-hidden="true">
+        <div class="md3-hero__glow md3-hero__glow--primary"></div>
+        <div class="md3-hero__glow md3-hero__glow--secondary"></div>
+        <div class="md3-hero__glow md3-hero__glow--tertiary"></div>
+        <div class="md3-hero__grid"></div>
+        <div class="md3-hero__orb md3-hero__orb--1"></div>
+        <div class="md3-hero__orb md3-hero__orb--2"></div>
+    </div>
+
+    <div class="md3-hero__container">
+        <div class="md3-hero__grid-layout">
+            <!-- Left: Main Content -->
+            <div class="md3-hero__content">
+                <span class="md3-hero__badge">NekoCTF 2025 · 官方赛事宇宙</span>
+                
+                <h1 class="md3-hero__title">点亮星夜的猫耳黑客嘉年华</h1>
+                
+                <p class="md3-hero__subtitle">
+                    {{ event_name }} 汇聚剧情爱好者与攻防艺术家，打造跨越线上线下的沉浸式 CTF 旅程，让你的灵光与猫耳一起闪烁。
+                </p>
+
+                <div class="md3-btn-group">
+                    <a class="md3-btn md3-btn--primary" href="{{ url_for('public.challenges') }}">
+                        <span class="material-symbols-outlined">rocket_launch</span>
+                        立即预览赛题
+                    </a>
+                    <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.submit') }}">
+                        <span class="material-symbols-outlined">edit_note</span>
+                        投稿你的灵感
+                    </a>
+                    <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.leaderboard') }}">
+                        <span class="material-symbols-outlined">leaderboard</span>
+                        查看排行榜
+                    </a>
+                </div>
+
+                <ul class="md3-hero__features">
+                    <li class="md3-hero__feature">原创剧情驱动与手绘视觉，沉浸式破题体验</li>
+                    <li class="md3-hero__feature">覆盖 Web / Pwn / Crypto / Reverse / Misc / OSINT 等赛道</li>
+                    <li class="md3-hero__feature">线下巡回沙龙与线上实况同开，精彩同步</li>
+                </ul>
+            </div>
+
+            <!-- Right: Event Card & Latest News -->
+            <aside class="md3-hero__aside">
+                <!-- Event Card -->
+                <div class="md3-event-card">
+                    <span class="md3-event-card__badge">
+                        <span class="material-symbols-outlined" style="font-size: 1rem;">schedule</span>
+                        即将到来
+                    </span>
+                    
+                    <h2 class="md3-event-card__title">{{ event_overview.title }}</h2>
+                    
+                    <div class="md3-event-card__meta">
+                        <div class="md3-event-card__meta-item">
+                            <span class="md3-event-card__meta-label">
+                                <span class="material-symbols-outlined" style="font-size: 1rem; margin-right: 4px;">calendar_today</span>
+                                时间
+                            </span>
+                            <span class="md3-event-card__meta-value">{{ event_overview.date_range }}</span>
+                        </div>
+                        <div class="md3-event-card__meta-item">
+                            <span class="md3-event-card__meta-label">
+                                <span class="material-symbols-outlined" style="font-size: 1rem; margin-right: 4px;">location_on</span>
+                                形式
+                            </span>
+                            <span class="md3-event-card__meta-value">{{ event_overview.location }}</span>
+                        </div>
+                    </div>
+
+                    {% if event_overview.cta_note %}
+                    <p class="md3-event-card__note">{{ event_overview.cta_note }}</p>
+                    {% endif %}
+
+                    <a class="md3-btn md3-btn--primary" href="{{ event_overview.cta_link }}" style="width: 100%;">
+                        {{ event_overview.cta_label }}
+                    </a>
+                </div>
+
+                <!-- Latest News Preview -->
+                {% if latest_news %}
+                <div class="md3-card md3-card--filled">
+                    <span class="md3-badge md3-badge--primary">{{ latest_news.category }}</span>
+                    <h3 style="margin: var(--md3-space-md) 0 var(--md3-space-sm) 0; font-size: 1.2rem;">{{ latest_news.title }}</h3>
+                    <p style="font-size: 0.85rem; color: var(--md3-on-surface-dim); margin-bottom: var(--md3-space-sm);">
+                        <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">schedule</span>
+                        {{ latest_news.date }}
+                    </p>
+                    <p style="font-size: 0.95rem; color: var(--md3-on-surface-variant); margin: 0;">
+                        {{ latest_news.description }}
+                    </p>
+                </div>
+                {% endif %}
+            </aside>
+        </div>
+
+        <!-- Stats Grid -->
+        {% if highlight_stats %}
+        <div class="md3-stats-grid">
+            {% for stat in highlight_stats %}
+            <div class="md3-stat-item">
+                <span class="md3-stat-item__value">{{ stat.value }}</span>
+                <span class="md3-stat-item__label">{{ stat.label }}</span>
+                {% if stat.note %}
+                <span class="md3-stat-item__note">{{ stat.note }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="md3-hero__scroll" aria-hidden="true">
+        <span>向下探索</span>
+        <div class="md3-hero__scroll-indicator"></div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="md3-section">
+    <div class="container">
+        <div class="md3-section__header">
+            <h2 class="md3-section__title">
+                <span class="material-symbols-outlined" style="font-size: 2.5rem; vertical-align: middle; margin-right: 12px;">category</span>
+                赛道速览
+            </h2>
+            <p class="md3-section__subtitle">精选出题方向提前曝光，帮助你锁定擅长领域，同时探索未知维度。</p>
+        </div>
+
+        <div class="md3-category-grid">
+            {% for item in featured_categories %}
+            <article class="md3-category-card">
+                <div class="md3-category-card__icon">
+                    {% if 'Web' in item.category %}
+                        <span class="material-symbols-outlined">language</span>
+                    {% elif 'Pwn' in item.category or 'Binary' in item.category %}
+                        <span class="material-symbols-outlined">memory</span>
+                    {% elif 'Crypto' in item.category %}
+                        <span class="material-symbols-outlined">lock</span>
+                    {% elif 'Reverse' in item.category %}
+                        <span class="material-symbols-outlined">sync_alt</span>
+                    {% elif 'Misc' in item.category %}
+                        <span class="material-symbols-outlined">extension</span>
+                    {% elif 'OSINT' in item.category %}
+                        <span class="material-symbols-outlined">search</span>
+                    {% else %}
+                        <span class="material-symbols-outlined">emoji_objects</span>
+                    {% endif %}
+                </div>
+                
+                <h3 class="md3-category-card__title">{{ item.category }}</h3>
+                <p class="md3-category-card__count">
+                    <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">quiz</span>
+                    {{ item.count }} 道预览
+                </p>
+                <p class="md3-category-card__description">
+                    {{ item.description or "我们仍在为此赛道招募更多故事与挑战。" }}
+                </p>
+                
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.submit') }}" style="width: 100%;">
+                    <span class="material-symbols-outlined">add_circle</span>
+                    提交此赛道题目
+                </a>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Leaderboard Preview Section -->
+<section class="md3-section md3-section--alt">
+    <div class="container">
+        <div class="md3-section__header">
+            <h2 class="md3-section__title">
+                <span class="material-symbols-outlined" style="font-size: 2.5rem; vertical-align: middle; margin-right: 12px;">emoji_events</span>
+                喵星排行榜速递
+            </h2>
+            <p class="md3-section__subtitle">实时榜单将在赛事期间放送，这里展示当前最亮眼的几位猫耳黑客。</p>
+        </div>
+
+        <div class="md3-leaderboard-preview">
+            <ol class="md3-leaderboard-preview__list">
+                {% for player in top_players %}
+                <li class="md3-leaderboard-preview__item">
+                    <div class="md3-leaderboard-preview__rank">
+                        {% if loop.index == 1 %}
+                            <span class="material-symbols-outlined">workspace_premium</span>
+                        {% elif loop.index == 2 %}
+                            <span class="material-symbols-outlined">military_tech</span>
+                        {% elif loop.index == 3 %}
+                            <span class="material-symbols-outlined">star</span>
+                        {% else %}
+                            #{{ loop.index }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="md3-leaderboard-preview__info">
+                        {% if player.has_profile %}
+                            <a href="{{ url_for('public.profile_view', username=player.username) }}" class="md3-leaderboard-preview__name">
+                                {{ player.username }}
+                            </a>
+                        {% else %}
+                            <span class="md3-leaderboard-preview__name" style="cursor: default;">{{ player.username }}</span>
+                        {% endif %}
+                        <p class="md3-leaderboard-preview__stats">
+                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">check_circle</span>
+                            {{ player.solves }} 道解题 · {{ player.score }} 分
+                        </p>
+                    </div>
+
+                    {% if player.has_profile %}
+                    <a href="{{ url_for('public.profile_view', username=player.username) }}" class="md3-leaderboard-preview__link">
+                        查看档案
+                        <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_forward</span>
+                    </a>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ol>
+
+            <div class="md3-leaderboard-preview__footer">
+                <p>{{ leaderboard_tagline }}</p>
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('public.challenges') }}">
+                    <span class="material-symbols-outlined">flag</span>
+                    开启挑战
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- News/Updates Section -->
+<section class="md3-section">
+    <div class="container">
+        <div class="md3-section__header">
+            <h2 class="md3-section__title">
+                <span class="material-symbols-outlined" style="font-size: 2.5rem; vertical-align: middle; margin-right: 12px;">campaign</span>
+                最新动态
+            </h2>
+            <p class="md3-section__subtitle">关注赛事公告、线下活动与题目征集状态，不错过任何喵星风向。</p>
+        </div>
+
+        <div class="md3-updates-grid">
+            {% for item in news_items %}
+            <article class="md3-update-card">
+                <span class="md3-update-card__badge">{{ item.category }}</span>
+                <h3 class="md3-update-card__title">{{ item.title }}</h3>
+                <p class="md3-update-card__date">
+                    <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">schedule</span>
+                    {{ item.date }}
+                </p>
+                <p class="md3-update-card__description">{{ item.description }}</p>
+            </article>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="md3-section">
+    <div class="container">
+        <div class="md3-cta-block">
+            <div class="md3-cta-block__content">
+                <h2 class="md3-cta-block__title">
+                    <span class="material-symbols-outlined" style="font-size: 3rem; vertical-align: middle; margin-right: 12px;">groups</span>
+                    加入 Neko 宇宙共创计划
+                </h2>
+                <p class="md3-cta-block__description">
+                    我们欢迎开发者、剧情作者、视觉设计师加入命题团队，打造下一届史诗级 CTF 冒险。
+                </p>
+            </div>
+
+            <div class="md3-cta-block__actions">
+                <a class="md3-btn md3-btn--primary" href="{{ url_for('public.submit') }}">
+                    <span class="material-symbols-outlined">send</span>
+                    提交合作意向
+                </a>
+                <a class="md3-btn md3-btn--tertiary" href="mailto:{{ contact_email }}">
+                    <span class="material-symbols-outlined">mail</span>
+                    联系赛事团队
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

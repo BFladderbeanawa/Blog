@@ -1,0 +1,11 @@
+{
+  "name": "bluebook",
+  "version": "0.9.430",
+  "author": "College Board",
+  "description": "The Bluebook App",
+  "main": "main",
+  "dependencies": {
+    "keytar": "^7.9.0",
+    "win-verify-signature": "1.7.0"
+  }
+}

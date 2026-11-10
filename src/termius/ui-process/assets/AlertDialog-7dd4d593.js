@@ -1,0 +1,2 @@
+import{cb as i,dI as m,dm as u,bn as y,c9 as D}from"./reconnectSaga-e33541d6.js";const s=({title:e,text:o,children:n,onOk:p,onClose:t,dark:c,type:g="primary",blockKeyboardInput:a=!0})=>(u("keydown",r=>{a&&r.stopPropagation(),r.code==="Escape"&&(t==null||t())},{capture:a}),y(D,{title:e,titleColor:g,onClose:t,onSubmit:p,dark:c,text:o,children:n})),l=i(s,{hasBackdrop:!0}),w=m.promisify(i(s));export{s as A,l as a,w as r};
+//# sourceMappingURL=AlertDialog-7dd4d593.js.map

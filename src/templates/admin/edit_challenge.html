@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Edit Challenge Page Header -->
+<section class="page-header admin-page-header">
+    <div class="admin-page-title">
+        <div class="admin-page-title-content">
+            <span class="page-kicker">
+                <span class="material-symbols-outlined">edit</span>
+                <span>编辑模式 · #{{ challenge.id }}</span>
+            </span>
+            <h1>{{ challenge.title }}</h1>
+            <div class="admin-toolbar">
+                <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_challenges') }}">
+                    <span class="material-symbols-outlined">arrow_back</span>
+                    <span>返回列表</span>
+                </a>
+                <a class="md3-btn md3-btn--tertiary" href="{{ url_for('public.logout') }}">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>退出登录</span>
+                </a>
+            </div>
+            <p>优化题面描述，让参赛者更快代入剧情喵～</p>
+        </div>
+        <div class="admin-page-actions">
+            <div class="admin-highlight">
+                <div class="highlight-header">
+                    <p class="highlight-label">题目管理</p>
+                    <p class="highlight-value">{{ challenge.category }}</p>
+                </div>
+                <div class="challenge-quick-actions">
+                    <a href="{{ url_for('admin.manage_challenge_flags', challenge_id=challenge.id) }}" class="quick-action-card">
+                        <span class="material-symbols-outlined">flag</span>
+                        <div class="quick-action-content">
+                            <span class="quick-action-title">Flag 管理</span>
+                            <span class="quick-action-desc">多阶段配置</span>
+                        </div>
+                    </a>
+                    <a href="{{ url_for('admin.manage_challenge_hints', challenge_id=challenge.id) }}" class="quick-action-card">
+                        <span class="material-symbols-outlined">lightbulb</span>
+                        <div class="quick-action-content">
+                            <span class="quick-action-title">提示管理</span>
+                            <span class="quick-action-desc">添加线索</span>
+                        </div>
+                    </a>
+                </div>
+                <p class="highlight-note">{{ challenge.difficulty }} · {{ challenge.points }} 分</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Edit Challenge Form -->
+<section class="admin-section">
+    <div class="admin-content-card">
+        <div class="admin-card-header">
+            <div class="admin-card-header-content">
+                <h2>题目信息</h2>
+                <p>更新基础字段、补充题面细节。总分自动计算 = 所有 Flag 阶段分值之和。</p>
+            </div>
+        </div>
+        <form method="post" class="challenge-form" style="padding: var(--md3-space-2xl);">
+        <div class="form-field">
+            <label for="title">题目名称</label>
+            <input type="text" id="title" name="title" value="{{ challenge.title }}" required>
+        </div>
+
+        <div class="form-field">
+            <label for="category">分类</label>
+            <select id="category" name="category" required>
+                {% for option in category_choices %}
+                    <option value="{{ option.value }}" {% if option.value == challenge.category %}selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-field">
+            <label for="difficulty">难度</label>
+            <select id="difficulty" name="difficulty" required>
+                {% for option in difficulty_choices %}
+                    <option value="{{ option.value }}" {% if option.value == challenge.difficulty %}selected{% endif %}>{{ option.label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-field full">
+            <label for="summary">题目简介</label>
+            <textarea id="summary" name="summary" rows="3" required>{{ challenge.summary }}</textarea>
+        </div>
+
+        <div class="form-field full">
+            <label for="content">题目内容</label>
+            <textarea id="content" name="content" rows="8" required>{{ challenge.description }}</textarea>
+        </div>
+
+        <div class="form-field inline">
+            <label class="switch" for="is_visible">
+                <input type="checkbox" id="is_visible" name="is_visible" {% if challenge.is_visible %}checked{% endif %}>
+                <span>在官网展示</span>
+            </label>
+        </div>
+
+        <div class="form-actions full">
+            <button type="submit" class="md3-btn">
+                <span class="material-symbols-outlined">save</span>
+                <span>保存修改</span>
+            </button>
+            <a class="md3-btn md3-btn--secondary" href="{{ url_for('admin.admin_challenges') }}">
+                <span class="material-symbols-outlined">cancel</span>
+                <span>取消</span>
+            </a>
+        </div>
+    </form>
+    </div>
+</section>
+{% endblock %}

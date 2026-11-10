@@ -1,0 +1,2 @@
+const e="",o="publish",t=[{description:"Generate and run a localhost server on default port 8000 for the website in the current folder",name:"run",options:[{description:"Customize the port",name:["-p","--port"],args:[{name:"port"}]}],parserDirectives:{flagsArePosixNoncompliant:!0}}],n=[{description:"Show help for publish",name:["--help","-h"]}],s={description:e,name:o,subcommands:t,options:n};export{s as default,e as description,o as name,n as options,t as subcommands};
+//# sourceMappingURL=publish-15fe9ba3.js.map
